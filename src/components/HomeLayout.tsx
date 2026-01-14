@@ -1,11 +1,11 @@
 import { Outlet } from 'react-router-dom';
 import Footer from './Footer';
-import Navbar from './Navbar';
+import OctopusNavbar from './OctopusNavbar';
 
-export function Layout() {
+export function HomeLayout() {
   return (
     <div className="flex min-h-screen flex-col">
-      <Navbar/>
+      <OctopusNavbar />
       <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col px-4 py-12">
         <Outlet />
       </main>
@@ -14,4 +14,4 @@ export function Layout() {
   );
 }
 
-export default Layout;
+export default HomeLayout;
