@@ -1,0 +1,348 @@
+/* ================= GLOBAL ================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: radial-gradient(circle at top, #0f1722 0%, #0b0f14 60%);
+  color: #e6edf3;
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+}
+
+/* ================= SPLASH ================= */
+#splash {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 30;
+}
+
+#splash::before {
+  content: "";
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(
+    circle,
+    rgba(45, 168, 255, 0.35) 0%,
+    rgba(45, 168, 255, 0.15) 30%,
+    transparent 70%
+  );
+  filter: blur(25px);
+  animation: glowPulse 1.8s ease-out forwards;
+}
+
+#splash img {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 50%;
+  background: #000;
+  padding: 12px;
+  z-index: 1;
+  animation: powerOn 1.8s ease forwards;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 0 30px rgba(45, 168, 255, 0.45),
+    0 0 60px rgba(45, 168, 255, 0.25);
+}
+
+@keyframes powerOn {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.98);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+@keyframes glowPulse {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ================= HERO ================= */
+.hero-octopus-content {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 2;
+  gap: 2rem;
+}
+
+.hero-inner {
+  transform: translateY(40px);
+}
+
+h1 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 2.5rem;
+}
+
+/* ================= OCTOPUS ================= */
+.octopus {
+  position: relative;
+  width: 340px;
+  height: 360px;
+  margin: auto;
+  z-index: 2;
+  transform: scale(1.45);
+}
+
+.octopus::before {
+  content: "";
+  position: absolute;
+  inset: -40px;
+  z-index: -1;
+  background: radial-gradient(
+    circle at center,
+    rgba(60, 140, 255, 0.35) 0%,
+    rgba(30, 90, 200, 0.22) 25%,
+    rgba(10, 40, 90, 0.15) 45%,
+    transparent 70%
+  );
+  filter: blur(45px);
+}
+
+.head {
+  width: 210px;
+  height: 190px;
+  background: url("/octohead.png") no-repeat center / contain;
+  margin: auto;
+  position: relative;
+  z-index: 5;
+  transform: translateY(18px);
+  pointer-events: none;
+}
+
+/* ================= LINKS ================= */
+.tentacle {
+  position: absolute;
+  padding: 6px 14px;
+  font-size: 0.72rem;
+  background: rgba(15, 22, 32, 0.95);
+  border-radius: 14px;
+  color: #e6edf3;
+  cursor: pointer;
+  z-index: 4;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.tentacle:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(45, 168, 255, 0.4);
+}
+
+.t1 {
+  top: 150px;
+  left: -20px;
+}
+.t2 {
+  top: 200px;
+  left: -55px;
+}
+.t3 {
+  top: 250px;
+  left: -20px;
+}
+.t4 {
+  top: 295px;
+  left: 55px;
+}
+
+.t5 {
+  top: 150px;
+  right: -20px;
+}
+.t6 {
+  top: 200px;
+  right: -55px;
+}
+.t7 {
+  top: 250px;
+  right: -20px;
+}
+.t8 {
+  top: 295px;
+  right: 55px;
+}
+
+/* ================= SVG ================= */
+#tentacle-svg {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.tentacle-path {
+  fill: none;
+  stroke: url(#tentacleGradient);
+  stroke-width: 20;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 10px rgba(80, 160, 255, 0.35));
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem;
+  }
+
+  .hero-octopus-content {
+    gap: 1rem;
+    padding: 2rem 1rem;
+  }
+
+  .octopus {
+    width: 240px;
+    height: 260px;
+    transform: scale(1);
+  }
+
+  .head {
+    width: 150px;
+    height: 135px;
+  }
+
+  .tentacle {
+    padding: 5px 10px;
+    font-size: 0.65rem;
+  }
+
+  .t1 {
+    top: 110px;
+    left: -15px;
+  }
+  .t2 {
+    top: 150px;
+    left: -40px;
+  }
+  .t3 {
+    top: 190px;
+    left: -15px;
+  }
+  .t4 {
+    top: 220px;
+    left: 40px;
+  }
+
+  .t5 {
+    top: 110px;
+    right: -15px;
+  }
+  .t6 {
+    top: 150px;
+    right: -40px;
+  }
+  .t7 {
+    top: 190px;
+    right: -15px;
+  }
+  .t8 {
+    top: 220px;
+    right: 40px;
+  }
+
+  .tentacle-path {
+    stroke-width: 12;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .hero-octopus-content {
+    gap: 0.5rem;
+    padding: 1rem 0.5rem;
+  }
+
+  .octopus {
+    width: 280px;
+    height: 300px;
+    transform: scale(1.1);
+  }
+
+  .head {
+    width: 170px;
+    height: 155px;
+  }
+
+  .tentacle {
+    padding: 5px 10px;
+    font-size: 0.65rem;
+  }
+
+  .t1 {
+    top: 130px;
+    left: -18px;
+  }
+  .t2 {
+    top: 170px;
+    left: -45px;
+  }
+  .t3 {
+    top: 220px;
+    left: -18px;
+  }
+  .t4 {
+    top: 260px;
+    left: 45px;
+  }
+
+  .t5 {
+    top: 130px;
+    right: -18px;
+  }
+  .t6 {
+    top: 170px;
+    right: -45px;
+  }
+  .t7 {
+    top: 220px;
+    right: -18px;
+  }
+  .t8 {
+    top: 260px;
+    right: 45px;
+  }
+
+  .tentacle-path {
+    stroke-width: 12;
+  }
+}
