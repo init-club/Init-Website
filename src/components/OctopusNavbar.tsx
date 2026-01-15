@@ -219,10 +219,32 @@ export default function OctopusNavbar() {
 
   if (!isHome) return null;
 
-  // Theme-based styling - Ocean theme
+  // Theme-based styling 
   const bgStyle = isDark
-    ? { background: 'linear-gradient(180deg, #062033 0%, #041525 40%, #020c12 100%)' }
-    : { background: 'linear-gradient(180deg, #e0f7fa 0%, #b2ebf2 40%, #80deea 100%)' };
+    ? {
+      background: `linear-gradient(180deg, 
+          #0a4a5c 0%,
+          #073a4d 8%,
+          #052c3d 18%,
+          #041f2d 30%,
+          #031620 45%,
+          #020e15 60%,
+          #01090d 80%,
+          #000507 100%
+        )`
+    }
+    : {
+      background: `linear-gradient(180deg, 
+          #87ceeb 0%,
+          #5fb8d9 10%,
+          #4aa8c9 20%,
+          #3a98b9 35%,
+          #2a7a9a 50%,
+          #1a5c7a 70%,
+          #0e3e5a 90%,
+          #062033 100%
+        )`
+    };
 
   return (
     <div className="min-h-screen relative overflow-hidden" ref={containerRef} style={bgStyle}>
@@ -251,11 +273,6 @@ export default function OctopusNavbar() {
         <div className="fish" style={{ top: '85%', animationDelay: '12s', transform: 'scale(0.5)' }}></div>
       </div>
 
-      {/* Ocean Floor */}
-      <div className="ocean-floor"></div>
-
-
-
       {/* Main Content */}
       {!showSplash && (
         <>
@@ -272,9 +289,7 @@ export default function OctopusNavbar() {
                     <div className="rounded-xl bg-gradient-to-br from-cyan-500 to-teal-600 p-2 shadow-lg shadow-cyan-500/20 transition-transform duration-300 group-hover:scale-105">
                       <span className="font-mono text-sm font-bold text-white">{'<Init Club/>'}</span>
                     </div>
-                    {/* <span className="hidden sm:block font-semibold text-[var(--text)]">
-                      Init Club
-                    </span> */}
+
                   </button>
                   <ThemeToggle />
                 </div>
