@@ -31,6 +31,12 @@ export default function OctopusNavbar() {
     return stored === 'dark' || !stored;
   });
 
+  // Device detection - mobile threshold at 768px
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return window.innerWidth < 768;
+  });
+
   // Reactive tentacle distance based on viewport
   const [tentacleDistance, setTentacleDistance] = useState(() => {
     if (typeof window === 'undefined') return 260;
@@ -38,12 +44,14 @@ export default function OctopusNavbar() {
   });
 
   useEffect(() => {
-    const updateDistance = () => {
-      setTentacleDistance(window.innerWidth < 640 ? 140 : window.innerWidth < 768 ? 180 : 260);
+    const handleResize = () => {
+      const width = window.innerWidth;
+      setIsMobile(width < 768);
+      setTentacleDistance(width < 640 ? 140 : width < 768 ? 180 : 260);
     };
 
-    window.addEventListener('resize', updateDistance);
-    return () => window.removeEventListener('resize', updateDistance);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   // Theme detection and synchronization
@@ -289,7 +297,6 @@ export default function OctopusNavbar() {
                     <div className="rounded-xl bg-gradient-to-br from-cyan-500 to-teal-600 p-2 shadow-lg shadow-cyan-500/20 transition-transform duration-300 group-hover:scale-105">
                       <span className="font-mono text-sm font-bold text-white">{'<Init Club/>'}</span>
                     </div>
-
                   </button>
                   <ThemeToggle />
                 </div>
@@ -297,68 +304,134 @@ export default function OctopusNavbar() {
             </div>
           </header>
 
-          {/* Hero Section */}
-          <div className="octopus-hero-section relative w-full min-h-screen flex flex-col items-center justify-center text-center gap-6 sm:gap-8 px-4 py-8 sm:py-12 pt-24 sm:pt-20" style={{ zIndex: 20 }}>
+          {/* Conditional Rendering */}
+          {isMobile ? (
 
-            {/* SVG Tentacle Paths */}
-            <svg
-              className="absolute inset-0 w-full h-full pointer-events-none"
-              style={{ overflow: 'visible', zIndex: 10 }}
-            >
-              <defs>
-                <linearGradient id="tentacleGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor={isDark ? "#22d3ee" : "#0891b2"} />
-                  <stop offset="50%" stopColor={isDark ? "#0891b2" : "#0e7490"} />
-                  <stop offset="100%" stopColor={isDark ? "#083344" : "#164e63"} />
-                </linearGradient>
-              </defs>
-              <g id="tentacle-paths"></g>
-            </svg>
+            <div className="relative w-full min-h-screen flex items-center justify-center px-4" style={{ zIndex: 20 }}>
 
-            {/* Octopus Entity - Head + Tentacles */}
-            <div
-              className="relative"
-              style={{ zIndex: 25 }}
-            >
-              {/* Octopus Container */}
-              <div className="octopus-container relative w-80 h-80 sm:w-96 sm:h-96 mx-auto -mt-12 overflow-visible" style={{ zIndex: 30 }}>
-                {/* Head Layer*/}
-                <div
-                  className="octopus-head absolute left-1/2 -translate-x-1/2 -top-8 w-40 h-40 sm:w-48 sm:h-48 cursor-pointer"
-                  style={{ zIndex: 50 }}
-                >
-                  <div className="octo-body">
-                    <div className="octo-eye octo-eye-left"><div className="octo-pupil"></div></div>
-                    <div className="octo-eye octo-eye-right"><div className="octo-pupil"></div></div>
-                  </div>
-                </div>
+              {/* Navigation Bubbles - Randomly placed, floating */}
+              {tentacles.map((item, index) => {
+                // Random positions for each bubble
+                const positions = [
+                  { left: '15%', top: '18%' },
+                  { left: '65%', top: '15%' },
+                  { left: '30%', top: '38%' },
+                  { left: '70%', top: '42%' },
+                  { left: '20%', top: '62%' },
+                  { left: '60%', top: '68%' },
+                ];
+                const pos = positions[index] || { left: '50%', top: '50%' };
 
-                {/* Tentacle End Points*/}
-                {tentacles.map((tentacle, index) => {
-                  const position = calculatePosition(tentacle.angle, tentacleDistance);
-                  return (
+                return (
+                  <Link
+                    key={index}
+                    to={item.path}
+                    className="absolute flex items-center justify-center text-center transition-all duration-300 hover:scale-110 active:scale-95"
+                    style={{
+                      left: pos.left,
+                      top: pos.top,
+                      width: '85px',
+                      height: '85px',
+                      animation: `floatBubble ${3 + index * 0.5}s ease-in-out infinite`,
+                      animationDelay: `${index * 0.3}s`,
+                    }}
+                  >
+                    {/* Improved Bubble Design */}
                     <div
-                      key={index}
-                      className="tentacle-end absolute transform -translate-x-1/2 -translate-y-1/2"
+                      className="relative w-full h-full rounded-full flex items-center justify-center"
                       style={{
-                        left: `calc(50% + ${position.x}px)`,
-                        top: `calc(50% + ${position.y}px)`,
-                        zIndex: 40,
+                        background: `linear-gradient(145deg, rgba(34,211,238,0.7) 0%, rgba(6,182,212,0.9) 50%, rgba(8,51,68,0.95) 100%)`,
+                        boxShadow: `
+                          0 8px 32px rgba(34, 211, 238, 0.3),
+                          inset 0 -8px 20px rgba(0,0,0,0.3),
+                          inset 0 4px 12px rgba(255,255,255,0.15)
+                        `,
+                        border: '1px solid rgba(255,255,255,0.15)',
                       }}
                     >
-                      <Link
-                        to={tentacle.path}
-                        className="tentacle-link"
-                        aria-label={`Navigate to ${tentacle.label}`}
-                      >
-                        {tentacle.label}
-                      </Link>
+                      {/* Text */}
+                      <span className="text-xs font-semibold text-white drop-shadow-md px-2 text-center leading-tight">
+                        {item.label}
+                      </span>
                     </div>
-                  );
-                })}
+                  </Link>
+                );
+              })}
+
+              {/* Floating animation keyframes */}
+              <style>{`
+                @keyframes floatBubble {
+                  0%, 100% { transform: translateY(0px) rotate(0deg); }
+                  25% { transform: translateY(-10px) rotate(1deg); }
+                  50% { transform: translateY(-18px) rotate(0deg); }
+                  75% { transform: translateY(-8px) rotate(-1deg); }
+                }
+              `}</style>
+            </div>
+          ) : (
+            /* ========== DESKTOP: Full Octopus Animation ========== */
+            <div className="octopus-hero-section relative w-full min-h-screen flex flex-col items-center justify-center text-center gap-6 sm:gap-8 px-4 py-8 sm:py-12 pt-24 sm:pt-20" style={{ zIndex: 20 }}>
+
+              {/* SVG Tentacle Paths */}
+              <svg
+                className="absolute inset-0 w-full h-full pointer-events-none"
+                style={{ overflow: 'visible', zIndex: 10 }}
+              >
+                <defs>
+                  <linearGradient id="tentacleGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor={isDark ? "#22d3ee" : "#0891b2"} />
+                    <stop offset="50%" stopColor={isDark ? "#0891b2" : "#0e7490"} />
+                    <stop offset="100%" stopColor={isDark ? "#083344" : "#164e63"} />
+                  </linearGradient>
+                </defs>
+                <g id="tentacle-paths"></g>
+              </svg>
+
+              {/* Octopus Entity - Head + Tentacles */}
+              <div
+                className="relative"
+                style={{ zIndex: 25 }}
+              >
+                {/* Octopus Container */}
+                <div className="octopus-container relative w-80 h-80 sm:w-96 sm:h-96 mx-auto -mt-12 overflow-visible" style={{ zIndex: 30 }}>
+                  {/* Head Layer*/}
+                  <div
+                    className="octopus-head absolute left-1/2 -translate-x-1/2 -top-8 w-40 h-40 sm:w-48 sm:h-48 cursor-pointer"
+                    style={{ zIndex: 50 }}
+                  >
+                    <div className="octo-body">
+                      <div className="octo-eye octo-eye-left"><div className="octo-pupil"></div></div>
+                      <div className="octo-eye octo-eye-right"><div className="octo-pupil"></div></div>
+                    </div>
+                  </div>
+
+                  {/* Tentacle End Points*/}
+                  {tentacles.map((tentacle, index) => {
+                    const position = calculatePosition(tentacle.angle, tentacleDistance);
+                    return (
+                      <div
+                        key={index}
+                        className="tentacle-end absolute transform -translate-x-1/2 -translate-y-1/2"
+                        style={{
+                          left: `calc(50% + ${position.x}px)`,
+                          top: `calc(50% + ${position.y}px)`,
+                          zIndex: 40,
+                        }}
+                      >
+                        <Link
+                          to={tentacle.path}
+                          className="tentacle-link"
+                          aria-label={`Navigate to ${tentacle.label}`}
+                        >
+                          {tentacle.label}
+                        </Link>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </>
       )}
     </div>
