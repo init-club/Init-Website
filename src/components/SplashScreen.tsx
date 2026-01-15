@@ -31,10 +31,10 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
                 <img
                     src="/logo-dark.png"
                     alt="Init Club"
-                    className="w-56 md:w-72 h-auto"
+                    className="w-56 md:w-72 h-auto splash-img rounded-full"
                 />
-                {/* Subtle glow effect behind logo */}
-                <div className="absolute inset-0 bg-cyan-500/10 blur-[80px] rounded-full pointer-events-none" />
+                {/* Animated glow effect behind logo */}
+                <div className="splash-before absolute inset-0 pointer-events-none" />
             </motion.div>
         </motion.div>
     );

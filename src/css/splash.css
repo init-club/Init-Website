@@ -2,22 +2,28 @@
 .splash-before::before {
     content: "";
     position: absolute;
-    width: 260px;
-    height: 260px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 400px;
     background: radial-gradient(circle,
-            rgba(45, 168, 255, 0.35) 0%,
-            rgba(45, 168, 255, 0.15) 30%,
-            transparent 70%);
-    filter: blur(25px);
+            rgba(0, 200, 255, 0.6) 0%,
+            rgba(0, 180, 255, 0.4) 25%,
+            rgba(0, 150, 255, 0.2) 50%,
+            transparent 75%);
+    filter: blur(60px);
     animation: glowPulse 1.8s ease-out forwards;
 }
 
 .splash-img {
     animation: powerOn 1.8s ease forwards;
     box-shadow:
-        0 0 0 1px rgba(255, 255, 255, 0.05),
-        0 0 30px rgba(45, 168, 255, 0.45),
-        0 0 60px rgba(45, 168, 255, 0.25);
+        0 0 0 2px rgba(0, 200, 255, 0.15),
+        0 0 30px rgba(0, 200, 255, 0.8),
+        0 0 60px rgba(0, 180, 255, 0.6),
+        0 0 100px rgba(0, 150, 255, 0.4),
+        inset 0 0 30px rgba(0, 200, 255, 0.2);
 }
 
 @keyframes powerOn {
@@ -44,15 +50,21 @@
 @keyframes glowPulse {
     0% {
         opacity: 0;
-        transform: scale(0.7);
+        transform: translate(-50%, -50%) scale(0.6);
+    }
+
+    30% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.1);
     }
 
     60% {
         opacity: 1;
-        transform: scale(1);
+        transform: translate(-50%, -50%) scale(1);
     }
 
     100% {
         opacity: 0;
+        transform: translate(-50%, -50%) scale(0.9);
     }
 }

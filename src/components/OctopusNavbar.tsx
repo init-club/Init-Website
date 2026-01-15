@@ -1,15 +1,15 @@
 import { useEffect, useState, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ThemeToggle } from "./ThemeToggle";
 
 const tentacles = [
-  { angle: 260 },
-  { angle: 228 },
-  { angle: 196 },
-  { angle: 164 },
-  { angle: 132 },
-  { angle: 100 },
+  { angle: 260, label: "Home", path: "/" },
+  { angle: 228, label: "About Us", path: "/about" },
+  { angle: 200, label: "Projects", path: "/projects" },
+  { angle: 160, label: "Contact Us", path: "/contact" },
+  { angle: 132, label: "Blogs", path: "/blogs" },
+  { angle: 100, label: "Events", path: "/events" },
 ];
 
 const calculatePosition = (angle: number, distance: number) => {
@@ -26,17 +26,21 @@ export default function OctopusNavbar() {
   const isHome = location.pathname === "/";
 
   const [showSplash, setShowSplash] = useState(true);
-  const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useState(() => {
+    if (typeof window === 'undefined') return true;
+    const stored = localStorage.getItem('theme');
+    return stored === 'dark' || !stored;
+  });
 
   // Reactive tentacle distance based on viewport
   const [tentacleDistance, setTentacleDistance] = useState(() => {
     if (typeof window === 'undefined') return 260;
-    return window.innerWidth < 640 ? 180 : 260;
+    return window.innerWidth < 640 ? 140 : window.innerWidth < 768 ? 180 : 260;
   });
 
   useEffect(() => {
     const updateDistance = () => {
-      setTentacleDistance(window.innerWidth < 640 ? 180 : 260);
+      setTentacleDistance(window.innerWidth < 640 ? 140 : window.innerWidth < 768 ? 180 : 260);
     };
 
     window.addEventListener('resize', updateDistance);
@@ -115,29 +119,31 @@ export default function OctopusNavbar() {
     return () => clearTimeout(timer);
   }, [isHome]);
 
-  // Tentacle animation effect - exactly as before
+  // Tentacle animation effect - smooth during scroll
   useEffect(() => {
     if (showSplash || !isHome) return;
 
     const pathsGroup = document.getElementById("tentacle-paths");
     const container = document.querySelector(".octopus-container");
+    const heroSection = document.querySelector(".octopus-hero-section");
     const tentacleEnds = document.querySelectorAll(".tentacle-end");
 
-    if (!pathsGroup || !container) return;
+    if (!pathsGroup || !container || !heroSection) return;
 
     const SEGMENTS = 24;
     const tentacleStates: any[] = [];
-    let scrollTimeout: ReturnType<typeof setTimeout>;
 
     const getOrigin = () => {
-      const rect = container.getBoundingClientRect();
+      const containerRect = container.getBoundingClientRect();
+      const heroRect = heroSection.getBoundingClientRect();
       return {
-        x: rect.left + rect.width / 2,
-        y: rect.top + rect.height * 0.35, // Below the head
+        x: containerRect.left + containerRect.width / 2,
+        y: containerRect.top + containerRect.height * 0.35,
+        heroTop: heroRect.top,
       };
     };
 
-    // Initialize tentacle paths with correct starting positions
+    // Initialize tentacle paths
     const origin = getOrigin();
 
     tentacleEnds.forEach((end, i) => {
@@ -163,18 +169,12 @@ export default function OctopusNavbar() {
       });
     });
 
-    // Handle scroll events
-    const handleScroll = () => {
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
-        // Reset after scroll ends
-      }, 150);
-    };
+    let isAnimating = true;
 
-    window.addEventListener('scroll', handleScroll);
-
-    // Animation loop
+    // Animation loop with smooth scroll handling
     const animate = (timestamp: number) => {
+      if (!isAnimating) return;
+
       const base = getOrigin();
 
       tentacleStates.forEach((tentacle, index) => {
@@ -202,15 +202,14 @@ export default function OctopusNavbar() {
         tentacle.path.setAttribute("d", pathData);
       });
 
-      return requestAnimationFrame(animate);
+      requestAnimationFrame(animate);
     };
 
     const animationId = requestAnimationFrame(animate);
 
     return () => {
+      isAnimating = false;
       cancelAnimationFrame(animationId);
-      window.removeEventListener('scroll', handleScroll);
-      clearTimeout(scrollTimeout);
       pathsGroup.innerHTML = '';
     };
   }, [showSplash, isHome]);
@@ -223,7 +222,7 @@ export default function OctopusNavbar() {
     : { background: 'linear-gradient(180deg, #e0f7fa 0%, #b2ebf2 40%, #80deea 100%)' };
 
   return (
-    <div className="min-h-screen relative" ref={containerRef} style={bgStyle}>
+    <div className="min-h-screen relative overflow-hidden" ref={containerRef} style={bgStyle}>
       {/* Caustic Light Patterns */}
       <div className="caustic-light"></div>
 
@@ -231,7 +230,7 @@ export default function OctopusNavbar() {
       <div className="gradient-shift"></div>
 
       {/* Light Rays from Surface */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 5 }}>
+      <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 5 }}>
         <div className="light-ray" style={{ left: '10%' }}></div>
         <div className="light-ray" style={{ left: '30%', animationDelay: '2s' }}></div>
         <div className="light-ray" style={{ left: '55%', animationDelay: '4s' }}></div>
@@ -239,7 +238,7 @@ export default function OctopusNavbar() {
       </div>
 
       {/* Swimming Fish */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 6 }}>
+      <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 6 }}>
         <div className="fish" style={{ top: '15%', animationDelay: '0s' }}></div>
         <div className="fish" style={{ top: '25%', animationDelay: '3s', transform: 'scale(0.6)' }}></div>
         <div className="fish" style={{ top: '35%', animationDelay: '7s', transform: 'scale(0.8)' }}></div>
@@ -268,11 +267,11 @@ export default function OctopusNavbar() {
                     aria-label="Navigate to home"
                   >
                     <div className="rounded-xl bg-gradient-to-br from-cyan-500 to-teal-600 p-2 shadow-lg shadow-cyan-500/20 transition-transform duration-300 group-hover:scale-105">
-                      <span className="font-mono text-sm font-bold text-white">{'<I/>'}</span>
+                      <span className="font-mono text-sm font-bold text-white">{'<Init Club/>'}</span>
                     </div>
-                    <span className="hidden sm:block font-semibold text-[var(--text)]">
+                    {/* <span className="hidden sm:block font-semibold text-[var(--text)]">
                       Init Club
-                    </span>
+                    </span> */}
                   </button>
                   <ThemeToggle />
                 </div>
@@ -281,7 +280,22 @@ export default function OctopusNavbar() {
           </header>
 
           {/* Hero Section */}
-          <div className="fixed inset-0 flex flex-col items-center justify-center text-center gap-6 sm:gap-8 px-4 py-8 sm:py-12 pt-24 sm:pt-20" style={{ zIndex: 20 }}>
+          <div className="octopus-hero-section relative w-full min-h-screen flex flex-col items-center justify-center text-center gap-6 sm:gap-8 px-4 py-8 sm:py-12 pt-24 sm:pt-20" style={{ zIndex: 20 }}>
+
+            {/* SVG Tentacle Paths - fixed to viewport */}
+            <svg
+              className="fixed inset-0 w-screen h-screen pointer-events-none"
+              style={{ overflow: 'visible', zIndex: 10 }}
+            >
+              <defs>
+                <linearGradient id="tentacleGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor={isDark ? "#22d3ee" : "#0891b2"} />
+                  <stop offset="50%" stopColor={isDark ? "#0891b2" : "#0e7490"} />
+                  <stop offset="100%" stopColor={isDark ? "#083344" : "#164e63"} />
+                </linearGradient>
+              </defs>
+              <g id="tentacle-paths"></g>
+            </svg>
 
             {/* Octopus Entity - Head + Tentacles */}
             <motion.div
@@ -289,28 +303,14 @@ export default function OctopusNavbar() {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
               className="relative"
+              style={{ zIndex: 25 }}
             >
-              {/* SVG Tentacle Paths */}
-              <svg
-                className="fixed inset-0 w-screen h-screen pointer-events-none"
-                style={{ overflow: 'visible', zIndex: 15 }}
-              >
-                <defs>
-                  <linearGradient id="tentacleGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor={isDark ? "#22d3ee" : "#0891b2"} />
-                    <stop offset="50%" stopColor={isDark ? "#0891b2" : "#0e7490"} />
-                    <stop offset="100%" stopColor={isDark ? "#083344" : "#164e63"} />
-                  </linearGradient>
-                </defs>
-                <g id="tentacle-paths"></g>
-              </svg>
-
               {/* Octopus Container */}
-              <div className="octopus-container relative w-80 h-80 sm:w-96 sm:h-96 mx-auto z-20 -mt-12 overflow-visible">
+              <div className="octopus-container relative w-80 h-80 sm:w-96 sm:h-96 mx-auto -mt-12 overflow-visible" style={{ zIndex: 30 }}>
                 {/* Head Layer*/}
                 <div
                   className="octopus-head absolute left-1/2 -translate-x-1/2 -top-8 w-40 h-40 sm:w-48 sm:h-48 cursor-pointer"
-                  style={{ zIndex: 30 }}
+                  style={{ zIndex: 50 }}
                 >
                   <div className="octo-body">
                     <div className="octo-eye octo-eye-left"><div className="octo-pupil"></div></div>
@@ -324,12 +324,21 @@ export default function OctopusNavbar() {
                   return (
                     <div
                       key={index}
-                      className="tentacle-end absolute transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none"
+                      className="tentacle-end absolute transform -translate-x-1/2 -translate-y-1/2"
                       style={{
                         left: `calc(50% + ${position.x}px)`,
                         top: `calc(50% + ${position.y}px)`,
+                        zIndex: 40,
                       }}
-                    />
+                    >
+                      <Link
+                        to={tentacle.path}
+                        className="tentacle-link"
+                        aria-label={`Navigate to ${tentacle.label}`}
+                      >
+                        {tentacle.label}
+                      </Link>
+                    </div>
                   );
                 })}
               </div>

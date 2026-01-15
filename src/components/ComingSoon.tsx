@@ -6,14 +6,14 @@ interface ComingSoonProps {
 }
 export default function ComingSoon({ pageName }: ComingSoonProps) {
     return (
-        <div className="flex flex-col items-center justify-center min-h-[60vh] relative px-4">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none" />
+        <div className="flex flex-col items-center justify-center min-h-screen md:min-h-[60vh] relative px-4 py-8">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[250px] h-[250px] md:w-[500px] md:h-[500px] bg-cyan-500/10 rounded-full blur-[60px] md:blur-[100px] pointer-events-none" />
 
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
-                className="glass relative z-10 p-8 md:p-14 rounded-[2rem] max-w-2xl w-full border border-white/10 shadow-2xl overflow-hidden"
+                className="glass relative z-10 p-6 md:p-14 rounded-[2rem] max-w-md md:max-w-2xl w-full border border-white/10 shadow-2xl overflow-hidden"
             >
                 {/* Animated Background Elements inside card */}
                 <div className="absolute inset-0 overflow-hidden pointer-events-none">

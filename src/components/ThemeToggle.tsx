@@ -57,9 +57,9 @@ export function ThemeToggle() {
       aria-label="Toggle theme"
     >
       <span className="grid h-6 w-6 place-items-center rounded-full bg-slate-900 text-slate-100 transition group-hover:rotate-6 dark:bg-sky-300 dark:text-slate-900">
-        {theme === 'light' ? <SunIcon /> : <MoonIcon />}
+        {theme === 'light' ? <MoonIcon /> : <SunIcon />}
       </span>
-      <span className="hidden text-xs tracking-wide md:inline">{theme === 'light' ? 'Light' : 'Dark'} mode</span>
+      <span className="hidden text-xs tracking-wide md:inline">{theme === 'light' ? 'Dark' : 'Light'} mode</span>
     </button>
   );
 }
