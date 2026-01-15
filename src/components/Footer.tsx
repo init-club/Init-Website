@@ -18,21 +18,7 @@ const socials = [
 
 export function Footer() {
   return (
-    <footer className="relative mt-20">
-      {/* Wave Separator */}
-      <div className="absolute -top-12 left-0 right-0 h-12 overflow-hidden">
-        <svg
-          viewBox="0 0 1440 100"
-          className="absolute bottom-0 w-full h-full"
-          preserveAspectRatio="none"
-        >
-          <path
-            fill="var(--glass-bg)"
-            d="M0,40 C360,80 720,0 1080,40 C1260,60 1380,50 1440,40 L1440,100 L0,100 Z"
-          />
-        </svg>
-      </div>
-
+    <footer className="relative">
       {/* Footer Content - Solid background*/}
       <div className="relative z-20 pt-16 pb-8" style={{ background: 'var(--ocean-deep, #041525)' }}>
         <div className="mx-auto max-w-6xl px-4">
@@ -49,7 +35,6 @@ export function Footer() {
                 <div className="rounded-xl bg-gradient-to-br from-cyan-500 to-teal-600 p-2 shadow-lg shadow-cyan-500/20">
                   <span className="font-mono text-sm font-bold text-white">{'<Init Club/>'}</span>
                 </div>
-                {/* <span className="text-xl font-bold text-[var(--text)]">Init Club</span> */}
               </div>
               <p className="mt-4 text-sm text-[var(--muted)] leading-relaxed max-w-xs">
                 Empowering innovation through open-source collaboration.
@@ -129,13 +114,7 @@ export function Footer() {
             </motion.div>
           </div>
 
-          {/* Bottom Bar */}
-          {/* <div className="mt-10 pt-6 border-t border-[var(--border)] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--muted)]">
-            <p>© {new Date().getFullYear()} Init Club. All rights reserved.</p>
-            <p className="flex items-center gap-2">
-              Made with <span className="text-red-400">♥</span> by Init Club
-            </p>
-          </div> */}
+
         </div>
       </div>
     </footer>
