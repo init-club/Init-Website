@@ -1,10 +1,5 @@
-export function ContactPage() {
-  return (
-    <div>
-      <h1>Contact</h1>
-      <p>Contact details will be added here.</p>
-    </div>
-  );
-}
+import ComingSoon from '../components/ComingSoon.tsx';
 
-export default ContactPage;
+export default function ContactPage() {
+  return <ComingSoon pageName="Contact" />;
+}

@@ -1,10 +1,5 @@
-export function ProjectsPage() {
-  return (
-    <div>
-      <h1>Projects</h1>
-      <p>Projects will be listed here.</p>
-    </div>
-  );
-}
+import ComingSoon from '../components/ComingSoon.tsx';
 
-export default ProjectsPage;
+export default function ProjectsPage() {
+  return <ComingSoon pageName="Projects" />;
+}

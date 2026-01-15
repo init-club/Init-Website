@@ -1,10 +1,5 @@
-export function BlogsPage() {
-  return (
-    <div>
-      <h1>Blogs</h1>
-      <p>Blog posts will live here soon.</p>
-    </div>
-  );
-}
+import ComingSoon from '../components/ComingSoon.tsx';
 
-export default BlogsPage;
+export default function BlogsPage() {
+  return <ComingSoon pageName="Blogs" />;
+}
