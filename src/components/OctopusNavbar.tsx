@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ThemeToggle } from "./ThemeToggle";
+import Bubbles from "./Bubbles";
 
 export default function OctopusNavbar() {
   const navigate = useNavigate();
@@ -200,6 +201,8 @@ export default function OctopusNavbar() {
             </div>
           </header>
 
+          <Bubbles/>
+          
           {/* SVG Tentacle Paths */}
           <svg className="fixed inset-0 w-screen h-screen pointer-events-none z-10">
             <defs>
