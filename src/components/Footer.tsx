@@ -47,9 +47,9 @@ export function Footer() {
             >
               <div className="flex items-center gap-3">
                 <div className="rounded-xl bg-gradient-to-br from-cyan-500 to-teal-600 p-2 shadow-lg shadow-cyan-500/20">
-                  <span className="font-mono text-sm font-bold text-white">{'<I/>'}</span>
+                  <span className="font-mono text-sm font-bold text-white">{'<Init Club/>'}</span>
                 </div>
-                <span className="text-xl font-bold text-[var(--text)]">Init Club</span>
+                {/* <span className="text-xl font-bold text-[var(--text)]">Init Club</span> */}
               </div>
               <p className="mt-4 text-sm text-[var(--muted)] leading-relaxed max-w-xs">
                 Empowering innovation through open-source collaboration.
@@ -130,12 +130,12 @@ export function Footer() {
           </div>
 
           {/* Bottom Bar */}
-          <div className="mt-10 pt-6 border-t border-[var(--border)] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--muted)]">
+          {/* <div className="mt-10 pt-6 border-t border-[var(--border)] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--muted)]">
             <p>© {new Date().getFullYear()} Init Club. All rights reserved.</p>
             <p className="flex items-center gap-2">
               Made with <span className="text-red-400">♥</span> by Init Club
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
     </footer>

@@ -54,11 +54,11 @@ export function Navbar() {
               className="group flex items-center gap-2"
             >
               <div className="rounded-xl bg-gradient-to-br from-cyan-500 to-teal-600 p-2 shadow-lg shadow-cyan-500/20 transition-transform duration-300 group-hover:scale-105">
-                <span className="font-mono text-sm font-bold text-white">{'<I/>'}</span>
+                <span className="font-mono text-sm font-bold text-white">{'<Init Club/>'}</span>
               </div>
-              <span className="hidden sm:block font-semibold text-[var(--text)]">
+              {/* <span className="hidden sm:block font-semibold text-[var(--text)]">
                 Init Club
-              </span>
+              </span> */}
             </NavLink>
 
             {/* Desktop Nav */}
