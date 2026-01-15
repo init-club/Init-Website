@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
 import Layout from './components/Layout';
-import HomeLayout from './components/HomeLayout';
 import AboutPage from './pages/About';
 import BlogsPage from './pages/Blogs';
 import ContactPage from './pages/Contact';
@@ -9,12 +9,15 @@ import HomePage from './pages/Home';
 import ProjectsPage from './pages/Projects';
 
 function App() {
+
   return (
     <BrowserRouter>
+
+
+      {/* Main Content */}
       <Routes>
-        <Route element={<HomeLayout />}>
-          <Route index element={<HomePage />} />
-        </Route>
+        {/* Home page has its own layout with OctopusNavbar and Footer */}
+        <Route index element={<HomePage />} />
         <Route element={<Layout />}>
           <Route path="/about" element={<AboutPage />} />
           <Route path="/events" element={<EventsPage />} />

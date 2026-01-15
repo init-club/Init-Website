@@ -1,13 +1,14 @@
 import { NavLink } from 'react-router-dom';
 import { Instagram, Linkedin } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const navItems = [
   { label: 'Home', path: '/' },
-  { label: 'About Us', path: '/about' },
+  { label: 'About', path: '/about' },
   { label: 'Events', path: '/events' },
   { label: 'Projects', path: '/projects' },
   { label: 'Blogs', path: '/blogs' },
-  { label: 'Contact Us', path: '/contact' },
+  { label: 'Contact', path: '/contact' },
 ];
 
 const socials = [
@@ -17,18 +18,46 @@ const socials = [
 
 export function Footer() {
   return (
-    <footer className="mt-20 border-t border-slate-200/70 bg-white/60 py-8 backdrop-blur dark:border-white/10 dark:bg-slate-900/60">
-      <div className="mx-auto max-w-6xl px-4">
-        <div className="grid gap-6 md:grid-cols-[1.1fr,1fr,1fr]">
-          <div>
-            <div className="text-lg font-semibold text-slate-900 dark:text-white">Init Club</div>
-            <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
-              Empowering innovation through open-source collaboration.
-              Init Club where ideas turn into impact.
-            </p>
+    <footer className="relative mt-20">
+      {/* Wave Separator */}
+      <div className="absolute -top-12 left-0 right-0 h-12 overflow-hidden">
+        <svg
+          viewBox="0 0 1440 100"
+          className="absolute bottom-0 w-full h-full"
+          preserveAspectRatio="none"
+        >
+          <path
+            fill="var(--glass-bg)"
+            d="M0,40 C360,80 720,0 1080,40 C1260,60 1380,50 1440,40 L1440,100 L0,100 Z"
+          />
+        </svg>
+      </div>
 
-            <div className="mt-4">
-              <div className="mt-3 flex flex-wrap gap-3">
+      {/* Footer Content - Solid background*/}
+      <div className="relative z-20 pt-16 pb-8" style={{ background: 'var(--ocean-deep, #041525)' }}>
+        <div className="mx-auto max-w-6xl px-4">
+          <div className="grid gap-10 md:grid-cols-[1.2fr,1fr,1fr]">
+
+            {/* Brand Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="flex items-center gap-3">
+                <div className="rounded-xl bg-gradient-to-br from-cyan-500 to-teal-600 p-2 shadow-lg shadow-cyan-500/20">
+                  <span className="font-mono text-sm font-bold text-white">{'<I/>'}</span>
+                </div>
+                <span className="text-xl font-bold text-[var(--text)]">Init Club</span>
+              </div>
+              <p className="mt-4 text-sm text-[var(--muted)] leading-relaxed max-w-xs">
+                Empowering innovation through open-source collaboration.
+                Where ideas turn into impact.
+              </p>
+
+              {/* Social Links */}
+              <div className="mt-6 flex gap-3">
                 {socials.map((item) => {
                   const Icon = item.icon;
                   return (
@@ -37,50 +66,76 @@ export function Footer() {
                       href={item.href}
                       target="_blank"
                       rel="noreferrer"
-                      className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-900/10 text-slate-800 transition hover:bg-sky-600 hover:text-white dark:bg-white/10 dark:text-slate-100 dark:hover:bg-sky-500"
+                      className="flex h-10 w-10 items-center justify-center rounded-xl glass hover:bg-[var(--accent)] hover:text-white transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-cyan-500/20"
                       aria-label={item.label}
                     >
-                      <Icon  className="h-5 w-5 stroke-[1.75]"  />
+                      <Icon className="h-5 w-5" />
                     </a>
                   );
                 })}
               </div>
-              <div className="mt-2 space-y-0.5 text-xs text-slate-500 dark:text-slate-300">
-                <div>Amrita Vishwa Vidhapeetham, Coimbatore</div>
-              </div>
-            </div>
-          </div>
 
-          <div>
-            <h3 className="text-sm font-semibold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-300">Navigate</h3>
-            <div className="mt-3 grid grid-cols-2 gap-2 text-sm font-medium text-slate-800 dark:text-slate-100">
-              {navItems.map((item) => (
-                <NavLink
-                  key={item.path}
-                  to={item.path}
-                  className="rounded-xl px-2 py-2 transition hover:-translate-y-0.5 hover:bg-slate-100/80 hover:text-sky-600 dark:hover:bg-slate-800/80 dark:hover:text-sky-300"
-                >
-                  {item.label}
-                </NavLink>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex flex-col justify-between text-center">
-            <div>
-              <h2 className="text-lg font-bold text-slate-900 dark:text-white">Join Our Community</h2>
-              <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
-                Stay updated with our events, workshops, and project showcases.
+              <p className="mt-4 text-xs text-[var(--muted)]">
+                Amrita Vishwa Vidyapeetham, Coimbatore
               </p>
-            </div>
-            <a href="https://discord.gg/Gx8sdGJkU" target="_blank" rel="noreferrer" className="mt-4 inline-flex items-center gap-2 rounded-full bg-slate-900 px-6 py-2 text-sm font-semibold text-white transition hover:-translate-y-0.5 dark:bg-white dark:text-slate-900">
-              Become a Member
-              <span>→</span>
-            </a>
-          </div>
-        </div>
+            </motion.div>
 
-        <div className="mt-6 flex flex-col justify-between gap-2 text-xs text-slate-500 dark:text-slate-300 sm:flex-row">
+            {/* Navigation */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              <h3 className="text-xs font-semibold uppercase tracking-widest text-[var(--muted)]">
+                Navigate
+              </h3>
+              <div className="mt-4 grid grid-cols-2 gap-2">
+                {navItems.map((item) => (
+                  <NavLink
+                    key={item.path}
+                    to={item.path}
+                    className="text-sm font-medium text-[var(--text)] hover:text-[var(--accent)] transition-colors duration-300 py-1"
+                  >
+                    {item.label}
+                  </NavLink>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* CTA Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="text-center md:text-left"
+            >
+              <h3 className="text-lg font-bold text-[var(--text)]">
+                Join Our Community
+              </h3>
+              <p className="mt-2 text-sm text-[var(--muted)]">
+                Stay updated with events, workshops, and showcases.
+              </p>
+              <a
+                href="https://discord.gg/Gx8sdGJkU"
+                target="_blank"
+                rel="noreferrer"
+                className="mt-4 inline-flex items-center gap-2 glass-button"
+              >
+                Become a Member
+                <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+              </a>
+            </motion.div>
+          </div>
+
+          {/* Bottom Bar */}
+          <div className="mt-10 pt-6 border-t border-[var(--border)] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--muted)]">
+            <p>© {new Date().getFullYear()} Init Club. All rights reserved.</p>
+            <p className="flex items-center gap-2">
+              Made with <span className="text-red-400">♥</span> by Init Club
+            </p>
+          </div>
         </div>
       </div>
     </footer>

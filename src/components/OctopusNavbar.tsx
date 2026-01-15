@@ -1,14 +1,47 @@
-import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState, useRef } from "react";
+import { useLocation } from "react-router-dom";
+import { motion } from "framer-motion";
 import { ThemeToggle } from "./ThemeToggle";
 
+const tentacles = [
+  { angle: 260 },
+  { angle: 228 },
+  { angle: 196 },
+  { angle: 164 },
+  { angle: 132 },
+  { angle: 100 },
+];
+
+const calculatePosition = (angle: number, distance: number) => {
+  const radians = (angle - 90) * (Math.PI / 180);
+  return {
+    x: Math.cos(radians) * distance,
+    y: Math.sin(radians) * distance,
+  };
+};
+
 export default function OctopusNavbar() {
-  const navigate = useNavigate();
   const location = useLocation();
+  const containerRef = useRef<HTMLDivElement>(null);
   const isHome = location.pathname === "/";
-  
+
   const [showSplash, setShowSplash] = useState(true);
   const [isDark, setIsDark] = useState(true);
+
+  // Reactive tentacle distance based on viewport
+  const [tentacleDistance, setTentacleDistance] = useState(() => {
+    if (typeof window === 'undefined') return 260;
+    return window.innerWidth < 640 ? 180 : 260;
+  });
+
+  useEffect(() => {
+    const updateDistance = () => {
+      setTentacleDistance(window.innerWidth < 640 ? 180 : 260);
+    };
+
+    window.addEventListener('resize', updateDistance);
+    return () => window.removeEventListener('resize', updateDistance);
+  }, []);
 
   // Theme detection and synchronization
   useEffect(() => {
@@ -16,18 +49,60 @@ export default function OctopusNavbar() {
       const stored = localStorage.getItem('theme');
       setIsDark(stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches));
     };
-    
+
     checkTheme();
     window.addEventListener('storage', checkTheme);
-    
+
     const observer = new MutationObserver(checkTheme);
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-    
+
     return () => {
       window.removeEventListener('storage', checkTheme);
       observer.disconnect();
     };
   }, []);
+
+  // Eye Tracking Logic - THROTTLED for performance
+  useEffect(() => {
+    if (showSplash) return;
+
+    let lastMoveTime = 0;
+    let animationFrameId: number;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const now = performance.now();
+      if (now - lastMoveTime < 16) return;
+      lastMoveTime = now;
+
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+      animationFrameId = requestAnimationFrame(() => {
+        if (!containerRef.current) return;
+        const eyes = containerRef.current.querySelectorAll('.octo-eye');
+
+        eyes.forEach((eye) => {
+          const rect = eye.getBoundingClientRect();
+          const eyeCenterX = rect.left + rect.width / 2;
+          const eyeCenterY = rect.top + rect.height / 2;
+          const angle = Math.atan2(e.clientY - eyeCenterY, e.clientX - eyeCenterX);
+          const distance = Math.min(rect.width / 4, Math.hypot(e.clientX - eyeCenterX, e.clientY - eyeCenterY) / 12);
+
+          const x = Math.cos(angle) * distance;
+          const y = Math.sin(angle) * distance;
+
+          const pupil = eye.querySelector('.octo-pupil') as HTMLElement;
+          if (pupil) {
+            pupil.style.transform = `translate(${x}px, ${y}px)`;
+          }
+        });
+      });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    };
+  }, [showSplash]);
 
   // Splash screen timer
   useEffect(() => {
@@ -40,37 +115,50 @@ export default function OctopusNavbar() {
     return () => clearTimeout(timer);
   }, [isHome]);
 
-  // Tentacle animation effect
+  // Tentacle animation effect - exactly as before
   useEffect(() => {
     if (showSplash || !isHome) return;
 
     const pathsGroup = document.getElementById("tentacle-paths");
-    const head = document.querySelector(".octopus-head");
-    const links = document.querySelectorAll(".octopus-tentacle");
+    const container = document.querySelector(".octopus-container");
+    const tentacleEnds = document.querySelectorAll(".tentacle-end");
 
-    if (!pathsGroup || !head) return;
+    if (!pathsGroup || !container) return;
 
     const SEGMENTS = 24;
-    const tentacles: any[] = [];
+    const tentacleStates: any[] = [];
     let scrollTimeout: ReturnType<typeof setTimeout>;
 
     const getOrigin = () => {
-      const rect = head.getBoundingClientRect();
+      const rect = container.getBoundingClientRect();
       return {
         x: rect.left + rect.width / 2,
-        y: rect.top + rect.height * 0.66,
+        y: rect.top + rect.height * 0.35, // Below the head
       };
     };
 
-    // Initialize tentacle paths
-    links.forEach(() => {
+    // Initialize tentacle paths with correct starting positions
+    const origin = getOrigin();
+
+    tentacleEnds.forEach((end, i) => {
       const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
       path.setAttribute("class", "tentacle-path");
+      path.setAttribute("data-index", String(i));
       pathsGroup.appendChild(path);
 
-      tentacles.push({
+      const endRect = (end as HTMLElement).getBoundingClientRect();
+      const targetX = endRect.left + endRect.width / 2;
+      const targetY = endRect.top + endRect.height / 2;
+
+      tentacleStates.push({
         path,
-        points: Array.from({ length: SEGMENTS }, () => ({ x: 0, y: 0 })),
+        points: Array.from({ length: SEGMENTS }, (_, j) => {
+          const progress = j / (SEGMENTS - 1);
+          return {
+            x: origin.x + (targetX - origin.x) * progress,
+            y: origin.y + (targetY - origin.y) * progress,
+          };
+        }),
         phase: Math.random() * Math.PI * 2,
       });
     });
@@ -89,10 +177,13 @@ export default function OctopusNavbar() {
     const animate = (timestamp: number) => {
       const base = getOrigin();
 
-      tentacles.forEach((tentacle, index) => {
-        const linkRect = (links[index] as HTMLElement).getBoundingClientRect();
-        const targetX = linkRect.left + linkRect.width / 2;
-        const targetY = linkRect.top + linkRect.height / 2;
+      tentacleStates.forEach((tentacle, index) => {
+        const end = tentacleEnds[index];
+        if (!end) return;
+
+        const endRect = (end as HTMLElement).getBoundingClientRect();
+        const targetX = endRect.left + endRect.width / 2;
+        const targetY = endRect.top + endRect.height / 2;
 
         tentacle.points[0].x = base.x;
         tentacle.points[0].y = base.y;
@@ -100,17 +191,14 @@ export default function OctopusNavbar() {
         for (let j = 1; j < SEGMENTS; j++) {
           const progress = j / (SEGMENTS - 1);
           const curl = Math.sin(timestamp * 0.002 + tentacle.phase + j * 0.35) * 22 * progress;
-          const interpolatedX = base.x + (targetX - base.x) * progress + curl;
-          const interpolatedY = base.y + (targetY - base.y) * progress;
-
-          tentacle.points[j].x += (interpolatedX - tentacle.points[j].x) * 0.14;
-          tentacle.points[j].y += (interpolatedY - tentacle.points[j].y) * 0.14;
+          tentacle.points[j].x = base.x + (targetX - base.x) * progress + curl;
+          tentacle.points[j].y = base.y + (targetY - base.y) * progress;
         }
 
-        const pathData = tentacle.points.map((point: any, idx: number) => 
+        const pathData = tentacle.points.map((point: any, idx: number) =>
           `${idx === 0 ? 'M' : 'L'} ${point.x} ${point.y}`
         ).join(' ');
-        
+
         tentacle.path.setAttribute("d", pathData);
       });
 
@@ -129,122 +217,123 @@ export default function OctopusNavbar() {
 
   if (!isHome) return null;
 
-  // Theme-based styling
-  const bgStyle = isDark 
-    ? { background: 'radial-gradient(circle at top, #0f1722 0%, #0b0f14 60%)' }
-    : { background: 'radial-gradient(circle at top, #f8fafc 0%, #e2e8f0 60%)' };
-  
-  const navBgClass = isDark 
-    ? 'bg-slate-900/70 border-white/10' 
-    : 'bg-white/70 border-slate-200/70';
-
-  const tentacleBgClass = isDark
-    ? 'bg-slate-900 bg-opacity-95 text-gray-200'
-    : 'bg-slate-100 bg-opacity-95 text-gray-950';
-
-  // Tentacle navigation items (6 evenly distributed in a circle)
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
-  const tentacleDistance = isMobile ? 95 : 140;
-  
-  const tentacles = [
-    { label: 'Home', path: '/', angle: 270 },
-    { label: 'About Us', path: '/about', angle: 235 },
-    { label: 'Projects', path: '/projects', angle: 200 },
-    { label: 'Contact Us', path: '/contact', angle: 160 },
-    { label: 'Blogs', path: '/blogs', angle: 125 },
-    { label: 'Events', path: '/events', angle: 90 },
-  ];
-
-  const calculatePosition = (angle: number, distance: number) => {
-    const radians = (angle - 90) * (Math.PI / 180);
-    return {
-      x: Math.cos(radians) * distance,
-      y: Math.sin(radians) * distance,
-    };
-  };
-
-  const handleNavigation = (path: string) => (e: React.MouseEvent | React.TouchEvent) => {
-    e.preventDefault();
-    navigate(path);
-  };
+  // Theme-based styling - Ocean theme
+  const bgStyle = isDark
+    ? { background: 'linear-gradient(180deg, #062033 0%, #041525 40%, #020c12 100%)' }
+    : { background: 'linear-gradient(180deg, #e0f7fa 0%, #b2ebf2 40%, #80deea 100%)' };
 
   return (
-    <div className="min-h-screen" style={bgStyle}>
-      {/* Splash Screen */}
-      {showSplash && (
-        <div className="splash-before fixed inset-0 bg-black flex items-center justify-center z-30">
-          <img 
-            src="/logo-dark.png" 
-            alt="INIT Logo" 
-            className="splash-img w-32 h-32 sm:w-44 sm:h-44 object-cover rounded-full bg-black p-3 z-10"
-          />
-        </div>
-      )}
+    <div className="min-h-screen relative" ref={containerRef} style={bgStyle}>
+      {/* Caustic Light Patterns */}
+      <div className="caustic-light"></div>
+
+      {/* Gradient Shift / Ocean Current */}
+      <div className="gradient-shift"></div>
+
+      {/* Light Rays from Surface */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 5 }}>
+        <div className="light-ray" style={{ left: '10%' }}></div>
+        <div className="light-ray" style={{ left: '30%', animationDelay: '2s' }}></div>
+        <div className="light-ray" style={{ left: '55%', animationDelay: '4s' }}></div>
+        <div className="light-ray" style={{ left: '80%', animationDelay: '6s' }}></div>
+      </div>
+
+      {/* Swimming Fish */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 6 }}>
+        <div className="fish" style={{ top: '15%', animationDelay: '0s' }}></div>
+        <div className="fish" style={{ top: '25%', animationDelay: '3s', transform: 'scale(0.6)' }}></div>
+        <div className="fish" style={{ top: '35%', animationDelay: '7s', transform: 'scale(0.8)' }}></div>
+        <div className="fish" style={{ top: '50%', animationDelay: '2s', transform: 'scale(1.1)' }}></div>
+        <div className="fish" style={{ top: '60%', animationDelay: '9s', transform: 'scale(0.7)' }}></div>
+        <div className="fish" style={{ top: '75%', animationDelay: '5s', transform: 'scale(1.3)' }}></div>
+        <div className="fish" style={{ top: '85%', animationDelay: '12s', transform: 'scale(0.5)' }}></div>
+      </div>
+
+      {/* Ocean Floor */}
+      <div className="ocean-floor"></div>
+
+
 
       {/* Main Content */}
       {!showSplash && (
         <>
-          {/* Navigation Header */}
-          <header className={`fixed top-0 z-40 w-full border-b ${navBgClass} backdrop-blur`}>
-            <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 md:py-4">
-              <button
-                onClick={() => navigate('/')}
-                className="rounded-2xl bg-slate-900/95 px-3 sm:px-4 py-2 shadow-lg hover:shadow-xl transition-shadow cursor-pointer border-0"
-                aria-label="Navigate to home"
-              >
-                <span className="font-mono text-sm sm:text-lg tracking-wide text-cyan-300">
-                  {'<Init Club />'}
-                </span>
-              </button>
-              <ThemeToggle />
+          {/* Navigation Header*/}
+          <header className="fixed top-0 left-0 right-0 z-40">
+            <div className="mx-auto max-w-6xl px-4 py-4">
+              <div className="glass rounded-2xl px-4 py-3">
+                <div className="flex items-center justify-between">
+                  <button
+                    onClick={() => window.location.href = '/'}
+                    className="group flex items-center gap-2"
+                    aria-label="Navigate to home"
+                  >
+                    <div className="rounded-xl bg-gradient-to-br from-cyan-500 to-teal-600 p-2 shadow-lg shadow-cyan-500/20 transition-transform duration-300 group-hover:scale-105">
+                      <span className="font-mono text-sm font-bold text-white">{'<I/>'}</span>
+                    </div>
+                    <span className="hidden sm:block font-semibold text-[var(--text)]">
+                      Init Club
+                    </span>
+                  </button>
+                  <ThemeToggle />
+                </div>
+              </div>
             </div>
           </header>
 
-          {/* SVG Tentacle Paths */}
-          <svg className="fixed inset-0 w-screen h-screen pointer-events-none z-10">
-            <defs>
-              <linearGradient id="tentacleGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor={isDark ? "#4da3ff" : "#0ea5e9"} />
-                <stop offset="50%" stopColor={isDark ? "#2b6cb0" : "#0284c7"} />
-                <stop offset="100%" stopColor={isDark ? "#1e3a5f" : "#0369a1"} />
-              </linearGradient>
-            </defs>
-            <g id="tentacle-paths"></g>
-          </svg>
-
           {/* Hero Section */}
-          <div className="relative min-h-screen flex flex-col items-center justify-center text-center z-20 gap-6 sm:gap-8 px-4 py-8 sm:py-12 pt-24 sm:pt-20">
-            <h1 className={`font-poppins font-bold text-3xl sm:text-4xl md:text-5xl ${isDark ? 'text-white' : 'text-slate-900'}`}>
-              The INIT Club
-            </h1>
+          <div className="fixed inset-0 flex flex-col items-center justify-center text-center gap-6 sm:gap-8 px-4 py-8 sm:py-12 pt-24 sm:pt-20" style={{ zIndex: 20 }}>
 
-            {/* Octopus Container */}
-            <div className="octopus-before relative w-56 h-64 sm:w-72 md:w-80 md:h-96 mx-auto z-20">
-              <div className="octopus-head absolute w-32 h-28 sm:w-40 md:w-52 md:h-48 mx-auto inset-x-0 z-50 pointer-events-none" />
+            {/* Octopus Entity - Head + Tentacles */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="relative"
+            >
+              {/* SVG Tentacle Paths */}
+              <svg
+                className="fixed inset-0 w-screen h-screen pointer-events-none"
+                style={{ overflow: 'visible', zIndex: 15 }}
+              >
+                <defs>
+                  <linearGradient id="tentacleGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor={isDark ? "#22d3ee" : "#0891b2"} />
+                    <stop offset="50%" stopColor={isDark ? "#0891b2" : "#0e7490"} />
+                    <stop offset="100%" stopColor={isDark ? "#083344" : "#164e63"} />
+                  </linearGradient>
+                </defs>
+                <g id="tentacle-paths"></g>
+              </svg>
 
-              {/* Tentacle Navigation Buttons */}
-              {tentacles.map((tentacle) => {
-                const position = calculatePosition(tentacle.angle, tentacleDistance);
-                return (
-                  <button
-                    key={tentacle.path}
-                    onClick={handleNavigation(tentacle.path)}
-                    onTouchStart={handleNavigation(tentacle.path)}
-                    className={`octopus-tentacle absolute px-1.5 py-0.5 sm:px-2 sm:py-1 md:px-3 md:py-1 text-xs sm:text-sm md:text-xs ${tentacleBgClass} rounded-xl sm:rounded-2xl cursor-pointer z-40 whitespace-nowrap border-0`}
-                    style={{ 
-                      transform: `translate(calc(-50% + ${position.x}px), calc(-50% + ${position.y}px))`,
-                      left: '50%',
-                      top: '50%',
-                      touchAction: 'manipulation',
-                      WebkitTapHighlightColor: 'transparent',
-                    }}
-                    aria-label={`Navigate to ${tentacle.label}`}
-                  >
-                    {tentacle.label}
-                  </button>
-                );
-              })}
-            </div>
+              {/* Octopus Container */}
+              <div className="octopus-container relative w-80 h-80 sm:w-96 sm:h-96 mx-auto z-20 -mt-12 overflow-visible">
+                {/* Head Layer*/}
+                <div
+                  className="octopus-head absolute left-1/2 -translate-x-1/2 -top-8 w-40 h-40 sm:w-48 sm:h-48 cursor-pointer"
+                  style={{ zIndex: 30 }}
+                >
+                  <div className="octo-body">
+                    <div className="octo-eye octo-eye-left"><div className="octo-pupil"></div></div>
+                    <div className="octo-eye octo-eye-right"><div className="octo-pupil"></div></div>
+                  </div>
+                </div>
+
+                {/* Tentacle End Points*/}
+                {tentacles.map((tentacle, index) => {
+                  const position = calculatePosition(tentacle.angle, tentacleDistance);
+                  return (
+                    <div
+                      key={index}
+                      className="tentacle-end absolute transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none"
+                      style={{
+                        left: `calc(50% + ${position.x}px)`,
+                        top: `calc(50% + ${position.y}px)`,
+                      }}
+                    />
+                  );
+                })}
+              </div>
+            </motion.div>
           </div>
         </>
       )}

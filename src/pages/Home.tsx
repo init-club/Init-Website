@@ -1,9 +1,22 @@
+import { useState } from 'react';
+
+import OctopusNavbar from "../components/OctopusNavbar";
+import Footer from "../components/Footer";
+import SplashScreen from '../components/SplashScreen';
+import { AnimatePresence } from 'framer-motion';
+
 export function HomePage() {
+  const [loading, setLoading] = useState(true);
+
   return (
-    <div>
-      <h1>Home</h1>
-      <p>Welcome to The INIT Club</p>
-    </div>
+    <>
+      {/* Splash Screen Overlay */}
+      <AnimatePresence>
+        {loading && <SplashScreen key="splash" onComplete={() => setLoading(false)} />}
+      </AnimatePresence>
+      <OctopusNavbar />
+      <Footer />
+    </>
   );
 }
 
