@@ -1,6 +1,5 @@
 import { useEffect, useState, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { motion } from "framer-motion";
 import { ThemeToggle } from "./ThemeToggle";
 
 const tentacles = [
@@ -119,50 +118,56 @@ export default function OctopusNavbar() {
     return () => clearTimeout(timer);
   }, [isHome]);
 
-  // Tentacle animation effect - smooth during scroll
+  // Tentacle animation effect 
   useEffect(() => {
     if (showSplash || !isHome) return;
 
     const pathsGroup = document.getElementById("tentacle-paths");
-    const container = document.querySelector(".octopus-container");
     const heroSection = document.querySelector(".octopus-hero-section");
+    const container = document.querySelector(".octopus-container");
     const tentacleEnds = document.querySelectorAll(".tentacle-end");
 
-    if (!pathsGroup || !container || !heroSection) return;
+    if (!pathsGroup || !heroSection || !container) return;
 
     const SEGMENTS = 24;
     const tentacleStates: any[] = [];
 
-    const getOrigin = () => {
-      const containerRect = container.getBoundingClientRect();
+    // Get positions relative to hero section (not viewport)
+    const getRelativePosition = (element: Element) => {
       const heroRect = heroSection.getBoundingClientRect();
+      const elemRect = element.getBoundingClientRect();
       return {
-        x: containerRect.left + containerRect.width / 2,
-        y: containerRect.top + containerRect.height * 0.35,
-        heroTop: heroRect.top,
+        x: elemRect.left - heroRect.left + elemRect.width / 2,
+        y: elemRect.top - heroRect.top + elemRect.height / 2,
+      };
+    };
+
+    const getOrigin = () => {
+      const heroRect = heroSection.getBoundingClientRect();
+      const containerRect = container.getBoundingClientRect();
+      return {
+        x: containerRect.left - heroRect.left + containerRect.width / 2,
+        y: containerRect.top - heroRect.top + containerRect.height * 0.35,
       };
     };
 
     // Initialize tentacle paths
-    const origin = getOrigin();
-
     tentacleEnds.forEach((end, i) => {
       const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
       path.setAttribute("class", "tentacle-path");
       path.setAttribute("data-index", String(i));
       pathsGroup.appendChild(path);
 
-      const endRect = (end as HTMLElement).getBoundingClientRect();
-      const targetX = endRect.left + endRect.width / 2;
-      const targetY = endRect.top + endRect.height / 2;
+      const origin = getOrigin();
+      const target = getRelativePosition(end);
 
       tentacleStates.push({
         path,
         points: Array.from({ length: SEGMENTS }, (_, j) => {
           const progress = j / (SEGMENTS - 1);
           return {
-            x: origin.x + (targetX - origin.x) * progress,
-            y: origin.y + (targetY - origin.y) * progress,
+            x: origin.x + (target.x - origin.x) * progress,
+            y: origin.y + (target.y - origin.y) * progress,
           };
         }),
         phase: Math.random() * Math.PI * 2,
@@ -171,28 +176,26 @@ export default function OctopusNavbar() {
 
     let isAnimating = true;
 
-    // Animation loop with smooth scroll handling
+    // Animation loop
     const animate = (timestamp: number) => {
       if (!isAnimating) return;
 
-      const base = getOrigin();
+      const origin = getOrigin();
 
       tentacleStates.forEach((tentacle, index) => {
         const end = tentacleEnds[index];
         if (!end) return;
 
-        const endRect = (end as HTMLElement).getBoundingClientRect();
-        const targetX = endRect.left + endRect.width / 2;
-        const targetY = endRect.top + endRect.height / 2;
+        const target = getRelativePosition(end);
 
-        tentacle.points[0].x = base.x;
-        tentacle.points[0].y = base.y;
+        tentacle.points[0].x = origin.x;
+        tentacle.points[0].y = origin.y;
 
         for (let j = 1; j < SEGMENTS; j++) {
           const progress = j / (SEGMENTS - 1);
           const curl = Math.sin(timestamp * 0.002 + tentacle.phase + j * 0.35) * 22 * progress;
-          tentacle.points[j].x = base.x + (targetX - base.x) * progress + curl;
-          tentacle.points[j].y = base.y + (targetY - base.y) * progress;
+          tentacle.points[j].x = origin.x + (target.x - origin.x) * progress + curl;
+          tentacle.points[j].y = origin.y + (target.y - origin.y) * progress;
         }
 
         const pathData = tentacle.points.map((point: any, idx: number) =>
@@ -282,9 +285,9 @@ export default function OctopusNavbar() {
           {/* Hero Section */}
           <div className="octopus-hero-section relative w-full min-h-screen flex flex-col items-center justify-center text-center gap-6 sm:gap-8 px-4 py-8 sm:py-12 pt-24 sm:pt-20" style={{ zIndex: 20 }}>
 
-            {/* SVG Tentacle Paths - fixed to viewport */}
+            {/* SVG Tentacle Paths */}
             <svg
-              className="fixed inset-0 w-screen h-screen pointer-events-none"
+              className="absolute inset-0 w-full h-full pointer-events-none"
               style={{ overflow: 'visible', zIndex: 10 }}
             >
               <defs>
@@ -298,10 +301,7 @@ export default function OctopusNavbar() {
             </svg>
 
             {/* Octopus Entity - Head + Tentacles */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
+            <div
               className="relative"
               style={{ zIndex: 25 }}
             >
@@ -342,7 +342,7 @@ export default function OctopusNavbar() {
                   );
                 })}
               </div>
-            </motion.div>
+            </div>
           </div>
         </>
       )}
