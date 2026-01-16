@@ -14,6 +14,7 @@ export const GitGraph = () => {
     const [activeEdges, setActiveEdges] = useState<string[]>([]);
     const [highlightColor, setHighlightColor] = useState<string>('#fff');
     const [isLoading, setIsLoading] = useState(true);
+    const [, forceUpdate] = useState({});
 
     useEffect(() => {
         const handleResize = () => {
@@ -25,6 +26,20 @@ export const GitGraph = () => {
 
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    // Force re-render when theme changes
+    useEffect(() => {
+        const observer = new MutationObserver(() => {
+            forceUpdate({});
+        });
+
+        observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['class']
+        });
+
+        return () => observer.disconnect();
     }, []);
 
     const nodes = isMobile ? MOBILE_NODES : DESKTOP_NODES;
@@ -56,16 +71,56 @@ export const GitGraph = () => {
                         animate={{ opacity: 1 }}
                         transition={{ duration: 0.5 }}
                     >
-                        <h1 className="text-2xl sm:text-4xl md:text-6xl font-black tracking-tighter break-words" style={{ color: 'var(--text)' }}>
-                            <TypewriterText text="The INIT Club" delay={0.3} speed={0.08} />
+                        {/* Title with gradient "INIT" */}
+                        <h1 className="text-xl sm:text-3xl md:text-5xl font-black tracking-tighter break-words" style={{ fontFamily: 'var(--font-heading)' }}>
+                            <span style={{ color: 'var(--text)' }}>
+                                <TypewriterText text="The " delay={0.3} speed={0.08} />
+                            </span>
+                            <span
+                                style={{
+                                    background: 'linear-gradient(90deg, #00ffd5, #a855f7)',
+                                    WebkitBackgroundClip: 'text',
+                                    WebkitTextFillColor: 'transparent',
+                                    backgroundClip: 'text',
+                                    display: 'inline-block'
+                                }}
+                            >
+                                <TypewriterText text="INIT" delay={0.62} speed={0.08} />
+                            </span>
+                            <span style={{ color: 'var(--text)' }}>
+                                <TypewriterText text=" Club" delay={0.94} speed={0.08} />
+                            </span>
                         </h1>
+
+                        {/* Tagline - larger and bolder */}
                         <motion.p
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
-                            transition={{ duration: 1, delay: 1 }}
-                            className="text-[#00ffd5] font-mono text-xs sm:text-sm mt-2 break-words"
+                            transition={{ duration: 0.8, delay: 1.5 }}
+                            className="text-[var(--muted)] text-xs sm:text-sm md:text-base mt-3 break-words font-semibold tracking-wide"
                         >
-                            &gt; git commit -m "start_legacy"
+                            Amrita CBE's Open Source Community
+                        </motion.p>
+
+                        {/* Motto with pulsing glow and code formatting */}
+                        <motion.p
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 1, delay: 2 }}
+                            className="text-[#00ffd5] font-mono text-xs sm:text-sm mt-4 break-words pointer-events-auto cursor-default tracking-wider"
+                            style={{
+                                fontFamily: 'var(--font-mono)',
+                                textShadow: '0 0 10px rgba(0, 255, 213, 0.5), 0 0 20px rgba(0, 255, 213, 0.3)',
+                                animation: 'pulse-glow 3s ease-in-out infinite'
+                            }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.textShadow = '0 0 15px rgba(0, 255, 213, 0.8), 0 0 30px rgba(0, 255, 213, 0.5)';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.textShadow = '0 0 10px rgba(0, 255, 213, 0.5), 0 0 20px rgba(0, 255, 213, 0.3)';
+                            }}
+                        >
+                            &gt; git commit -m "<span className="text-white" style={{ textShadow: '0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.4)' }}>Where Curiosity Turns into Contribution</span>"
                         </motion.p>
                     </motion.div>
 

@@ -6,7 +6,7 @@ interface GitCloneLoaderProps {
     duration?: number;
 }
 
-// Color gradient from cyan to purple across segments
+// Color gradient from cyan to purple
 const getSegmentColor = (index: number, total: number) => {
     const colors = ['#00ffd5', '#00e5ff', '#00bfff', '#7c4dff', '#a855f7'];
     const colorIndex = Math.floor((index / total) * (colors.length - 1));
@@ -48,7 +48,7 @@ export const GitCloneLoader = ({ onComplete, duration = 700 }: GitCloneLoaderPro
             animate={isComplete ? { opacity: 0 } : { opacity: 1 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
         >
-            {/* Radial reveal mask - expands outward on complete */}
+            {/* Radial reveal mask */}
             <motion.div
                 className="absolute inset-0 bg-black"
                 initial={{ clipPath: 'circle(100% at 50% 50%)' }}
@@ -63,13 +63,11 @@ export const GitCloneLoader = ({ onComplete, duration = 700 }: GitCloneLoaderPro
                 transition={{ duration: 0.3 }}
             >
                 {/* git clone text */}
-                <motion.div
-                    className="text-white text-lg tracking-widest mb-8 opacity-60"
-                >
+                <motion.div className="text-white text-lg tracking-widest mb-8 opacity-60">
                     git clone...
                 </motion.div>
 
-                {/* Gradient progress bar with segments */}
+                {/* Gradient progress bar */}
                 <div className="flex items-center gap-1 mb-4">
                     {[...Array(totalSegments)].map((_, i) => {
                         const isFilled = progress > i * 5;
@@ -90,7 +88,7 @@ export const GitCloneLoader = ({ onComplete, duration = 700 }: GitCloneLoaderPro
                     })}
                 </div>
 
-                {/* Percentage with gradient effect */}
+                {/* Percentage with gradient */}
                 <motion.div
                     className="text-3xl font-light tracking-wider"
                     style={{

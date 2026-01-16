@@ -2,13 +2,18 @@ import type { NodeType, GraphNode, GraphEdge } from '../../types/graph';
 
 export type { NodeType, GraphNode, GraphEdge };
 
+// Get colors from CSS variables for theme support
+const getColor = (colorVar: string) => {
+    return getComputedStyle(document.documentElement).getPropertyValue(colorVar).trim();
+};
+
 const COLORS = {
-    neutral: '#ffffff',
-    about: '#facc15',
-    projects: '#00ffd5',
-    events: '#ff3366',
-    blogs: '#a855f7',
-    contact: '#2979ff',
+    get neutral() { return getColor('--color-neutral') || '#ffffff'; },
+    get about() { return getColor('--color-about') || '#facc15'; },
+    get projects() { return getColor('--color-projects') || '#00ffd5'; },
+    get events() { return getColor('--color-events') || '#ff3366'; },
+    get blogs() { return getColor('--color-blogs') || '#a855f7'; },
+    get contact() { return getColor('--color-contact') || '#2979ff'; },
 };
 
 
@@ -19,9 +24,9 @@ export const DESKTOP_NODES: GraphNode[] = [
     // First Commit
     { id: 'c1', x: 200, y: 400, type: 'commit', delay: 0.5, color: COLORS.neutral },
 
-    // Top branch: About (Yellow)
-    { id: 'c2_a', x: 350, y: 200, type: 'commit', delay: 0.8, color: COLORS.about },
-    { id: 'nav_about', x: 550, y: 100, type: 'nav', label: 'About', path: '/about', delay: 1.4, description: 'About The Club', color: COLORS.about, activePath: ['e1', 'e_a1', 'e_a2'] },
+    // Top branch: About (Yellow) - pushed down
+    { id: 'c2_a', x: 350, y: 220, type: 'commit', delay: 0.8, color: COLORS.about },
+    { id: 'nav_about', x: 550, y: 120, type: 'nav', label: 'About', path: '/about', delay: 1.4, description: 'About The Club', color: COLORS.about, activePath: ['e1', 'e_a1', 'e_a2'] },
 
     // Main line: Projects (Cyan)
     { id: 'c2_p', x: 500, y: 400, type: 'commit', delay: 1.0, color: COLORS.projects },
