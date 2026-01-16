@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
+import { Instagram, Linkedin } from 'lucide-react';
 
 const navItems = [
   { label: 'Home', path: '/' },
@@ -136,6 +137,22 @@ export function Navbar() {
                 {item.label}
               </NavLink>
             ))}
+
+            {/* Mobile Socials */}
+            <div className="flex items-center justify-center gap-4 mt-2 pt-2 border-t border-[var(--border)]">
+              {[{ label: 'LinkedIn', href: 'https://www.linkedin.com', icon: Linkedin }, { label: 'Instagram', href: 'https://www.instagram.com/the.init.club?igsh=MTFlcWg1eWIyMTNyaA==', icon: Instagram }].map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 rounded-lg hover:bg-[var(--white-5)] text-[var(--muted)] hover:text-[#00ffd5] transition-colors"
+                  aria-label={social.label}
+                >
+                  <social.icon size={20} />
+                </a>
+              ))}
+            </div>
           </nav>
         </div>
       </div>
