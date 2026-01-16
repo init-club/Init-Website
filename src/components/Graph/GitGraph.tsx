@@ -35,7 +35,7 @@ export const GitGraph = () => {
     const getNode = (id: string): GraphNode | undefined => nodes.find(n => n.id === id);
 
     return (
-        <div className="w-full h-screen bg-black relative overflow-hidden flex items-center justify-center">
+        <div className="w-full h-screen relative overflow-hidden flex items-center justify-center" style={{ backgroundColor: 'var(--bg)', color: 'var(--text)' }}>
 
             {/* Loading Animation */}
             <AnimatePresence>
@@ -51,19 +51,19 @@ export const GitGraph = () => {
 
                     {/* Hero Title */}
                     <motion.div
-                        className="absolute top-[10%] left-[5%] md:left-[10%] z-10 pointer-events-none"
+                        className="absolute top-[8%] sm:top-[10%] left-[3%] right-[3%] sm:left-[5%] md:left-[10%] z-10 pointer-events-none"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: 0.5 }}
                     >
-                        <h1 className="text-4xl md:text-6xl font-black text-white tracking-tighter">
+                        <h1 className="text-2xl sm:text-4xl md:text-6xl font-black tracking-tighter break-words" style={{ color: 'var(--text)' }}>
                             <TypewriterText text="The INIT Club" delay={0.3} speed={0.08} />
                         </h1>
                         <motion.p
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ duration: 1, delay: 1 }}
-                            className="text-[#00ffd5] font-mono text-sm mt-2"
+                            className="text-[#00ffd5] font-mono text-xs sm:text-sm mt-2 break-words"
                         >
                             &gt; git commit -m "start_legacy"
                         </motion.p>
@@ -74,7 +74,7 @@ export const GitGraph = () => {
                         height="100%"
                         viewBox={viewBox}
                         preserveAspectRatio="xMidYMid meet"
-                        className="max-w-7xl mx-auto"
+                        className="max-w-7xl mx-auto px-2"
                     >
                         {/* Render Edges first so lines are behind nodes */}
                         {edges.map(edge => {

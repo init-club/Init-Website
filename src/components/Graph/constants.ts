@@ -33,7 +33,7 @@ export const DESKTOP_NODES: GraphNode[] = [
 
     // Bottom branch: Events (Red)
     { id: 'c2_e', x: 450, y: 600, type: 'commit', delay: 1.1, color: COLORS.events },
-    { id: 'nav_events', x: 700, y: 750, type: 'nav', label: 'Join Us', path: '/contact', delay: 1.9, description: 'Join Us', color: COLORS.events, activePath: ['e1', 'e_e1', 'e_e2'] },
+    { id: 'nav_events', x: 700, y: 750, type: 'nav', label: 'Contact', path: '/contact', delay: 1.9, description: 'Join Us', color: COLORS.events, activePath: ['e1', 'e_e1', 'e_e2'] },
 
     // Split from Projects down: Contact (Blue)
     { id: 'nav_contact', x: 1050, y: 550, type: 'nav', label: 'Events', path: '/events', delay: 2.2, description: 'Hosted By Us', color: COLORS.contact, activePath: ['e1', 'e_p1', 'e_c1'] },
@@ -65,26 +65,27 @@ export const DESKTOP_EDGES: GraphEdge[] = [
 
 // Mobile Layout (Vertical)
 export const MOBILE_NODES: GraphNode[] = [
-    { id: 'init', x: 50, y: 50, type: 'start', delay: 0, color: COLORS.neutral },
-    { id: 'c1', x: 50, y: 150, type: 'commit', delay: 0.5, color: COLORS.neutral },
+    { id: 'init', x: 50, y: 140, type: 'start', delay: 0, color: COLORS.neutral },
+    { id: 'c1', x: 50, y: 240, type: 'commit', delay: 0.5, color: COLORS.neutral },
 
     // About
-    { id: 'nav_about', x: 120, y: 150, type: 'nav', label: 'About', path: '/about', delay: 0.8, color: COLORS.about, activePath: ['e1', 'e_a'] },
+    { id: 'nav_about', x: 120, y: 240, type: 'nav', label: 'About', path: '/about', delay: 0.8, color: COLORS.about, activePath: ['e1', 'e_a'] },
 
     // Projects
-    { id: 'c2', x: 50, y: 300, type: 'commit', delay: 0.9, color: COLORS.projects },
-    { id: 'nav_projects', x: 120, y: 300, type: 'nav', label: 'Projects', path: '/projects', delay: 1.3, color: COLORS.projects, activePath: ['e1', 'e_p1', 'e_p2'] },
+    { id: 'c2', x: 50, y: 360, type: 'commit', delay: 0.9, color: COLORS.projects },
+    { id: 'nav_projects', x: 120, y: 360, type: 'nav', label: 'Projects', path: '/projects', delay: 1.3, color: COLORS.projects, activePath: ['e1', 'e_p1', 'e_p2'] },
 
     // Events
-    { id: 'c3', x: 50, y: 450, type: 'commit', delay: 1.3, color: COLORS.events },
-    { id: 'nav_events', x: 120, y: 450, type: 'nav', label: 'Events', path: '/events', delay: 1.7, color: COLORS.events, activePath: ['e1', 'e_p1', 'e_e1', 'e_e2'] },
+    { id: 'c3', x: 50, y: 480, type: 'commit', delay: 1.3, color: COLORS.events },
+    { id: 'nav_events', x: 120, y: 480, type: 'nav', label: 'Events', path: '/events', delay: 1.7, color: COLORS.events, activePath: ['e1', 'e_p1', 'e_e1', 'e_e2'] },
 
     // Blogs
     { id: 'c4', x: 50, y: 600, type: 'commit', delay: 1.7, color: COLORS.blogs },
     { id: 'nav_blogs', x: 120, y: 600, type: 'nav', label: 'Blogs', path: '/blogs', delay: 2.1, color: COLORS.blogs, activePath: ['e1', 'e_p1', 'e_e1', 'e_b1', 'e_b2'] },
 
     // Contact
-    { id: 'nav_contact', x: 50, y: 750, type: 'nav', label: 'Contact', path: '/contact', delay: 2.1, color: COLORS.contact, activePath: ['e1', 'e_p1', 'e_e1', 'e_b1', 'e_c'] },
+    { id: 'c5', x: 50, y: 720, type: 'commit', delay: 2.1, color: COLORS.contact },
+    { id: 'nav_contact', x: 120, y: 720, type: 'nav', label: 'Contact', path: '/contact', delay: 2.5, color: COLORS.contact, activePath: ['e1', 'e_p1', 'e_e1', 'e_b1', 'e_c1', 'e_c2'] },
 ];
 
 export const MOBILE_EDGES: GraphEdge[] = [
@@ -101,5 +102,6 @@ export const MOBILE_EDGES: GraphEdge[] = [
     { id: 'e_b1', from: 'c3', to: 'c4', delay: 1.3, duration: 0.5 },
     { id: 'e_b2', from: 'c4', to: 'nav_blogs', delay: 1.7, duration: 0.4 },
 
-    { id: 'e_c', from: 'c4', to: 'nav_contact', delay: 1.7, duration: 0.5 },
+    { id: 'e_c1', from: 'c4', to: 'c5', delay: 1.7, duration: 0.5 },
+    { id: 'e_c2', from: 'c5', to: 'nav_contact', delay: 2.1, duration: 0.4 },
 ];
