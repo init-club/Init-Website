@@ -25,23 +25,23 @@ export const DESKTOP_NODES: GraphNode[] = [
     { id: 'c1', x: 200, y: 400, type: 'commit', delay: 0.5, color: COLORS.neutral },
 
     // About (Yellow) 
-    { id: 'c2_a', x: 400, y: 180, type: 'commit', delay: 0.8, color: COLORS.about },
-    { id: 'nav_about', x: 650, y: 80, type: 'nav', label: 'About', path: '/about', delay: 1.4, description: 'People behind the club', color: COLORS.about, activePath: ['e1', 'e_a1', 'e_a2'] },
+    { id: 'c2_a', x: 400, y: 250, type: 'commit', delay: 0.8, color: COLORS.about },
+    { id: 'nav_about', x: 550, y: 140, type: 'nav', label: 'About', path: '/about', delay: 1.4, description: 'People behind the club', color: COLORS.about, activePath: ['e1', 'e_a1', 'e_a2'] },
 
     //  Blogs (Cyan) 
     { id: 'c2_p', x: 650, y: 400, type: 'commit', delay: 1.0, color: COLORS.projects },
-    { id: 'nav_projects', x: 1000, y: 400, type: 'nav', label: 'Blogs', path: '/blogs', delay: 1.8, description: 'Technical posts and write-ups', color: COLORS.projects, activePath: ['e1', 'e_p1', 'e_p2'] },
+    { id: 'nav_projects', x: 900, y: 400, type: 'nav', label: 'Blogs', path: '/blogs', delay: 1.8, description: 'Technical posts and write-ups', color: COLORS.projects, activePath: ['e1', 'e_p1', 'e_p2'] },
 
     // Projects (Purple)
     { id: 'c3_b', x: 800, y: 250, type: 'commit', delay: 1.5, color: COLORS.blogs },
-    { id: 'nav_blogs', x: 1050, y: 180, type: 'nav', label: 'Projects', path: '/projects', delay: 2.1, description: 'Open-source work by the community', color: COLORS.blogs, activePath: ['e1', 'e_p1', 'e_b1', 'e_b2'] },
+    { id: 'nav_blogs', x: 950, y: 200, type: 'nav', label: 'Projects', path: '/projects', delay: 2.1, description: 'Open-source work by the community', color: COLORS.blogs, activePath: ['e1', 'e_p1', 'e_b1', 'e_b2'] },
 
     //  Join Us (Red) 
-    { id: 'c2_e', x: 450, y: 650, type: 'commit', delay: 1.1, color: COLORS.events },
-    { id: 'nav_events', x: 750, y: 750, type: 'nav', label: 'Join Us', path: '/contact', delay: 1.9, description: 'Join and contribute', color: COLORS.events, activePath: ['e1', 'e_e1', 'e_e2'] },
+    { id: 'c2_e', x: 450, y: 550, type: 'commit', delay: 1.1, color: COLORS.events },
+    { id: 'nav_events', x: 650, y: 700, type: 'nav', label: 'Join Us', path: '/contact', delay: 1.9, description: 'Join and contribute', color: COLORS.events, activePath: ['e1', 'e_e1', 'e_e2'] },
 
     // Event (Blue)
-    { id: 'nav_contact', x: 1050, y: 550, type: 'nav', label: 'Events', path: '/events', delay: 2.2, description: 'Workshops & hackathons', color: COLORS.contact, activePath: ['e1', 'e_p1', 'e_c1'] },
+    { id: 'nav_contact', x: 1000, y: 550, type: 'nav', label: 'Events', path: '/events', delay: 2.2, description: 'Workshops & hackathons', color: COLORS.contact, activePath: ['e1', 'e_p1', 'e_c1'] },
 ];
 
 export const DESKTOP_EDGES: GraphEdge[] = [
@@ -57,7 +57,7 @@ export const DESKTOP_EDGES: GraphEdge[] = [
     { id: 'e_p2', from: 'c2_p', to: 'nav_projects', delay: 1.1, duration: 0.8, color: '#00ffd5' },
 
     // C1 -> Events Chain - Red 
-    { id: 'e_e1', from: 'c1', to: 'c2_e', delay: 0.6, duration: 0.5, label: 'INTERESTED? JOIN US!', color: '#ff3366', labelDy: -15, labelOffset: '90%', labelAnchor: 'end' },
+    { id: 'e_e1', from: 'c1', to: 'c2_e', delay: 0.6, duration: 0.5, label: 'INTERESTED? JOIN US!', color: '#ff3366', labelDy: -15, labelOffset: '100%', labelAnchor: 'end' },
     { id: 'e_e2', from: 'c2_e', to: 'nav_events', delay: 1.1, duration: 0.8, color: '#ff3366' },
 
     // Projects -> Blogs Split - Purple 
@@ -94,7 +94,7 @@ export const MOBILE_NODES: GraphNode[] = [
 
     // Center continue to End
     { id: 'c3', x: 200, y: 660, type: 'commit', delay: 2.0, color: COLORS.contact },
-    { id: 'nav_contact', x: 200, y: 760, type: 'nav', label: 'Contact', path: '/contact', delay: 2.3, color: COLORS.contact, activePath: ['e1', 'e_2', 'e3', 'e_c1'], align: 'right' },
+    { id: 'nav_contact', x: 200, y: 760, type: 'nav', label: 'Join Us', path: '/contact', delay: 2.3, color: COLORS.contact, activePath: ['e1', 'e_2', 'e3', 'e_c1'], align: 'right' },
 ];
 
 export const MOBILE_EDGES: GraphEdge[] = [
