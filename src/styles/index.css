@@ -85,3 +85,131 @@ body {
     filter: brightness(1.2);
   }
 }
+
+/* Orb roaming */
+@keyframes orb1 {
+  from {
+    transform: translate(0vw, 0vh) scale(1);
+  }
+
+  to {
+    transform: translate(-18vw, 14vh) scale(1.15);
+  }
+}
+
+@keyframes orb2 {
+  from {
+    transform: translate(0vw, 0vh) scale(1.1);
+  }
+
+  to {
+    transform: translate(22vw, -16vh) scale(1);
+  }
+}
+
+@keyframes orb3 {
+  from {
+    transform: translate(0vw, 0vh) scale(1);
+  }
+
+  to {
+    transform: translate(-15vw, -20vh) scale(1.18);
+  }
+}
+
+@keyframes orb4 {
+  from {
+    transform: translate(0vw, 0vh) scale(1.05);
+  }
+
+  to {
+    transform: translate(25vw, 18vh) scale(1);
+  }
+}
+
+@keyframes orb5 {
+  from {
+    transform: translate(0vw, 0vh) scale(1);
+  }
+
+  to {
+    transform: translate(-20vw, 12vh) scale(1.12);
+  }
+}
+
+/* Color cycling */
+@keyframes hueShift1 {
+  from {
+    filter: hue-rotate(0deg);
+  }
+
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
+
+@keyframes hueShift2 {
+  from {
+    filter: hue-rotate(120deg);
+  }
+
+  to {
+    filter: hue-rotate(480deg);
+  }
+}
+
+@keyframes hueShift3 {
+  from {
+    filter: hue-rotate(240deg);
+  }
+
+  to {
+    filter: hue-rotate(600deg);
+  }
+}
+
+@keyframes hueShift4 {
+  from {
+    filter: hue-rotate(60deg);
+  }
+
+  to {
+    filter: hue-rotate(420deg);
+  }
+}
+
+@keyframes hueShift5 {
+  from {
+    filter: hue-rotate(180deg);
+  }
+
+  to {
+    filter: hue-rotate(540deg);
+  }
+}
+
+/* Glow clamp */
+@keyframes orbFade {
+  0% {
+    opacity: 0.6;
+  }
+
+  50% {
+    opacity: 0.85;
+  }
+
+  100% {
+    opacity: 0.6;
+  }
+}
+
+/* Scanner motion */
+@keyframes scannerMove {
+  from {
+    transform: translateX(-120%);
+  }
+
+  to {
+    transform: translateX(120%);
+  }
+}
