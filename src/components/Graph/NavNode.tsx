@@ -11,20 +11,24 @@ interface NavNodeProps {
     delay: number;
     description?: string;
     color?: string;
+    align?: 'left' | 'right';
+    isMobile?: boolean; //  prop to disable hover on mobile
     onMouseEnter?: () => void;
     onMouseLeave?: () => void;
 }
 
-export const NavNode = ({ x, y, label, path, delay, description, color = '#ffffff', onMouseEnter, onMouseLeave }: NavNodeProps) => {
+export const NavNode = ({ x, y, label, path, delay, description, color = '#ffffff', align = 'right', isMobile = false, onMouseEnter, onMouseLeave }: NavNodeProps) => {
     const navigate = useNavigate();
     const [isHovered, setIsHovered] = useState(false);
 
     const handleEnter = () => {
+        if (isMobile) return; // Disable hover on mobile
         setIsHovered(true);
         onMouseEnter?.();
     };
 
     const handleLeave = () => {
+        if (isMobile) return; // Disable hover on mobile
         setIsHovered(false);
         onMouseLeave?.();
     };
@@ -32,6 +36,9 @@ export const NavNode = ({ x, y, label, path, delay, description, color = '#fffff
     const handleClick = () => {
         navigate(path);
     };
+
+    const textX = align === 'right' ? x + 30 : x - 230;
+    const textAlignClass = align === 'right' ? 'items-start text-left' : 'items-end text-right';
 
     return (
         <motion.g
@@ -74,9 +81,9 @@ export const NavNode = ({ x, y, label, path, delay, description, color = '#fffff
             <circle cx={x} cy={y} r="4" fill={color} className="pointer-events-none" />
 
             {/* Label - Clickable/hoverable */}
-            <foreignObject x={x + 30} y={y - 25} width="200" height="60" className="overflow-visible">
+            <foreignObject x={textX} y={y - 25} width="200" height="60" className="overflow-visible">
                 <div
-                    className="flex flex-col items-start justify-center h-full cursor-pointer"
+                    className={`flex flex-col ${textAlignClass} justify-center h-full cursor-pointer`}
                     onMouseEnter={handleEnter}
                     onMouseLeave={handleLeave}
                     onClick={handleClick}

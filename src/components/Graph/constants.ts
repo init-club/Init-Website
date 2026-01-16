@@ -68,45 +68,53 @@ export const DESKTOP_EDGES: GraphEdge[] = [
     { id: 'e_c1', from: 'c2_p', to: 'nav_contact', delay: 1.1, duration: 1.0, label: 'HOSTED BY US FOR YOU', color: '#2979ff', labelDy: 25, labelOffset: '70%', labelAnchor: 'end' },
 ];
 
-// Mobile Layout (Vertical)
+// Mobile Layout (Upside Down Tree)
+// Mobile Layout (Upside Down Tree)
 export const MOBILE_NODES: GraphNode[] = [
-    { id: 'init', x: 50, y: 140, type: 'start', delay: 0, color: COLORS.neutral },
-    { id: 'c1', x: 50, y: 240, type: 'commit', delay: 0.5, color: COLORS.neutral },
+    // Root (Top Center)
+    { id: 'init', x: 200, y: 220, type: 'start', delay: 0, color: COLORS.neutral },
+    { id: 'c1', x: 200, y: 300, type: 'commit', delay: 0.5, color: COLORS.neutral },
 
-    // About
-    { id: 'nav_about', x: 120, y: 240, type: 'nav', label: 'About', path: '/about', delay: 0.8, color: COLORS.about, activePath: ['e1', 'e_a'] },
+    // Branch Split 1: About (Left) & Projects (Right)
+    { id: 'c2_a', x: 110, y: 360, type: 'commit', delay: 0.7, color: COLORS.about },
+    { id: 'nav_about', x: 110, y: 430, type: 'nav', label: 'About', path: '/about', delay: 1.0, color: COLORS.about, activePath: ['e1', 'e_a1', 'e_a2'], align: 'left' }, // Outward
 
-    // Projects
-    { id: 'c2', x: 50, y: 360, type: 'commit', delay: 0.9, color: COLORS.projects },
-    { id: 'nav_projects', x: 120, y: 360, type: 'nav', label: 'Projects', path: '/projects', delay: 1.3, color: COLORS.projects, activePath: ['e1', 'e_p1', 'e_p2'] },
+    { id: 'c2_p', x: 290, y: 360, type: 'commit', delay: 0.7, color: COLORS.projects },
+    { id: 'nav_projects', x: 290, y: 430, type: 'nav', label: 'Projects', path: '/projects', delay: 1.0, color: COLORS.projects, activePath: ['e1', 'e_p1', 'e_p2'], align: 'right' }, // Outward
 
-    // Events
-    { id: 'c3', x: 50, y: 480, type: 'commit', delay: 1.3, color: COLORS.events },
-    { id: 'nav_events', x: 120, y: 480, type: 'nav', label: 'Events', path: '/events', delay: 1.7, color: COLORS.events, activePath: ['e1', 'e_p1', 'e_e1', 'e_e2'] },
+    // Center continue
+    { id: 'c2', x: 200, y: 400, type: 'commit', delay: 1.2, color: COLORS.neutral },
 
-    // Blogs
-    { id: 'c4', x: 50, y: 600, type: 'commit', delay: 1.7, color: COLORS.blogs },
-    { id: 'nav_blogs', x: 120, y: 600, type: 'nav', label: 'Blogs', path: '/blogs', delay: 2.1, color: COLORS.blogs, activePath: ['e1', 'e_p1', 'e_e1', 'e_b1', 'e_b2'] },
+    // Branch Split 2: Events (Left) & Blogs (Right)
+    { id: 'c3_e', x: 110, y: 520, type: 'commit', delay: 1.5, color: COLORS.events },
+    { id: 'nav_events', x: 110, y: 590, type: 'nav', label: 'Events', path: '/events', delay: 1.8, color: COLORS.events, activePath: ['e1', 'e_2', 'e_e1', 'e_e2'], align: 'left' }, // Outward
 
-    // Contact
-    { id: 'c5', x: 50, y: 720, type: 'commit', delay: 2.1, color: COLORS.contact },
-    { id: 'nav_contact', x: 120, y: 720, type: 'nav', label: 'Contact', path: '/contact', delay: 2.5, color: COLORS.contact, activePath: ['e1', 'e_p1', 'e_e1', 'e_b1', 'e_c1', 'e_c2'] },
+    { id: 'c3_b', x: 290, y: 520, type: 'commit', delay: 1.5, color: COLORS.blogs },
+    { id: 'nav_blogs', x: 290, y: 590, type: 'nav', label: 'Blogs', path: '/blogs', delay: 1.8, color: COLORS.blogs, activePath: ['e1', 'e_2', 'e_b1', 'e_b2'], align: 'right' }, // Outward
+
+    // Center continue to End
+    { id: 'c3', x: 200, y: 660, type: 'commit', delay: 2.0, color: COLORS.contact },
+    { id: 'nav_contact', x: 200, y: 760, type: 'nav', label: 'Contact', path: '/contact', delay: 2.3, color: COLORS.contact, activePath: ['e1', 'e_2', 'e3', 'e_c1'], align: 'right' },
 ];
 
 export const MOBILE_EDGES: GraphEdge[] = [
+    // Root to First Split
     { id: 'e1', from: 'init', to: 'c1', delay: 0, duration: 0.6 },
+    { id: 'e_a1', from: 'c1', to: 'c2_a', delay: 0.5, duration: 0.5 }, // Left
+    { id: 'e_p1', from: 'c1', to: 'c2_p', delay: 0.5, duration: 0.5 }, // Right
+    { id: 'e_c_1', from: 'c1', to: 'c2', delay: 0.8, duration: 0.6 }, // Center down
 
-    { id: 'e_a', from: 'c1', to: 'nav_about', delay: 0.5, duration: 0.4 },
+    { id: 'e_a2', from: 'c2_a', to: 'nav_about', delay: 0.8, duration: 0.4 },
+    { id: 'e_p2', from: 'c2_p', to: 'nav_projects', delay: 0.8, duration: 0.4 },
 
-    { id: 'e_p1', from: 'c1', to: 'c2', delay: 0.5, duration: 0.5 },
-    { id: 'e_p2', from: 'c2', to: 'nav_projects', delay: 0.9, duration: 0.4 },
+    // Second Split
+    { id: 'e_e1', from: 'c2', to: 'c3_e', delay: 1.3, duration: 0.5 }, // Left
+    { id: 'e_b1', from: 'c2', to: 'c3_b', delay: 1.3, duration: 0.5 }, // Right
+    { id: 'e_c_2', from: 'c2', to: 'c3', delay: 1.6, duration: 0.6 }, // Center down
 
-    { id: 'e_e1', from: 'c2', to: 'c3', delay: 0.9, duration: 0.5 },
-    { id: 'e_e2', from: 'c3', to: 'nav_events', delay: 1.3, duration: 0.4 },
+    { id: 'e_e2', from: 'c3_e', to: 'nav_events', delay: 1.6, duration: 0.4 },
+    { id: 'e_b2', from: 'c3_b', to: 'nav_blogs', delay: 1.6, duration: 0.4 },
 
-    { id: 'e_b1', from: 'c3', to: 'c4', delay: 1.3, duration: 0.5 },
-    { id: 'e_b2', from: 'c4', to: 'nav_blogs', delay: 1.7, duration: 0.4 },
-
-    { id: 'e_c1', from: 'c4', to: 'c5', delay: 1.7, duration: 0.5 },
-    { id: 'e_c2', from: 'c5', to: 'nav_contact', delay: 2.1, duration: 0.4 },
+    // Final Node
+    { id: 'e_c1', from: 'c3', to: 'nav_contact', delay: 2.1, duration: 0.4 },
 ];

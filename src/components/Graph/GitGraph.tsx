@@ -66,7 +66,7 @@ export const GitGraph = () => {
 
                     {/* Hero Title */}
                     <motion.div
-                        className="absolute top-[8%] sm:top-[10%] left-[3%] right-[3%] sm:left-[5%] md:left-[10%] z-10 pointer-events-none"
+                        className="absolute top-[15%] sm:top-[12%] w-full left-0 md:left-[10%] md:w-auto md:text-left text-center z-10 pointer-events-none px-4"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: 0.5 }}
@@ -173,6 +173,8 @@ export const GitGraph = () => {
                                         delay={node.delay || 0}
                                         description={node.description}
                                         color={node.color}
+                                        align={node.align}
+                                        isMobile={isMobile}
                                         onMouseEnter={() => {
                                             if (node.activePath) {
                                                 setActiveEdges(node.activePath);
