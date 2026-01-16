@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { ThemeToggle } from './ThemeToggle';
 
 const navItems = [
   { label: 'Home', path: '/' },
@@ -16,8 +15,8 @@ const navLinkClasses = ({ isActive }: { isActive: boolean }) =>
     'px-4 py-2 text-sm font-medium rounded-full transition-all duration-300',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/50',
     isActive
-      ? 'bg-gradient-to-r from-cyan-500 to-teal-500 text-white shadow-lg shadow-cyan-500/25'
-      : 'text-[var(--text)] hover:text-[var(--accent)] hover:bg-[var(--glass-bg)]',
+      ? 'text-white shadow-md'
+      : 'text-[var(--text)] hover:bg-[var(--glass-bg)]',
   ].join(' ');
 
 export function Navbar() {
@@ -38,8 +37,8 @@ export function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled
-          ? 'py-2'
-          : 'py-3 sm:py-4'
+        ? 'py-2'
+        : 'py-3 sm:py-4'
         }`}
       style={{ backgroundColor: 'var(--bg)' }}
     >
@@ -54,8 +53,8 @@ export function Navbar() {
               to="/"
               className="group flex items-center gap-2"
             >
-              <div className="rounded-lg sm:rounded-xl bg-gradient-to-br from-cyan-500 to-teal-600 p-1.5 sm:p-2 shadow-lg shadow-cyan-500/20 transition-transform duration-300 group-hover:scale-105">
-                <span className="font-mono text-xs sm:text-sm font-bold text-white whitespace-nowrap">{'<Init Club/>'}</span>
+              <div className="rounded-lg sm:rounded-xl p-1.5 sm:p-2 transition-transform duration-300 group-hover:scale-105" style={{ background: 'linear-gradient(135deg, #00ffd5, #a855f7)' }}>
+                <span className="font-mono text-xs sm:text-sm font-bold whitespace-nowrap text-white">{'<Init Club/>'}</span>
               </div>
               {/* <span className="hidden sm:block font-semibold text-[var(--text)]">
                 Init Club
@@ -65,7 +64,15 @@ export function Navbar() {
             {/* Desktop Nav */}
             <nav className="hidden md:flex items-center gap-1 rounded-full glass px-2 py-1">
               {navItems.map((item) => (
-                <NavLink key={item.path} to={item.path} className={navLinkClasses}>
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  className={navLinkClasses}
+                  style={({ isActive }) => isActive ? {
+                    background: 'linear-gradient(90deg, #00ffd5, #a855f7)',
+                    color: 'white'
+                  } : {}}
+                >
                   {item.label}
                 </NavLink>
               ))}
@@ -73,8 +80,6 @@ export function Navbar() {
 
             {/* Right Section */}
             <div className="flex items-center gap-3">
-              <ThemeToggle />
-
               {/* Mobile Menu Button */}
               <button
                 type="button"
@@ -116,11 +121,17 @@ export function Navbar() {
                     'rounded-xl px-4 py-3 text-sm font-medium transition-all duration-300',
                     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/50',
                     isActive
-                      ? 'bg-gradient-to-r from-cyan-500 to-teal-500 text-white shadow-lg'
+                      ? 'text-white shadow-md'
                       : 'text-[var(--text)] hover:bg-[var(--glass-bg)]',
                   ].join(' ')
                 }
-                style={{ animationDelay: `${index * 50}ms` }}
+                style={({ isActive }) => ({
+                  animationDelay: `${index * 50}ms`,
+                  ...(isActive ? {
+                    background: 'linear-gradient(90deg, #00ffd5, #a855f7)',
+                    color: 'white'
+                  } : {})
+                })}
               >
                 {item.label}
               </NavLink>

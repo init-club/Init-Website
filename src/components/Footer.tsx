@@ -18,23 +18,11 @@ const socials = [
 
 export function Footer() {
   return (
-    <footer className="relative mt-20">
-      {/* Wave Separator */}
-      <div className="absolute -top-12 left-0 right-0 h-12 overflow-hidden">
-        <svg
-          viewBox="0 0 1440 100"
-          className="absolute bottom-0 w-full h-full"
-          preserveAspectRatio="none"
-        >
-          <path
-            fill="var(--glass-bg)"
-            d="M0,40 C360,80 720,0 1080,40 C1260,60 1380,50 1440,40 L1440,100 L0,100 Z"
-          />
-        </svg>
-      </div>
+    <footer className="relative mt-0">
+
 
       {/* Footer Content - Solid background*/}
-      <div className="relative z-20 pt-12 sm:pt-16 pb-8" style={{ background: 'var(--ocean-deep, #041525)' }}>
+      <div className="relative z-20 pt-12 sm:pt-16 pb-8" style={{ backgroundColor: 'var(--bg)' }}>
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="grid gap-8 sm:gap-10 md:grid-cols-[1.2fr,1fr,1fr]">
 
@@ -46,14 +34,15 @@ export function Footer() {
               transition={{ duration: 0.5 }}
             >
               <div className="flex items-center gap-2 sm:gap-3">
-                <div className="rounded-lg sm:rounded-xl bg-gradient-to-br from-cyan-500 to-teal-600 p-1.5 sm:p-2 shadow-lg shadow-cyan-500/20">
-                  <span className="font-mono text-xs sm:text-sm font-bold text-white whitespace-nowrap">{'<Init Club/>'}</span>
+                <div className="rounded-lg sm:rounded-xl p-1.5 sm:p-2" style={{ background: 'linear-gradient(135deg, #00ffd5, #a855f7)' }}>
+                  <span className="font-mono text-xs sm:text-sm font-bold whitespace-nowrap text-white">{'<Init Club/>'}</span>
                 </div>
-                {/* <span className="text-xl font-bold text-[var(--text)]">Init Club</span> */}
               </div>
-              <p className="mt-3 sm:mt-4 text-xs sm:text-sm text-[var(--muted)] leading-relaxed max-w-xs">
-                Empowering innovation through open-source collaboration.
-                Where ideas turn into impact.
+              <p className="mt-3 sm:mt-4 text-xs sm:text-sm leading-relaxed max-w-xs">
+                <span className="text-[var(--text)] font-medium ">Where Curiosity Turns into Contribution</span>
+              </p>
+              <p className="mt-2 text-[10px] sm:text-xs text-[var(--muted)]">
+                Amrita CBE's Open Source Community
               </p>
 
               {/* Social Links */}
@@ -66,7 +55,16 @@ export function Footer() {
                       href={item.href}
                       target="_blank"
                       rel="noreferrer"
-                      className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-lg sm:rounded-xl glass hover:bg-[var(--accent)] hover:text-white transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-cyan-500/20"
+                      className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-lg sm:rounded-xl glass transition-all duration-300 hover:scale-105"
+                      style={{ color: 'var(--text)' }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = 'linear-gradient(135deg, #00ffd5, #a855f7)';
+                        e.currentTarget.style.color = 'white';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = '';
+                        e.currentTarget.style.color = 'var(--text)';
+                      }}
                       aria-label={item.label}
                     >
                       <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -95,7 +93,24 @@ export function Footer() {
                   <NavLink
                     key={item.path}
                     to={item.path}
-                    className="text-xs sm:text-sm font-medium text-[var(--text)] hover:text-[var(--accent)] transition-colors duration-300 py-1"
+                    className="text-xs sm:text-sm font-medium transition-colors duration-300 py-1"
+                    style={({ isActive }) => ({
+                      color: isActive ? '#00ffd5' : 'var(--text)'
+                    })}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = 'linear-gradient(90deg, #00ffd5, #a855f7)';
+                      e.currentTarget.style.webkitBackgroundClip = 'text';
+                      e.currentTarget.style.webkitTextFillColor = 'transparent';
+                      e.currentTarget.style.backgroundClip = 'text';
+                    }}
+                    onMouseLeave={(e) => {
+                      if (e.currentTarget.getAttribute('aria-current') !== 'page') {
+                        e.currentTarget.style.background = '';
+                        e.currentTarget.style.webkitBackgroundClip = '';
+                        e.currentTarget.style.webkitTextFillColor = '';
+                        e.currentTarget.style.backgroundClip = '';
+                      }
+                    }}
                   >
                     {item.label}
                   </NavLink>
@@ -121,7 +136,16 @@ export function Footer() {
                 href="https://discord.gg/Gx8sdGJkU"
                 target="_blank"
                 rel="noreferrer"
-                className="group mt-3 sm:mt-4 inline-flex items-center gap-1.5 sm:gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl glass hover:bg-gradient-to-r hover:from-cyan-500 hover:to-teal-500 text-[var(--text)] hover:text-white transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/30 hover:scale-105 font-medium text-xs sm:text-sm whitespace-nowrap"
+                className="group mt-3 sm:mt-4 inline-flex items-center gap-1.5 sm:gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl glass transition-all duration-300 hover:scale-105 font-medium text-xs sm:text-sm whitespace-nowrap"
+                style={{ color: 'var(--text)' }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'linear-gradient(90deg, #00ffd5, #a855f7)';
+                  e.currentTarget.style.color = 'white';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = '';
+                  e.currentTarget.style.color = 'var(--text)';
+                }}
               >
                 Become a Member
                 <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
