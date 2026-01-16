@@ -153,6 +153,9 @@ export const GitGraph = () => {
                                     color={isHighlighted ? highlightColor : edge.color || '#555555'}
                                     isHighlighted={isHighlighted}
                                     label={edge.label}
+                                    labelDy={edge.labelDy}
+                                    labelOffset={edge.labelOffset}
+                                    labelAnchor={edge.labelAnchor}
                                 />
                             );
                         })}

@@ -13,9 +13,12 @@ interface EdgeProps {
     className?: string;
     isHighlighted?: boolean;
     label?: string;
+    labelDy?: number | string;
+    labelOffset?: number | string;
+    labelAnchor?: 'start' | 'middle' | 'end';
 }
 
-export const Edge = ({ id, x1, y1, x2, y2, delay, duration, color = '#334155', isHighlighted, label }: EdgeProps) => {
+export const Edge = ({ id, x1, y1, x2, y2, delay, duration, color = '#334155', isHighlighted, label, labelDy, labelOffset, labelAnchor }: EdgeProps) => {
     // Smooth horizontal Bezier curve
     const dist = Math.abs(x2 - x1);
     const cp1x = x1 + dist * 0.5;
@@ -59,7 +62,7 @@ export const Edge = ({ id, x1, y1, x2, y2, delay, duration, color = '#334155', i
             {label && (
                 <motion.text
                     className="pointer-events-none select-none"
-                    dy="-15"
+                    dy={labelDy || "-15"}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{
@@ -73,8 +76,8 @@ export const Edge = ({ id, x1, y1, x2, y2, delay, duration, color = '#334155', i
                 >
                     <textPath
                         href={`#${id}`}
-                        startOffset="50%"
-                        textAnchor="middle"
+                        startOffset={labelOffset || "50%"}
+                        textAnchor={labelAnchor || "middle"}
                         fill={color}
                         className="font-mono font-bold text-[11px] tracking-[0.2em] uppercase opacity-90"
                     >

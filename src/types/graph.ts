@@ -20,5 +20,8 @@ export interface GraphEdge {
     delay: number;
     duration: number;
     label?: string;
+    labelDy?: number | string;
+    labelOffset?: number | string;
+    labelAnchor?: 'start' | 'middle' | 'end';
     color?: string; // Edge color for glow
 }
