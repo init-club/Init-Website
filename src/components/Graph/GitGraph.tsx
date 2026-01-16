@@ -137,7 +137,6 @@ export const GitGraph = () => {
                                     type={node.type}
                                     delay={node.delay || 0}
                                     color={node.color}
-                                    commitMessage={node.commitMessage}
                                 />
                             );
                         })}

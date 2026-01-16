@@ -41,8 +41,8 @@ export const ComingSoon = ({ pageName }: ComingSoonProps) => {
                 />
 
                 <Node x={50} y={75} type="start" delay={0} color="#ffffff" />
-                <Node x={200} y={75} type="commit" delay={0.6} color="#ffffff" commitMessage="Initial build setup" />
-                <Node x={430} y={75} type="commit" delay={1.2} color="#00ffd5" commitMessage="Current progress..." />
+                <Node x={200} y={75} type="commit" delay={0.6} color="#ffffff" />
+                <Node x={430} y={75} type="commit" delay={1.2} color="#00ffd5" />
             </svg>
 
             <div className="relative z-10 px-4">

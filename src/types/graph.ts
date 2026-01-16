@@ -11,7 +11,6 @@ export interface GraphNode {
     description?: string; // Hover description
     activePath?: string[]; // IDs of edges to highlight on hover
     color?: string; // Custom accent color
-    commitMessage?: string; // Git commit message for tooltips
 }
 
 export interface GraphEdge {

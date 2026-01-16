@@ -14,25 +14,25 @@ const COLORS = {
 
 export const DESKTOP_NODES: GraphNode[] = [
     // Origin
-    { id: 'init', x: 50, y: 400, type: 'start', delay: 0, color: COLORS.neutral, commitMessage: 'Initial commit' },
+    { id: 'init', x: 50, y: 400, type: 'start', delay: 0, color: COLORS.neutral },
 
     // First Commit
-    { id: 'c1', x: 200, y: 400, type: 'commit', delay: 0.5, color: COLORS.neutral, commitMessage: 'feat: setup project structure' },
+    { id: 'c1', x: 200, y: 400, type: 'commit', delay: 0.5, color: COLORS.neutral },
 
     // Top branch: About (Yellow)
-    { id: 'c2_a', x: 350, y: 200, type: 'commit', delay: 0.8, color: COLORS.about, commitMessage: 'docs: update mission statement' },
+    { id: 'c2_a', x: 350, y: 200, type: 'commit', delay: 0.8, color: COLORS.about },
     { id: 'nav_about', x: 550, y: 100, type: 'nav', label: 'About', path: '/about', delay: 1.4, description: 'About The Club', color: COLORS.about, activePath: ['e1', 'e_a1', 'e_a2'] },
 
     // Main line: Projects (Cyan)
-    { id: 'c2_p', x: 500, y: 400, type: 'commit', delay: 1.0, color: COLORS.projects, commitMessage: 'feat: add project gallery' },
+    { id: 'c2_p', x: 500, y: 400, type: 'commit', delay: 1.0, color: COLORS.projects },
     { id: 'nav_projects', x: 850, y: 400, type: 'nav', label: 'Blogs', path: '/blogs', delay: 1.8, description: 'Tech Posts', color: COLORS.projects, activePath: ['e1', 'e_p1', 'e_p2'] },
 
     // Split from Projects up: Blogs (Purple)
-    { id: 'c3_b', x: 700, y: 250, type: 'commit', delay: 1.5, color: COLORS.blogs, commitMessage: 'content: new tech stack post' },
+    { id: 'c3_b', x: 700, y: 250, type: 'commit', delay: 1.5, color: COLORS.blogs },
     { id: 'nav_blogs', x: 950, y: 180, type: 'nav', label: 'Projects', path: '/projects', delay: 2.1, description: 'Our Projects', color: COLORS.blogs, activePath: ['e1', 'e_p1', 'e_b1', 'e_b2'] },
 
     // Bottom branch: Events (Red)
-    { id: 'c2_e', x: 450, y: 600, type: 'commit', delay: 1.1, color: COLORS.events, commitMessage: 'fix: event calendar sync' },
+    { id: 'c2_e', x: 450, y: 600, type: 'commit', delay: 1.1, color: COLORS.events },
     { id: 'nav_events', x: 700, y: 750, type: 'nav', label: 'Join Us', path: '/contact', delay: 1.9, description: 'Join Us', color: COLORS.events, activePath: ['e1', 'e_e1', 'e_e2'] },
 
     // Split from Projects down: Contact (Blue)
