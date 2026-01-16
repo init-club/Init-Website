@@ -1,67 +1,93 @@
 import { motion } from 'framer-motion';
-import { Construction, ArrowLeft } from 'lucide-react';
+import { Edge } from './Graph/Edge';
+import { Node } from './Graph/Node';
+import { useNavigate } from 'react-router-dom';
+import { GraphBackground } from './Graph/GraphBackground';
+import { GlitchText } from './Graph/GlitchText';
 
 interface ComingSoonProps {
     pageName: string;
 }
-export default function ComingSoon({ pageName }: ComingSoonProps) {
+
+export const ComingSoon = ({ pageName }: ComingSoonProps) => {
+    const navigate = useNavigate();
+
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen md:min-h-[60vh] relative px-4 py-8">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[250px] h-[250px] md:w-[500px] md:h-[500px] bg-cyan-500/10 rounded-full blur-[60px] md:blur-[100px] pointer-events-none" />
+        <div className="w-full h-screen bg-black relative overflow-hidden flex flex-col items-center justify-center text-center">
+            <GraphBackground />
 
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                className="glass relative z-10 p-6 md:p-14 rounded-[2rem] max-w-md md:max-w-2xl w-full border border-white/10 shadow-2xl overflow-hidden"
-            >
-                {/* Animated Background Elements inside card */}
-                <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                </div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#00ffd5]/5 rounded-full blur-[120px] pointer-events-none" />
 
-                <div className="relative z-10 flex flex-col items-center text-center">
-                    {/* Main Icon */}
-                    <div className="relative mb-8">
-                        <div className="absolute inset-0 bg-cyan-400/20 blur-xl rounded-full" />
-                        <motion.div
-                            animate={{ rotate: [0, 10, 0, -10, 0] }}
-                            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                            className="relative bg-gradient-to-br from-cyan-900/50 to-teal-900/50 p-6 rounded-2xl border border-white/10 shadow-inner"
-                        >
-                            <Construction className="w-16 h-16 text-cyan-400" />
-                        </motion.div>
-                    </div>
+            <svg width="500" height="150" viewBox="0 0 500 150" className="mb-12 relative z-10">
 
-                    <h1 className="text-5xl md:text-6xl font-bold mb-4 tracking-tight">
-                        <span className="bg-gradient-to-r from-cyan-200 via-teal-200 to-white bg-clip-text text-transparent">
-                            {pageName}
-                        </span>
-                    </h1>
+                <Edge
+                    id="cs-e1"
+                    x1={50} y1={75}
+                    x2={200} y2={75}
+                    delay={0.2}
+                    duration={0.6}
+                    color="#ffffff"
+                    isHighlighted={true}
+                />
+                <Edge
+                    id="cs-e2"
+                    x1={200} y1={75}
+                    x2={430} y2={75}
+                    delay={0.6}
+                    duration={0.8}
+                    color="#00ffd5"
+                    isHighlighted={true}
+                    label="DEVELOPMENT"
+                />
 
-                    <div className="flex items-center gap-3 mb-8">
-                        <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-cyan-500/50" />
-                        <span className="text-cyan-400 font-mono text-sm tracking-widest uppercase">Under Construction</span>
-                        <div className="h-[1px] w-12 bg-gradient-to-l from-transparent to-cyan-500/50" />
-                    </div>
+                <Node x={50} y={75} type="start" delay={0} color="#ffffff" />
+                <Node x={200} y={75} type="commit" delay={0.6} color="#ffffff" commitMessage="Initial build setup" />
+                <Node x={430} y={75} type="commit" delay={1.2} color="#00ffd5" commitMessage="Current progress..." />
+            </svg>
 
-                    <p className="text-lg text-[var(--text)]/80 max-w-md mx-auto leading-relaxed mb-10">
-                        Our team is currently diving deep to build this page.
-                        Check back soon for something amazing!
+            <div className="relative z-10 px-4">
+                <motion.h1
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1.5 }}
+                    className="text-3xl md:text-6xl font-black text-white mb-6 font-mono tracking-tighter"
+                >
+                    PAGE_STATUS: <span className="text-[#00ffd5]">
+                        <GlitchText text="UNDER_CONSTRUCTION" delay={1.8} />
+                    </span>
+                </motion.h1>
+
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 0.6 }}
+                    transition={{ delay: 2.0 }}
+                    className="space-y-2"
+                >
+                    <p className="text-[#00ffd5]/80 font-mono text-sm uppercase tracking-[0.3em]">
+                        Branch: {pageName.toLowerCase().replace(' ', '-')}
                     </p>
+                    <p className="text-slate-500 font-mono text-xs max-w-md mx-auto leading-relaxed">
+                        The requested feature is currently being compiled. <br />
+                        Access will be granted once the merge is complete.
+                    </p>
+                </motion.div>
 
-                    <button
-                        onClick={() => window.location.href = '/'}
-                        className="group relative px-8 py-3 rounded-xl overflow-hidden transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
-                    >
-                        <div className="absolute inset-0 bg-gradient-to-r from-cyan-600 to-teal-600 opacity-90 transition-opacity group-hover:opacity-100" />
-                        <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-teal-400 opacity-0 group-hover:opacity-20 blur-md transition-opacity" />
-                        <div className="relative flex items-center gap-2 text-white font-semibold">
-                            <ArrowLeft size={18} className="transition-transform group-hover:-translate-x-1" />
-                            <span>Return Home</span>
-                        </div>
-                    </button>
-                </div>
-            </motion.div>
+                <motion.button
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 2.5 }}
+                    onClick={() => navigate('/')}
+                    className="mt-16 group relative"
+                >
+                    <div className="absolute -inset-1 bg-gradient-to-r from-[#00ffd5] to-[#2979ff] rounded blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
+                    <div className="relative px-8 py-3 bg-black border border-white/10 rounded-sm leading-none flex items-center">
+                        <span className="text-xs font-mono text-[#00ffd5] group-hover:text-white transition duration-200 uppercase tracking-[0.2em]">
+                            Return to Source (Main)
+                        </span>
+                    </div>
+                </motion.button>
+            </div>
+
         </div>
     );
-}
+};

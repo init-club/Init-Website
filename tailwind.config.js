@@ -7,6 +7,10 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Orbitron', 'sans-serif'],
+        mono: ['Orbitron', 'monospace'],
+      },
       animation: {
         powerOn: 'powerOn 1.8s ease forwards',
         glowPulse: 'glowPulse 1.8s ease-out forwards',

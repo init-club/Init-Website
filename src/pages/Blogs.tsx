@@ -1,4 +1,4 @@
-import ComingSoon from '../components/ComingSoon.tsx';
+import { ComingSoon } from '../components/ComingSoon';
 
 export default function BlogsPage() {
   return <ComingSoon pageName="Blogs" />;
