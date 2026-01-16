@@ -18,7 +18,7 @@ const socials = [
 
 export function Footer() {
   return (
-    <footer className="relative mt-0">
+    <footer className="relative mt-0 hidden md:block">
 
 
       {/* Footer Content - Solid background*/}
