@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Instagram, Linkedin } from 'lucide-react';
 import { DESKTOP_NODES, DESKTOP_EDGES, MOBILE_NODES, MOBILE_EDGES } from './constants';
 import { Node } from './Node';
 import { Edge } from './Edge';
@@ -122,6 +123,25 @@ export const GitGraph = () => {
                         >
                             &gt; git commit -m "<span className="text-white" style={{ textShadow: '0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.4)' }}>Where Curiosity Turns into Contribution</span>"
                         </motion.p>
+
+                        {/* Mobile Socials in Hero */}
+                        <div className="md:hidden flex items-center justify-center gap-10 mt-6">
+                            {[{ label: 'LinkedIn', href: 'https://www.linkedin.com', icon: Linkedin }, { label: 'Instagram', href: 'https://www.instagram.com/the.init.club?igsh=MTFlcWg1eWIyMTNyaA==', icon: Instagram }].map((social, index) => (
+                                <motion.a
+                                    key={social.label}
+                                    href={social.href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 2.5 + (index * 0.1) }}
+                                    className="p-2 rounded-lg bg-[var(--white-5)] border border-[var(--white-10)] text-[var(--muted)] hover:text-[#00ffd5] hover:border-[#00ffd5]/50 transition-colors"
+                                    aria-label={social.label}
+                                >
+                                    <social.icon size={18} />
+                                </motion.a>
+                            ))}
+                        </div>
                     </motion.div>
 
                     <svg
