@@ -74,7 +74,7 @@ export const GitGraph = () => {
                         {/* Title with gradient "INIT" */}
                         <h1 className="text-xl sm:text-3xl md:text-5xl font-black tracking-tighter break-words" style={{ fontFamily: 'var(--font-heading)' }}>
                             <span style={{ color: 'var(--text)' }}>
-                                <TypewriterText text="The " delay={0.3} speed={0.08} />
+                                <TypewriterText text="The < " delay={0.3} speed={0.08} />
                             </span>
                             <span
                                 style={{
@@ -88,7 +88,7 @@ export const GitGraph = () => {
                                 <TypewriterText text="INIT" delay={0.62} speed={0.08} />
                             </span>
                             <span style={{ color: 'var(--text)' }}>
-                                <TypewriterText text=" Club" delay={0.94} speed={0.08} />
+                                <TypewriterText text=" Club />" delay={0.94} speed={0.08} />
                             </span>
                         </h1>
 
