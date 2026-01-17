@@ -132,24 +132,48 @@ export function Footer() {
               <p className="mt-2 text-xs sm:text-sm text-[var(--muted)]">
                 Stay updated with events, workshops, and showcases.
               </p>
-              <a
+              <motion.a
                 href="https://discord.gg/Gx8sdGJkU"
                 target="_blank"
                 rel="noreferrer"
-                className="group mt-3 sm:mt-4 inline-flex items-center gap-1.5 sm:gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl glass transition-all duration-300 hover:scale-105 font-medium text-xs sm:text-sm whitespace-nowrap"
+                className="group relative mt-3 sm:mt-4 inline-flex items-center gap-1.5 sm:gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl glass overflow-hidden font-medium text-xs sm:text-sm whitespace-nowrap"
                 style={{ color: 'var(--text)' }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'linear-gradient(90deg, #00ffd5, #a855f7)';
-                  e.currentTarget.style.color = 'white';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = '';
-                  e.currentTarget.style.color = 'var(--text)';
+                initial="initial"
+                whileHover="hover"
+                whileTap="tap"
+                variants={{
+                  initial: { scale: 1 },
+                  hover: { scale: 1.05 },
+                  tap: { scale: 0.95 }
                 }}
               >
-                Become a Member
-                <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-              </a>
+                {/* Laser Fill Animation */}
+                <motion.div
+                  className="absolute inset-0 z-0 origin-left"
+                  style={{ background: 'linear-gradient(90deg, #00ffd5, #a855f7)' }}
+                  variants={{
+                    initial: { scaleX: 0 },
+                    hover: { scaleX: 1 }
+                  }}
+                  transition={{ duration: 0.2, ease: "linear" }}
+                />
+
+                {/* Scanning Line */}
+                <motion.div
+                  className="absolute inset-y-0 z-10 w-0.5 bg-white shadow-[0_0_10px_rgba(255,255,255,0.8),0_0_20px_rgba(0,255,213,0.5)]"
+                  variants={{
+                    initial: { left: '0%', opacity: 0 },
+                    hover: { left: '100%', opacity: 1 }
+                  }}
+                  transition={{ duration: 0.2, ease: "linear" }}
+                />
+
+                {/* Text Content (z-10 to stay on top) */}
+                <span className="relative z-10 flex items-center gap-2 transition-colors duration-300 group-hover:text-white">
+                  Become a Member
+                  <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                </span>
+              </motion.a>
             </motion.div>
           </div>
 
