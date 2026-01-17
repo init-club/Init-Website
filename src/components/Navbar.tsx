@@ -12,14 +12,7 @@ const navItems = [
   { label: 'Contact', path: '/contact' },
 ];
 
-const navLinkClasses = ({ isActive }: { isActive: boolean }) =>
-  [
-    'px-4 py-2 text-sm font-medium rounded-full transition-all duration-300',
-    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/50',
-    isActive
-      ? 'text-white shadow-md'
-      : 'text-[var(--text)] hover:bg-[var(--glass-bg)]',
-  ].join(' ');
+
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
