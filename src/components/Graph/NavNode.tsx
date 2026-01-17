@@ -107,7 +107,7 @@ export const NavNode = ({ x, y, label, path, delay, description, color = '#fffff
                             style={{
                                 color: color,
                                 opacity: 0.6,
-                                textShadow: `0 0 4px ${color}`
+                                textShadow: isMobile ? 'none' : `0 0 4px ${color}`
                             }}
                         >
                             {description}

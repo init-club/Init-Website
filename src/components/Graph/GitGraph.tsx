@@ -63,11 +63,11 @@ export const GitGraph = () => {
             {/* Only render content after loading */}
             {!isLoading && (
                 <>
-                    <GraphBackground />
+                    <GraphBackground isMobile={isMobile} />
 
                     {/* Hero Title */}
                     <motion.div
-                        className="absolute top-[15%] sm:top-[12%] w-full left-0 md:left-[10%] md:w-auto md:text-left text-center z-10 pointer-events-none px-4"
+                        className="absolute top-[5%] sm:top-[4%] w-full left-0 md:left-[10%] md:w-auto md:text-left text-center z-10 pointer-events-none px-4"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: 0.5 }}
@@ -176,6 +176,7 @@ export const GitGraph = () => {
                                     labelDy={edge.labelDy}
                                     labelOffset={edge.labelOffset}
                                     labelAnchor={edge.labelAnchor}
+                                    isMobile={isMobile}
                                 />
                             );
                         })}
@@ -222,21 +223,25 @@ export const GitGraph = () => {
                         })}
                     </svg>
 
-                    {/* Scroll Connector Line */}
-                    <motion.div
-                        className="absolute bottom-0 left-1/2 -translate-x-1/2 h-24 w-[1px] bg-gradient-to-b from-transparent via-[#00ffd5]/50 to-[#00ffd5]"
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 96, opacity: 1 }}
-                        transition={{ delay: 3, duration: 1, ease: "easeOut" }}
-                    />
-                    <motion.div
-                        className="absolute bottom-4 left-1/2 -translate-x-1/2 text-[#00ffd5]/50 text-[10px] font-mono"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: [0, 1, 0] }}
-                        transition={{ delay: 4, duration: 2, repeat: Infinity }}
-                    >
-                        scroll
-                    </motion.div>
+                    {/* Scroll Connector Line - Desktop Only */}
+                    {!isMobile && (
+                        <>
+                            <motion.div
+                                className="absolute bottom-0 left-1/2 -translate-x-1/2 h-24 w-[1px] bg-gradient-to-b from-transparent via-[#00ffd5]/50 to-[#00ffd5]"
+                                initial={{ height: 0, opacity: 0 }}
+                                animate={{ height: 96, opacity: 1 }}
+                                transition={{ delay: 3, duration: 1, ease: "easeOut" }}
+                            />
+                            <motion.div
+                                className="absolute bottom-4 left-1/2 -translate-x-1/2 text-[#00ffd5]/50 text-[10px] font-mono"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: [0, 1, 0] }}
+                                transition={{ delay: 4, duration: 2, repeat: Infinity }}
+                            >
+                                scroll
+                            </motion.div>
+                        </>
+                    )}
                 </>
             )}
         </div>

@@ -72,29 +72,29 @@ export const DESKTOP_EDGES: GraphEdge[] = [
 // Mobile Layout (Upside Down Tree)
 export const MOBILE_NODES: GraphNode[] = [
     // Root (Top Center)
-    { id: 'init', x: 200, y: 220, type: 'start', delay: 0, color: COLORS.neutral },
-    { id: 'c1', x: 200, y: 300, type: 'commit', delay: 0.5, color: COLORS.neutral },
+    { id: 'init', x: 200, y: 150, type: 'start', delay: 0, color: COLORS.neutral },
+    { id: 'c1', x: 200, y: 230, type: 'commit', delay: 0.5, color: COLORS.neutral },
 
     // Branch Split 1: About (Left) & Projects (Right)
-    { id: 'c2_a', x: 110, y: 360, type: 'commit', delay: 0.7, color: COLORS.about },
-    { id: 'nav_about', x: 110, y: 430, type: 'nav', label: 'About', path: '/about', delay: 1.0, color: COLORS.about, activePath: ['e1', 'e_a1', 'e_a2'], align: 'left' }, // Outward
+    { id: 'c2_a', x: 110, y: 290, type: 'commit', delay: 0.7, color: COLORS.about },
+    { id: 'nav_about', x: 110, y: 360, type: 'nav', label: 'About', path: '/about', delay: 1.0, color: COLORS.about, activePath: ['e1', 'e_a1', 'e_a2'], align: 'left' }, // Outward
 
-    { id: 'c2_p', x: 290, y: 360, type: 'commit', delay: 0.7, color: COLORS.projects },
-    { id: 'nav_projects', x: 290, y: 430, type: 'nav', label: 'Projects', path: '/projects', delay: 1.0, color: COLORS.projects, activePath: ['e1', 'e_p1', 'e_p2'], align: 'right' }, // Outward
+    { id: 'c2_p', x: 290, y: 290, type: 'commit', delay: 0.7, color: COLORS.projects },
+    { id: 'nav_projects', x: 290, y: 360, type: 'nav', label: 'Projects', path: '/projects', delay: 1.0, color: COLORS.projects, activePath: ['e1', 'e_p1', 'e_p2'], align: 'right' }, // Outward
 
     // Center continue
-    { id: 'c2', x: 200, y: 400, type: 'commit', delay: 1.2, color: COLORS.neutral },
+    { id: 'c2', x: 200, y: 330, type: 'commit', delay: 1.2, color: COLORS.neutral },
 
     // Branch Split 2: Events (Left) & Blogs (Right)
-    { id: 'c3_e', x: 110, y: 520, type: 'commit', delay: 1.5, color: COLORS.events },
-    { id: 'nav_events', x: 110, y: 590, type: 'nav', label: 'Events', path: '/events', delay: 1.8, color: COLORS.events, activePath: ['e1', 'e_2', 'e_e1', 'e_e2'], align: 'left' }, // Outward
+    { id: 'c3_e', x: 110, y: 450, type: 'commit', delay: 1.5, color: COLORS.events },
+    { id: 'nav_events', x: 110, y: 520, type: 'nav', label: 'Events', path: '/events', delay: 1.8, color: COLORS.events, activePath: ['e1', 'e_2', 'e_e1', 'e_e2'], align: 'left' }, // Outward
 
-    { id: 'c3_b', x: 290, y: 520, type: 'commit', delay: 1.5, color: COLORS.blogs },
-    { id: 'nav_blogs', x: 290, y: 590, type: 'nav', label: 'Blogs', path: '/blogs', delay: 1.8, color: COLORS.blogs, activePath: ['e1', 'e_2', 'e_b1', 'e_b2'], align: 'right' }, // Outward
+    { id: 'c3_b', x: 290, y: 450, type: 'commit', delay: 1.5, color: COLORS.blogs },
+    { id: 'nav_blogs', x: 290, y: 520, type: 'nav', label: 'Blogs', path: '/blogs', delay: 1.8, color: COLORS.blogs, activePath: ['e1', 'e_2', 'e_b1', 'e_b2'], align: 'right' }, // Outward
 
     // Center continue to End
-    { id: 'c3', x: 200, y: 660, type: 'commit', delay: 2.0, color: COLORS.contact },
-    { id: 'nav_contact', x: 200, y: 760, type: 'nav', label: 'Join Us', path: '/contact', delay: 2.3, color: COLORS.contact, activePath: ['e1', 'e_2', 'e3', 'e_c1'], align: 'right' },
+    { id: 'c3', x: 200, y: 590, type: 'commit', delay: 2.0, color: COLORS.contact },
+    { id: 'nav_contact', x: 200, y: 630, type: 'nav', label: 'Join Us', path: '/contact', delay: 2.3, color: COLORS.contact, activePath: ['e1', 'e_2', 'e3', 'e_c1'], align: 'right' },
 ];
 
 export const MOBILE_EDGES: GraphEdge[] = [

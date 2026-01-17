@@ -16,9 +16,10 @@ interface EdgeProps {
     labelDy?: number | string;
     labelOffset?: number | string;
     labelAnchor?: 'start' | 'middle' | 'end';
+    isMobile?: boolean;
 }
 
-export const Edge = ({ id, x1, y1, x2, y2, delay, duration, color = '#334155', isHighlighted, label, labelDy, labelOffset, labelAnchor }: EdgeProps) => {
+export const Edge = ({ id, x1, y1, x2, y2, delay, duration, color = '#334155', isHighlighted, label, labelDy, labelOffset, labelAnchor, isMobile = false, }: EdgeProps) => {
     // Smooth horizontal Bezier curve
     const dist = Math.abs(x2 - x1);
     const cp1x = x1 + dist * 0.5;
@@ -28,23 +29,25 @@ export const Edge = ({ id, x1, y1, x2, y2, delay, duration, color = '#334155', i
 
     const pathD = `M ${x1} ${y1} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${x2} ${y2}`;
 
-    // Non-hover: White/neutral stroke with subtle colored glow
-    // Hover: Full branch color stroke with stronger glow
-    const strokeColor = isHighlighted ? color : '#555555';
+    // Non-hover: Branch color stroke with glow
+    // Hover: Brighter version
     const glowColor = color; // Always use the branch color for glow
 
-    const glowIntensity = isHighlighted
-        ? `drop-shadow(0 0 4px ${glowColor}) drop-shadow(0 0 10px ${glowColor}) drop-shadow(0 0 20px ${glowColor})`
-        : `drop-shadow(0 0 4px ${glowColor}) drop-shadow(0 0 10px ${glowColor}) drop-shadow(0 0 18px ${glowColor})`;
+    // Desktop: Full glow filters. Mobile: No filters for performance
+    const glowIntensity = isMobile
+        ? 'none'
+        : isHighlighted
+            ? `drop-shadow(0 0 4px ${glowColor}) drop-shadow(0 0 10px ${glowColor}) drop-shadow(0 0 20px ${glowColor})`
+            : `drop-shadow(0 0 4px ${glowColor}) drop-shadow(0 0 10px ${glowColor}) drop-shadow(0 0 18px ${glowColor})`;
 
     return (
         <g>
-            {/* Main line */}
+            {/* Main colored path with glow */}
             <motion.path
                 id={id}
                 d={pathD}
                 fill="none"
-                stroke={strokeColor}
+                stroke={color}
                 strokeWidth={6}
                 strokeLinecap="round"
                 style={{ filter: glowIntensity }}
@@ -71,7 +74,7 @@ export const Edge = ({ id, x1, y1, x2, y2, delay, duration, color = '#334155', i
                         ease: "easeOut"
                     }}
                     style={{
-                        filter: `drop-shadow(0 0 3px ${color})`
+                        filter: isMobile ? 'none' : `drop-shadow(0 0 3px ${color})`
                     }}
                 >
                     <textPath
