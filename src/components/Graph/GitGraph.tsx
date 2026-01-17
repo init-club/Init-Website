@@ -11,10 +11,19 @@ import { TypewriterText } from './TypewriterText';
 import type { GraphNode } from './constants';
 
 export const GitGraph = () => {
-    const [isMobile, setIsMobile] = useState(false);
+    const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' ? window.innerWidth < 768 : false);
     const [activeEdges, setActiveEdges] = useState<string[]>([]);
     const [highlightColor, setHighlightColor] = useState<string>('#fff');
-    const [isLoading, setIsLoading] = useState(true);
+    // Check checking session storage for loader
+    const [shouldShowLoader] = useState(() => {
+        return !sessionStorage.getItem('has_seen_intro');
+    });
+
+    const [isLoading, setIsLoading] = useState(shouldShowLoader);
+
+    // Only skip animations if loader is not shown
+    const skipAnimation = !shouldShowLoader;
+
     const [, forceUpdate] = useState({});
 
     useEffect(() => {
@@ -56,7 +65,13 @@ export const GitGraph = () => {
             {/* Loading Animation */}
             <AnimatePresence>
                 {isLoading && (
-                    <GitCloneLoader onComplete={() => setIsLoading(false)} duration={2500} />
+                    <GitCloneLoader
+                        onComplete={() => {
+                            setIsLoading(false);
+                            sessionStorage.setItem('has_seen_intro', 'true');
+                        }}
+                        duration={2500}
+                    />
                 )}
             </AnimatePresence>
 
@@ -70,12 +85,12 @@ export const GitGraph = () => {
                         className="absolute top-[5%] sm:top-[4%] w-full left-0 md:left-[10%] md:w-auto md:text-left text-center z-10 pointer-events-none px-4"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        transition={{ duration: 0.5 }}
+                        transition={{ duration: skipAnimation ? 0 : 0.5 }}
                     >
                         {/* Title with gradient "INIT" */}
                         <h1 className="text-xl sm:text-3xl md:text-5xl font-black tracking-tighter break-words" style={{ fontFamily: 'var(--font-heading)' }}>
                             <span style={{ color: 'var(--text)' }}>
-                                <TypewriterText text="The < " delay={0.3} speed={0.08} />
+                                <TypewriterText text="The < " delay={skipAnimation ? 0 : 0.3} speed={skipAnimation ? 0 : 0.08} />
                             </span>
                             <span
                                 style={{
@@ -86,10 +101,10 @@ export const GitGraph = () => {
                                     display: 'inline-block'
                                 }}
                             >
-                                <TypewriterText text="INIT" delay={0.62} speed={0.08} />
+                                <TypewriterText text="INIT" delay={skipAnimation ? 0 : 0.62} speed={skipAnimation ? 0 : 0.08} />
                             </span>
                             <span style={{ color: 'var(--text)' }}>
-                                <TypewriterText text=" Club />" delay={0.94} speed={0.08} />
+                                <TypewriterText text=" Club />" delay={skipAnimation ? 0 : 0.94} speed={skipAnimation ? 0 : 0.08} />
                             </span>
                         </h1>
 
@@ -97,7 +112,7 @@ export const GitGraph = () => {
                         <motion.p
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
-                            transition={{ duration: 0.8, delay: 1.5 }}
+                            transition={{ duration: 0.8, delay: skipAnimation ? 0 : 1.5 }}
                             className="text-[var(--muted)] text-xs sm:text-sm md:text-base mt-3 break-words font-semibold tracking-wide"
                         >
                             Amrita CBE's Open Source Community
@@ -107,7 +122,7 @@ export const GitGraph = () => {
                         <motion.p
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
-                            transition={{ duration: 1, delay: 2 }}
+                            transition={{ duration: 1, delay: skipAnimation ? 0 : 2 }}
                             className="text-[#00ffd5] font-mono text-xs sm:text-sm mt-4 break-words pointer-events-auto cursor-default tracking-wider"
                             style={{
                                 fontFamily: 'var(--font-mono)',
@@ -168,8 +183,8 @@ export const GitGraph = () => {
                                     y1={fromNode.y}
                                     x2={toNode.x}
                                     y2={toNode.y}
-                                    delay={edge.delay}
-                                    duration={edge.duration}
+                                    delay={skipAnimation ? 0 : edge.delay}
+                                    duration={skipAnimation ? 0 : edge.duration}
                                     color={isHighlighted ? highlightColor : edge.color || toNode?.color || '#555555'}
                                     isHighlighted={isHighlighted}
                                     label={edge.label}
@@ -191,7 +206,7 @@ export const GitGraph = () => {
                                         y={node.y}
                                         label={node.label || ''}
                                         path={node.path || '/'}
-                                        delay={node.delay || 0}
+                                        delay={skipAnimation ? 0 : (node.delay || 0)}
                                         description={node.description}
                                         color={node.color}
                                         align={node.align}
@@ -216,7 +231,7 @@ export const GitGraph = () => {
                                     x={node.x}
                                     y={node.y}
                                     type={node.type}
-                                    delay={node.delay || 0}
+                                    delay={skipAnimation ? 0 : (node.delay || 0)}
                                     color={node.color}
                                 />
                             );
@@ -230,13 +245,13 @@ export const GitGraph = () => {
                                 className="absolute bottom-0 left-1/2 -translate-x-1/2 h-24 w-[1px] bg-gradient-to-b from-transparent via-[#00ffd5]/50 to-[#00ffd5]"
                                 initial={{ height: 0, opacity: 0 }}
                                 animate={{ height: 96, opacity: 1 }}
-                                transition={{ delay: 3, duration: 1, ease: "easeOut" }}
+                                transition={{ delay: skipAnimation ? 0 : 3, duration: 1, ease: "easeOut" }}
                             />
                             <motion.div
                                 className="absolute bottom-4 left-1/2 -translate-x-1/2 text-[#00ffd5]/50 text-[10px] font-mono"
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: [0, 1, 0] }}
-                                transition={{ delay: 4, duration: 2, repeat: Infinity }}
+                                transition={{ delay: skipAnimation ? 0 : 4, duration: 2, repeat: Infinity }}
                             >
                                 scroll
                             </motion.div>
