@@ -62,9 +62,33 @@ export const GitCloneLoader = ({ onComplete, duration = 700 }: GitCloneLoaderPro
                 animate={isComplete ? { opacity: 0, y: -20 } : { opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
             >
+                {/* Logo with circular pulse */}
+                <motion.div
+                    className="relative mb-6 rounded-full"
+                    animate={{
+                        scale: [1, 1.02, 1],
+                        boxShadow: [
+                            "0 5px 5px rgba(0, 255, 213, 0.4)",   // Shifted down
+                            "0 5px 12px rgba(168, 85, 247, 0.5)", // Shifted down
+                            "0 5px 5px rgba(0, 255, 213, 0.4)"    // Shifted down
+                        ]
+                    }}
+                    transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                    }}
+                >
+                    <img
+                        src="/InitClubLogoDarkLoader.png"
+                        alt="Init Club"
+                        className="w-24 h-24 sm:w-64 sm:h-64 object-contain rounded-full"
+                    />
+                </motion.div>
+
                 {/* git clone text */}
-                <motion.div className="text-white text-lg tracking-widest mb-8 opacity-60">
-                    git clone...
+                <motion.div className="text-[var(--muted)] text-sm font-mono tracking-widest mb-8 opacity-60">
+                    &gt; git clone init club
                 </motion.div>
 
                 {/* Gradient progress bar */}
