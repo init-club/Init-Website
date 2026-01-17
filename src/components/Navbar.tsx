@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { Instagram, Linkedin } from 'lucide-react';
 
 const navItems = [
@@ -68,13 +69,41 @@ export function Navbar() {
                 <NavLink
                   key={item.path}
                   to={item.path}
-                  className={navLinkClasses}
-                  style={({ isActive }) => isActive ? {
-                    background: 'linear-gradient(90deg, #00ffd5, #a855f7)',
-                    color: 'white'
-                  } : {}}
+                  className={({ isActive }) =>
+                    [
+                      'relative px-4 py-2 text-sm font-medium rounded-full transition-colors duration-300 overflow-hidden',
+                      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/50',
+                      isActive ? 'text-white' : 'text-[var(--text)] hover:bg-[var(--glass-bg)]',
+                    ].join(' ')
+                  }
                 >
-                  {item.label}
+                  {({ isActive }) => (
+                    <>
+                      {isActive && (
+                        <>
+                          {/* Laser Fill Animation */}
+                          <motion.div
+                            className="absolute inset-0 z-0 origin-left"
+                            style={{ background: 'linear-gradient(90deg, #00ffd5, #a855f7)' }}
+                            initial={{ scaleX: 0 }}
+                            animate={{ scaleX: 1 }}
+                            transition={{ duration: 0.3, ease: "linear" }}
+                          />
+
+                          {/* Scanning Line */}
+                          <motion.div
+                            className="absolute inset-y-0 z-10 w-0.5 bg-white shadow-[0_0_10px_rgba(255,255,255,0.8),0_0_20px_rgba(0,255,213,0.5)]"
+                            initial={{ left: '0%', opacity: 1 }}
+                            animate={{ left: '100%', opacity: 0 }}
+                            transition={{ duration: 0.3, ease: "linear" }}
+                          />
+                        </>
+                      )}
+
+                      {/* Text Content */}
+                      <span className="relative z-20">{item.label}</span>
+                    </>
+                  )}
                 </NavLink>
               ))}
             </nav>
