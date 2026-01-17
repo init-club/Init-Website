@@ -170,7 +170,7 @@ export const GitGraph = () => {
                                     y2={toNode.y}
                                     delay={edge.delay}
                                     duration={edge.duration}
-                                    color={isHighlighted ? highlightColor : edge.color || '#555555'}
+                                    color={isHighlighted ? highlightColor : edge.color || toNode?.color || '#555555'}
                                     isHighlighted={isHighlighted}
                                     label={edge.label}
                                     labelDy={edge.labelDy}
