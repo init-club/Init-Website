@@ -41,7 +41,7 @@ export default function ContactPage() {
     {
       phase: 'Growth',
       title: 'The Grind',
-      description: 'Build real projects. Learn deployment. Debug production issues. Mentors guide, but you drive.',
+      description: 'Build real projects. Learn deployment. Debug real issues. Mentors guide, but you drive.',
       icon: Flame
     },
     {
@@ -59,28 +59,28 @@ export default function ContactPage() {
   const truthBombs = [
     {
       bold: 'You MUST be an Amrita CBE student',
-      normal: '— No remote members, no exceptions. This is our community.'
+      normal: ' - No remote members, no exceptions. This is our community.'
     },
     {
       bold: 'You MUST commit time',
-      normal: '— We\'re not a resume line. We\'re a lifestyle change.'
+      normal: ' - We\'re not a resume line. We\'re a lifestyle change.'
     },
     {
       bold: 'You MUST own your growth',
-      normal: '— We guide, but you lead. Self-learning is non-negotiable.'
+      normal: ' - We guide, but you lead. Self-learning is non-negotiable.'
     },
     {
       bold: 'You MUST play by our rules',
-      normal: '— Plagiarism = disqualification. Integrity is everything.'
+      normal: ' - Plagiarism = disqualification. Integrity is everything.'
     },
   ];
 
   const youWillGain = [
-    { icon: Code2, text: 'Ship real code to production' },
+    { icon: Code2, text: 'Build and ship that delivers value' },
     { icon: Target, text: 'Build a portfolio that lands interviews' },
-    { icon: Brain, text: 'Master Unix/Linux like a real developer' },
+    { icon: Brain, text: 'Master concepts that matter in practice' },
     { icon: Users, text: 'Join a network of builders, not just students' },
-    { icon: Zap, text: 'Solve problems 10x faster than before' },
+    { icon: Zap, text: 'Solve complex problems efficiently and correctly' },
     { icon: Github, text: 'Contribute to real open-source projects' },
   ];
 
@@ -114,8 +114,9 @@ export default function ContactPage() {
             
             <p className="text-lg md:text-xl text-cyan-300 mb-4 font-semibold">Not just a club. A transformation.</p>
             <p className="text-base md:text-lg text-gray-400 max-w-3xl mx-auto mb-12 leading-relaxed">
-              We don't recruit. We onboard builders. Not everyone will fit. Not everyone should. <br/>
-              If you're here, you're either ready to level up, or you're curious. Both are good enough to start.
+              We don't recruit. We onboard builders. Not everyone will fit. Not everyone should.
+              <br className="hidden sm:block" />
+              If you're here, you're ready to level up or curious. Both are good enough.
             </p>
 
             {/* CTA Button with Laser Animation */}
@@ -326,7 +327,7 @@ export default function ContactPage() {
               Sound like you?
             </h2>
             <p className="text-gray-400 text-lg mb-10 max-w-2xl mx-auto">
-              If you see yourself in this—if you're hungry, curious, and ready to be uncomfortable—then let's see if we're a match.
+              If you see yourself in this-if you're hungry, curious, and ready to be uncomfortable-then let's see if we're a match.
             </p>
 
             <motion.button

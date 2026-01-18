@@ -76,9 +76,9 @@ const JoinUsModal = ({ isOpen, onClose }: JoinUsModalProps) => {
 
                                     {/* Ready Message */}
                                     <div className="text-center space-y-3 py-3 sm:py-4">
-                                        <p className="text-cyan-300 font-semibold text-xs sm:text-sm">You've got what it takes?</p>
+                                        <p className="text-cyan-300 font-semibold text-xs sm:text-sm">Ready to prove yourself?</p>
                                         <p className="text-gray-400 text-xs leading-relaxed">
-                                            If you meet the eligibility requirements and you're ready to challenge yourself with real-world problems, prove your skills, and grow as a developer—then you belong here. Join our Discord community and let's build something incredible together.
+                                            Meet the requirements? Hungry to challenge yourself with real problems and grow as a developer? Then you belong here. Join us on Discord.
                                         </p>
                                     </div>
 
@@ -107,14 +107,40 @@ const JoinUsModal = ({ isOpen, onClose }: JoinUsModalProps) => {
                                     </div>
 
                                     {/* CTA Button */}
-                                    <a
+                                    <motion.a
                                         href="https://discord.com/invite/Gx8sdGJkU"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="block w-full bg-gradient-to-r from-cyan-600 to-cyan-700 text-white py-3 rounded-xl font-bold text-center shadow-2xl hover:from-cyan-500 hover:to-cyan-600 transition-all border border-cyan-500/50"
+                                        className="group relative block w-full overflow-hidden rounded-xl font-bold text-center py-3 border border-cyan-500/50"
+                                        whileHover="hover"
+                                        initial="initial"
                                     >
-                                        Join Now
-                                    </a>
+                                        {/* Laser Fill Animation */}
+                                        <motion.div
+                                            className="absolute inset-0 z-0 origin-left"
+                                            style={{ background: 'linear-gradient(90deg, #00ffd5, #a855f7)' }}
+                                            variants={{
+                                                initial: { scaleX: 0 },
+                                                hover: { scaleX: 1 }
+                                            }}
+                                            transition={{ duration: 0.25, ease: "linear" }}
+                                        />
+
+                                        {/* Scanning Line */}
+                                        <motion.div
+                                            className="absolute inset-y-0 z-10 w-0.5 bg-white shadow-[0_0_10px_rgba(255,255,255,0.8),0_0_20px_rgba(0,255,213,0.5)]"
+                                            variants={{
+                                                initial: { left: '0%', opacity: 0 },
+                                                hover: { left: '100%', opacity: 1 }
+                                            }}
+                                            transition={{ duration: 0.25, ease: "linear" }}
+                                        />
+
+                                        {/* Text Content */}
+                                        <span className="relative z-10 text-white transition-colors duration-300 group-hover:text-white">
+                                            Join Now
+                                        </span>
+                                    </motion.a>
 
                                     {/* Tagline */}
                                     <p className="text-center text-gray-400 text-xs">
