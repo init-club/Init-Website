@@ -1,3 +1,63 @@
+/**
+ To people who handle this codebase in the future. Ik this can be complex to understand. But bear with me
+ Its inspired by the git graph component of github. You might have doubts of the choices made for the entire graphs section and I will address them here.
+
+ 1) Glowing effect & Mobile Performance: The CSS 'box shadow' and SVG filters will cause it to lag on mobile. Your console's view mobile mode might show smooth loading but the graph will be laggy, trust me. We intentionally disabled them on mobile (`isMobile` prop). If you see "boring" flat colors on mobile, it's a feature, not a bug. Uncomment the code in vite.config.ts and run the command npm run dev -- --host 0.0.0.0 and use the link with your ip in terminal on your phone to view it if you don't believe me.
+
+ 2) Adding Pages: This graph component is made so if you need to add pages in the future, you can do it easily. If you play around with the configs, you will understand. (Give it to AI if you don't get it)
+
+ 3) Session Storage: The animation only plays once. We check 'sessionStorage' in 'GitGraph.tsx'. If you want to see the intro again, clear your storage or open an incognito window. Simple.
+
+ 4) SVG Stacking: We map 'edges' before 'nodes' in 'GitGraph.tsx'. SVG doesn't support z-index. Use your brain, lines must be drawn first so they appear *behind* the nodes.
+
+ 5) Coordinates: The graph relies on hardcoded coordinates (1200x800 Desktop / 400x800 Mobile). If you change the aspect ratio, things will get squished. Stick to these dimensions or expect to do some math. Don't say I didn't warn you. 
+
+
+  1. DESKTOP LAYOUT (Horizontal Tree):
+    - Structure:
+      * Origin (White): Starts at (50, 400).
+      * Main Branch: Horizontal line.
+      * Branches:
+          - Yellow (About): Upper Left.
+          - Cyan (Join Us): Main Horizontal continuation (Right).
+          - Purple (Projects): Upper Right (Splits from Cyan).
+          - Red (Blogs): Bottom Center (Splits from Main).
+          - Blue (Events): Bottom Right (Splits from Cyan).
+    - Nodes:
+      * 'start': The origin point.
+      * 'commit': Intermediate nodes (dots) representing git commits.
+      * 'nav': Interactive nodes (with icons/rings) that link to pages.
+  2. DESKTOP EDGES:
+    - Connects nodes using Bezier curves (`M x1 y1 C cp1x cp1y, cp2x cp2y, x2 y2`).
+    - Labels: Text placed along the path (e.g., "INTERESTED? JOIN US!").
+    - Animations: Timings (`delay`, `duration`) create the "drawing" effect on load.
+  3. MOBILE LAYOUT (Vertical/Upside Down Tree):
+    - Coordinates: Defined in a 400x800 coordinate space (SVG).
+    - optimized for vertical scrolling.
+    - Structure:
+      * Root at Top Center.
+      * Splits into branches going Downward and Outward.
+      * Alternating Left/Right alignment for labels to maximize screen space.
+ 
+   5. ADVANCED CONFIGURATION (Examples):
+     - activePath: ['e1', 'e_p1', 'e_b1', 'e_b2']
+       * Defines the specific sequence of Edge IDs that should "glow" when this Node is hovered.
+       * It usually traces the path backwards from the Node to the Root (e1).
+       * Example: For "Projects", it lights up Main(e1) -> Join Us Trunk(e_p1) -> Projects Branch(e_b1) -> Projects Leaf(e_b2).
+     - Edge Labels (e.g., labelOffset: '35%', labelAnchor: 'start'):
+       * Controls precise text positioning along the SVG curve.
+       * labelOffset: '35%' means the text begins at 35% of the total path length.
+       * labelAnchor: 'start' means text flows forward from that point (left-aligned relative to the point).
+       * Use 'middle' for centering labels on a segment, and 'start'/'end' for fine-tuning near bends.
+   IMPORTANT:
+  - The IDs used for nodes (e.g., 'nav_projects') essentially act as internal keys.
+  - Recent updates have SWAPPED the visual roles of some nodes on Desktop to better
+    fit the design (e.g., the "Projects" ID might now visually represent "Join Us").
+    Always refer to the `label` and `path` properties for the actual content.
+
+    Signing off - Nitansh Shankar (I hope I don't have to add any pages or make marjor changes to this code in future)
+ */
+
 import type { NodeType, GraphNode, GraphEdge } from '../../types/graph';
 
 export type { NodeType, GraphNode, GraphEdge };
