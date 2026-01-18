@@ -30,7 +30,7 @@ export const DESKTOP_NODES: GraphNode[] = [
 
     //  Blogs (Cyan) 
     { id: 'c2_p', x: 650, y: 400, type: 'commit', delay: 1.0, color: COLORS.projects },
-    { id: 'nav_projects', x: 900, y: 400, type: 'nav', label: 'Blogs', path: '/blogs', delay: 1.8, description: 'Technical posts and write-ups', color: COLORS.projects, activePath: ['e1', 'e_p1', 'e_p2'] },
+    { id: 'nav_projects', x: 900, y: 400, type: 'nav', label: 'Join Us', path: '/contact', delay: 1.8, description: 'Join and contribute', color: COLORS.projects, activePath: ['e1', 'e_p1', 'e_p2'] },
 
     // Projects (Purple)
     { id: 'c3_b', x: 800, y: 250, type: 'commit', delay: 1.5, color: COLORS.blogs },
@@ -38,7 +38,7 @@ export const DESKTOP_NODES: GraphNode[] = [
 
     //  Join Us (Red) 
     { id: 'c2_e', x: 450, y: 550, type: 'commit', delay: 1.1, color: COLORS.events },
-    { id: 'nav_events', x: 650, y: 700, type: 'nav', label: 'Join Us', path: '/contact', delay: 1.9, description: 'Join and contribute', color: COLORS.events, activePath: ['e1', 'e_e1', 'e_e2'] },
+    { id: 'nav_events', x: 650, y: 700, type: 'nav', label: 'Blogs', path: '/blogs', delay: 1.9, description: 'Technical posts and write-ups', color: COLORS.events, activePath: ['e1', 'e_e1', 'e_e2'] },
 
     // Event (Blue)
     { id: 'nav_contact', x: 1000, y: 550, type: 'nav', label: 'Events', path: '/events', delay: 2.2, description: 'Workshops & hackathons', color: COLORS.contact, activePath: ['e1', 'e_p1', 'e_c1'] },
@@ -53,11 +53,11 @@ export const DESKTOP_EDGES: GraphEdge[] = [
     { id: 'e_a2', from: 'c2_a', to: 'nav_about', delay: 0.9, duration: 0.6, color: '#facc15' },
 
     // C1 -> Blogs Chain - Cyan 
-    { id: 'e_p1', from: 'c1', to: 'c2_p', delay: 0.6, duration: 0.5, label: 'TECHNICAL WRITING BY THE COMMUNITY', color: '#00ffd5', labelDy: -15, labelOffset: '95%', labelAnchor: 'end' },
+    { id: 'e_p1', from: 'c1', to: 'c2_p', delay: 0.6, duration: 0.5, label: 'INTERESTED? JOIN US!', color: '#00ffd5', labelDy: -15, labelOffset: '80%', labelAnchor: 'end' },
     { id: 'e_p2', from: 'c2_p', to: 'nav_projects', delay: 1.1, duration: 0.8, color: '#00ffd5' },
 
     // C1 -> Events Chain - Red 
-    { id: 'e_e1', from: 'c1', to: 'c2_e', delay: 0.6, duration: 0.5, label: 'INTERESTED? JOIN US!', color: '#ff3366', labelDy: -15, labelOffset: '100%', labelAnchor: 'end' },
+    { id: 'e_e1', from: 'c1', to: 'c2_e', delay: 0.6, duration: 0.5, label: 'WRITTEN BY US', color: '#ff3366', labelDy: -15, labelOffset: '90%', labelAnchor: 'end' },
     { id: 'e_e2', from: 'c2_e', to: 'nav_events', delay: 1.1, duration: 0.8, color: '#ff3366' },
 
     // Projects -> Blogs Split - Purple 
