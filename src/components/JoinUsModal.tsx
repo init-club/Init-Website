@@ -71,17 +71,14 @@ const JoinUsModal = ({ isOpen, onClose }: JoinUsModalProps) => {
                                                 <span className="text-white"> Club /&gt;</span>
                                             </h1>
                                         </div>
-                                        <p className="text-xs font-semibold text-cyan-400 uppercase tracking-widest">Amrita CBE's Open Source Community</p>
-                                        <div className="font-mono text-xs text-green-400 bg-black/40 rounded-lg px-3 py-2 border border-green-500/30 inline-block mx-auto">
-                                            <span className="text-gray-500">$ </span>git commit -m <span className="text-yellow-300">"Where Curiosity Turns into Contribution"</span>
-                                        </div>
+                                        <p className="text-xs sm:text-sm font-semibold text-cyan-400 uppercase tracking-widest">Take the first step</p>
                                     </div>
 
                                     {/* Ready Message */}
-                                    <div className="text-center space-y-2 py-3 sm:py-4">
-                                        <p className="text-cyan-300 font-semibold text-xs sm:text-sm">Ready to test your skills?</p>
+                                    <div className="text-center space-y-3 py-3 sm:py-4">
+                                        <p className="text-cyan-300 font-semibold text-xs sm:text-sm">You've got what it takes?</p>
                                         <p className="text-gray-400 text-xs leading-relaxed">
-                                            If you meet the requirements and have the technical chops to handle the challenge, join our Discord community and let's get started!
+                                            If you meet the eligibility requirements and you're ready to challenge yourself with real-world problems, prove your skills, and grow as a developer—then you belong here. Join our Discord community and let's build something incredible together.
                                         </p>
                                     </div>
 
@@ -111,7 +108,7 @@ const JoinUsModal = ({ isOpen, onClose }: JoinUsModalProps) => {
 
                                     {/* CTA Button */}
                                     <a
-                                        href="https://discord.gg/YOUR_DISCORD_LINK"
+                                        href="https://discord.com/invite/Gx8sdGJkU"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="block w-full bg-gradient-to-r from-cyan-600 to-cyan-700 text-white py-3 rounded-xl font-bold text-center shadow-2xl hover:from-cyan-500 hover:to-cyan-600 transition-all border border-cyan-500/50"

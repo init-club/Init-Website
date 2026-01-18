@@ -3,71 +3,102 @@ import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 import JoinUsModal from '../components/JoinUsModal.tsx';
 import { motion } from 'framer-motion';
-import { CheckCircle2, AlertCircle, Users, Code, Terminal, MessageSquare, ArrowRight } from 'lucide-react';
+import { Zap, Github, Brain, Users, Flame, Code2, Target, Lightbulb } from 'lucide-react';
 
 export default function ContactPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const eligibilityItems = [
-    { text: 'Must be a student at Amrita Vishwa Vidyapeetham, Coimbatore Branch', icon: Users },
-    { text: 'Ready to devote your time and effort to the club', icon: AlertCircle },
-    { text: 'Willing to mentor your juniors and perform assigned responsibilities', icon: Users },
-    { text: 'Must strictly adhere to the Code of Conduct of the club', icon: CheckCircle2 },
-  ];
-
-  const notRequiredItems = [
-    'Need not be in a CS-related branch',
-    'Need not have any prior experience in computer science',
-  ];
-
-  const guidelineItems = [
+  const spiritItems = [
     {
-      title: 'Google is your best friend',
-      description: 'Students are encouraged to learn how to use Google efficiently and try their best to be self-sufficient in solving the problems they face while doing the tasks. While mentors will be assigned to you during Init Club to clear your doubts, self-reliance is an important skill that we look for in members.'
+      icon: Zap,
+      title: 'Curiosity Driven',
+      description: 'We\'re obsessed with the "why" before the "how". Questions spark innovation.'
     },
     {
-      title: 'Plagiarism and copy-pasting from AI are strictly prohibited',
-      description: 'While referring to online sources like websites, blogs, and even taking help from AI like ChatGPT are allowed, directly copying code from them is prohibited. Plagiarism checkers will be employed to make sure that all work done is genuine. Sharing code between participants is strictly forbidden; if discovered, both parties will immediately be disqualified.'
+      icon: Github,
+      title: 'Open Source Philosophy',
+      description: 'Code transparency, knowledge sharing, community-first mentality.'
     },
     {
-      title: 'Avoid using Windows/GUI tools',
-      description: 'Considering that Init Club is at its heart an open-source club, you must use a Linux/macOS system to complete the tasks. You should also try to minimize the use of the mouse and try to use the terminal to do whatever work that you need to do.'
+      icon: Brain,
+      title: 'Problem Solvers',
+      description: 'We don\'t memorize solutions. We think, debug, and innovate.'
     },
     {
-      title: 'Communicate effectively',
-      description: 'Clearly communicate your thought process, challenges faced, and progress to the mentors assigned to you during Init Club. The ability to communicate effectively is essential for fostering collaboration and understanding.'
+      icon: Users,
+      title: 'Collectively Stronger',
+      description: 'Your success lifts everyone. Mentorship is bidirectional.'
     },
   ];
 
-  const faqItems = [
+  const journeySteps = [
     {
-      question: 'How are participants evaluated during Init Club?',
-      answer: 'Evaluation is based on a variety of factors including but not limited to: Number of tasks completed, frequency of updates, code quality, interview performance, etc.'
+      phase: 'Entry',
+      title: 'The Foundation',
+      description: 'Prove you\'re hungry. Complete initial challenges that test your problem-solving mindset, not just your code.',
+      icon: Lightbulb
     },
     {
-      question: 'What kind of tasks can we expect during Init Club?',
-      answer: 'The tasks are designed to promote active learning and problem-solving. We have taken care to make sure that all of them can be completed with proper research. Various domains will be touched upon like web dev, mobile dev, scraping, git, etc.'
+      phase: 'Growth',
+      title: 'The Grind',
+      description: 'Build real projects. Learn deployment. Debug production issues. Mentors guide, but you drive.',
+      icon: Flame
     },
     {
-      question: 'Is there a specific timeline for completing Init Club tasks?',
-      answer: 'The timelines are specific to each pipeline and hence will be updated on their respective pages.'
+      phase: 'Leadership',
+      title: 'The Mentor',
+      description: 'Help others navigate the path you\'ve walked. Teaching solidifies mastery.'
     },
+    {
+      phase: 'Legacy',
+      title: 'The Architect',
+      description: 'Shape Init Club\'s future. Influence decisions. Define what comes next.'
+    },
+  ];
+
+  const truthBombs = [
+    {
+      bold: 'You MUST be an Amrita CBE student',
+      normal: '— No remote members, no exceptions. This is our community.'
+    },
+    {
+      bold: 'You MUST commit time',
+      normal: '— We\'re not a resume line. We\'re a lifestyle change.'
+    },
+    {
+      bold: 'You MUST own your growth',
+      normal: '— We guide, but you lead. Self-learning is non-negotiable.'
+    },
+    {
+      bold: 'You MUST play by our rules',
+      normal: '— Plagiarism = disqualification. Integrity is everything.'
+    },
+  ];
+
+  const youWillGain = [
+    { icon: Code2, text: 'Ship real code to production' },
+    { icon: Target, text: 'Build a portfolio that lands interviews' },
+    { icon: Brain, text: 'Master Unix/Linux like a real developer' },
+    { icon: Users, text: 'Join a network of builders, not just students' },
+    { icon: Zap, text: 'Solve problems 10x faster than before' },
+    { icon: Github, text: 'Contribute to real open-source projects' },
   ];
 
   return (
     <>
       <Navbar />
       <main className="pt-20 pb-10" style={{ backgroundColor: 'var(--bg)', color: 'var(--text)' }}>
-        {/* Hero Section */}
+        
+        {/* Hero Section - Radical Reframing */}
         <section className="relative px-4 py-20 overflow-hidden">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="max-w-6xl mx-auto"
+            className="max-w-6xl mx-auto text-center"
           >
-            <h1 className="text-4xl md:text-6xl font-black mb-4" style={{ fontFamily: 'var(--font-heading)' }}>
-              <span style={{ color: 'var(--text)' }}>Join </span>
+            <h1 className="text-4xl md:text-6xl font-black mb-6" style={{ fontFamily: 'var(--font-heading)' }}>
+              <span style={{ color: 'var(--text)' }}>The &lt; </span>
               <span
                 style={{
                   background: 'linear-gradient(90deg, #00ffd5, #a855f7)',
@@ -76,146 +107,258 @@ export default function ContactPage() {
                   backgroundClip: 'text',
                 }}
               >
-                Init Club
+                INIT
               </span>
+              <span style={{ color: 'var(--text)' }}> Club /&gt;</span>
             </h1>
-            <p className="text-xl text-gray-400 mb-8">Eligibility Requirements & Guidelines</p>
+            
+            <p className="text-lg md:text-xl text-cyan-300 mb-4 font-semibold">Not just a club. A transformation.</p>
+            <p className="text-base md:text-lg text-gray-400 max-w-3xl mx-auto mb-12 leading-relaxed">
+              We don't recruit. We onboard builders. Not everyone will fit. Not everyone should. <br/>
+              If you're here, you're either ready to level up, or you're curious. Both are good enough to start.
+            </p>
 
-            {/* Join Button CTA */}
+            {/* CTA Button with Laser Animation */}
             <motion.button
-              whileHover={{ scale: 1.05, boxShadow: '0 0 30px rgba(0, 255, 213, 0.5)' }}
-              whileTap={{ scale: 0.95 }}
               onClick={() => setIsModalOpen(true)}
-              className="glass px-8 py-3 rounded-xl font-semibold text-white flex items-center gap-2 mb-20 border border-cyan-500/50 hover:border-cyan-400 transition-all"
+              className="group relative px-8 py-3 rounded-xl font-semibold text-white mb-20 border border-cyan-500/50 overflow-hidden"
+              whileHover="hover"
+              initial="initial"
             >
-              <span>Ready to Join?</span>
-              <ArrowRight size={20} />
+              <motion.div
+                className="absolute inset-0 z-0 origin-left"
+                style={{ background: 'linear-gradient(90deg, #00ffd5, #a855f7)' }}
+                variants={{
+                  initial: { scaleX: 0 },
+                  hover: { scaleX: 1 }
+                }}
+                transition={{ duration: 0.2, ease: "linear" }}
+              />
+              <motion.div
+                className="absolute inset-y-0 z-10 w-0.5 bg-white shadow-[0_0_10px_rgba(255,255,255,0.8),0_0_20px_rgba(0,255,213,0.5)]"
+                variants={{
+                  initial: { left: '0%', opacity: 0 },
+                  hover: { left: '100%', opacity: 1 }
+                }}
+                transition={{ duration: 0.2, ease: "linear" }}
+              />
+              <span className="relative z-10 flex items-center gap-2 transition-colors duration-300 group-hover:text-white">
+                Check if you fit
+                <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+              </span>
             </motion.button>
           </motion.div>
 
-          {/* Background glow */}
           <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-500/5 blur-3xl rounded-full" />
         </section>
 
-        {/* Requirements Section */}
-        <section className="max-w-6xl mx-auto px-4 mb-20">
+        {/* The Spirit Section */}
+        <section className="max-w-6xl mx-auto px-4 mb-24">
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
             className="mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-black mb-12" style={{ fontFamily: 'var(--font-heading)' }}>
-              Requirements
-            </h2>
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-black mb-4" style={{ fontFamily: 'var(--font-heading)' }}>
+                The Init Club Spirit
+              </h2>
+              <p className="text-gray-400 text-lg">What we stand for. Not rules. Not requirements. Just... us.</p>
+            </div>
 
-            <div className="grid md:grid-cols-2 gap-4">
-              {eligibilityItems.map((item, idx) => (
+            <div className="grid md:grid-cols-2 gap-6">
+              {spiritItems.map((item, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: idx * 0.1 }}
+                  className="group relative p-6 rounded-xl border border-cyan-500/30 hover:border-cyan-400 transition-all"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(0,255,213,0.05) 0%, rgba(168,85,247,0.05) 100%)'
+                  }}
+                >
+                  <item.icon size={32} className="text-cyan-400 mb-4 group-hover:text-yellow-300 transition-colors" />
+                  <h3 className="text-lg font-bold text-cyan-300 mb-2 group-hover:text-yellow-300 transition-colors">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-gray-400">
+                    {item.description}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </section>
+
+        {/* The Real Talk Section */}
+        <section className="max-w-6xl mx-auto px-4 mb-24 relative">
+          <div
+            className="absolute inset-0 rounded-3xl border border-cyan-500/20 -z-10"
+            style={{ background: 'linear-gradient(135deg, rgba(0,255,213,0.03) 0%, rgba(168,85,247,0.03) 100%)' }}
+          />
+          
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            className="p-8 md:p-12"
+          >
+            <h2 className="text-3xl md:text-4xl font-black mb-4 text-center" style={{ fontFamily: 'var(--font-heading)' }}>
+              The Real Talk
+            </h2>
+            <p className="text-center text-gray-400 mb-12 text-lg">What you actually need to succeed here.</p>
+
+            <div className="space-y-6">
+              {truthBombs.map((item, idx) => (
                 <motion.div
                   key={idx}
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5, delay: idx * 0.1 }}
-                  className="glass rounded-xl p-4 flex gap-4 group hover:border-cyan-400 border border-cyan-500/30 transition-all"
+                  className="flex gap-4 items-start p-4 rounded-lg border border-cyan-500/20 hover:border-cyan-500/50 transition-all"
                 >
-                  <div className="flex-shrink-0">
-                    <item.icon size={24} className="text-cyan-400 group-hover:text-yellow-400 transition-colors" />
-                  </div>
-                  <p className="text-sm md:text-base text-gray-300">{item.text}</p>
+                  <div className="w-2 h-2 bg-gradient-to-r from-cyan-400 to-purple-500 rounded-full mt-2 flex-shrink-0" />
+                  <p className="text-sm md:text-base">
+                    <span className="text-cyan-300 font-bold">{item.bold}</span>
+                    <span className="text-gray-400">{item.normal}</span>
+                  </p>
                 </motion.div>
               ))}
             </div>
           </motion.div>
+        </section>
 
-          {/* Not Required Section */}
+        {/* Your Transformation Journey */}
+        <section className="max-w-6xl mx-auto px-4 mb-24">
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
           >
-            <h3 className="text-2xl font-bold mb-6">Not Required</h3>
-            <div className="space-y-3">
-              {notRequiredItems.map((item, idx) => (
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-black mb-4" style={{ fontFamily: 'var(--font-heading)' }}>
+                Your Transformation Journey
+              </h2>
+              <p className="text-gray-400 text-lg">What the path actually looks like.</p>
+            </div>
+
+            <div className="space-y-8">
+              {journeySteps.map((step, idx) => (
                 <motion.div
                   key={idx}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: idx * 0.1 }}
-                  className="flex gap-3 text-gray-400"
+                  className="relative flex gap-6 group"
                 >
-                  <CheckCircle2 size={20} className="text-purple-400 flex-shrink-0 mt-1" />
-                  <span className="text-sm md:text-base">{item}</span>
+                  {/* Timeline Line */}
+                  {idx !== journeySteps.length - 1 && (
+                    <div className="absolute left-7 top-20 bottom-0 w-0.5 bg-gradient-to-b from-cyan-500 to-transparent" />
+                  )}
+
+                  {/* Icon Circle */}
+                  <div className="relative flex-shrink-0">
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-cyan-500 to-purple-500 flex items-center justify-center border-2 border-black relative z-10">
+                      {step.icon ? <step.icon size={24} className="text-white" /> : <span className="text-white font-bold">{idx + 1}</span>}
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div className="flex-1 pt-2">
+                    <p className="text-xs font-semibold text-cyan-400 uppercase tracking-wider mb-1">{step.phase}</p>
+                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-yellow-300 transition-colors">
+                      {step.title}
+                    </h3>
+                    <p className="text-gray-400 text-sm leading-relaxed">
+                      {step.description}
+                    </p>
+                  </div>
                 </motion.div>
               ))}
             </div>
           </motion.div>
         </section>
 
-        {/* Guidelines Section */}
-        <section className="max-w-6xl mx-auto px-4 mb-20">
-          <motion.h2
+        {/* What You'll Gain */}
+        <section className="max-w-6xl mx-auto px-4 mb-24">
+          <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
-            className="text-3xl md:text-4xl font-black mb-12"
-            style={{ fontFamily: 'var(--font-heading)' }}
           >
-            Guidelines
-          </motion.h2>
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-black mb-4" style={{ fontFamily: 'var(--font-heading)' }}>
+                What You'll Actually Gain
+              </h2>
+              <p className="text-gray-400 text-lg">Tangible skills. Not just certificates.</p>
+            </div>
 
-          <div className="grid md:grid-cols-2 gap-6">
-            {guidelineItems.map((item, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="glass rounded-xl p-6 border border-cyan-500/30 hover:border-cyan-400 transition-all group"
-              >
-                <h3 className="text-lg font-bold text-cyan-300 mb-3 group-hover:text-yellow-300 transition-colors">
-                  {item.title}
-                </h3>
-                <p className="text-sm text-gray-400 leading-relaxed">
-                  {item.description}
-                </p>
-              </motion.div>
-            ))}
-          </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {youWillGain.map((item, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.4, delay: idx * 0.08 }}
+                  className="p-4 rounded-lg border border-cyan-500/20 hover:border-cyan-400 hover:bg-black/40 transition-all flex items-center gap-3 group cursor-pointer"
+                >
+                  <item.icon size={24} className="text-cyan-400 group-hover:text-yellow-300 transition-colors flex-shrink-0" />
+                  <p className="text-sm font-medium text-gray-300 group-hover:text-white transition-colors">
+                    {item.text}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
         </section>
 
-        {/* FAQs Section */}
-        <section className="max-w-6xl mx-auto px-4 mb-20">
-          <motion.h2
+        {/* Final CTA */}
+        <section className="max-w-4xl mx-auto px-4 mb-20">
+          <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
-            className="text-3xl md:text-4xl font-black mb-12"
-            style={{ fontFamily: 'var(--font-heading)' }}
+            className="text-center"
           >
-            FAQs
-          </motion.h2>
+            <h2 className="text-3xl md:text-4xl font-black mb-6" style={{ fontFamily: 'var(--font-heading)' }}>
+              Sound like you?
+            </h2>
+            <p className="text-gray-400 text-lg mb-10 max-w-2xl mx-auto">
+              If you see yourself in this—if you're hungry, curious, and ready to be uncomfortable—then let's see if we're a match.
+            </p>
 
-          <div className="space-y-4">
-            {faqItems.map((item, idx) => (
+            <motion.button
+              onClick={() => setIsModalOpen(true)}
+              className="group relative px-10 py-4 rounded-xl font-bold text-white text-lg border border-cyan-500/50 overflow-hidden"
+              whileHover="hover"
+              initial="initial"
+            >
               <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="glass rounded-xl p-6 border border-cyan-500/30 hover:border-cyan-400 transition-all group"
-              >
-                <h3 className="text-lg font-semibold text-cyan-300 mb-3 flex items-center gap-2 group-hover:text-yellow-300 transition-colors">
-                  <span className="text-purple-400">Q:</span> {item.question}
-                </h3>
-                <p className="text-sm text-gray-400 leading-relaxed ml-6">
-                  <span className="text-purple-400 mr-2">A:</span>
-                  {item.answer}
-                </p>
-              </motion.div>
-            ))}
-          </div>
+                className="absolute inset-0 z-0 origin-left"
+                style={{ background: 'linear-gradient(90deg, #00ffd5, #a855f7)' }}
+                variants={{
+                  initial: { scaleX: 0 },
+                  hover: { scaleX: 1 }
+                }}
+                transition={{ duration: 0.3, ease: "linear" }}
+              />
+              <motion.div
+                className="absolute inset-y-0 z-10 w-0.5 bg-white shadow-[0_0_10px_rgba(255,255,255,0.8),0_0_20px_rgba(0,255,213,0.5)]"
+                variants={{
+                  initial: { left: '0%', opacity: 0 },
+                  hover: { left: '100%', opacity: 1 }
+                }}
+                transition={{ duration: 0.3, ease: "linear" }}
+              />
+              <span className="relative z-10 flex items-center justify-center gap-2 group-hover:text-white">
+                Let's Talk
+                <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+              </span>
+            </motion.button>
+          </motion.div>
         </section>
-
 
       </main>
 
