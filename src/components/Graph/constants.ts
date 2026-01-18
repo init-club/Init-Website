@@ -29,7 +29,7 @@ export const DESKTOP_NODES: GraphNode[] = [
     { id: 'nav_about', x: 550, y: 140, type: 'nav', label: 'About', path: '/about', delay: 1.4, description: 'People behind the club', color: COLORS.about, activePath: ['e1', 'e_a1', 'e_a2'] },
 
     //  Join Us (Cyan) 
-    { id: 'c2_p', x: 650, y: 400, type: 'commit', delay: 1.0, color: COLORS.join },
+    { id: 'c2_p', x: 600, y: 400, type: 'commit', delay: 1.0, color: COLORS.join },
     { id: 'nav_projects', x: 900, y: 400, type: 'nav', label: 'Join Us', path: '/contact', delay: 1.8, description: 'Join and contribute', color: COLORS.join, activePath: ['e1', 'e_p1', 'e_p2'] },
 
     // Projects (Purple)
@@ -53,7 +53,7 @@ export const DESKTOP_EDGES: GraphEdge[] = [
     { id: 'e_a2', from: 'c2_a', to: 'nav_about', delay: 0.9, duration: 0.6, color: '#facc15' },
 
     // C1 -> Join Us Chain - Cyan 
-    { id: 'e_p1', from: 'c1', to: 'c2_p', delay: 0.6, duration: 0.5, label: 'INTERESTED? JOIN US!', color: '#00ffd5', labelDy: -15, labelOffset: '80%', labelAnchor: 'end' },
+    { id: 'e_p1', from: 'c1', to: 'c2_p', delay: 0.6, duration: 0.5, color: '#00ffd5', label: 'INTERESTED? JOIN US!', labelDy: -15, labelOffset: '35%', labelAnchor: 'start' },
     { id: 'e_p2', from: 'c2_p', to: 'nav_projects', delay: 1.1, duration: 0.8, color: '#00ffd5' },
 
     // C1 -> Blogs Chain - Red 

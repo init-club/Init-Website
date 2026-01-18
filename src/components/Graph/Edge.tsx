@@ -67,11 +67,15 @@ export const Edge = ({ id, x1, y1, x2, y2, delay, duration, color = '#334155', i
                     className="pointer-events-none select-none"
                     dy={labelDy || "-15"}
                     initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
+                    animate={{
+                        opacity: 1,
+                        fill: isMobile ? '#ffffff' : color
+                    }}
                     transition={{
                         delay: delay + 0.5,
                         duration: duration,
-                        ease: "easeOut"
+                        ease: "easeOut",
+                        fill: { duration: 0.3 }
                     }}
                     style={{
                         filter: isMobile ? 'none' : `drop-shadow(0 0 3px ${color})`
@@ -81,7 +85,7 @@ export const Edge = ({ id, x1, y1, x2, y2, delay, duration, color = '#334155', i
                         href={`#${id}`}
                         startOffset={labelOffset || "50%"}
                         textAnchor={labelAnchor || "middle"}
-                        fill={color}
+                        fill="currentColor" // Let parent motion.text control fill
                         className="font-mono font-bold text-[11px] tracking-[0.2em] uppercase opacity-90"
                     >
                         {label}
