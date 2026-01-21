@@ -88,7 +88,7 @@ export default function ContactPage() {
     <>
       <Navbar />
       <main className="pt-20 pb-10" style={{ backgroundColor: 'var(--bg)', color: 'var(--text)' }}>
-        
+
         {/* Hero Section - Radical Reframing */}
         <section className="relative px-4 py-20 overflow-hidden">
           <motion.div
@@ -97,7 +97,7 @@ export default function ContactPage() {
             transition={{ duration: 0.6 }}
             className="max-w-6xl mx-auto text-center"
           >
-            <h1 className="text-4xl md:text-6xl font-black mb-6" style={{ fontFamily: 'var(--font-heading)' }}>
+            <h1 className="text-4xl md:text-6xl font-black mb-6 whitespace-nowrap" style={{ fontFamily: 'var(--font-heading)' }}>
               <span style={{ color: 'var(--text)' }}>The &lt; </span>
               <span
                 style={{
@@ -111,7 +111,7 @@ export default function ContactPage() {
               </span>
               <span style={{ color: 'var(--text)' }}> Club /&gt;</span>
             </h1>
-            
+
             <p className="text-lg md:text-xl text-cyan-300 mb-4 font-semibold">Not just a club. A transformation.</p>
             <p className="text-base md:text-lg text-gray-400 max-w-3xl mx-auto mb-12 leading-relaxed">
               We don't recruit. We onboard builders. Not everyone will fit. Not everyone should.
@@ -199,7 +199,7 @@ export default function ContactPage() {
             className="absolute inset-0 rounded-3xl border border-cyan-500/20 -z-10"
             style={{ background: 'linear-gradient(135deg, rgba(0,255,213,0.03) 0%, rgba(168,85,247,0.03) 100%)' }}
           />
-          
+
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}

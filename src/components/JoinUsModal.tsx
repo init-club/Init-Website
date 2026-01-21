@@ -56,7 +56,7 @@ const JoinUsModal = ({ isOpen, onClose }: JoinUsModalProps) => {
                                     {/* Join INIT Club Intro */}
                                     <div className="text-center pb-4 sm:pb-6 border-b border-cyan-500/30 space-y-2 sm:space-y-3">
                                         <div>
-                                            <h1 className="text-2xl sm:text-4xl md:text-5xl font-black" style={{ fontFamily: 'var(--font-heading)' }}>
+                                            <h1 className="text-2xl sm:text-4xl md:text-5xl font-black whitespace-nowrap" style={{ fontFamily: 'var(--font-heading)' }}>
                                                 <span className="text-white">The &lt; </span>
                                                 <span
                                                     style={{
