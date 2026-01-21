@@ -140,7 +140,7 @@ export const GitGraph = () => {
                         </motion.p>
 
                         {/* Mobile Socials in Hero */}
-                        <div className="md:hidden flex items-center justify-center gap-10 mt-6">
+                        <div className="md:hidden flex items-center justify-center gap-10 mt-6 pointer-events-auto">
                             {[{ label: 'LinkedIn', href: 'https://www.linkedin.com', icon: Linkedin }, { label: 'Instagram', href: 'https://www.instagram.com/the.init.club?igsh=MTFlcWg1eWIyMTNyaA==', icon: Instagram }].map((social, index) => (
                                 <motion.a
                                     key={social.label}
@@ -150,10 +150,11 @@ export const GitGraph = () => {
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: 2.5 + (index * 0.1) }}
-                                    className="p-2 rounded-lg bg-[var(--white-5)] border border-[var(--white-10)] text-[var(--muted)] hover:text-[#00ffd5] hover:border-[#00ffd5]/50 transition-colors"
+                                    className="flex h-10 w-10 items-center justify-center rounded-lg glass transition-all duration-300"
+                                    style={{ color: 'var(--text)' }}
                                     aria-label={social.label}
                                 >
-                                    <social.icon size={18} />
+                                    <social.icon size={20} />
                                 </motion.a>
                             ))}
                         </div>
