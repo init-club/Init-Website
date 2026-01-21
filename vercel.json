@@ -1,12 +1,11 @@
 {
-    "version": 2,
     "regions": [
         "bom1"
     ],
-    "routes": [
+    "rewrites": [
         {
-            "src": "/(.*)",
-            "dest": "/index.html"
+            "source": "/(?!assets/).*",
+            "destination": "/index.html"
         }
     ]
 }
