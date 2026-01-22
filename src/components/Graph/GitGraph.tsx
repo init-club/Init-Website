@@ -7,7 +7,7 @@ import { Edge } from './Edge';
 import { NavNode } from './NavNode';
 import { GraphBackground } from './GraphBackground';
 import { GitCloneLoader } from './GitCloneLoader';
-import { TypewriterText } from './TypewriterText';
+import { TypewriterText } from '../TypewriterText';
 import type { GraphNode } from './constants';
 
 export const GitGraph = () => {
