@@ -8,22 +8,40 @@ interface CoreValue {
 
 const coreValues: CoreValue[] = [
   {
-    title: 'Community',
+    title: 'Initialization & Foundations',
     description:
-      'Building a vibrant network of developers, designers, and innovators who support and inspire each other.',
-    icon: '👥',
+      'We believe the most important step is the first one. We focus on turning raw ideas into working systems by building from the ground up, emphasizing that every great project starts with a strong "init" phase.',
+    icon: '🚀',
   },
   {
-    title: 'Code',
+    title: 'Open-Source Stewardship',
     description:
-      'Crafting elegant solutions through clean, efficient, and maintainable code that pushes boundaries.',
+      "Open-source isn't just a license, it’s our culture. We prioritize developing in the open, contributing to the global ecosystem (like GSoC and Hacktoberfest), and ensuring our work remains accessible, public, and impactful.",
+    icon: '🌐',
+  },
+  {
+    title: 'Collaborative Growth',
+    description:
+      "We function as a peer-led community where skill levels don't define worth. Whether through onboarding beginners or experienced members mentoring others, we foster a supportive environment where knowledge is shared freely.",
+    icon: '🤝',
+  },
+  {
+    title: 'Engineering Excellence (Real-World Workflows)',
+    description:
+      "We don’t just \"write code\", we build reliable systems. We are committed to professional development workflows, including version control, documentation, testing, and deployment, to ensure our projects are sustainable and high-quality.",
+    icon: '🛠️',
+  },
+  {
+    title: 'Consistency & Accountability',
+    description:
+      'Through structured project seasons and time-bound initiatives, we value measurable outcomes. We ensure that engagement is sustained and that members are held accountable for the long-term maintenance of their contributions.',
+    icon: '🗓️',
+  },
+  {
+    title: 'Practical Experimentation',
+    description:
+      'We value hands-on learning over theory. The club serves as a laboratory for students to experiment, fail, and iterate, ensuring that ideas evolve through actual implementation and real-world usage.',
     icon: '💻',
-  },
-  {
-    title: 'Creativity',
-    description:
-      'Fostering innovative thinking and out-of-the-box solutions to tackle real-world challenges.',
-    icon: '✨',
   },
 ];
 
