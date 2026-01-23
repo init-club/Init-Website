@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import { GlitchText } from '../Graph/GlitchText';
 import President from '../assets/President.jpeg'
@@ -22,6 +22,147 @@ interface TierConfig {
   borderColor: string;
   badgeColor: string;
 }
+
+// Lightbox Modal Component
+const ImageLightbox = ({
+  member,
+  onClose,
+}: {
+  member: TeamMember | null;
+  onClose: () => void;
+}) => {
+  if (!member) return null;
+  const config = tierConfigs[member.tier];
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={onClose}
+        className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+      >
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0.8, opacity: 0 }}
+          transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+          onClick={(e) => e.stopPropagation()}
+          className="relative max-w-sm w-full bg-[#0a0a0a] border border-[var(--glass-border)] rounded-xl overflow-hidden"
+          style={{
+            boxShadow: `0 0 60px ${config.glowColor}`,
+          }}
+        >
+          {/* Header */}
+          <div
+            className="flex items-center justify-between px-4 py-2 border-b border-[var(--glass-border)]"
+            style={{
+              background: `linear-gradient(90deg, ${config.badgeColor}1A 0%, #0f0f0f 100%)`,
+            }}
+          >
+            <div className="flex items-center gap-2">
+              <span
+                className="w-2 h-2 rounded-full animate-pulse"
+                style={{ backgroundColor: config.badgeColor }}
+              />
+              <span className="text-[10px] font-[var(--font-mono)] text-[var(--muted)] uppercase tracking-wider">
+                Personnel File
+              </span>
+            </div>
+            <button
+              onClick={onClose}
+              className="text-[var(--muted)] hover:text-white transition-colors"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          {/* Image */}
+          <div className="p-4">
+            <div
+              className="w-full aspect-square rounded-lg overflow-hidden border-2"
+              style={{ borderColor: config.borderColor }}
+            >
+              <img
+                src={member.avatar}
+                alt={member.username}
+                className="w-full h-full object-cover"
+              />
+            </div>
+
+            {/* Info */}
+            <div className="mt-4 text-center">
+              <div className="flex items-center justify-center gap-1 mb-1">
+                <span
+                  className="font-[var(--font-mono)] text-sm"
+                  style={{ color: `${config.badgeColor}99` }}
+                >
+                  @
+                </span>
+                <h3 className="font-[var(--font-mono)] text-[var(--text)] font-bold text-lg">
+                  {member.username}
+                </h3>
+              </div>
+              <p
+                className="text-sm font-[var(--font-mono)] uppercase tracking-wide mb-4"
+                style={{ color: config.badgeColor }}
+              >
+                {member.role}
+              </p>
+
+              {/* Social Links */}
+              <div className="flex items-center justify-center gap-3">
+                {member.github && (
+                  <a
+                    href={member.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2.5 rounded-md bg-[#0f0f0f] border border-[var(--glass-border)] text-[var(--muted)] hover:text-white hover:border-[#333] transition-all duration-200"
+                  >
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <path
+                        fillRule="evenodd"
+                        d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </a>
+                )}
+                {member.linkedin && (
+                  <a
+                    href={member.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2.5 rounded-md bg-[#0f0f0f] border border-[var(--glass-border)] text-[var(--muted)] hover:text-[#0a66c2] hover:border-[#0a66c2]/50 transition-all duration-200"
+                  >
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                    </svg>
+                  </a>
+                )}
+                {member.instagram && (
+                  <a
+                    href={member.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2.5 rounded-md bg-[#0f0f0f] border border-[var(--glass-border)] text-[var(--muted)] hover:text-[#e4405f] hover:border-[#e4405f]/50 transition-all duration-200"
+                  >
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+                    </svg>
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
+  );
+};
 
 const tierConfigs: Record<TierType, TierConfig> = {
   sudo: {
@@ -171,7 +312,15 @@ const InstagramIcon = () => (
   </svg>
 );
 
-const ProfileCard = ({ member, isLarge = false }: { member: TeamMember; isLarge?: boolean }) => {
+const ProfileCard = ({
+  member,
+  isLarge = false,
+  onImageClick,
+}: {
+  member: TeamMember;
+  isLarge?: boolean;
+  onImageClick: (member: TeamMember) => void;
+}) => {
   const [isHovered, setIsHovered] = useState(false);
   const config = tierConfigs[member.tier];
 
@@ -216,8 +365,9 @@ const ProfileCard = ({ member, isLarge = false }: { member: TeamMember; isLarge?
           <div className="flex flex-col items-center text-center">
             {/* Avatar */}
             <div className="relative mb-3">
-              <div
-                className={`${isLarge ? 'w-20 h-20' : 'w-16 h-16'} rounded-lg overflow-hidden border-2 transition-colors duration-300`}
+              <button
+                onClick={() => onImageClick(member)}
+                className={`${isLarge ? 'w-20 h-20' : 'w-16 h-16'} rounded-lg overflow-hidden border-2 transition-all duration-300 cursor-pointer hover:scale-105`}
                 style={{
                   borderColor: isHovered ? config.borderColor : `${config.borderColor}4D`,
                 }}
@@ -227,7 +377,7 @@ const ProfileCard = ({ member, isLarge = false }: { member: TeamMember; isLarge?
                   alt={member.username}
                   className="w-full h-full object-cover"
                 />
-              </div>
+              </button>
               {/* Online Indicator */}
               <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-[#0a0a0a] rounded-full flex items-center justify-center">
                 <div className="w-2 h-2 rounded-full bg-[#22c55e] animate-pulse" />
@@ -328,11 +478,13 @@ const TierSection = ({
   members,
   isLarge = false,
   gridCols,
+  onImageClick,
 }: {
   title: string;
   members: TeamMember[];
   isLarge?: boolean;
   gridCols: string;
+  onImageClick: (member: TeamMember) => void;
 }) => {
   const config = tierConfigs[members[0]?.tier || 'maintainer'];
 
@@ -388,7 +540,7 @@ const TierSection = ({
         className={`grid ${gridCols} gap-5 justify-items-center`}
       >
         {members.map((member) => (
-          <ProfileCard key={member.username} member={member} isLarge={isLarge} />
+          <ProfileCard key={member.username} member={member} isLarge={isLarge} onImageClick={onImageClick} />
         ))}
       </motion.div>
     </div>
@@ -396,6 +548,16 @@ const TierSection = ({
 };
 
 export const TeamSection = () => {
+  const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
+
+  const handleImageClick = (member: TeamMember) => {
+    setSelectedMember(member);
+  };
+
+  const handleCloseLightbox = () => {
+    setSelectedMember(null);
+  };
+
   return (
     <section className="py-16 px-4 sm:px-6 lg:px-8 mb-12">
       <div className="max-w-6xl mx-auto">
@@ -429,6 +591,7 @@ export const TeamSection = () => {
           members={[executiveBoard[0]]}
           isLarge={true}
           gridCols="grid-cols-1"
+          onImageClick={handleImageClick}
         />
 
         {/* Tier 1: Executive Board - VPs */}
@@ -441,7 +604,7 @@ export const TeamSection = () => {
             className="grid grid-cols-1 sm:grid-cols-2 gap-5 justify-items-center max-w-2xl mx-auto"
           >
             {executiveBoard.slice(1).map((member) => (
-              <ProfileCard key={member.username} member={member} isLarge={true} />
+              <ProfileCard key={member.username} member={member} isLarge={true} onImageClick={handleImageClick} />
             ))}
           </motion.div>
         </div>
@@ -451,6 +614,7 @@ export const TeamSection = () => {
           title="Technical & Creative Leads"
           members={technicalLeads}
           gridCols="grid-cols-2 sm:grid-cols-3 lg:grid-cols-4"
+          onImageClick={handleImageClick}
         />
 
         {/* Tier 3: Operations & Outreach Leads */}
@@ -458,8 +622,14 @@ export const TeamSection = () => {
           title="Operations & Outreach Leads"
           members={operationsLeads}
           gridCols="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+          onImageClick={handleImageClick}
         />
       </div>
+
+      {/* Image Lightbox */}
+      {selectedMember && (
+        <ImageLightbox member={selectedMember} onClose={handleCloseLightbox} />
+      )}
     </section>
   );
 };
