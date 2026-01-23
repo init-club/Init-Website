@@ -326,7 +326,7 @@ export default function ContactPage() {
               Sound like you?
             </h2>
             <p className="text-gray-400 text-lg mb-10 max-w-2xl mx-auto">
-              If this resonates with you—if you're curious and want to grow alongside amazing people—we'd love to have you join us.
+              If this resonates with you-if you're curious and want to grow alongside amazing people-we'd love to have you join us.
             </p>
 
             <motion.button
