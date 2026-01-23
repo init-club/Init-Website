@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 
 export const HeroSection = () => {
   return (
-    <section className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <section className="relative pt-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
       <div className="max-w-7xl mx-auto text-center">
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
