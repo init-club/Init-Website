@@ -35,19 +35,19 @@ export const MissionSection = () => {
             </h2>
             <div className="space-y-4 text-[var(--muted)] leading-relaxed">
               <p>
-                Init Club is a community-driven organization dedicated to empowering the next
-                generation of tech innovators. We believe in learning by doing, sharing
-                knowledge, and building together.
+                Init Club is a student-led open-source community built around the idea of initialization, the first step of turning ideas into working systems. The club serves as a starting point for students to learn, experiment, and collaborate by building projects from the ground up.
               </p>
               <p>
-                Our mission is to create an inclusive environment where students and
-                professionals can collaborate on meaningful projects, learn cutting-edge
-                technologies, and develop skills that matter in today's rapidly evolving tech
-                landscape.
+                We focus on hands-on learning through real development workflows, including version control, code reviews, documentation, testing, and deployment. Members work in collaborative teams to ideate, design, and implement projects, contributing to public repositories and maintaining them over time.
               </p>
               <p>
-                Whether you're a seasoned developer or just starting your coding journey, Init
-                Club provides the resources, mentorship, and community you need to thrive.
+                Init Club welcomes members of all skill levels. Beginners are supported through onboarding tasks, peer-led sessions, and guided contributions, while experienced members mentor others and lead project initiatives. The club follows a structured approach to development through time-bound project seasons, ensuring consistency, accountability, and measurable outcomes.
+              </p>
+              <p>
+                Beyond building projects, Init Club promotes participation in the global open-source ecosystem by encouraging contributions to external projects and programs such as Hacktoberfest and GSoC. Contributions are tracked and recognized to foster sustained engagement and growth.
+              </p>
+              <p>
+                All projects under Init Club are developed openly, with an emphasis on collaboration, learning, and long-term impact. The goal is not just to write code, but to build reliable systems, share knowledge, and create a supportive environment where ideas evolve into meaningful open-source works.
               </p>
             </div>
           </motion.div>
