@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Instagram, Linkedin } from 'lucide-react';
+import { Instagram, Linkedin, MessageCircle } from 'lucide-react';
 import { DESKTOP_NODES, DESKTOP_EDGES, MOBILE_NODES, MOBILE_EDGES } from './constants';
 import { Node } from './Node';
 import { Edge } from './Edge';
@@ -60,7 +60,7 @@ export const GitGraph = () => {
     const getNode = (id: string): GraphNode | undefined => nodes.find(n => n.id === id);
 
     return (
-        <div className="w-full h-screen relative overflow-hidden flex items-center justify-center" style={{ backgroundColor: 'var(--bg)', color: 'var(--text)' }}>
+        <div className="w-full h-screen relative overflow-hidden flex items-center justify-center pb-24 md:pb-0" style={{ backgroundColor: 'var(--bg)', color: 'var(--text)' }}>
 
             {/* Loading Animation */}
             <AnimatePresence>
@@ -138,26 +138,6 @@ export const GitGraph = () => {
                         >
                             &gt; git commit -m "<span className="text-white" style={{ textShadow: '0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.4)' }}>Where Curiosity Turns into Contribution</span>"
                         </motion.p>
-
-                        {/* Mobile Socials in Hero */}
-                        <div className="md:hidden flex items-center justify-center gap-10 mt-6 pointer-events-auto">
-                            {[{ label: 'LinkedIn', href: 'https://www.linkedin.com', icon: Linkedin }, { label: 'Instagram', href: 'https://www.instagram.com/the.init.club?igsh=MTFlcWg1eWIyMTNyaA==', icon: Instagram }].map((social, index) => (
-                                <motion.a
-                                    key={social.label}
-                                    href={social.href}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: 2.5 + (index * 0.1) }}
-                                    className="flex h-10 w-10 items-center justify-center rounded-lg glass transition-all duration-300"
-                                    style={{ color: 'var(--text)' }}
-                                    aria-label={social.label}
-                                >
-                                    <social.icon size={20} />
-                                </motion.a>
-                            ))}
-                        </div>
                     </motion.div>
 
                     <svg
@@ -165,7 +145,7 @@ export const GitGraph = () => {
                         height="100%"
                         viewBox={viewBox}
                         preserveAspectRatio="xMidYMid meet"
-                        className="max-w-7xl mx-auto px-2"
+                        className="max-w-7xl mx-auto px-2 mt-20 md:mt-0"
                     >
                         {/* Render Edges first so lines are behind nodes */}
                         {edges.map(edge => {
@@ -257,6 +237,33 @@ export const GitGraph = () => {
                                 scroll
                             </motion.div>
                         </>
+                    )}
+
+                    {/* Mobile Socials Below Graph */}
+                    {isMobile && (
+                        <motion.div
+                            className="absolute bottom-6 inset-x-0 flex items-center justify-center gap-10 pointer-events-auto px-6"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: skipAnimation ? 0 : 2.5, duration: 0.5 }}
+                        >
+                            {[{ label: 'LinkedIn', href: 'https://www.linkedin.com', icon: Linkedin }, { label: 'Instagram', href: 'https://www.instagram.com/the.init.club?igsh=MTFlcWg1eWIyMTNyaA==', icon: Instagram }, { label: 'Discord', href: 'https://discord.gg/Gx8sdGJkU', icon: MessageCircle }].map((social, index) => (
+                                <motion.a
+                                    key={social.label}
+                                    href={social.href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: skipAnimation ? 0 : 2.7 + (index * 0.1) }}
+                                    className="flex h-10 w-10 items-center justify-center rounded-lg glass transition-all duration-300"
+                                    style={{ color: 'var(--text)' }}
+                                    aria-label={social.label}
+                                >
+                                    <social.icon size={20} />
+                                </motion.a>
+                            ))}
+                        </motion.div>
                     )}
                 </>
             )}
