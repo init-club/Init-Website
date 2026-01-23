@@ -1,10 +1,16 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './styles/index.css'
-import App from './App.tsx'
+import { GitGraph } from "../components/Graph/GitGraph";
+import { Footer } from "../components/Footer";
+import AboutWhatWeDo from "../components/AboutWhatWeDo";
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+
+export function HomePage() {
+  return (
+    <>
+      <GitGraph />
+      <AboutWhatWeDo />
+      <Footer />
+    </>
+  );
+}
+
+export default HomePage;
