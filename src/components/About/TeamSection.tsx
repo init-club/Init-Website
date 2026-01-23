@@ -1,7 +1,11 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import { GlitchText } from '../Graph/GlitchText';
-import President from '../assets/President.jpeg'
+import President from '../assets/profile/President.jpeg'
+import Nitansh from '../assets/profile/Nitansh.jpg'
+import Tanush from '../assets/profile/Tanush.jpg'
+import Sanjith from '../assets/profile/Sanjith.jpg'
+import Saivarun from '../assets/profile/SaiVarun.jpg'
 
 type TierType = 'sudo' | 'maintainer' | 'orchestrator';
 
@@ -190,7 +194,7 @@ const tierConfigs: Record<TierType, TierConfig> = {
 
 const executiveBoard: TeamMember[] = [
   {
-    username: 'president_init',
+    username: 'K Supriya',
     role: 'President',
     avatar: President,
     github: 'https://github.com',
@@ -199,16 +203,16 @@ const executiveBoard: TeamMember[] = [
     tier: 'sudo',
   },
   {
-    username: 'vp_tech',
-    role: 'VP - Tech',
+    username: 'Meghana Kotharu',
+    role: 'Vice President - Tech',
     avatar: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=vptech&backgroundColor=0a0a0a',
     github: 'https://github.com',
     linkedin: 'https://linkedin.com',
     tier: 'sudo',
   },
   {
-    username: 'vp_nontech',
-    role: 'VP - Non Tech',
+    username: 'P Sai Mrudula',
+    role: 'Vice President - Non Tech',
     avatar: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=vpnontech&backgroundColor=0a0a0a',
     linkedin: 'https://linkedin.com',
     instagram: 'https://instagram.com',
@@ -218,32 +222,32 @@ const executiveBoard: TeamMember[] = [
 
 const technicalLeads: TeamMember[] = [
   {
-    username: 'web_lead',
+    username: 'Nitansh Shankar',
     role: 'Website Lead',
-    avatar: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=weblead&backgroundColor=0a0a0a',
+    avatar: Nitansh,
     github: 'https://github.com',
     linkedin: 'https://linkedin.com',
     tier: 'maintainer',
   },
   {
-    username: 'research_lead',
+    username: 'Emani Sai Varun',
     role: 'Research Lead',
-    avatar: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=researchlead&backgroundColor=0a0a0a',
+    avatar: Saivarun,
     github: 'https://github.com',
     linkedin: 'https://linkedin.com',
     tier: 'maintainer',
   },
   {
-    username: 'github_lead',
+    username: 'Sanjith M',
     role: 'GitHub Lead',
-    avatar: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=githublead&backgroundColor=0a0a0a',
+    avatar: Sanjith,
     github: 'https://github.com',
     tier: 'maintainer',
   },
   {
-    username: 'multimedia_lead',
+    username: 'Tanush Gurrapu',
     role: 'Multimedia Lead',
-    avatar: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=multimedialead&backgroundColor=0a0a0a',
+    avatar: Tanush,
     instagram: 'https://instagram.com',
     linkedin: 'https://linkedin.com',
     tier: 'maintainer',
@@ -252,14 +256,14 @@ const technicalLeads: TeamMember[] = [
 
 const operationsLeads: TeamMember[] = [
   {
-    username: 'logistics_lead',
+    username: 'Masapeta Kuruva Bhargava Sri Sai',
     role: 'Logistics Lead',
     avatar: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=logisticslead&backgroundColor=0a0a0a',
     linkedin: 'https://linkedin.com',
     tier: 'orchestrator',
   },
   {
-    username: 'pr_lead',
+    username: 'Ganesh',
     role: 'PR Lead',
     avatar: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=prlead&backgroundColor=0a0a0a',
     instagram: 'https://instagram.com',
@@ -267,7 +271,7 @@ const operationsLeads: TeamMember[] = [
     tier: 'orchestrator',
   },
   {
-    username: 'events_lead',
+    username: 'Naga Sri Harini',
     role: 'Event Management Lead',
     avatar: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=eventslead&backgroundColor=0a0a0a',
     linkedin: 'https://linkedin.com',

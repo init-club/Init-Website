@@ -1,9 +1,9 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import Abhijith from '../assets/abhijith.jpg';
-import Group from '../assets/group.jpg';
-import Selfie from '../assets/Selfie.jpg';
-import Pic1 from '../assets/pic1.png';
+import Abhijith from '../assets/slideshow/abhijith.jpg';
+import Group from '../assets/slideshow/group.jpg';
+import Selfie from '../assets/slideshow/Selfie.jpg';
+import Pic1 from '../assets/slideshow/pic1.png';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
