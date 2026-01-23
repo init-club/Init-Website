@@ -12,66 +12,66 @@ export default function ContactPage() {
     {
       icon: Zap,
       title: 'Curiosity Driven',
-      description: 'We\'re obsessed with the "why" before the "how". Questions spark innovation.'
+      description: 'We believe in asking questions and learning together. Every curiosity leads us toward growth.'
     },
     {
       icon: Github,
       title: 'Open Source Philosophy',
-      description: 'Code transparency, knowledge sharing, community-first mentality.'
+      description: 'We value sharing knowledge, collaborating freely, and building as a community.'
     },
     {
       icon: Brain,
-      title: 'Problem Solvers',
-      description: 'We don\'t memorize solutions. We think, debug, and innovate.'
+      title: 'Growth Mindset',
+      description: 'We learn from challenges, support each other through problems, and grow together.'
     },
     {
       icon: Users,
-      title: 'Collectively Stronger',
-      description: 'Your success lifts everyone. Mentorship is bidirectional.'
+      title: 'Collective Strength',
+      description: 'When one of us succeeds, we all benefit. We mentor and learn from each other.'
     },
   ];
 
   const journeySteps = [
     {
       phase: 'Entry',
-      title: 'The Foundation',
-      description: 'Prove you\'re hungry. Complete initial challenges that test your problem-solving mindset, not just your code.',
+      title: 'Getting Started',
+      description: 'Join our community and explore what we\'re building. Work on fun challenges that help you discover your strengths.',
       icon: Lightbulb
     },
     {
       phase: 'Growth',
-      title: 'The Grind',
-      description: 'Build real projects. Learn deployment. Debug real issues. Mentors guide, but you drive.',
+      title: 'Learning Together',
+      description: 'Build real projects, learn new skills, and solve meaningful problems. Mentors are here to guide and support your journey.',
       icon: Flame
     },
     {
       phase: 'Leadership',
-      title: 'The Mentor',
-      description: 'Help others navigate the path you\'ve walked. Teaching solidifies mastery.'
+      title: 'Lifting Others',
+      description: 'Share your knowledge and help newer members find their way. Mentoring deepens your own understanding.'
     },
     {
       phase: 'Legacy',
-      title: 'The Architect',
-      description: 'Shape Init Club\'s future. Influence decisions. Define what comes next.'
+      title: 'Shaping the Future',
+      description: 'Help shape Init Club\'s direction. Your ideas and contributions make a real difference.'
     },
   ];
 
   const truthBombs = [
     {
-      bold: 'You MUST be an Amrita CBE student',
-      normal: ' - No remote members, no exceptions. This is our community.'
+      bold: 'You should be an Amrita CBE student',
+      normal: ' - This helps us build a tight-knit local community together.'
     },
     {
-      bold: 'You MUST commit time',
-      normal: ' - We\'re not a resume line. We\'re a lifestyle change.'
+      bold: 'Be ready to invest time',
+      normal: ' - We\'re more than a club. We\'re a supportive community where you can truly grow.'
     },
     {
-      bold: 'You MUST own your growth',
-      normal: ' - We guide, but you lead. Self-learning is non-negotiable.'
+      bold: 'Take ownership of your learning',
+      normal: ' - We\'re here to guide and support you, but your growth comes from your efforts.'
     },
     {
-      bold: 'You MUST play by our rules',
-      normal: ' - Plagiarism = disqualification. Integrity is everything.'
+      bold: 'Let\'s build with integrity',
+      normal: ' - We value honest work and original thinking. That\'s how we all grow stronger together.'
     },
   ];
 
@@ -112,11 +112,10 @@ export default function ContactPage() {
               <span style={{ color: 'var(--text)' }}> Club /&gt;</span>
             </h1>
 
-            <p className="text-lg md:text-xl text-cyan-300 mb-4 font-semibold">Not just a club. A transformation.</p>
+            <p className="text-lg md:text-xl text-cyan-300 mb-4 font-semibold">A space to grow together.</p>
             <p className="text-base md:text-lg text-gray-400 max-w-3xl mx-auto mb-12 leading-relaxed">
-              We don't recruit. We onboard builders. Not everyone will fit. Not everyone should.
+              We're building a really inclusive environment where curious minds can learn and grow together. Whether you're just starting out or looking to level up, you belong here.
               <br className="hidden sm:block" />
-              If you're here, you're ready to level up or curious. Both are good enough.
             </p>
 
             {/* CTA Button with Laser Animation */}
@@ -144,7 +143,7 @@ export default function ContactPage() {
                 transition={{ duration: 0.2, ease: "linear" }}
               />
               <span className="relative z-10 flex items-center gap-2 transition-colors duration-300 group-hover:text-white">
-                Check if you fit
+                Join Our Community
                 <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
               </span>
             </motion.button>
@@ -165,7 +164,7 @@ export default function ContactPage() {
               <h2 className="text-3xl md:text-4xl font-black mb-4" style={{ fontFamily: 'var(--font-heading)' }}>
                 The Init Club Spirit
               </h2>
-              <p className="text-gray-400 text-lg">What we stand for. Not rules. Not requirements. Just... us.</p>
+              <p className="text-gray-400 text-lg">The values we share as we learn and build together.</p>
             </div>
 
             <div className="grid md:grid-cols-2 gap-6">
@@ -207,9 +206,9 @@ export default function ContactPage() {
             className="p-8 md:p-12"
           >
             <h2 className="text-3xl md:text-4xl font-black mb-4 text-center" style={{ fontFamily: 'var(--font-heading)' }}>
-              The Real Talk
+              What to Know
             </h2>
-            <p className="text-center text-gray-400 mb-12 text-lg">What you actually need to succeed here.</p>
+            <p className="text-center text-gray-400 mb-12 text-lg">A few things that help us all succeed together.</p>
 
             <div className="space-y-6">
               {truthBombs.map((item, idx) => (
@@ -291,9 +290,9 @@ export default function ContactPage() {
           >
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-4xl font-black mb-4" style={{ fontFamily: 'var(--font-heading)' }}>
-                What You'll Actually Gain
+                What You'll Gain
               </h2>
-              <p className="text-gray-400 text-lg">Tangible skills. Not just certificates.</p>
+              <p className="text-gray-400 text-lg">Real skills and friendships that last beyond Init Club.</p>
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -327,7 +326,7 @@ export default function ContactPage() {
               Sound like you?
             </h2>
             <p className="text-gray-400 text-lg mb-10 max-w-2xl mx-auto">
-              If you see yourself in this-if you're hungry, curious, and ready to be uncomfortable-then let's see if we're a match.
+              If this resonates with you—if you're curious and want to grow alongside amazing people—we'd love to have you join us.
             </p>
 
             <motion.button
