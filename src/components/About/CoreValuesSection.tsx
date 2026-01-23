@@ -1,9 +1,10 @@
 import { motion } from 'framer-motion';
+import { Rocket, Globe, Users, Wrench, Calendar, Laptop } from 'lucide-react';
 
 interface CoreValue {
   title: string;
   description: string;
-  icon: string;
+  icon: React.ComponentType<{ className?: string }>;
 }
 
 const coreValues: CoreValue[] = [
@@ -11,37 +12,37 @@ const coreValues: CoreValue[] = [
     title: 'Initialization & Foundations',
     description:
       'We believe the most important step is the first one. We focus on turning raw ideas into working systems by building from the ground up, emphasizing that every great project starts with a strong "init" phase.',
-    icon: '🚀',
+    icon: Rocket,
   },
   {
     title: 'Open-Source Stewardship',
     description:
       "Open-source isn't just a license, it’s our culture. We prioritize developing in the open, contributing to the global ecosystem (like GSoC and Hacktoberfest), and ensuring our work remains accessible, public, and impactful.",
-    icon: '🌐',
+    icon: Globe,
   },
   {
     title: 'Collaborative Growth',
     description:
       "We function as a peer-led community where skill levels don't define worth. Whether through onboarding beginners or experienced members mentoring others, we foster a supportive environment where knowledge is shared freely.",
-    icon: '🤝',
+    icon: Users,
   },
   {
     title: 'Engineering Excellence (Real-World Workflows)',
     description:
       "We don’t just \"write code\", we build reliable systems. We are committed to professional development workflows, including version control, documentation, testing, and deployment, to ensure our projects are sustainable and high-quality.",
-    icon: '🛠️',
+    icon: Wrench,
   },
   {
     title: 'Consistency & Accountability',
     description:
       'Through structured project seasons and time-bound initiatives, we value measurable outcomes. We ensure that engagement is sustained and that members are held accountable for the long-term maintenance of their contributions.',
-    icon: '🗓️',
+    icon: Calendar,
   },
   {
     title: 'Practical Experimentation',
     description:
       'We value hands-on learning over theory. The club serves as a laboratory for students to experiment, fail, and iterate, ensuring that ideas evolve through actual implementation and real-world usage.',
-    icon: '💻',
+    icon: Laptop,
   },
 ];
 
@@ -96,7 +97,9 @@ export const CoreValuesSection = () => {
               transition={{ duration: 0.3 }}
               className="glass rounded-2xl p-8 text-center hover:border-[#00ffd5]/30 transition-colors duration-300"
             >
-              <div className="text-5xl mb-4">{value.icon}</div>
+              <div className="mb-4 flex justify-center">
+                <value.icon className="w-12 h-12 text-[#00ffd5]" />
+              </div>
               <h3 className="text-xl font-bold font-[var(--font-heading)] text-[var(--text)] mb-3">
                 {value.title}
               </h3>
