@@ -1,4 +1,9 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import Abhijith from '../assets/abhijith.jpg';
+import Group from '../assets/group.jpg';
+import Selfie from '../assets/Selfie.jpg';
+import Pic1 from '../assets/pic1.png';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -12,6 +17,144 @@ const staggerContainer = {
       staggerChildren: 0.1,
     },
   },
+};
+
+const stackImages = [
+  Group,
+  Selfie,
+  Pic1,
+  Abhijith,
+];
+
+const AnimatedImageStack = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % stackImages.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Calculate positions for stacked effect
+  const getStackPosition = (index: number) => {
+    const relativeIndex = (index - activeIndex + stackImages.length) % stackImages.length;
+    
+    switch (relativeIndex) {
+      case 0: // Top/active image
+        return {
+          zIndex: 30,
+          x: 0,
+          y: 0,
+          rotate: 0,
+          scale: 1,
+          opacity: 1,
+        };
+      case 1: // Second image
+        return {
+          zIndex: 20,
+          x: 15,
+          y: 10,
+          rotate: 3,
+          scale: 0.95,
+          opacity: 0.8,
+        };
+      case 2: // Third/bottom image
+        return {
+          zIndex: 10,
+          x: 30,
+          y: 20,
+          rotate: 6,
+          scale: 0.9,
+          opacity: 0.6,
+        };
+      default:
+        return {
+          zIndex: 0,
+          x: 0,
+          y: 0,
+          rotate: 0,
+          scale: 1,
+          opacity: 0,
+        };
+    }
+  };
+
+  return (
+    <div className="relative w-full h-[400px] sm:h-[450px] lg:h-[500px]">
+      {/* Multiple glow effects for depth */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#00ffd5]/30 to-[#a855f7]/30 rounded-3xl blur-3xl translate-x-6 translate-y-6 animate-pulse" />
+      <div className="absolute inset-0 bg-gradient-to-tr from-[#a855f7]/20 to-[#00ffd5]/20 rounded-3xl blur-2xl translate-x-2 translate-y-2" />
+      
+      {/* Image stack */}
+      <div className="relative w-full h-full perspective-1000">
+        {stackImages.map((src, index) => {
+          const position = getStackPosition(index);
+          const isActive = (index - activeIndex + stackImages.length) % stackImages.length === 0;
+          return (
+            <motion.div
+              key={src}
+              className="absolute inset-0 cursor-pointer"
+              initial={false}
+              animate={{
+                x: position.x,
+                y: position.y,
+                rotate: position.rotate,
+                scale: position.scale,
+                opacity: position.opacity,
+                zIndex: position.zIndex,
+              }}
+              whileHover={isActive ? { scale: 1.02, y: -5 } : {}}
+              transition={{
+                duration: 0.8,
+                ease: [0.4, 0, 0.2, 1],
+              }}
+              onClick={() => setActiveIndex(index)}
+            >
+              {/* Image container with frame effect */}
+              <div className="relative w-full h-full group">
+                {/* Gradient border frame */}
+                <div className="absolute -inset-[2px] bg-gradient-to-br from-[#00ffd5]/60 via-transparent to-[#a855f7]/60 rounded-2xl opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
+                
+                {/* Inner shadow overlay for depth */}
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-black/30 via-transparent to-white/10 z-10 pointer-events-none" />
+                
+                <img
+                  src={src}
+                  alt={`Team collaboration ${index + 1}`}
+                  className="relative w-full h-full object-cover rounded-2xl shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] border border-white/10"
+                  style={{
+                    filter: isActive ? 'brightness(1.05) contrast(1.05)' : 'brightness(0.9)',
+                  }}
+                />
+                
+                {/* Shine effect on hover */}
+                {isActive && (
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                )}
+              </div>
+            </motion.div>
+          );
+        })}
+      </div>
+
+      {/* Indicator dots */}
+      <div className="absolute -bottom-10 left-1/2 transform -translate-x-1/2 flex gap-3">
+        {stackImages.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setActiveIndex(index)}
+            className={`h-2.5 rounded-full transition-all duration-500 ease-out ${
+              index === activeIndex
+                ? 'bg-gradient-to-r from-[#00ffd5] to-[#a855f7] w-8 shadow-[0_0_10px_rgba(0,255,213,0.5)]'
+                : 'bg-[var(--muted)]/30 w-2.5 hover:bg-[var(--muted)]/60 hover:scale-125'
+            }`}
+            aria-label={`View image ${index + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export const MissionSection = () => {
@@ -52,16 +195,9 @@ export const MissionSection = () => {
             </div>
           </motion.div>
 
-          {/* Image Column */}
-          <motion.div variants={fadeInUp} className="order-1 lg:order-2">
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-[#00ffd5]/20 to-[#a855f7]/20 rounded-2xl blur-xl" />
-              <img
-                src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b"
-                alt="Technology and Innovation"
-                className="relative rounded-2xl w-full h-auto object-cover border border-[var(--glass-border)]"
-              />
-            </div>
+          {/* Image Column - Animated Stack */}
+          <motion.div variants={fadeInUp} className="order-1 lg:order-2 pb-10">
+            <AnimatedImageStack />
           </motion.div>
         </motion.div>
       </div>
