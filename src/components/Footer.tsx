@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { Instagram, Linkedin } from 'lucide-react';
+import { Instagram, Linkedin, MessageCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const navItems = [
@@ -14,6 +14,7 @@ const navItems = [
 const socials = [
   { label: 'LinkedIn', href: 'https://www.linkedin.com', icon: Linkedin },
   { label: 'Instagram', href: 'https://www.instagram.com/the.init.club?igsh=MTFlcWg1eWIyMTNyaA==', icon: Instagram },
+  { label: 'Discord', href: 'https://discord.gg/Gx8sdGJkU', icon: MessageCircle },
 ];
 
 export function Footer() {
