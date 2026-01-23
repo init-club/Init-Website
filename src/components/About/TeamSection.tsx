@@ -244,17 +244,18 @@ const technicalLeads: TeamMember[] = [
     github: 'https://github.com',
     tier: 'maintainer',
   },
+  
+];
+
+const operationsLeads: TeamMember[] = [
   {
     username: 'Tanush Gurrapu',
     role: 'Multimedia Lead',
     avatar: Tanush,
     instagram: 'https://instagram.com',
     linkedin: 'https://linkedin.com',
-    tier: 'maintainer',
+    tier: 'orchestrator',
   },
-];
-
-const operationsLeads: TeamMember[] = [
   {
     username: 'Masapeta Kuruva Bhargava Sri Sai',
     role: 'Logistics Lead',
@@ -337,7 +338,8 @@ const ProfileCard = ({
     >
       {/* Main Card */}
       <div
-        className="relative bg-[#0a0a0a] border rounded-lg overflow-hidden transition-all duration-300"
+        onClick={() => onImageClick(member)}
+        className="relative bg-[#0a0a0a] border rounded-lg overflow-hidden transition-all duration-300 cursor-pointer"
         style={{
           borderColor: isHovered ? config.borderColor : 'var(--glass-border)',
           boxShadow: isHovered ? `0 0 40px ${config.glowColor}` : 'none',
@@ -369,9 +371,8 @@ const ProfileCard = ({
           <div className="flex flex-col items-center text-center">
             {/* Avatar */}
             <div className="relative mb-3">
-              <button
-                onClick={() => onImageClick(member)}
-                className={`${isLarge ? 'w-20 h-20' : 'w-16 h-16'} rounded-lg overflow-hidden border-2 transition-all duration-300 cursor-pointer hover:scale-105`}
+              <div
+                className={`${isLarge ? 'w-20 h-20' : 'w-16 h-16'} rounded-lg overflow-hidden border-2 transition-all duration-300 hover:scale-105`}
                 style={{
                   borderColor: isHovered ? config.borderColor : `${config.borderColor}4D`,
                 }}
@@ -381,7 +382,7 @@ const ProfileCard = ({
                   alt={member.username}
                   className="w-full h-full object-cover"
                 />
-              </button>
+              </div>
               {/* Online Indicator */}
               <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-[#0a0a0a] rounded-full flex items-center justify-center">
                 <div className="w-2 h-2 rounded-full bg-[#22c55e] animate-pulse" />
@@ -429,6 +430,7 @@ const ProfileCard = ({
                     href={member.github}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
                     className="p-2 rounded-md bg-[#0f0f0f] border border-[var(--glass-border)] text-[var(--muted)] hover:text-white hover:border-[#333] transition-all duration-200"
                   >
                     <GitHubIcon />
@@ -439,6 +441,7 @@ const ProfileCard = ({
                     href={member.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
                     className="p-2 rounded-md bg-[#0f0f0f] border border-[var(--glass-border)] text-[var(--muted)] hover:text-[#0a66c2] hover:border-[#0a66c2]/50 transition-all duration-200"
                   >
                     <LinkedInIcon />
@@ -449,6 +452,7 @@ const ProfileCard = ({
                     href={member.instagram}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
                     className="p-2 rounded-md bg-[#0f0f0f] border border-[var(--glass-border)] text-[var(--muted)] hover:text-[#e4405f] hover:border-[#e4405f]/50 transition-all duration-200"
                   >
                     <InstagramIcon />
@@ -617,7 +621,7 @@ export const TeamSection = () => {
         <TierSection
           title="Technical & Creative Leads"
           members={technicalLeads}
-          gridCols="grid-cols-2 sm:grid-cols-3 lg:grid-cols-4"
+          gridCols="grid-cols-2 sm:grid-cols-3 lg:grid-cols-3"
           onImageClick={handleImageClick}
         />
 
@@ -625,7 +629,7 @@ export const TeamSection = () => {
         <TierSection
           title="Operations & Outreach Leads"
           members={operationsLeads}
-          gridCols="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+          gridCols="grid-cols-2 sm:grid-cols-2 lg:grid-cols-4"
           onImageClick={handleImageClick}
         />
       </div>

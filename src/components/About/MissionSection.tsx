@@ -25,7 +25,7 @@ const scrollSections = [
     image: Pic1,
   },
   {
-    title: 'Open Source Ecosystem',
+    title: 'Open-Source Ecosystem',
     text: 'Beyond building projects, Init Club promotes participation in the global open-source ecosystem by encouraging contributions to external projects and programs such as Hacktoberfest and GSoC. Contributions are tracked and recognized to foster sustained engagement and growth.',
     image: Abhijith,
   },
@@ -122,18 +122,20 @@ const ScrollDrivenMission = () => {
                 className="absolute inset-0 flex flex-col justify-center"
               >
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 lg:mb-6 text-[var(--text)] font-[var(--font-heading)]">
-                  {activeIndex === 0 ? (
-                    <>
-                      Our{' '}
-                      <span className="bg-gradient-to-r from-[#00ffd5] to-[#a855f7] bg-clip-text text-transparent">
-                        Mission
-                      </span>
-                    </>
-                  ) : (
-                    <span className="bg-gradient-to-r from-[#00ffd5] to-[#a855f7] bg-clip-text text-transparent">
-                      {section.title}
-                    </span>
-                  )}
+                  {(() => {
+                    const words = section.title.split(' ');
+                    const allButLast = words.slice(0, -1).join(' ');
+                    const lastWord = words[words.length - 1];
+                    
+                    return (
+                      <>
+                        {allButLast}{allButLast ? ' ' : ''}
+                        <span className="bg-gradient-to-r from-[#00ffd5] to-[#a855f7] bg-clip-text text-transparent">
+                          {lastWord}
+                        </span>
+                      </>
+                    );
+                  })()}
                 </h2>
                 <p className="text-[var(--muted)] leading-relaxed max-w-lg text-base lg:text-lg">
                   {section.text}

@@ -14,8 +14,12 @@ export const HeroSection = () => {
               '0 0 20px rgba(0, 255, 213, 0.5), 0 0 40px rgba(168, 85, 247, 0.3)',
           }}
         >
-          <span className="bg-gradient-to-r from-[#00ffd5] to-[#a855f7] bg-clip-text text-transparent">
-            Initializing Innovation
+          <span>
+            Initializing 
+          </span>
+          
+          <span className="pl-3 bg-gradient-to-r from-[#00ffd5] to-[#a855f7] bg-clip-text text-transparent">
+            Innovation
           </span>
         </motion.h1>
         <motion.p
