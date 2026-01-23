@@ -4,6 +4,7 @@ import Abhijith from '../assets/slideshow/abhijith.jpg';
 import Group from '../assets/slideshow/group.jpg';
 import Selfie from '../assets/slideshow/Selfie.jpg';
 import Pic1 from '../assets/slideshow/pic1.png';
+import Rema from '../assets/slideshow/Rema.jpg';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -24,6 +25,7 @@ const stackImages = [
   Selfie,
   Pic1,
   Abhijith,
+  Rema,
 ];
 
 const AnimatedImageStack = () => {
