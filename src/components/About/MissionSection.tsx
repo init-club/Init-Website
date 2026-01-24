@@ -160,12 +160,12 @@ export const MissionSection = () => {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          filter: brightness(0.5) saturate(50%) blur(1px);
+          filter: brightness(0.3) saturate(30%) blur(3px);
           transition: filter 0.3s, transform var(--speed);
         }
 
         .mission-card:hover .mission-card-bg {
-          filter: brightness(0.4) saturate(50%) blur(2px);
+          filter: brightness(0.3) saturate(30%) blur(3px);
           transform: scale(1.06);
         }
 
@@ -258,7 +258,8 @@ export const MissionSection = () => {
           }
 
           .mission-card.active {
-            min-height: 400px;
+            min-height: 600px;
+            height: auto;
             transform: none;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
           }
@@ -275,7 +276,8 @@ export const MissionSection = () => {
             writing-mode: horizontal-tb;
             transform: none;
             font-size: 1.2rem;
-            margin-right: auto;
+            margin: 0 auto;
+            text-align: center;
           }
 
           .mission-card.active .mission-card-content {
@@ -288,6 +290,7 @@ export const MissionSection = () => {
             font-size: 1.8rem;
             margin-bottom: 1rem;
             align-self: center;
+            text-align: center;
           }
 
           .mission-card.active .mission-card-thumb {
@@ -371,23 +374,10 @@ export const MissionSection = () => {
                 
                 <div className="mission-card-content">
                   <div className="flex flex-col items-center md:items-start">
-                    <h3 className="mission-card-title font-[Orbitron]">
-                      {(() => {
-                        const words = section.title.split(' ');
-                        const allButLast = words.slice(0, -1).join(' ');
-                        const lastWord = words[words.length - 1];
-                        
-                        return (
-                          <>
-                            {allButLast}{allButLast ? ' ' : ''}
-                            <span className="bg-gradient-to-r from-[#00ffd5] to-[#a855f7] bg-clip-text text-transparent">
-                              {lastWord}
-                            </span>
-                          </>
-                        );
-                      })()}
+                    <h3 className="mission-card-title font-[Orbitron] text-center">
+                      {section.title}
                     </h3>
-                    <p className="mission-card-desc font-['Space_Grotesk']">
+                    <p className="mission-card-desc font-['Space_Grotesk'] font-bold text-center">
                       {section.description}
                     </p>
                     <p className="mission-card-desc font-['Space_Grotesk'] mt-2 text-sm text-gray-300">
