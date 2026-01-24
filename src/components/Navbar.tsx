@@ -162,7 +162,7 @@ export function Navbar() {
 
             {/* Mobile Socials */}
             <div className="flex items-center justify-center gap-4 mt-2 pt-2 border-t border-[var(--border)]">
-              {[{ label: 'LinkedIn', href: 'https://www.linkedin.com', icon: Linkedin }, { label: 'Instagram', href: 'https://www.instagram.com/the.init.club?igsh=MTFlcWg1eWIyMTNyaA==', icon: Instagram }].map((social) => (
+              {[{ label: 'LinkedIn', href: 'https://www.linkedin.com/company/the-init-club/', icon: Linkedin }, { label: 'Instagram', href: 'https://www.instagram.com/the.init.club?igsh=MTFlcWg1eWIyMTNyaA==', icon: Instagram }].map((social) => (
                 <a
                   key={social.label}
                   href={social.href}
