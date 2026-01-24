@@ -148,7 +148,7 @@ export const GitGraph = () => {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: skipAnimation ? 0 : 2.4, duration: 0.4 }}
                             >
-                                {[{ label: 'LinkedIn', href: 'https://www.linkedin.com', icon: Linkedin }, { label: 'Instagram', href: 'https://www.instagram.com/the.init.club?igsh=MTFlcWg1eWIyMTNyaA==', icon: Instagram }, { label: 'Discord', href: 'https://discord.gg/Gx8sdGJkU', icon: Discord }].map((social, index) => (
+                                {[{ label: 'LinkedIn', href: 'https://www.linkedin.com/company/the-init-club/', icon: Linkedin }, { label: 'Instagram', href: 'https://www.instagram.com/the.init.club?igsh=MTFlcWg1eWIyMTNyaA==', icon: Instagram }, { label: 'Discord', href: 'https://discord.gg/Gx8sdGJkU', icon: Discord }].map((social, index) => (
                                     <motion.a
                                         key={social.label}
                                         href={social.href}
