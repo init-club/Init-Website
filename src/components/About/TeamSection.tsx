@@ -6,6 +6,7 @@ import Nitansh from '../assets/profile/Nitansh.jpg'
 import Tanush from '../assets/profile/Tanush.jpg'
 import Sanjith from '../assets/profile/Sanjith.jpg'
 import Saivarun from '../assets/profile/SaiVarun.jpg'
+import Bhargav from '../assets/profile/Bhargav.png'
 
 type TierType = 'sudo' | 'maintainer' | 'orchestrator';
 
@@ -257,9 +258,9 @@ const operationsLeads: TeamMember[] = [
     tier: 'orchestrator',
   },
   {
-    username: 'Masapeta Kuruva Bhargava Sri Sai',
+    username: 'Bhargava Sri Sai',
     role: 'Logistics Lead',
-    avatar: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=logisticslead&backgroundColor=0a0a0a',
+    avatar: Bhargav,
     linkedin: 'https://linkedin.com',
     tier: 'orchestrator',
   },
