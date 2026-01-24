@@ -7,6 +7,9 @@ import Tanush from '../assets/profile/Tanush.jpg'
 import Sanjith from '../assets/profile/Sanjith.jpg'
 import Saivarun from '../assets/profile/SaiVarun.jpg'
 import Bhargav from '../assets/profile/Bhargav.png'
+import Ganesh from '../assets/profile/Ganesh.png'
+import Meghana from '../assets/profile/Meghana.png'
+import Harini from '../assets/profile/harini.png'
 
 type TierType = 'sudo' | 'maintainer' | 'orchestrator';
 
@@ -206,7 +209,7 @@ const executiveBoard: TeamMember[] = [
   {
     username: 'Meghana Kotharu',
     role: 'Vice President - Tech',
-    avatar: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=vptech&backgroundColor=0a0a0a',
+    avatar: Meghana,
     github: 'https://github.com',
     linkedin: 'https://linkedin.com',
     tier: 'sudo',
@@ -265,9 +268,9 @@ const operationsLeads: TeamMember[] = [
     tier: 'orchestrator',
   },
   {
-    username: 'Ganesh',
+    username: 'Ganesh C',
     role: 'PR Lead',
-    avatar: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=prlead&backgroundColor=0a0a0a',
+    avatar: Ganesh,
     instagram: 'https://instagram.com',
     linkedin: 'https://linkedin.com',
     tier: 'orchestrator',
@@ -275,7 +278,7 @@ const operationsLeads: TeamMember[] = [
   {
     username: 'Naga Sri Harini',
     role: 'Event Management Lead',
-    avatar: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=eventslead&backgroundColor=0a0a0a',
+    avatar: Harini,
     linkedin: 'https://linkedin.com',
     instagram: 'https://instagram.com',
     tier: 'orchestrator',
