@@ -61,7 +61,6 @@ export const MissionSection = () => {
     const card = cards[index] as HTMLElement;
     if (!card) return;
 
-    const axis = isMobile() ? 'scrollTop' : 'scrollLeft';
     const size = isMobile() ? 'clientHeight' : 'clientWidth';
     const start = isMobile() ? card.offsetTop : card.offsetLeft;
     
