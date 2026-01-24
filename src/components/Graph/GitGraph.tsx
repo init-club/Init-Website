@@ -143,7 +143,7 @@ export const GitGraph = () => {
                         {/* Mobile Socials Below Motto */}
                         {isMobile && (
                             <motion.div
-                                className="mt-4 flex items-center justify-center gap-8 pointer-events-auto"
+                                className="mt-4 flex items-center justify-center gap-5 pointer-events-auto"
                                 initial={{ opacity: 0, y: -4 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: skipAnimation ? 0 : 2.4, duration: 0.4 }}
@@ -169,11 +169,11 @@ export const GitGraph = () => {
                     </motion.div>
 
                     <svg
-                        width="100%"
-                        height="100%"
+                        width="105%"
+                        height="105%"
                         viewBox={viewBox}
                         preserveAspectRatio="xMidYMid meet"
-                        className="max-w-7xl mx-auto px-2 mt-56 md:mt-0"
+                        className="max-w-7xl mx-auto px-2 mt-24 md:mt-0 pt-20 md:pt-0"
                     >
                         {/* Render Edges first so lines are behind nodes */}
                         {edges.map(edge => {
