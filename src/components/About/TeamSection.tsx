@@ -1,15 +1,15 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import { GlitchText } from '../Graph/GlitchText';
-import President from '../assets/profile/President.jpeg'
-import Nitansh from '../assets/profile/Nitansh.jpg'
-import Tanush from '../assets/profile/Tanush.jpg'
-import Sanjith from '../assets/profile/Sanjith.jpg'
-import Saivarun from '../assets/profile/SaiVarun.jpg'
-import Bhargav from '../assets/profile/Bhargav.png'
-import Ganesh from '../assets/profile/Ganesh.png'
-import Meghana from '../assets/profile/Meghana.png'
-import Harini from '../assets/profile/harini.png'
+import President from '../../assets/profile/President.jpeg'
+import Nitansh from '../../assets/profile/Nitansh.jpg'
+import Tanush from '../../assets/profile/Tanush.jpg'
+import Sanjith from '../../assets/profile/Sanjith.jpg'
+import Saivarun from '../../assets/profile/SaiVarun.jpg'
+import Bhargav from '../../assets/profile/Bhargav.png'
+import Ganesh from '../../assets/profile/Ganesh.png'
+import Meghana from '../../assets/profile/Meghana.png'
+import Harini from '../../assets/profile/harini.png'
 
 type TierType = 'sudo' | 'maintainer' | 'orchestrator';
 
@@ -254,7 +254,7 @@ const technicalLeads: TeamMember[] = [
     instagram: 'https://instagram.com/s4nj1th',
     tier: 'maintainer',
   },
-  
+
 ];
 
 const operationsLeads: TeamMember[] = [
@@ -474,9 +474,8 @@ const ProfileCard = ({
 
       {/* Scanline Effect on Hover */}
       <div
-        className={`absolute inset-0 pointer-events-none rounded-lg overflow-hidden transition-opacity duration-300 ${
-          isHovered ? 'opacity-100' : 'opacity-0'
-        }`}
+        className={`absolute inset-0 pointer-events-none rounded-lg overflow-hidden transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'
+          }`}
       >
         <div
           className="absolute inset-0 animate-scan"

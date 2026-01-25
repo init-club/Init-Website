@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
-import Abhijith from '../assets/slideshow/abhijith.jpg';
-import Group from '../assets/slideshow/group.jpg';
-import Selfie from '../assets/slideshow/Selfie.jpg';
-import Pic1 from '../assets/slideshow/pic1.png';
-import Rema from '../assets/slideshow/Rema.jpg';
+import Abhijith from '../../assets/slideshow/abhijith.jpg';
+import Group from '../../assets/slideshow/group.jpg';
+import Selfie from '../../assets/slideshow/Selfie.jpg';
+import Pic1 from '../../assets/slideshow/pic1.png';
+import Rema from '../../assets/slideshow/Rema.jpg';
 
 // Mission sections data
 const missionSections = [
@@ -63,7 +63,7 @@ export const MissionSection = () => {
 
     const size = isMobile() ? 'clientHeight' : 'clientWidth';
     const start = isMobile() ? card.offsetTop : card.offsetLeft;
-    
+
     wrap.scrollTo({
       [isMobile() ? 'top' : 'left']: start - (wrap[size] / 2 - card[size] / 2),
       behavior: 'smooth'
@@ -93,7 +93,7 @@ export const MissionSection = () => {
   const handleTouchEnd = (e: React.TouchEvent) => {
     const dx = e.changedTouches[0].clientX - touchStartRef.current.x;
     const dy = e.changedTouches[0].clientY - touchStartRef.current.y;
-    
+
     if (isMobile() ? Math.abs(dy) > 60 : Math.abs(dx) > 60) {
       go((isMobile() ? dy : dx) > 0 ? -1 : 1);
     }
@@ -371,7 +371,7 @@ export const MissionSection = () => {
                   alt={section.title}
                   className="mission-card-bg"
                 />
-                
+
                 <div className="mission-card-content">
                   <div className="flex flex-col items-center md:items-start">
                     <h3 className="mission-card-title font-[Orbitron] text-center">
@@ -384,7 +384,7 @@ export const MissionSection = () => {
                       {section.fullText}
                     </p>
                   </div>
-                  
+
                   <img
                     src={section.image}
                     alt={section.title}
@@ -403,11 +403,10 @@ export const MissionSection = () => {
           <button
             key={index}
             onClick={() => activate(index, true)}
-            className={`w-3 h-3 rounded-full cursor-pointer transition-all duration-300 ${
-              index === current
+            className={`w-3 h-3 rounded-full cursor-pointer transition-all duration-300 ${index === current
                 ? 'bg-gradient-to-r from-[#00ffd5] to-[#a855f7] scale-125'
                 : 'bg-white/35 hover:bg-white/60'
-            }`}
+              }`}
           />
         ))}
       </div>
