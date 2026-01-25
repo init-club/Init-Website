@@ -81,9 +81,9 @@ export default function NotFoundPage() {
                 onClick={() => navigate('/')}
                 className="mt-8 group relative z-10"
             >
-                <div className="absolute -inset-1 bg-gradient-to-r from-[#ff3366] to-[#ff6b6b] rounded blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
-                <div className="relative px-6 sm:px-8 py-3 border border-white/10 rounded-sm leading-none flex items-center" style={{ backgroundColor: 'var(--bg)' }}>
-                    <span className="text-[10px] sm:text-xs font-mono text-[#ff3366] group-hover:text-white transition duration-200 uppercase tracking-[0.15em] sm:tracking-[0.2em] whitespace-nowrap">
+                <div className="absolute -inset-1 bg-gradient-to-r from-[#D4AF37] to-[#C0C0C0] rounded blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
+                <div className="relative px-6 sm:px-8 py-3 border border-[#D4AF37]/50 rounded-sm leading-none flex items-center" style={{ backgroundColor: 'var(--bg)' }}>
+                    <span className="text-[10px] sm:text-xs font-mono text-[#D4AF37] group-hover:text-white transition duration-200 uppercase tracking-[0.15em] sm:tracking-[0.2em] whitespace-nowrap">
                         Return to Source (Main)
                     </span>
                 </div>

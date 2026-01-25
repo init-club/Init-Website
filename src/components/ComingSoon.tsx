@@ -16,7 +16,7 @@ export const ComingSoon = ({ pageName }: ComingSoonProps) => {
         <div className="w-full min-h-[calc(100vh-120px)] relative overflow-hidden flex flex-col items-center justify-center text-center px-4" style={{ backgroundColor: 'var(--bg)', color: 'var(--text)' }}>
             <GraphBackground />
 
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-[#00ffd5]/5 rounded-full blur-[120px] pointer-events-none" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-[#D4AF37]/5 rounded-full blur-[120px] pointer-events-none" />
 
             <svg width="100%" height="150" viewBox="0 0 500 150" className="mb-8 sm:mb-12 relative z-10 max-w-full" preserveAspectRatio="xMidYMid meet">
 
@@ -35,14 +35,14 @@ export const ComingSoon = ({ pageName }: ComingSoonProps) => {
                     x2={430} y2={75}
                     delay={0.6}
                     duration={0.8}
-                    color="#00ffd5"
+                    color="#D4AF37"
                     isHighlighted={true}
                     label="DEVELOPMENT"
                 />
 
                 <Node x={50} y={75} type="start" delay={0} color="#ffffff" />
                 <Node x={200} y={75} type="commit" delay={0.6} color="#ffffff" />
-                <Node x={430} y={75} type="commit" delay={1.2} color="#00ffd5" />
+                <Node x={430} y={75} type="commit" delay={1.2} color="#D4AF37" />
             </svg>
 
             <div className="relative z-10 px-4 max-w-full">
@@ -53,7 +53,7 @@ export const ComingSoon = ({ pageName }: ComingSoonProps) => {
                     className="text-xl sm:text-3xl md:text-6xl font-black mb-6 font-mono tracking-tighter break-words"
                     style={{ color: 'var(--text)' }}
                 >
-                    PAGE_STATUS: <span className="text-[#00ffd5] block sm:inline">
+                    PAGE_STATUS: <span className="text-white block sm:inline">
                         <GlitchText text="UNDER_CONSTRUCTION" delay={1.8} />
                     </span>
                 </motion.h1>
@@ -64,7 +64,7 @@ export const ComingSoon = ({ pageName }: ComingSoonProps) => {
                     transition={{ delay: 2.0 }}
                     className="space-y-2"
                 >
-                    <p className="text-[#00ffd5]/80 font-mono text-xs sm:text-sm uppercase tracking-[0.2em] sm:tracking-[0.3em] break-words">
+                    <p className="text-white/80 font-mono text-xs sm:text-sm uppercase tracking-[0.2em] sm:tracking-[0.3em] break-words">
                         Branch: {pageName.toLowerCase().replace(' ', '-')}
                     </p>
                     <p className="font-mono text-xs max-w-md mx-auto leading-relaxed px-4" style={{ color: 'var(--muted)' }}>
@@ -78,14 +78,10 @@ export const ComingSoon = ({ pageName }: ComingSoonProps) => {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 2.5 }}
                     onClick={() => navigate('/')}
-                    className="mt-12 sm:mt-16 group relative"
+                    className="mt-12 sm:mt-16 px-6 sm:px-8 py-3 border border-[#D4AF37]/50 text-[#D4AF37] font-mono uppercase text-xs
+                             hover:bg-[#D4AF37] hover:text-black transition-all duration-300"
                 >
-                    <div className="absolute -inset-1 bg-gradient-to-r from-[#00ffd5] to-[#2979ff] rounded blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
-                    <div className="relative px-6 sm:px-8 py-3 border border-white/10 dark:border-white/10 rounded-sm leading-none flex items-center" style={{ backgroundColor: 'var(--bg)' }}>
-                        <span className="text-[10px] sm:text-xs font-mono text-[#00ffd5] group-hover:text-white transition duration-200 uppercase tracking-[0.15em] sm:tracking-[0.2em] whitespace-nowrap">
-                            Return to Source (Main)
-                        </span>
-                    </div>
+                    Return to Source (Main)
                 </motion.button>
             </div>
 

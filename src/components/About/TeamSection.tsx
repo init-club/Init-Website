@@ -176,23 +176,23 @@ const tierConfigs: Record<TierType, TierConfig> = {
   sudo: {
     label: 'Executive Board',
     title: 'SUDO USER',
-    glowColor: 'rgba(168, 85, 247, 0.3)',
-    borderColor: '#a855f7',
-    badgeColor: '#a855f7',
+    glowColor: 'rgba(229, 229, 229, 0.3)',
+    borderColor: '#E5E5E5',
+    badgeColor: '#E5E5E5',
   },
   maintainer: {
     label: 'Technical & Creative Leads',
     title: 'MAINTAINER',
-    glowColor: 'rgba(0, 255, 213, 0.2)',
-    borderColor: '#00ffd5',
-    badgeColor: '#00ffd5',
+    glowColor: 'rgba(212, 175, 55, 0.2)',
+    borderColor: '#D4AF37',
+    badgeColor: '#D4AF37',
   },
   orchestrator: {
     label: 'Operations & Outreach Leads',
     title: 'ORCHESTRATOR',
-    glowColor: 'rgba(250, 204, 21, 0.2)',
-    borderColor: '#facc15',
-    badgeColor: '#facc15',
+    glowColor: 'rgba(192, 192, 192, 0.2)',
+    borderColor: '#C0C0C0',
+    badgeColor: '#C0C0C0',
   },
 };
 
@@ -584,14 +584,14 @@ export const TeamSection = () => {
           className="text-center mb-14"
         >
           <div className="inline-flex items-center gap-2 mb-4 px-3 py-1 bg-[#0f0f0f] border border-[var(--glass-border)] rounded-full">
-            <span className="w-2 h-2 rounded-full bg-[#00ffd5] animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-[#D4AF37] animate-pulse" />
             <span className="text-xs font-[var(--font-mono)] text-[var(--muted)] uppercase tracking-wider">
               Core Contributors
             </span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-bold font-[var(--font-heading)] text-[var(--text)] mb-4">
             Meet the{' '}
-            <span className="bg-gradient-to-r from-[#00ffd5] to-[#a855f7] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#D4AF37] to-[#E5E5E5] bg-clip-text text-transparent">
               Team
             </span>
           </h2>

@@ -36,8 +36,8 @@ export function Footer() {
               transition={{ duration: 0.5 }}
             >
               <div className="flex items-center gap-2 sm:gap-3">
-                <div className="rounded-lg sm:rounded-xl p-1.5 sm:p-2" style={{ background: 'linear-gradient(135deg, #00ffd5, #a855f7)' }}>
-                  <span className="font-mono text-xs sm:text-sm font-bold whitespace-nowrap text-white">{'<Init Club/>'}</span>
+                <div className="rounded-lg sm:rounded-xl p-1.5 sm:p-2 border border-[#D4AF37]/30 group-hover:border-[#D4AF37] transition-colors">
+                  <span className="font-mono text-xs sm:text-sm font-bold whitespace-nowrap text-[#E5E5E5] group-hover:text-[#D4AF37] transition-colors">{'<Init Club/>'}</span>
                 </div>
               </div>
               <p className="mt-3 sm:mt-4 text-xs sm:text-sm leading-relaxed max-w-xs">
@@ -60,8 +60,8 @@ export function Footer() {
                       className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-lg sm:rounded-xl glass transition-all duration-300 hover:scale-105"
                       style={{ color: 'var(--text)' }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.background = 'linear-gradient(135deg, #00ffd5, #a855f7)';
-                        e.currentTarget.style.color = 'white';
+                        e.currentTarget.style.background = '#D4AF37';
+                        e.currentTarget.style.color = 'black';
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.background = '';
@@ -97,13 +97,10 @@ export function Footer() {
                     to={item.path}
                     className="text-xs sm:text-sm font-medium transition-colors duration-300 py-1"
                     style={({ isActive }) => ({
-                      color: isActive ? '#00ffd5' : 'var(--text)'
+                      color: isActive ? '#D4AF37' : 'var(--text)'
                     })}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'linear-gradient(90deg, #00ffd5, #a855f7)';
-                      e.currentTarget.style.webkitBackgroundClip = 'text';
-                      e.currentTarget.style.webkitTextFillColor = 'transparent';
-                      e.currentTarget.style.backgroundClip = 'text';
+                      e.currentTarget.style.color = '#D4AF37';
                     }}
                     onMouseLeave={(e) => {
                       if (e.currentTarget.getAttribute('aria-current') !== 'page') {
@@ -150,28 +147,8 @@ export function Footer() {
                 }}
               >
                 {/* Laser Fill Animation */}
-                <motion.div
-                  className="absolute inset-0 z-0 origin-left"
-                  style={{ background: 'linear-gradient(90deg, #00ffd5, #a855f7)' }}
-                  variants={{
-                    initial: { scaleX: 0 },
-                    hover: { scaleX: 1 }
-                  }}
-                  transition={{ duration: 0.2, ease: "linear" }}
-                />
-
-                {/* Scanning Line */}
-                <motion.div
-                  className="absolute inset-y-0 z-10 w-0.5 bg-white shadow-[0_0_10px_rgba(255,255,255,0.8),0_0_20px_rgba(0,255,213,0.5)]"
-                  variants={{
-                    initial: { left: '0%', opacity: 0 },
-                    hover: { left: '100%', opacity: 1 }
-                  }}
-                  transition={{ duration: 0.2, ease: "linear" }}
-                />
-
-                {/* Text Content (z-10 to stay on top) */}
-                <span className="relative z-10 flex items-center gap-2 transition-colors duration-300 group-hover:text-white">
+                {/* Text Content */}
+                <span className="relative z-10 flex items-center gap-2">
                   Become a Member
                   <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
                 </span>

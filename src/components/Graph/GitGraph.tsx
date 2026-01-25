@@ -95,7 +95,7 @@ export const GitGraph = () => {
                             </span>
                             <span
                                 style={{
-                                    background: 'linear-gradient(90deg, #00ffd5, #a855f7)',
+                                    background: 'linear-gradient(90deg, #D4AF37, #C0C0C0)',
                                     WebkitBackgroundClip: 'text',
                                     WebkitTextFillColor: 'transparent',
                                     backgroundClip: 'text',
@@ -124,17 +124,17 @@ export const GitGraph = () => {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ duration: 1, delay: skipAnimation ? 0 : 2 }}
-                            className="text-[#00ffd5] font-mono text-xs sm:text-sm mt-4 break-words pointer-events-auto cursor-default tracking-wider"
+                            className="text-[#D4AF37] font-mono text-xs sm:text-sm mt-4 break-words pointer-events-auto cursor-default tracking-wider"
                             style={{
                                 fontFamily: 'var(--font-mono)',
-                                textShadow: '0 0 10px rgba(0, 255, 213, 0.5), 0 0 20px rgba(0, 255, 213, 0.3)',
+                                textShadow: '0 0 10px rgba(212, 175, 55, 0.5), 0 0 20px rgba(212, 175, 55, 0.3)',
                                 animation: 'pulse-glow 3s ease-in-out infinite'
                             }}
                             onMouseEnter={(e) => {
-                                e.currentTarget.style.textShadow = '0 0 15px rgba(0, 255, 213, 0.8), 0 0 30px rgba(0, 255, 213, 0.5)';
+                                e.currentTarget.style.textShadow = '0 0 15px rgba(212, 175, 55, 0.8), 0 0 30px rgba(212, 175, 55, 0.5)';
                             }}
                             onMouseLeave={(e) => {
-                                e.currentTarget.style.textShadow = '0 0 10px rgba(0, 255, 213, 0.5), 0 0 20px rgba(0, 255, 213, 0.3)';
+                                e.currentTarget.style.textShadow = '0 0 10px rgba(212, 175, 55, 0.5), 0 0 20px rgba(212, 175, 55, 0.3)';
                             }}
                         >
                             &gt; git commit -m "<span className="text-white" style={{ textShadow: '0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.4)' }}>Where Curiosity Turns into Contribution</span>"
@@ -251,13 +251,13 @@ export const GitGraph = () => {
                     {!isMobile && (
                         <>
                             <motion.div
-                                className="absolute bottom-0 left-1/2 -translate-x-1/2 h-24 w-[1px] bg-gradient-to-b from-transparent via-[#00ffd5]/50 to-[#00ffd5]"
+                                className="absolute bottom-0 left-1/2 -translate-x-1/2 h-24 w-[1px] bg-gradient-to-b from-transparent via-[#D4AF37]/50 to-[#D4AF37]"
                                 initial={{ height: 0, opacity: 0 }}
                                 animate={{ height: 96, opacity: 1 }}
                                 transition={{ delay: skipAnimation ? 0 : 3, duration: 1, ease: "easeOut" }}
                             />
                             <motion.div
-                                className="absolute bottom-4 left-1/2 -translate-x-1/2 text-[#00ffd5]/50 text-[10px] font-mono"
+                                className="absolute bottom-4 left-1/2 -translate-x-1/2 text-[#D4AF37]/50 text-[10px] font-mono"
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: [0, 1, 0] }}
                                 transition={{ delay: skipAnimation ? 0 : 4, duration: 2, repeat: Infinity }}

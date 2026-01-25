@@ -10,18 +10,19 @@
   --font-ui: 'Space Grotesk', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  /* Dark Theme Only */
-  --bg: #000000;
-  --text: #ffffff;
-  --accent: #00d4ff;
-  --glass-bg: rgba(255, 255, 255, 0.05);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --card-hover: rgba(255, 255, 255, 0.08);
-  --muted: #9ca3af;
-  --grid-color: #ffffff;
-  --grid-opacity: 0.1;
+  /* Dark Theme Only  /* Obsidian & Gold Theme */
+  --bg: #050505;
+  --text: #E5E5E5;
+  --muted: #A0A0A0;
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(212, 175, 55, 0.2);
+  /* Gold tint */
+  --card-hover: rgba(212, 175, 55, 0.05);
 
-  /* Graph Colors */
+  --grid-color: #D4AF37;
+  --grid-opacity: 0.05;
+
+  /* Graph Colors - Original Neon */
   --color-neutral: #ffffff;
   --color-about: #facc15;
   --color-projects: #00ffd5;
@@ -61,16 +62,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #0f172a;
+  background: #1a1a1a;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #334155;
+  background: #ff6b35;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+  background: #ff8a50;
 }
 
 /* Pulsing glow animation for motto */
@@ -219,6 +220,7 @@ body {
   0% {
     transform: translateY(-100%);
   }
+
   100% {
     transform: translateY(100%);
   }

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { Instagram, Linkedin } from 'lucide-react';
 
 const navItems = [
@@ -48,8 +47,8 @@ export function Navbar() {
               to="/"
               className="group flex items-center gap-2"
             >
-              <div className="rounded-lg sm:rounded-xl p-1.5 sm:p-2 transition-transform duration-300 group-hover:scale-105" style={{ background: 'linear-gradient(135deg, #00ffd5, #a855f7)' }}>
-                <span className="font-mono text-xs sm:text-sm font-bold whitespace-nowrap text-white">{'<Init Club/>'}</span>
+              <div className="rounded-lg sm:rounded-xl p-1.5 sm:p-2 transition-transform duration-300 group-hover:scale-105 border border-[#D4AF37]/30 group-hover:border-[#D4AF37]">
+                <span className="font-mono text-xs sm:text-sm font-bold whitespace-nowrap text-[#E5E5E5] group-hover:text-[#D4AF37] transition-colors">{'<Init Club/>'}</span>
               </div>
               {/* <span className="hidden sm:block font-semibold text-[var(--text)]">
                 Init Club
@@ -65,38 +64,12 @@ export function Navbar() {
                   className={({ isActive }) =>
                     [
                       'relative px-4 py-2 text-sm font-medium rounded-full transition-colors duration-300 overflow-hidden',
-                      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/50',
-                      isActive ? 'text-white' : 'text-[var(--text)] hover:bg-[var(--glass-bg)]',
+                      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]/50',
+                      isActive ? 'text-black bg-[#D4AF37]' : 'text-[var(--text)] hover:bg-[var(--glass-bg)] hover:text-[#D4AF37]',
                     ].join(' ')
                   }
                 >
-                  {({ isActive }) => (
-                    <>
-                      {isActive && (
-                        <>
-                          {/* Laser Fill Animation */}
-                          <motion.div
-                            className="absolute inset-0 z-0 origin-left"
-                            style={{ background: 'linear-gradient(90deg, #00ffd5, #a855f7)' }}
-                            initial={{ scaleX: 0 }}
-                            animate={{ scaleX: 1 }}
-                            transition={{ duration: 0.3, ease: "linear" }}
-                          />
-
-                          {/* Scanning Line */}
-                          <motion.div
-                            className="absolute inset-y-0 z-10 w-0.5 bg-white shadow-[0_0_10px_rgba(255,255,255,0.8),0_0_20px_rgba(0,255,213,0.5)]"
-                            initial={{ left: '0%', opacity: 1 }}
-                            animate={{ left: '100%', opacity: 0 }}
-                            transition={{ duration: 0.3, ease: "linear" }}
-                          />
-                        </>
-                      )}
-
-                      {/* Text Content */}
-                      <span className="relative z-20">{item.label}</span>
-                    </>
-                  )}
+                  {item.label}
                 </NavLink>
               ))}
             </nav>
@@ -142,7 +115,7 @@ export function Navbar() {
                 className={({ isActive }) =>
                   [
                     'rounded-xl px-4 py-3 text-sm font-medium transition-all duration-300',
-                    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/50',
+                    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]/50',
                     isActive
                       ? 'text-white shadow-md'
                       : 'text-[var(--text)] hover:bg-[var(--glass-bg)]',
@@ -151,8 +124,8 @@ export function Navbar() {
                 style={({ isActive }) => ({
                   animationDelay: `${index * 50}ms`,
                   ...(isActive ? {
-                    background: 'linear-gradient(90deg, #00ffd5, #a855f7)',
-                    color: 'white'
+                    background: isActive ? '#D4AF37' : undefined,
+                    color: isActive ? 'black' : '#E5E5E5'
                   } : {})
                 })}
               >
@@ -168,7 +141,7 @@ export function Navbar() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 rounded-lg hover:bg-[var(--white-5)] text-[var(--muted)] hover:text-[#00ffd5] transition-colors"
+                  className="p-2 rounded-lg hover:bg-[var(--white-5)] text-[var(--muted)] hover:text-[#D4AF37] transition-colors"
                   aria-label={social.label}
                 >
                   <social.icon size={20} />
@@ -178,7 +151,7 @@ export function Navbar() {
           </nav>
         </div>
       </div>
-    </header>
+    </header >
   );
 }
 

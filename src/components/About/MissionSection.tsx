@@ -127,7 +127,7 @@ export const MissionSection = () => {
           --speed: 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
           --closed: 7rem;
           --open: 40rem;
-          --accent: var(--color-about, #00ffd5);
+          --accent: var(--color-gold, #D4AF37);
         }
 
         @media (max-width: 767px) {
@@ -245,7 +245,7 @@ export const MissionSection = () => {
         }
 
         .mission-card-btn:hover {
-          background: #00ccaa;
+          background: #C5A028;
         }
 
         /* Mobile Styles */
