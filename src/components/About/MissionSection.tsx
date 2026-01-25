@@ -397,19 +397,7 @@ export const MissionSection = () => {
         </div>
       </div>
 
-      {/* Dots Navigation */}
-      <div className="flex gap-2 justify-center pt-5 md:block hidden">
-        {missionSections.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => activate(index, true)}
-            className={`w-3 h-3 rounded-full cursor-pointer transition-all duration-300 ${index === current
-                ? 'bg-gradient-to-r from-[#00ffd5] to-[#a855f7] scale-125'
-                : 'bg-white/35 hover:bg-white/60'
-              }`}
-          />
-        ))}
-      </div>
+
     </section>
   );
 };
