@@ -6,12 +6,13 @@ import ContactPage from './pages/Contact';
 import EventsPage from './pages/Events';
 import HomePage from './pages/Home';
 import ProjectsPage from './pages/Projects';
+import NotFoundPage from './pages/404';
 import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   return (
     <BrowserRouter>
-    <ScrollToTop/>
+      <ScrollToTop />
       <Routes>
         <Route index element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
@@ -19,6 +20,7 @@ function App() {
         <Route path="/projects" element={<ProjectsPage />} />
         <Route path="/blogs" element={<BlogsPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );
