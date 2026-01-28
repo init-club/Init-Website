@@ -24,7 +24,7 @@ export function Footer() {
 
 
       {/* Footer Content - Solid background*/}
-      <div className="relative z-20 pt-12 sm:pt-16 pb-8" style={{ backgroundColor: 'var(--bg)' }}>
+      <div className="relative z-20 pt-12 sm:pt-16 pb-8 bg-background">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="grid gap-8 sm:gap-10 md:grid-cols-[1.2fr,1fr,1fr]">
 
@@ -36,12 +36,12 @@ export function Footer() {
               transition={{ duration: 0.5 }}
             >
               <div className="flex items-center gap-2 sm:gap-3">
-                <div className="rounded-lg sm:rounded-xl p-1.5 sm:p-2" style={{ background: 'linear-gradient(135deg, #00ffd5, #a855f7)' }}>
+                <div className="rounded-lg sm:rounded-xl p-1.5 sm:p-2 bg-gradient-brand">
                   <span className="font-mono text-xs sm:text-sm font-bold whitespace-nowrap text-white">{'<Init Club/>'}</span>
                 </div>
               </div>
               <p className="mt-3 sm:mt-4 text-xs sm:text-sm leading-relaxed max-w-xs">
-                <span className="text-[var(--text)] font-medium ">Where Curiosity Turns into Contribution</span>
+                <span className="text-text font-medium ">Where Curiosity Turns into Contribution</span>
               </p>
               <p className="mt-2 text-[10px] sm:text-xs text-[var(--muted)]">
                 Amrita CBE's Open Source Community
@@ -57,16 +57,7 @@ export function Footer() {
                       href={item.href}
                       target="_blank"
                       rel="noreferrer"
-                      className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-lg sm:rounded-xl glass transition-all duration-300 hover:scale-105"
-                      style={{ color: 'var(--text)' }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.background = 'linear-gradient(135deg, #00ffd5, #a855f7)';
-                        e.currentTarget.style.color = 'white';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.background = '';
-                        e.currentTarget.style.color = 'var(--text)';
-                      }}
+                      className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-lg sm:rounded-xl glass transition-all duration-300 hover:scale-105 text-text hover:bg-gradient-brand hover:text-white"
                       aria-label={item.label}
                     >
                       <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -95,24 +86,7 @@ export function Footer() {
                   <NavLink
                     key={item.path}
                     to={item.path}
-                    className="text-xs sm:text-sm font-medium transition-colors duration-300 py-1"
-                    style={({ isActive }) => ({
-                      color: isActive ? '#00ffd5' : 'var(--text)'
-                    })}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'linear-gradient(90deg, #00ffd5, #a855f7)';
-                      e.currentTarget.style.webkitBackgroundClip = 'text';
-                      e.currentTarget.style.webkitTextFillColor = 'transparent';
-                      e.currentTarget.style.backgroundClip = 'text';
-                    }}
-                    onMouseLeave={(e) => {
-                      if (e.currentTarget.getAttribute('aria-current') !== 'page') {
-                        e.currentTarget.style.background = '';
-                        e.currentTarget.style.webkitBackgroundClip = '';
-                        e.currentTarget.style.webkitTextFillColor = '';
-                        e.currentTarget.style.backgroundClip = '';
-                      }
-                    }}
+                    className={({ isActive }) => `text-xs sm:text-sm font-medium transition-colors duration-300 py-1 hover:bg-gradient-brand-horizontal hover:bg-clip-text hover:text-transparent ${isActive ? 'text-accent' : 'text-text'}`}
                   >
                     {item.label}
                   </NavLink>
@@ -138,8 +112,7 @@ export function Footer() {
                 href="https://discord.gg/Gx8sdGJkU"
                 target="_blank"
                 rel="noreferrer"
-                className="group relative mt-3 sm:mt-4 inline-flex items-center gap-1.5 sm:gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl glass overflow-hidden font-medium text-xs sm:text-sm whitespace-nowrap"
-                style={{ color: 'var(--text)' }}
+                className="group relative mt-3 sm:mt-4 inline-flex items-center gap-1.5 sm:gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl glass overflow-hidden font-medium text-xs sm:text-sm whitespace-nowrap text-text"
                 initial="initial"
                 whileHover="hover"
                 whileTap="tap"
@@ -151,8 +124,7 @@ export function Footer() {
               >
                 {/* Laser Fill Animation */}
                 <motion.div
-                  className="absolute inset-0 z-0 origin-left"
-                  style={{ background: 'linear-gradient(90deg, #00ffd5, #a855f7)' }}
+                  className="absolute inset-0 z-0 origin-left bg-gradient-brand-horizontal"
                   variants={{
                     initial: { scaleX: 0 },
                     hover: { scaleX: 1 }

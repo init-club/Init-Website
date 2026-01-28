@@ -120,7 +120,7 @@ export const MissionSection = () => {
   }, [current]);
 
   return (
-    <section className="py-16 lg:py-20 bg-[var(--bg)]">
+    <section className="py-16 lg:py-20 bg-background">
       <style>{`
         .slider-track {
           --gap: 1.25rem;
