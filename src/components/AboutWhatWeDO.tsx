@@ -63,10 +63,7 @@ const AboutWhatWeDo: React.FC = () => {
         <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-cyan-900/10 to-transparent pointer-events-none" />
       </div>
 
-      {/* Git Flow Connector (Divider) */}
-      <div className="absolute top-0 left-0 w-full flex justify-center overflow-hidden pointer-events-none z-10">
-        <div className="w-[1px] h-24 bg-gradient-to-b from-[#00ffd5] to-transparent" />
-      </div>
+
 
       {/* ================= ABOUT SECTION ================= */}
 
@@ -136,7 +133,7 @@ const AboutWhatWeDo: React.FC = () => {
               whileInView="visible"
               viewport={{ once: true }}
               transition={{ duration: 0.7, ease: [0.42, 0, 0.58, 1] }}
-              className="text-4xl md:text-5xl font-black text-white font-heading leading-tight"
+              className="text-4xl md:text-5xl font-black text-white font-heading leading-tight whitespace-nowrap"
             >
               <span className="text-white">
                 <TypewriterText text="About < " delay={0.5} />
