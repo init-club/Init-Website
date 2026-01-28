@@ -61,7 +61,7 @@ export const GitGraph = () => {
     const getNode = (id: string): GraphNode | undefined => nodes.find(n => n.id === id);
 
     return (
-        <div className="w-full h-screen relative overflow-hidden flex items-center justify-center pb-24 md:pb-0" style={{ backgroundColor: 'var(--bg)', color: 'var(--text)' }}>
+        <div className="w-full h-screen relative overflow-hidden flex items-center justify-center pb-24 md:pb-0" style={{ color: 'var(--text)' }}>
 
             {/* Loading Animation */}
             <AnimatePresence>

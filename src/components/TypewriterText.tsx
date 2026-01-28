@@ -14,7 +14,8 @@ export const TypewriterText = ({ text, delay = 0, speed = 0.05, className = '' }
                 <motion.span
                     key={i}
                     initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
                     transition={{
                         delay: delay + (i * speed),
                         duration: 0.05
