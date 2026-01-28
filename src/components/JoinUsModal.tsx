@@ -56,15 +56,10 @@ const JoinUsModal = ({ isOpen, onClose }: JoinUsModalProps) => {
                                     {/* Join INIT Club Intro */}
                                     <div className="text-center pb-4 sm:pb-6 border-b border-cyan-500/30 space-y-2 sm:space-y-3">
                                         <div>
-                                            <h1 className="text-2xl sm:text-4xl md:text-5xl font-black whitespace-nowrap" style={{ fontFamily: 'var(--font-heading)' }}>
+                                            <h1 className="text-2xl sm:text-4xl md:text-5xl font-black whitespace-nowrap font-heading">
                                                 <span className="text-white">The &lt; </span>
                                                 <span
-                                                    style={{
-                                                        background: 'linear-gradient(90deg, #00ffd5, #a855f7)',
-                                                        WebkitBackgroundClip: 'text',
-                                                        WebkitTextFillColor: 'transparent',
-                                                        backgroundClip: 'text',
-                                                    }}
+                                                    className="bg-gradient-brand-horizontal bg-clip-text text-transparent"
                                                 >
                                                     INIT
                                                 </span>
@@ -117,8 +112,7 @@ const JoinUsModal = ({ isOpen, onClose }: JoinUsModalProps) => {
                                     >
                                         {/* Laser Fill Animation */}
                                         <motion.div
-                                            className="absolute inset-0 z-0 origin-left"
-                                            style={{ background: 'linear-gradient(90deg, #00ffd5, #a855f7)' }}
+                                            className="absolute inset-0 z-0 origin-left bg-gradient-brand-horizontal"
                                             variants={{
                                                 initial: { scaleX: 0 },
                                                 hover: { scaleX: 1 }

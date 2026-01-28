@@ -31,11 +31,10 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-background ${scrolled
         ? 'py-2'
         : 'py-3 sm:py-4'
         }`}
-      style={{ backgroundColor: 'var(--bg)' }}
     >
       <div className="mx-auto max-w-6xl px-2 sm:px-4">
         <div
@@ -48,7 +47,7 @@ export function Navbar() {
               to="/"
               className="group flex items-center gap-2"
             >
-              <div className="rounded-lg sm:rounded-xl p-1.5 sm:p-2 transition-transform duration-300 group-hover:scale-105" style={{ background: 'linear-gradient(135deg, #00ffd5, #a855f7)' }}>
+              <div className="rounded-lg sm:rounded-xl p-1.5 sm:p-2 transition-transform duration-300 group-hover:scale-105 bg-gradient-brand">
                 <span className="font-mono text-xs sm:text-sm font-bold whitespace-nowrap text-white">{'<Init Club/>'}</span>
               </div>
               {/* <span className="hidden sm:block font-semibold text-[var(--text)]">
@@ -66,7 +65,7 @@ export function Navbar() {
                     [
                       'relative px-4 py-2 text-sm font-medium rounded-full transition-colors duration-300 overflow-hidden',
                       'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/50',
-                      isActive ? 'text-white' : 'text-[var(--text)] hover:bg-[var(--glass-bg)]',
+                      isActive ? 'text-white' : 'text-text hover:bg-glass-bg',
                     ].join(' ')
                   }
                 >
@@ -76,8 +75,7 @@ export function Navbar() {
                         <>
                           {/* Laser Fill Animation */}
                           <motion.div
-                            className="absolute inset-0 z-0 origin-left"
-                            style={{ background: 'linear-gradient(90deg, #00ffd5, #a855f7)' }}
+                            className="absolute inset-0 z-0 origin-left bg-gradient-brand-horizontal"
                             initial={{ scaleX: 0 }}
                             animate={{ scaleX: 1 }}
                             transition={{ duration: 0.3, ease: "linear" }}
@@ -144,17 +142,14 @@ export function Navbar() {
                     'rounded-xl px-4 py-3 text-sm font-medium transition-all duration-300',
                     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/50',
                     isActive
-                      ? 'text-white shadow-md'
-                      : 'text-[var(--text)] hover:bg-[var(--glass-bg)]',
+                      ? 'text-white shadow-md bg-gradient-brand-horizontal'
+                      : 'text-text hover:bg-[var(--glass-bg)]', // glass-bg utility might not work inside arbitrary value if not defined properly, but we mapped it in config. Let's use class if possible or variable. Wait, hover:bg-[var(--glass-bg)] is ok. 
+                    // Actually better: hover:bg-glass-bg
                   ].join(' ')
                 }
-                style={({ isActive }) => ({
+                style={{
                   animationDelay: `${index * 50}ms`,
-                  ...(isActive ? {
-                    background: 'linear-gradient(90deg, #00ffd5, #a855f7)',
-                    color: 'white'
-                  } : {})
-                })}
+                }}
               >
                 {item.label}
               </NavLink>
@@ -168,7 +163,7 @@ export function Navbar() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 rounded-lg hover:bg-[var(--white-5)] text-[var(--muted)] hover:text-[#00ffd5] transition-colors"
+                  className="p-2 rounded-lg hover:bg-[var(--white-5)] text-muted hover:text-[#00ffd5] transition-colors"
                   aria-label={social.label}
                 >
                   <social.icon size={20} />

@@ -8,16 +8,12 @@ export const HeroSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-[var(--font-heading)] text-[var(--text)] mb-6"
-          style={{
-            textShadow:
-              '0 0 20px rgba(0, 255, 213, 0.5), 0 0 40px rgba(168, 85, 247, 0.3)',
-          }}
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-heading text-text mb-6 [text-shadow:_0_0_20px_rgba(0,255,213,0.5),_0_0_40px_rgba(168,85,247,0.3)]"
         >
           <span>
-            Initializing 
+            Initializing
           </span>
-          
+
           <span className="pl-3 bg-gradient-to-r from-[#00ffd5] to-[#a855f7] bg-clip-text text-transparent">
             Innovation
           </span>
@@ -26,7 +22,7 @@ export const HeroSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-lg sm:text-xl text-[var(--muted)] max-w-2xl mx-auto"
+          className="text-lg sm:text-xl text-muted max-w-2xl mx-auto"
         >
           Where ideas transform into reality through code, collaboration, and creativity.
         </motion.p>

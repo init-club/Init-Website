@@ -11,8 +11,7 @@ const fadeVariant = {
 const AboutWhatWeDo: React.FC = () => {
   return (
     <section
-      className="relative py-28 px-6"
-      style={{ backgroundColor: "var(--bg)" }}
+      className="relative py-28 px-6 bg-background"
     >
       {/* ================= ABOUT SECTION ================= */}
 
@@ -37,7 +36,7 @@ const AboutWhatWeDo: React.FC = () => {
               className="relative"
             >
               {/* Glow Ring */}
-              <div className="absolute inset-0 rounded-full blur-2xl opacity-40 bg-[linear-gradient(90deg,#00ffd5,#a855f7)]" />
+              <div className="absolute inset-0 rounded-full blur-2xl opacity-40 bg-gradient-brand-horizontal" />
 
               {/* Logo */}
               <div className="relative w-56 h-56 sm:w-64 sm:h-64 lg:w-72 lg:h-72 rounded-full overflow-hidden border-2 border-[#00ffd5] glass flex items-center justify-center">
@@ -54,7 +53,7 @@ const AboutWhatWeDo: React.FC = () => {
           <div className="text-center md:text-left">
             <h2 className="text-4xl md:text-5xl font-bold text-white">
               About{" "}
-              <span className="bg-[linear-gradient(90deg,#00ffd5,#a855f7)] bg-clip-text text-transparent">
+              <span className="bg-gradient-brand-horizontal bg-clip-text text-transparent">
                 INIT Club
               </span>
             </h2>
@@ -92,7 +91,7 @@ const AboutWhatWeDo: React.FC = () => {
               {/* JOIN BUTTON */}
               <a
                 href="/contact"
-                className="group inline-flex items-center gap-2 px-8 py-4 rounded-2xl glass font-semibold text-base transition-all duration-300 hover:scale-105 hover:bg-[linear-gradient(90deg,#00ffd5,#a855f7)] hover:text-white"
+                className="group inline-flex items-center gap-2 px-8 py-4 rounded-2xl glass font-semibold text-base transition-all duration-300 hover:scale-105 hover:bg-gradient-brand-horizontal hover:text-white"
               >
                 Join Us Now
                 <span className="transition-transform duration-300 group-hover:translate-x-1">
@@ -126,7 +125,7 @@ const AboutWhatWeDo: React.FC = () => {
       >
         <h2 className="text-4xl md:text-5xl font-bold text-white">
           What{" "}
-          <span className="bg-[linear-gradient(90deg,#00ffd5,#a855f7)] bg-clip-text text-transparent">
+          <span className="bg-gradient-brand-horizontal bg-clip-text text-transparent">
             We Do
           </span>
         </h2>
@@ -137,31 +136,31 @@ const AboutWhatWeDo: React.FC = () => {
 
         {/* CARDS */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-  {[
-    {
-      title: "Build Projects",
-      desc: "Real-world open-source projects with production mindset.",
-    },
-    {
-      title: "Host Events",
-      desc: "Hackathons, workshops and experiences that push limits.",
-    },
-    {
-      title: "Create Builders",
-      desc: "Mentorship driven growth through collaboration.",
-    },
-    {
-      title: "Open Source",
-      desc: "Community driven development via GitHub collaboration.",
-    },
-  ].map((item, index) => (
-    <ParallaxCard
-      key={index}
-      title={item.title}
-      desc={item.desc}
-    />
-  ))}
-</div>
+          {[
+            {
+              title: "Build Projects",
+              desc: "Real-world open-source projects with production mindset.",
+            },
+            {
+              title: "Host Events",
+              desc: "Hackathons, workshops and experiences that push limits.",
+            },
+            {
+              title: "Create Builders",
+              desc: "Mentorship driven growth through collaboration.",
+            },
+            {
+              title: "Open Source",
+              desc: "Community driven development via GitHub collaboration.",
+            },
+          ].map((item, index) => (
+            <ParallaxCard
+              key={index}
+              title={item.title}
+              desc={item.desc}
+            />
+          ))}
+        </div>
 
       </motion.div>
     </section>

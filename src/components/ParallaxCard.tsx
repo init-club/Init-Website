@@ -46,8 +46,7 @@ const ParallaxCard: React.FC<Props> = ({ title, desc }) => {
 
   return (
     <div
-      style={{ perspective: "900px" }}
-      className="parallax-wrapper"
+      className="parallax-wrapper [perspective:900px]"
     >
       <div
         ref={cardRef}

@@ -13,7 +13,7 @@ export const ComingSoon = ({ pageName }: ComingSoonProps) => {
     const navigate = useNavigate();
 
     return (
-        <div className="w-full min-h-[calc(100vh-120px)] relative overflow-hidden flex flex-col items-center justify-center text-center px-4" style={{ backgroundColor: 'var(--bg)', color: 'var(--text)' }}>
+        <div className="w-full min-h-[calc(100vh-120px)] relative overflow-hidden flex flex-col items-center justify-center text-center px-4 bg-background text-text">
             <GraphBackground />
 
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-[#00ffd5]/5 rounded-full blur-[120px] pointer-events-none" />
@@ -50,8 +50,7 @@ export const ComingSoon = ({ pageName }: ComingSoonProps) => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 1.5 }}
-                    className="text-xl sm:text-3xl md:text-6xl font-black mb-6 font-mono tracking-tighter break-words"
-                    style={{ color: 'var(--text)' }}
+                    className="text-xl sm:text-3xl md:text-6xl font-black mb-6 font-mono tracking-tighter break-words text-text"
                 >
                     PAGE_STATUS: <span className="text-[#00ffd5] block sm:inline">
                         <GlitchText text="UNDER_CONSTRUCTION" delay={1.8} />
@@ -67,7 +66,7 @@ export const ComingSoon = ({ pageName }: ComingSoonProps) => {
                     <p className="text-[#00ffd5]/80 font-mono text-xs sm:text-sm uppercase tracking-[0.2em] sm:tracking-[0.3em] break-words">
                         Branch: {pageName.toLowerCase().replace(' ', '-')}
                     </p>
-                    <p className="font-mono text-xs max-w-md mx-auto leading-relaxed px-4" style={{ color: 'var(--muted)' }}>
+                    <p className="font-mono text-xs max-w-md mx-auto leading-relaxed px-4 text-muted">
                         The requested feature is currently being compiled. <br />
                         Access will be granted once the merge is complete.
                     </p>
@@ -81,7 +80,7 @@ export const ComingSoon = ({ pageName }: ComingSoonProps) => {
                     className="mt-12 sm:mt-16 group relative"
                 >
                     <div className="absolute -inset-1 bg-gradient-to-r from-[#00ffd5] to-[#2979ff] rounded blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
-                    <div className="relative px-6 sm:px-8 py-3 border border-white/10 dark:border-white/10 rounded-sm leading-none flex items-center" style={{ backgroundColor: 'var(--bg)' }}>
+                    <div className="relative px-6 sm:px-8 py-3 border border-white/10 dark:border-white/10 rounded-sm leading-none flex items-center bg-background">
                         <span className="text-[10px] sm:text-xs font-mono text-[#00ffd5] group-hover:text-white transition duration-200 uppercase tracking-[0.15em] sm:tracking-[0.2em] whitespace-nowrap">
                             Return to Source (Main)
                         </span>
