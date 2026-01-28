@@ -83,7 +83,7 @@ export const GitGraph = () => {
 
                     {/* Hero Title */}
                     <motion.div
-                        className="absolute top-[5%] sm:top-[4%] w-full left-0 md:left-[10%] md:w-auto md:text-left text-center z-10 pointer-events-none px-4"
+                        className="absolute top-[5%] sm:top-[4%] w-full left-0 md:left-[5%] md:w-auto md:text-left text-center z-10 pointer-events-none px-4"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: skipAnimation ? 0 : 0.5 }}
@@ -173,7 +173,7 @@ export const GitGraph = () => {
                         height="105%"
                         viewBox={viewBox}
                         preserveAspectRatio="xMidYMid meet"
-                        className="max-w-7xl mx-auto px-2 mt-24 md:mt-0 pt-20 md:pt-0"
+                        className="w-full px-2 mt-24 md:mt-0 pt-20 md:pt-0"
                     >
                         {/* Render Edges first so lines are behind nodes */}
                         {edges.map(edge => {
@@ -247,25 +247,7 @@ export const GitGraph = () => {
                         })}
                     </svg>
 
-                    {/* Scroll Connector Line - Desktop Only */}
-                    {!isMobile && (
-                        <>
-                            <motion.div
-                                className="absolute bottom-0 left-1/2 -translate-x-1/2 h-24 w-[1px] bg-gradient-to-b from-transparent via-[#00ffd5]/50 to-[#00ffd5]"
-                                initial={{ height: 0, opacity: 0 }}
-                                animate={{ height: 96, opacity: 1 }}
-                                transition={{ delay: skipAnimation ? 0 : 3, duration: 1, ease: "easeOut" }}
-                            />
-                            <motion.div
-                                className="absolute bottom-4 left-1/2 -translate-x-1/2 text-[#00ffd5]/50 text-[10px] font-mono"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: [0, 1, 0] }}
-                                transition={{ delay: skipAnimation ? 0 : 4, duration: 2, repeat: Infinity }}
-                            >
-                                scroll
-                            </motion.div>
-                        </>
-                    )}
+
 
                     {/* Mobile socials now rendered within hero block above */}
                 </>
