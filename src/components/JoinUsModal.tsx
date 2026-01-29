@@ -71,9 +71,9 @@ const JoinUsModal = ({ isOpen, onClose }: JoinUsModalProps) => {
 
                                     {/* Ready Message */}
                                     <div className="text-center space-y-3 py-3 sm:py-4">
-                                        <p className="text-cyan-300 font-semibold text-xs sm:text-sm">Ready to prove yourself?</p>
+                                        <p className="text-cyan-300 font-semibold text-xs sm:text-sm">Ready to grow with us?</p>
                                         <p className="text-gray-400 text-xs leading-relaxed">
-                                            Meet the requirements? Hungry to challenge yourself with real problems and grow as a developer? Then you belong here. Join us on Discord.
+                                            Interested in learning, building, and growing alongside amazing people? Join our community on Discord and let's explore this journey together.
                                         </p>
                                     </div>
 
@@ -138,7 +138,7 @@ const JoinUsModal = ({ isOpen, onClose }: JoinUsModalProps) => {
 
                                     {/* Tagline */}
                                     <p className="text-center text-gray-400 text-xs">
-                                        Test your problem-solving skills and join our community
+                                        Be part of a community dedicated to learning and building together
                                     </p>
                                 </div>
                             </div>
