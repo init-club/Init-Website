@@ -83,7 +83,7 @@ export const GitGraph = () => {
 
                     {/* Hero Title */}
                     <motion.div
-                        className="absolute top-[5%] sm:top-[4%] w-full left-0 md:left-[5%] md:w-auto md:text-left text-center z-10 pointer-events-none px-4"
+                        className="absolute top-[5%] sm:top-[4%] w-full left-0 md:left-[2%] md:w-auto md:text-left text-center z-10 pointer-events-none px-4"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: skipAnimation ? 0 : 0.5 }}
