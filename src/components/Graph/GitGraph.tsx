@@ -169,11 +169,11 @@ export const GitGraph = () => {
                     </motion.div>
 
                     <svg
-                        width="105%"
-                        height="105%"
+                        width="200%"
+                        height="100%"
                         viewBox={viewBox}
                         preserveAspectRatio="xMidYMid meet"
-                        className="w-full px-2 mt-24 md:mt-0 pt-20 md:pt-0"
+                        className="w-full max-w-8xl px-2 mt-24 md:mt-0 pt-20 md:pt-0"
                     >
                         {/* Render Edges first so lines are behind nodes */}
                         {edges.map(edge => {
