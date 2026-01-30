@@ -145,52 +145,68 @@ export const DESKTOP_EDGES: GraphEdge[] = [
   { id: 'e_events_leaf', from: 'c_updates_hub', to: 'nav_contact', delay: 1.2, duration: 0.4, label: 'Events', color: '#2979ff', labelDy: 20, labelOffset: '50%' },
 ];
 
-// Mobile Layout (Upside Down Tree)
+// Mobile Layout (Symmetric Zipper - Deep Drops & Compact Width & Compressed Trunk)
 export const MOBILE_NODES: GraphNode[] = [
-  // Root (Top Center)
+  // 1. ORIGIN (Shifted down)
   { id: 'init', x: 200, y: 150, type: 'start', delay: 0, color: COLORS.neutral },
-  { id: 'c1', x: 200, y: 230, type: 'commit', delay: 0.5, color: COLORS.neutral },
 
-  // Branch Split 1: About (Left) & Projects (Right)
-  { id: 'c2_a', x: 110, y: 290, type: 'commit', delay: 0.7, color: COLORS.about },
-  { id: 'nav_about', x: 110, y: 360, type: 'nav', label: 'About', path: '/about', delay: 1.0, color: COLORS.about, activePath: ['e1', 'e_a1', 'e_a2'], align: 'left' }, // Outward
+  // 2. PAIR 1: PEOPLE (Yellow) at y=250
+  { id: 'c_m_1', x: 200, y: 250, type: 'commit', delay: 0.5, color: COLORS.neutral },
+  // Leaves (y+150 drop)
+  { id: 'nav_about', x: 80, y: 400, type: 'nav', label: 'About', path: '/about', delay: 0.8, color: COLORS.about, activePath: ['e_m_1', 'e_m_about'], align: 'left' },
+  { id: 'nav_members', x: 320, y: 400, type: 'nav', label: 'Members', path: '/members', delay: 0.8, color: COLORS.about, activePath: ['e_m_1', 'e_m_members'], align: 'right' },
 
-  { id: 'c2_p', x: 290, y: 290, type: 'commit', delay: 0.7, color: COLORS.join },
-  { id: 'nav_projects', x: 290, y: 360, type: 'nav', label: 'Projects', path: '/projects', delay: 1.0, color: COLORS.join, activePath: ['e1', 'e_p1', 'e_p2'], align: 'right' }, // Outward
 
-  // Center continue
-  { id: 'c2', x: 200, y: 330, type: 'commit', delay: 1.2, color: COLORS.neutral },
+  // 3. PAIR 2: PROJECTS (Purple) at y=400
+  { id: 'c_m_2', x: 200, y: 400, type: 'commit', delay: 1.0, color: COLORS.neutral },
+  // Leaves (y+150 drop)
+  { id: 'nav_idea_wall', x: 80, y: 550, type: 'nav', label: 'Idea Wall', path: '/idea-wall', delay: 1.3, color: COLORS.projects, activePath: ['e_m_1', 'e_m_link1', 'e_m_idea'], align: 'left' },
+  { id: 'nav_graveyard', x: 320, y: 550, type: 'nav', label: 'Graveyard', path: '/graveyard', delay: 1.3, color: COLORS.projects, activePath: ['e_m_1', 'e_m_link1', 'e_m_grave'], align: 'right' },
 
-  // Branch Split 2: Events (Left) & Blogs (Right)
-  { id: 'c3_e', x: 110, y: 450, type: 'commit', delay: 1.5, color: COLORS.blogs },
-  { id: 'nav_events', x: 110, y: 520, type: 'nav', label: 'Events', path: '/events', delay: 1.8, color: COLORS.blogs, activePath: ['e1', 'e_2', 'e_e1', 'e_e2'], align: 'left' }, // Outward
 
-  { id: 'c3_b', x: 290, y: 450, type: 'commit', delay: 1.5, color: COLORS.projects },
-  { id: 'nav_blogs', x: 290, y: 520, type: 'nav', label: 'Blogs', path: '/blogs', delay: 1.8, color: COLORS.projects, activePath: ['e1', 'e_2', 'e_b1', 'e_b2'], align: 'right' }, // Outward
+  // 4. PAIR 3: UPDATES (Blue) at y=550
+  { id: 'c_m_3', x: 200, y: 550, type: 'commit', delay: 1.5, color: COLORS.neutral },
+  // Leaves (y+150 drop)
+  { id: 'nav_activity', x: 80, y: 700, type: 'nav', label: 'Activity', path: '/activity', delay: 1.8, color: '#2979ff', activePath: ['e_m_1', 'e_m_link1', 'e_m_link2', 'e_m_activity'], align: 'left' },
+  { id: 'nav_contact', x: 320, y: 700, type: 'nav', label: 'Events', path: '/events', delay: 1.8, color: '#2979ff', activePath: ['e_m_1', 'e_m_link1', 'e_m_link2', 'e_m_events'], align: 'right' },
 
-  // Center continue to End
-  { id: 'c3', x: 200, y: 590, type: 'commit', delay: 2.0, color: COLORS.events },
-  { id: 'nav_contact', x: 200, y: 630, type: 'nav', label: 'Join Us', path: '/contact', delay: 2.3, color: COLORS.events, activePath: ['e1', 'e_2', 'e3', 'e_c1'], align: 'right' },
+
+  // 5. PAIR 4: MIXED (Red/Cyan) at y=700
+  { id: 'c_m_4', x: 200, y: 700, type: 'commit', delay: 2.0, color: COLORS.neutral },
+  // Leaves (y+150 drop)
+  { id: 'nav_events', x: 80, y: 850, type: 'nav', label: 'Blogs', path: '/blogs', delay: 2.3, color: COLORS.blogs, activePath: ['e_m_1', 'e_m_link1', 'e_m_link2', 'e_m_link3', 'e_m_blogs'], align: 'left' },
+  // Join Us is Cyan (COLORS.join)
+  { id: 'nav_projects', x: 320, y: 850, type: 'nav', label: 'Join Us', path: '/contact', delay: 2.3, color: COLORS.join, activePath: ['e_m_1', 'e_m_link1', 'e_m_link2', 'e_m_link3', 'e_m_join'], align: 'right' },
+
+  // EXTENDED TRUNK
+  { id: 'c_m_end', x: 200, y: 950, type: 'commit', delay: 2.5, color: COLORS.neutral },
 ];
 
 export const MOBILE_EDGES: GraphEdge[] = [
-  // Root to First Split
-  { id: 'e1', from: 'init', to: 'c1', delay: 0, duration: 0.6 },
-  { id: 'e_a1', from: 'c1', to: 'c2_a', delay: 0.5, duration: 0.5 }, // Left
-  { id: 'e_p1', from: 'c1', to: 'c2_p', delay: 0.5, duration: 0.5 }, // Right
-  { id: 'e_c_1', from: 'c1', to: 'c2', delay: 0.8, duration: 0.6 }, // Center down
+  // Start to Pair 1
+  { id: 'e_m_1', from: 'init', to: 'c_m_1', delay: 0, duration: 0.5 },
+  // Pair 1 Leaves (Yellow)
+  { id: 'e_m_about', from: 'c_m_1', to: 'nav_about', delay: 0.5, duration: 0.4 },
+  { id: 'e_m_members', from: 'c_m_1', to: 'nav_members', delay: 0.5, duration: 0.4 },
 
-  { id: 'e_a2', from: 'c2_a', to: 'nav_about', delay: 0.8, duration: 0.4 },
-  { id: 'e_p2', from: 'c2_p', to: 'nav_projects', delay: 0.8, duration: 0.4 },
+  // Link to Pair 2
+  { id: 'e_m_link1', from: 'c_m_1', to: 'c_m_2', delay: 0.8, duration: 0.5 },
+  // Pair 2 Leaves (Purple)
+  { id: 'e_m_idea', from: 'c_m_2', to: 'nav_idea_wall', delay: 1.0, duration: 0.4 },
+  { id: 'e_m_grave', from: 'c_m_2', to: 'nav_graveyard', delay: 1.0, duration: 0.4 },
 
-  // Second Split
-  { id: 'e_e1', from: 'c2', to: 'c3_e', delay: 1.3, duration: 0.5 }, // Left
-  { id: 'e_b1', from: 'c2', to: 'c3_b', delay: 1.3, duration: 0.5 }, // Right
-  { id: 'e_c_2', from: 'c2', to: 'c3', delay: 1.6, duration: 0.6 }, // Center down
+  // Link to Pair 3
+  { id: 'e_m_link2', from: 'c_m_2', to: 'c_m_3', delay: 1.3, duration: 0.5 },
+  // Pair 3 Leaves (Blue)
+  { id: 'e_m_activity', from: 'c_m_3', to: 'nav_activity', delay: 1.5, duration: 0.4 },
+  { id: 'e_m_events', from: 'c_m_3', to: 'nav_contact', delay: 1.5, duration: 0.4 },
 
-  { id: 'e_e2', from: 'c3_e', to: 'nav_events', delay: 1.6, duration: 0.4 },
-  { id: 'e_b2', from: 'c3_b', to: 'nav_blogs', delay: 1.6, duration: 0.4 },
+  // Link to Pair 4
+  { id: 'e_m_link3', from: 'c_m_3', to: 'c_m_4', delay: 1.8, duration: 0.5 },
+  // Pair 4 Leaves (Red/Cyan)
+  { id: 'e_m_blogs', from: 'c_m_4', to: 'nav_events', delay: 2.0, duration: 0.4 },
+  { id: 'e_m_join', from: 'c_m_4', to: 'nav_projects', delay: 2.0, duration: 0.4 },
 
-  // Final Node
-  { id: 'e_c1', from: 'c3', to: 'nav_contact', delay: 2.1, duration: 0.4 },
+  // Extended Trunk Edge
+  { id: 'e_m_final', from: 'c_m_4', to: 'c_m_end', delay: 2.2, duration: 0.5 },
 ];

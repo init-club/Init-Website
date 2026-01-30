@@ -55,7 +55,7 @@ export const GitGraph = () => {
 
     const nodes = isMobile ? MOBILE_NODES : DESKTOP_NODES;
     const edges = isMobile ? MOBILE_EDGES : DESKTOP_EDGES;
-    const viewBox = isMobile ? "0 0 400 800" : "0 0 1200 800";
+    const viewBox = isMobile ? "-50 0 500 1000" : "0 0 1200 800";
 
     // Helper to find node coordinates
     const getNode = (id: string): GraphNode | undefined => nodes.find(n => n.id === id);
@@ -169,10 +169,10 @@ export const GitGraph = () => {
                     </motion.div>
 
                     <svg
-                        width="200%"
-                        height="100%"
+                        width="100%"
+                        height={isMobile ? "auto" : "100%"}
                         viewBox={viewBox}
-                        preserveAspectRatio="xMidYMid meet"
+                        preserveAspectRatio="xMidYMin meet"
                         className="w-full max-w-8xl px-2 mt-24 md:mt-0 pt-20 md:pt-0"
                     >
                         {/* Render Edges first so lines are behind nodes */}

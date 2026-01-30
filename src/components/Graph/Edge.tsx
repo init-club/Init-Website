@@ -20,14 +20,29 @@ interface EdgeProps {
 }
 
 export const Edge = ({ id, x1, y1, x2, y2, delay, duration, color = '#334155', isHighlighted, label, labelDy, labelOffset, labelAnchor, isMobile = false, }: EdgeProps) => {
-    // Smooth horizontal Bezier curve
-    const dist = Math.abs(x2 - x1);
-    const cp1x = x1 + dist * 0.5;
-    const cp1y = y1;
-    const cp2x = x2 - dist * 0.5;
-    const cp2y = y2;
+    // Calculate Path
+    let d = '';
 
-    const pathD = `M ${x1} ${y1} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${x2} ${y2}`;
+    if (isMobile) {
+        // Mobile: Vertical Cubic Bezier (Smooth S-Curve)
+        // Matches the "smooth" feel of the desktop version but adapted for vertical flow
+        const dist = Math.abs(y2 - y1);
+        const cp1x = x1;             // Start goes down
+        const cp1y = y1 + dist * 0.5;
+        const cp2x = x2;             // End arrives from top
+        const cp2y = y2 - dist * 0.5;
+
+        d = `M ${x1} ${y1} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${x2} ${y2}`;
+
+    } else {
+        // Desktop: Horizontal Bezier
+        const dist = Math.abs(x2 - x1);
+        const cp1x = x1 + dist * 0.5;
+        const cp1y = y1;
+        const cp2x = x2 - dist * 0.5;
+        const cp2y = y2;
+        d = `M ${x1} ${y1} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${x2} ${y2}`;
+    }
 
     // Non-hover: Branch color stroke with glow
     // Hover: Brighter version
@@ -45,9 +60,9 @@ export const Edge = ({ id, x1, y1, x2, y2, delay, duration, color = '#334155', i
             {/* Main colored path with glow */}
             <motion.path
                 id={id}
-                d={pathD}
+                d={d}
                 fill="none"
-                strokeWidth={6}
+                strokeWidth={isMobile ? 3 : 6}
                 strokeLinecap="round"
                 style={{ filter: glowIntensity }}
                 initial={{ pathLength: 0, opacity: 0, stroke: color }}
