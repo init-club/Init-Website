@@ -44,22 +44,22 @@ export const Edge = ({ id, x1, y1, x2, y2, delay, duration, color = '#334155', i
         <g>
             {/* Main colored path with glow */}
             <motion.path
-                key={color} // Force re-render when color changes to ensure glow updates
                 id={id}
                 d={pathD}
                 fill="none"
-                stroke={color}
                 strokeWidth={6}
                 strokeLinecap="round"
                 style={{ filter: glowIntensity }}
-                initial={{ pathLength: 0, opacity: 0 }}
+                initial={{ pathLength: 0, opacity: 0, stroke: color }}
                 animate={{
                     pathLength: 1,
-                    opacity: isHighlighted ? 1 : 0.6
+                    opacity: isHighlighted ? 1 : 0.6,
+                    stroke: color
                 }}
                 transition={{
                     pathLength: { duration: duration, delay: delay, ease: "easeInOut" },
-                    opacity: { duration: 0.3 }
+                    opacity: { duration: 0.3 },
+                    stroke: { duration: 0.2 }
                 }}
             />
 
