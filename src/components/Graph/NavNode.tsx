@@ -11,7 +11,7 @@ interface NavNodeProps {
     delay: number;
     description?: string;
     color?: string;
-    align?: 'left' | 'right';
+    align?: 'left' | 'right' | 'top';
     isMobile?: boolean; //  prop to disable hover on mobile
     onMouseEnter?: () => void;
     onMouseLeave?: () => void;
@@ -34,11 +34,23 @@ export const NavNode = ({ x, y, label, path, delay, description, color = '#fffff
     };
 
     const handleClick = () => {
-        navigate(path);
+        if (path) navigate(path);
     };
 
-    const textX = align === 'right' ? x + 30 : x - 230;
-    const textAlignClass = align === 'right' ? 'items-start text-left' : 'items-end text-right';
+    let textX = x + 30;
+    let textY = y - 25;
+    let textAlignClass = 'items-start text-left';
+
+    if (align === 'left') {
+        textX = x - 230;
+        textAlignClass = 'items-end text-right';
+    } else if (align === 'top') {
+        textX = x - 100;
+        textY = y - 80;
+        textAlignClass = 'items-center text-center';
+    }
+
+    const isInteractive = !!path;
 
     return (
         <motion.g
@@ -50,7 +62,7 @@ export const NavNode = ({ x, y, label, path, delay, description, color = '#fffff
                 type: "spring",
                 stiffness: 200
             }}
-            className="cursor-pointer group"
+            className={`${isInteractive ? 'cursor-pointer' : 'cursor-default'} group`}
         >
             {/* Invisible larger hitbox for easier hovering */}
             <circle
@@ -61,7 +73,7 @@ export const NavNode = ({ x, y, label, path, delay, description, color = '#fffff
                 onMouseEnter={handleEnter}
                 onMouseLeave={handleLeave}
                 onClick={handleClick}
-                style={{ cursor: 'pointer' }}
+                style={{ cursor: isInteractive ? 'pointer' : 'default' }}
             />
 
             {/* Main Container Circle - Ring design */}
@@ -81,9 +93,9 @@ export const NavNode = ({ x, y, label, path, delay, description, color = '#fffff
             <circle cx={x} cy={y} r="4" fill={color} className="pointer-events-none" />
 
             {/* Label - Clickable/hoverable */}
-            <foreignObject x={textX} y={y - 25} width="200" height="60" className="overflow-visible">
+            <foreignObject x={textX} y={textY} width="200" height="60" className="overflow-visible">
                 <div
-                    className={`flex flex-col ${textAlignClass} justify-center h-full cursor-pointer`}
+                    className={`flex flex-col ${textAlignClass} justify-center h-full ${isInteractive ? 'cursor-pointer' : 'cursor-default'}`}
                     onMouseEnter={handleEnter}
                     onMouseLeave={handleLeave}
                     onClick={handleClick}

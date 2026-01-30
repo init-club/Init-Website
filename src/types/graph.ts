@@ -11,7 +11,7 @@ export interface GraphNode {
     description?: string; // Hover description
     activePath?: string[]; // IDs of edges to highlight on hover
     color?: string; // Custom accent color
-    align?: 'left' | 'right'; // Text alignment relative to node
+    align?: 'left' | 'right' | 'top'; // Text alignment relative to node
 }
 
 export interface GraphEdge {
