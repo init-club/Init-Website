@@ -16,8 +16,15 @@ const ScrollRevealBlock = ({ children, className }: { children: React.ReactNode;
   const opacity = useTransform(scrollYProgress, [0, 1], [0.3, 1]);
   const y = useTransform(scrollYProgress, [0, 1], [20, 0]);
 
+  // Mobile check (LG breakpoint is 1024px)
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 1024;
+
   return (
-    <motion.div ref={element} style={{ opacity, y }} className={className}>
+    <motion.div
+      ref={element}
+      style={isMobile ? {} : { opacity, y }}
+      className={className}
+    >
       {children}
     </motion.div>
   );
@@ -51,7 +58,7 @@ const AboutWhatWeDo: React.FC = () => {
     <section
       ref={ref}
       onMouseMove={handleMouseMove}
-      className="relative py-20 lg:py-32 px-6 bg-transparent overflow-hidden"
+      className="relative py-20 lg:py-32 px-4 lg:px-6 bg-transparent overflow-hidden"
     >
       {/* Background Decor */}
       <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
@@ -70,7 +77,7 @@ const AboutWhatWeDo: React.FC = () => {
       <div className="max-w-7xl mx-auto relative z-10">
 
         {/* ================= ABOUT SECTION (Horizontal: Logo | Text) ================= */}
-        <div className="grid lg:grid-cols-2 gap-12 items-center mb-20 lg:mb-32 relative">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center mb-20 lg:mb-32 relative">
 
           {/* Spotlight Effect for Zone A */}
           <motion.div
@@ -84,7 +91,7 @@ const AboutWhatWeDo: React.FC = () => {
           />
 
           {/* LEFT: LOGO */}
-          <div className="flex justify-center lg:justify-start relative z-10">
+          <div className="flex justify-center lg:justify-start w-full relative z-10">
             <motion.div
               animate={{ y: [0, -15, 0] }}
               transition={{
@@ -154,24 +161,48 @@ const AboutWhatWeDo: React.FC = () => {
               </span>
             </motion.h2>
 
-            <div className="space-y-6 text-base sm:text-lg text-muted/80 leading-relaxed text-justify lg:text-left">
-              <ScrollRevealBlock>
-                <p>
-                  <span className="text-white font-bold">Init Club</span> is a student-led open-source community built around the idea of initialization—the first step of turning ideas into working systems. We serve as a launchpad for students to learn, experiment, and collaborate by building projects from the ground up.
-                </p>
-              </ScrollRevealBlock>
+            <div className="space-y-6 text-base sm:text-lg text-muted/80 leading-relaxed lg:text-left">
+              {/* DESKTOP CONTENT */}
+              <div className="hidden lg:block space-y-6">
+                <ScrollRevealBlock>
+                  <p>
+                    <span className="text-white font-bold">Init Club</span> is a student-led open-source community built around the idea of initialization—the first step of turning ideas into working systems. We serve as a launchpad for students to learn, experiment, and collaborate by building projects from the ground up.
+                  </p>
+                </ScrollRevealBlock>
 
-              <ScrollRevealBlock>
-                <p>
-                  We focus on <span className="text-white font-bold">hands-on learning</span> through real development workflows, including version control, code reviews, and deployment. We don't just recruit; we onboard builders.
-                </p>
-              </ScrollRevealBlock>
+                <ScrollRevealBlock>
+                  <p>
+                    We focus on <span className="text-white font-bold">hands-on learning</span> through real development workflows, including version control, code reviews, and deployment. We don't just recruit; we onboard builders.
+                  </p>
+                </ScrollRevealBlock>
 
-              <ScrollRevealBlock>
-                <p>
-                  Beyond building projects, we promote participation in the <span className="text-white font-bold">global open-source ecosystem</span>. Our goal is not just to write code, but to build reliable systems, share knowledge, and create a supportive environment where ideas evolve into meaningful work.
-                </p>
-              </ScrollRevealBlock>
+                <ScrollRevealBlock>
+                  <p>
+                    Beyond building projects, we promote participation in the <span className="text-white font-bold">global open-source ecosystem</span>. Our goal is not just to write code, but to build reliable systems, share knowledge, and create a supportive environment where ideas evolve into meaningful work.
+                  </p>
+                </ScrollRevealBlock>
+              </div>
+
+              {/* MOBILE CONTENT (Reduced & Justified) */}
+              <div className="block lg:hidden space-y-4 text-justify hyphens-auto tracking-tight">
+                <ScrollRevealBlock>
+                  <p>
+                    <span className="text-white font-bold">Init Club</span> is a student-led open-source community built to turn ideas into working systems. We are a launchpad for students to learn, experiment, and build projects from the ground up.
+                  </p>
+                </ScrollRevealBlock>
+
+                <ScrollRevealBlock>
+                  <p>
+                    We focus on <span className="text-white font-bold">hands-on learning</span> through real development workflows. We don't just recruit; we onboard builders.
+                  </p>
+                </ScrollRevealBlock>
+
+                <ScrollRevealBlock>
+                  <p>
+                    We promote participation in open source. Our goal is to build reliable systems, share knowledge, and create an environment where ideas evolve into meaningful work.
+                  </p>
+                </ScrollRevealBlock>
+              </div>
             </div>
 
             {/* CTA BUTTONS */}
