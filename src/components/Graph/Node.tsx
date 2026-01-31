@@ -12,7 +12,6 @@ interface NodeProps {
 
 export const Node = ({ x, y, type, delay, color = '#94a3b8' }: NodeProps) => {
     const radius = type === 'start' ? 8 : 5;
-    const isStart = type === 'start';
     const [, setIsHovered] = useState(false);
 
     return (

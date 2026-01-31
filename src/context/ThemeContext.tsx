@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 
 type Theme = 'light' | 'dark';
 
@@ -15,12 +15,12 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     // Check localStorage first
     const savedTheme = localStorage.getItem('init-club-theme') as Theme | null;
     if (savedTheme) return savedTheme;
-    
+
     // Check system preference
     if (window.matchMedia('(prefers-color-scheme: light)').matches) {
       return 'light';
     }
-    
+
     // Default to dark
     return 'dark';
   });
@@ -30,7 +30,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     const root = document.documentElement;
     root.classList.remove('light', 'dark');
     root.classList.add(theme);
-    
+
     // Save to localStorage
     localStorage.setItem('init-club-theme', theme);
   }, [theme]);
