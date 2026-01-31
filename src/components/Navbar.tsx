@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Instagram, Linkedin } from 'lucide-react';
+import { OctopusThemeToggle } from './OctopusThemeToggle';
+
 
 const navItems = [
   { label: 'Home', path: '/' },
@@ -48,7 +50,7 @@ export function Navbar() {
               to="/"
               className="group flex items-center gap-2"
             >
-              <div className="rounded-lg sm:rounded-xl p-1.5 sm:p-2 transition-transform duration-300 group-hover:scale-105" style={{ background: 'linear-gradient(135deg, #00ffd5, #a855f7)' }}>
+              <div className="rounded-lg sm:rounded-xl p-1.5 sm:p-2 transition-transform duration-300 group-hover:scale-105" style={{ backgroundColor: 'var(--primary)' }}>
                 <span className="font-mono text-xs sm:text-sm font-bold whitespace-nowrap text-white">{'<Init Club/>'}</span>
               </div>
               {/* <span className="hidden sm:block font-semibold text-[var(--text)]">
@@ -77,7 +79,7 @@ export function Navbar() {
                           {/* Laser Fill Animation */}
                           <motion.div
                             className="absolute inset-0 z-0 origin-left"
-                            style={{ background: 'linear-gradient(90deg, #00ffd5, #a855f7)' }}
+                            style={{ backgroundColor: 'var(--primary)' }}
                             initial={{ scaleX: 0 }}
                             animate={{ scaleX: 1 }}
                             transition={{ duration: 0.3, ease: "linear" }}
@@ -85,7 +87,8 @@ export function Navbar() {
 
                           {/* Scanning Line */}
                           <motion.div
-                            className="absolute inset-y-0 z-10 w-0.5 bg-white shadow-[0_0_10px_rgba(255,255,255,0.8),0_0_20px_rgba(0,255,213,0.5)]"
+                            className="absolute inset-y-0 z-10 w-0.5 bg-white"
+                            style={{ boxShadow: '0 0 6px rgba(255,255,255,0.6), 0 0 12px var(--primary)' }}
                             initial={{ left: '0%', opacity: 1 }}
                             animate={{ left: '100%', opacity: 0 }}
                             transition={{ duration: 0.3, ease: "linear" }}
@@ -103,6 +106,9 @@ export function Navbar() {
 
             {/* Right Section */}
             <div className="flex items-center gap-3">
+              {/* Theme Toggle - Octopus */}
+              <OctopusThemeToggle />
+
               {/* Mobile Menu Button */}
               <button
                 type="button"
@@ -151,7 +157,7 @@ export function Navbar() {
                 style={({ isActive }) => ({
                   animationDelay: `${index * 50}ms`,
                   ...(isActive ? {
-                    background: 'linear-gradient(90deg, #00ffd5, #a855f7)',
+                    backgroundColor: 'var(--primary)',
                     color: 'white'
                   } : {})
                 })}
@@ -168,7 +174,7 @@ export function Navbar() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 rounded-lg hover:bg-[var(--white-5)] text-[var(--muted)] hover:text-[#00ffd5] transition-colors"
+                  className="p-2 rounded-lg hover:bg-[var(--white-5)] text-[var(--muted)] hover:text-[var(--accent)] transition-colors"
                   aria-label={social.label}
                 >
                   <social.icon size={20} />

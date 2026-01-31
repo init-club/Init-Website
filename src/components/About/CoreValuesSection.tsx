@@ -73,7 +73,7 @@ export const CoreValuesSection = () => {
         >
           <h2 className="text-3xl sm:text-4xl font-bold font-[var(--font-heading)] text-[var(--text)] mb-4">
             Core{' '}
-            <span className="bg-gradient-to-r from-[#00ffd5] to-[#a855f7] bg-clip-text text-transparent">
+            <span className="text-[var(--primary)]">
               Values
             </span>
           </h2>
@@ -95,10 +95,10 @@ export const CoreValuesSection = () => {
               variants={fadeInUp}
               whileHover={{ scale: 1.02, y: -5 }}
               transition={{ duration: 0.3 }}
-              className="glass rounded-2xl p-8 text-center hover:border-[#00ffd5]/30 transition-colors duration-300"
+              className="glass rounded-2xl p-8 text-center hover:border-[var(--primary)]/40 transition-colors duration-300"
             >
               <div className="mb-4 flex justify-center">
-                <value.icon className="w-12 h-12 text-[#00ffd5]" />
+                <value.icon className="w-12 h-12 text-[var(--primary)]" />
               </div>
               <h3 className="text-xl font-bold font-[var(--font-heading)] text-[var(--text)] mb-3">
                 {value.title}

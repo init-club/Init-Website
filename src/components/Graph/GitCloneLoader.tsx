@@ -6,11 +6,17 @@ interface GitCloneLoaderProps {
     duration?: number;
 }
 
-// Color gradient from cyan to purple
+// Color progression using theme colors
 const getSegmentColor = (index: number, total: number) => {
-    const colors = ['#00ffd5', '#00e5ff', '#00bfff', '#7c4dff', '#a855f7'];
-    const colorIndex = Math.floor((index / total) * (colors.length - 1));
-    return colors[colorIndex];
+    // Get CSS variables at runtime
+    const primary = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim();
+    const secondary = getComputedStyle(document.documentElement).getPropertyValue('--secondary').trim();
+    const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+
+    const ratio = index / total;
+    if (ratio < 0.5) return primary;
+    if (ratio < 0.75) return secondary;
+    return accent;
 };
 
 export const GitCloneLoader = ({ onComplete, duration = 700 }: GitCloneLoaderProps) => {
@@ -68,9 +74,9 @@ export const GitCloneLoader = ({ onComplete, duration = 700 }: GitCloneLoaderPro
                     animate={{
                         scale: [1, 1.02, 1],
                         boxShadow: [
-                            "0 5px 5px rgba(0, 255, 213, 0.4)",   // Shifted down
-                            "0 5px 12px rgba(168, 85, 247, 0.5)", // Shifted down
-                            "0 5px 5px rgba(0, 255, 213, 0.4)"    // Shifted down
+                            "0 5px 5px var(--primary)",
+                            "0 5px 12px var(--secondary)",
+                            "0 5px 5px var(--primary)"
                         ]
                     }}
                     transition={{
@@ -102,7 +108,7 @@ export const GitCloneLoader = ({ onComplete, duration = 700 }: GitCloneLoaderPro
                                 className="w-2 h-6 rounded-sm"
                                 style={{
                                     backgroundColor: isFilled ? segmentColor : '#1a1a1a',
-                                    boxShadow: isFilled ? `0 0 10px ${segmentColor}` : 'none'
+                                    boxShadow: isFilled ? `0 0 6px ${segmentColor}` : 'none'
                                 }}
                                 initial={{ scaleY: 0.5 }}
                                 animate={{ scaleY: isFilled ? 1 : 0.5 }}
@@ -112,14 +118,12 @@ export const GitCloneLoader = ({ onComplete, duration = 700 }: GitCloneLoaderPro
                     })}
                 </div>
 
-                {/* Percentage with gradient */}
+                {/* Percentage with theme color */}
                 <motion.div
                     className="text-3xl font-light tracking-wider"
                     style={{
                         fontVariantNumeric: 'tabular-nums',
-                        background: 'linear-gradient(90deg, #00ffd5, #a855f7)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent'
+                        color: 'var(--primary)'
                     }}
                 >
                     {progress}%

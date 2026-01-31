@@ -127,7 +127,7 @@ export const MissionSection = () => {
           --speed: 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
           --closed: 7rem;
           --open: 40rem;
-          --accent: var(--color-about, #00ffd5);
+          --accent: var(--primary);
         }
 
         @media (max-width: 767px) {
@@ -245,7 +245,7 @@ export const MissionSection = () => {
         }
 
         .mission-card-btn:hover {
-          background: #00ccaa;
+          background: var(--primary-hover);
         }
 
         /* Mobile Styles */
@@ -323,7 +323,7 @@ export const MissionSection = () => {
             <button
               onClick={() => go(-1)}
               disabled={current === 0}
-              className="w-10 h-10 rounded-full bg-white/12 text-white text-xl flex items-center justify-center cursor-pointer transition-all duration-300 hover:bg-[var(--color-about)] disabled:opacity-30 disabled:cursor-default disabled:hover:bg-white/12"
+              className="w-10 h-10 rounded-full bg-[var(--text)]/10 text-[var(--text)] text-xl flex items-center justify-center cursor-pointer transition-all duration-300 hover:bg-[var(--primary)] hover:text-white disabled:opacity-30 disabled:cursor-default disabled:hover:bg-[var(--text)]/10"
               aria-label="Previous"
             >
               ‹
@@ -331,7 +331,7 @@ export const MissionSection = () => {
             <button
               onClick={() => go(1)}
               disabled={current === missionSections.length - 1}
-              className="w-10 h-10 rounded-full bg-white/12 text-white text-xl flex items-center justify-center cursor-pointer transition-all duration-300 hover:bg-[var(--color-about)] disabled:opacity-30 disabled:cursor-default disabled:hover:bg-white/12"
+              className="w-10 h-10 rounded-full bg-[var(--text)]/10 text-[var(--text)] text-xl flex items-center justify-center cursor-pointer transition-all duration-300 hover:bg-[var(--primary)] hover:text-white disabled:opacity-30 disabled:cursor-default disabled:hover:bg-[var(--text)]/10"
               aria-label="Next"
             >
               ›

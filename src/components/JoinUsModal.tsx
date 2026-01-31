@@ -32,14 +32,14 @@ const JoinUsModal = ({ isOpen, onClose }: JoinUsModalProps) => {
                             onClick={(e) => e.stopPropagation()}
                         >
                             {/* Main Modal Card */}
-                            <div className="relative bg-black/90 rounded-2xl shadow-2xl overflow-hidden border-2 border-cyan-500/50">
+                            <div className="relative bg-[var(--bg-secondary)] rounded-2xl shadow-2xl overflow-hidden border-2 border-[var(--primary)]/30">
                                 {/* Top accent line */}
-                                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-500 via-cyan-500 to-purple-500" />
+                                <div className="absolute top-0 left-0 right-0 h-1 bg-[var(--primary)]" />
 
                                 {/* Subtle glow background */}
-                                <div className="absolute inset-0 opacity-30">
-                                    <div className="absolute top-20 right-0 w-96 h-96 bg-cyan-500/10 blur-3xl" />
-                                    <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-500/10 blur-3xl" />
+                                <div className="absolute inset-0 opacity-20">
+                                    <div className="absolute top-20 right-0 w-96 h-96 bg-[var(--primary)]/10 blur-3xl" />
+                                    <div className="absolute bottom-0 left-0 w-96 h-96 bg-[var(--secondary)]/10 blur-3xl" />
                                 </div>
 
                                 {/* Close Button */}
@@ -47,47 +47,44 @@ const JoinUsModal = ({ isOpen, onClose }: JoinUsModalProps) => {
                                     whileHover={{ scale: 1.1, rotate: 90 }}
                                     whileTap={{ scale: 0.9 }}
                                     onClick={onClose}
-                                    className="absolute top-3 right-3 sm:top-5 sm:right-5 z-20 text-cyan-300 hover:text-cyan-100 bg-black/40 hover:bg-black/60 backdrop-blur-sm rounded-full p-2 sm:p-2.5 transition-all border border-cyan-500/40"
+                                    className="absolute top-3 right-3 sm:top-5 sm:right-5 z-20 text-[var(--primary-light)] hover:text-white bg-black/40 hover:bg-black/60 backdrop-blur-sm rounded-full p-2 sm:p-2.5 transition-all border border-[var(--primary)]/30"
                                 >
                                     <X size={18} className="sm:w-5 sm:h-5" />
                                 </motion.button>
 
                                 <div className="relative z-10 p-6 sm:p-8 space-y-5 sm:space-y-6 max-h-[90vh] overflow-y-auto">
                                     {/* Join INIT Club Intro */}
-                                    <div className="text-center pb-4 sm:pb-6 border-b border-cyan-500/30 space-y-2 sm:space-y-3">
+                                    <div className="text-center pb-4 sm:pb-6 border-b border-[var(--border)] space-y-2 sm:space-y-3">
                                         <div>
                                             <h1 className="text-2xl sm:text-4xl md:text-5xl font-black whitespace-nowrap" style={{ fontFamily: 'var(--font-heading)' }}>
-                                                <span className="text-white">The &lt; </span>
+                                                <span style={{ color: 'var(--text)' }}>The &lt; </span>
                                                 <span
                                                     style={{
-                                                        background: 'linear-gradient(90deg, #00ffd5, #a855f7)',
-                                                        WebkitBackgroundClip: 'text',
-                                                        WebkitTextFillColor: 'transparent',
-                                                        backgroundClip: 'text',
+                                                        color: 'var(--primary)',
                                                     }}
                                                 >
                                                     INIT
                                                 </span>
-                                                <span className="text-white"> Club /&gt;</span>
+                                                <span style={{ color: 'var(--text)' }}> Club /&gt;</span>
                                             </h1>
                                         </div>
-                                        <p className="text-xs sm:text-sm font-semibold text-cyan-400 uppercase tracking-widest">Take the first step</p>
+                                        <p className="text-xs sm:text-sm font-semibold text-[var(--accent)] uppercase tracking-widest">Take the first step</p>
                                     </div>
 
                                     {/* Ready Message */}
                                     <div className="text-center space-y-3 py-3 sm:py-4">
-                                        <p className="text-cyan-300 font-semibold text-xs sm:text-sm">Ready to prove yourself?</p>
+                                        <p className="text-[var(--primary-light)] font-semibold text-xs sm:text-sm">Ready to prove yourself?</p>
                                         <p className="text-gray-400 text-xs leading-relaxed">
                                             Meet the requirements? Hungry to challenge yourself with real problems and grow as a developer? Then you belong here. Join us on Discord.
                                         </p>
                                     </div>
 
                                     {/* Divider */}
-                                    <div className="h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent" />
+                                    <div className="h-px bg-gradient-to-r from-transparent via-[var(--primary)]/30 to-transparent" />
 
                                     {/* Key Requirements - Compact */}
                                     <div className="space-y-2">
-                                        <p className="text-cyan-400 text-xs font-semibold uppercase tracking-wider">What We Look For</p>
+                                        <p className="text-[var(--primary-light)] text-xs font-semibold uppercase tracking-wider">What We Look For</p>
                                         <div className="grid grid-cols-2 gap-2">
                                             {[
                                                 { icon: Users, text: "Student", color: "yellow" },
@@ -111,14 +108,14 @@ const JoinUsModal = ({ isOpen, onClose }: JoinUsModalProps) => {
                                         href="https://discord.com/invite/Gx8sdGJkU"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="group relative block w-full overflow-hidden rounded-xl font-bold text-center py-3 border border-cyan-500/50"
+                                        className="group relative block w-full overflow-hidden rounded-xl font-bold text-center py-3 border border-[var(--primary)]/40"
                                         whileHover="hover"
                                         initial="initial"
                                     >
                                         {/* Laser Fill Animation */}
                                         <motion.div
                                             className="absolute inset-0 z-0 origin-left"
-                                            style={{ background: 'linear-gradient(90deg, #00ffd5, #a855f7)' }}
+                                            style={{ backgroundColor: 'var(--primary)' }}
                                             variants={{
                                                 initial: { scaleX: 0 },
                                                 hover: { scaleX: 1 }
@@ -128,7 +125,7 @@ const JoinUsModal = ({ isOpen, onClose }: JoinUsModalProps) => {
 
                                         {/* Scanning Line */}
                                         <motion.div
-                                            className="absolute inset-y-0 z-10 w-0.5 bg-white shadow-[0_0_10px_rgba(255,255,255,0.8),0_0_20px_rgba(0,255,213,0.5)]"
+                                            className="absolute inset-y-0 z-10 w-0.5 bg-white shadow-[0_0_10px_rgba(255,255,255,0.8),0_0_20px_var(--primary)]"
                                             variants={{
                                                 initial: { left: '0%', opacity: 0 },
                                                 hover: { left: '100%', opacity: 1 }
@@ -137,7 +134,7 @@ const JoinUsModal = ({ isOpen, onClose }: JoinUsModalProps) => {
                                         />
 
                                         {/* Text Content */}
-                                        <span className="relative z-10 text-white transition-colors duration-300 group-hover:text-white">
+                                        <span className="relative z-10 transition-colors duration-300 group-hover:text-white" style={{ color: 'var(--text)' }}>
                                             Join Now
                                         </span>
                                     </motion.a>

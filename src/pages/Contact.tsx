@@ -101,10 +101,7 @@ export default function ContactPage() {
               <span style={{ color: 'var(--text)' }}>The &lt; </span>
               <span
                 style={{
-                  background: 'linear-gradient(90deg, #00ffd5, #a855f7)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
+                  color: 'var(--primary)',
                 }}
               >
                 INIT
@@ -112,7 +109,7 @@ export default function ContactPage() {
               <span style={{ color: 'var(--text)' }}> Club /&gt;</span>
             </h1>
 
-            <p className="text-lg md:text-xl text-cyan-300 mb-4 font-semibold">Not just a club. A transformation.</p>
+            <p className="text-lg md:text-xl text-[var(--primary-light)] mb-4 font-semibold">Not just a club. A transformation.</p>
             <p className="text-base md:text-lg text-gray-400 max-w-3xl mx-auto mb-12 leading-relaxed">
               We don't recruit. We onboard builders. Not everyone will fit. Not everyone should.
               <br className="hidden sm:block" />
@@ -122,13 +119,13 @@ export default function ContactPage() {
             {/* CTA Button with Laser Animation */}
             <motion.button
               onClick={() => setIsModalOpen(true)}
-              className="group relative px-8 py-3 rounded-xl font-semibold text-white mb-20 border border-cyan-500/50 overflow-hidden"
+              className="group relative px-8 py-3 rounded-xl font-semibold mb-20 border border-[var(--primary)]/30 overflow-hidden"
               whileHover="hover"
               initial="initial"
             >
               <motion.div
                 className="absolute inset-0 z-0 origin-left"
-                style={{ background: 'linear-gradient(90deg, #00ffd5, #a855f7)' }}
+                style={{ backgroundColor: 'var(--primary)' }}
                 variants={{
                   initial: { scaleX: 0 },
                   hover: { scaleX: 1 }
@@ -136,21 +133,21 @@ export default function ContactPage() {
                 transition={{ duration: 0.2, ease: "linear" }}
               />
               <motion.div
-                className="absolute inset-y-0 z-10 w-0.5 bg-white shadow-[0_0_10px_rgba(255,255,255,0.8),0_0_20px_rgba(0,255,213,0.5)]"
+                className="absolute inset-y-0 z-10 w-0.5 bg-white shadow-[0_0_10px_rgba(255,255,255,0.8),0_0_20px_var(--primary)]"
                 variants={{
                   initial: { left: '0%', opacity: 0 },
                   hover: { left: '100%', opacity: 1 }
                 }}
                 transition={{ duration: 0.2, ease: "linear" }}
               />
-              <span className="relative z-10 flex items-center gap-2 transition-colors duration-300 group-hover:text-white">
+              <span className="relative z-10 flex items-center gap-2 transition-colors duration-300 group-hover:text-white" style={{ color: 'var(--text)' }}>
                 Check if you fit
                 <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
               </span>
             </motion.button>
           </motion.div>
 
-          <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-500/5 blur-3xl rounded-full" />
+          <div className="absolute top-0 right-0 w-96 h-96 bg-[var(--primary)]/5 blur-3xl rounded-full" />
         </section>
 
         {/* The Spirit Section */}
@@ -175,16 +172,13 @@ export default function ContactPage() {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: idx * 0.1 }}
-                  className="group relative p-6 rounded-xl border border-cyan-500/30 hover:border-cyan-400 transition-all"
-                  style={{
-                    background: 'linear-gradient(135deg, rgba(0,255,213,0.05) 0%, rgba(168,85,247,0.05) 100%)'
-                  }}
+                  className="group relative p-6 rounded-xl border border-[var(--primary)]/20 hover:border-[var(--primary)] transition-all bg-[var(--bg-secondary)]"
                 >
-                  <item.icon size={32} className="text-cyan-400 mb-4 group-hover:text-yellow-300 transition-colors" />
-                  <h3 className="text-lg font-bold text-cyan-300 mb-2 group-hover:text-yellow-300 transition-colors">
+                  <item.icon size={32} className="text-[var(--primary)] mb-4 group-hover:text-[var(--accent)] transition-colors" />
+                  <h3 className="text-lg font-bold text-[var(--primary-light)] mb-2 group-hover:text-[var(--accent)] transition-colors">
                     {item.title}
                   </h3>
-                  <p className="text-sm text-gray-400">
+                  <p className="text-sm text-[var(--text-secondary)]">
                     {item.description}
                   </p>
                 </motion.div>
@@ -196,8 +190,7 @@ export default function ContactPage() {
         {/* The Real Talk Section */}
         <section className="max-w-6xl mx-auto px-4 mb-24 relative">
           <div
-            className="absolute inset-0 rounded-3xl border border-cyan-500/20 -z-10"
-            style={{ background: 'linear-gradient(135deg, rgba(0,255,213,0.03) 0%, rgba(168,85,247,0.03) 100%)' }}
+            className="absolute inset-0 rounded-3xl border border-[var(--primary)]/10 -z-10 bg-[var(--bg-secondary)]"
           />
 
           <motion.div
@@ -218,12 +211,12 @@ export default function ContactPage() {
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5, delay: idx * 0.1 }}
-                  className="flex gap-4 items-start p-4 rounded-lg border border-cyan-500/20 hover:border-cyan-500/50 transition-all"
+                  className="flex gap-4 items-start p-4 rounded-lg border border-[var(--primary)]/10 hover:border-[var(--primary)]/30 transition-all"
                 >
-                  <div className="w-2 h-2 bg-gradient-to-r from-cyan-400 to-purple-500 rounded-full mt-2 flex-shrink-0" />
+                  <div className="w-2 h-2 bg-[var(--accent)] rounded-full mt-2 flex-shrink-0" />
                   <p className="text-sm md:text-base">
-                    <span className="text-cyan-300 font-bold">{item.bold}</span>
-                    <span className="text-gray-400">{item.normal}</span>
+                    <span className="text-[var(--primary-light)] font-bold">{item.bold}</span>
+                    <span className="text-[var(--text-secondary)]">{item.normal}</span>
                   </p>
                 </motion.div>
               ))}
@@ -256,20 +249,20 @@ export default function ContactPage() {
                 >
                   {/* Timeline Line */}
                   {idx !== journeySteps.length - 1 && (
-                    <div className="absolute left-7 top-20 bottom-0 w-0.5 bg-gradient-to-b from-cyan-500 to-transparent" />
+                    <div className="absolute left-7 top-20 bottom-0 w-0.5 bg-[var(--primary)]/20" />
                   )}
 
                   {/* Icon Circle */}
                   <div className="relative flex-shrink-0">
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-cyan-500 to-purple-500 flex items-center justify-center border-2 border-black relative z-10">
+                    <div className="w-16 h-16 rounded-full bg-[var(--primary)] flex items-center justify-center border-2 border-[var(--bg-primary)] relative z-10">
                       {step.icon ? <step.icon size={24} className="text-white" /> : <span className="text-white font-bold">{idx + 1}</span>}
                     </div>
                   </div>
 
                   {/* Content */}
                   <div className="flex-1 pt-2">
-                    <p className="text-xs font-semibold text-cyan-400 uppercase tracking-wider mb-1">{step.phase}</p>
-                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-yellow-300 transition-colors">
+                    <p className="text-xs font-semibold text-[var(--accent)] uppercase tracking-wider mb-1">{step.phase}</p>
+                    <h3 className="text-xl font-bold text-[var(--text)] mb-2 group-hover:text-[var(--primary)] transition-colors">
                       {step.title}
                     </h3>
                     <p className="text-gray-400 text-sm leading-relaxed">
@@ -303,10 +296,10 @@ export default function ContactPage() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.4, delay: idx * 0.08 }}
-                  className="p-4 rounded-lg border border-cyan-500/20 hover:border-cyan-400 hover:bg-black/40 transition-all flex items-center gap-3 group cursor-pointer"
+                  className="p-4 rounded-lg border border-[var(--primary)]/10 hover:border-[var(--primary)]/40 hover:bg-[var(--bg-secondary)] transition-all flex items-center gap-3 group cursor-pointer"
                 >
-                  <item.icon size={24} className="text-cyan-400 group-hover:text-yellow-300 transition-colors flex-shrink-0" />
-                  <p className="text-sm font-medium text-gray-300 group-hover:text-white transition-colors">
+                  <item.icon size={24} className="text-[var(--primary)] group-hover:text-[var(--accent)] transition-colors flex-shrink-0" />
+                  <p className="text-sm font-medium text-[var(--text-secondary)] group-hover:text-[var(--text)] transition-colors">
                     {item.text}
                   </p>
                 </motion.div>
@@ -332,13 +325,13 @@ export default function ContactPage() {
 
             <motion.button
               onClick={() => setIsModalOpen(true)}
-              className="group relative px-10 py-4 rounded-xl font-bold text-white text-lg border border-cyan-500/50 overflow-hidden"
+              className="group relative px-10 py-4 rounded-xl font-bold text-lg border border-[var(--primary)]/30 overflow-hidden"
               whileHover="hover"
               initial="initial"
             >
               <motion.div
                 className="absolute inset-0 z-0 origin-left"
-                style={{ background: 'linear-gradient(90deg, #00ffd5, #a855f7)' }}
+                style={{ backgroundColor: 'var(--primary)' }}
                 variants={{
                   initial: { scaleX: 0 },
                   hover: { scaleX: 1 }
@@ -346,14 +339,14 @@ export default function ContactPage() {
                 transition={{ duration: 0.3, ease: "linear" }}
               />
               <motion.div
-                className="absolute inset-y-0 z-10 w-0.5 bg-white shadow-[0_0_10px_rgba(255,255,255,0.8),0_0_20px_rgba(0,255,213,0.5)]"
+                className="absolute inset-y-0 z-10 w-0.5 bg-white shadow-[0_0_10px_rgba(255,255,255,0.8),0_0_20px_var(--primary)]"
                 variants={{
                   initial: { left: '0%', opacity: 0 },
                   hover: { left: '100%', opacity: 1 }
                 }}
                 transition={{ duration: 0.3, ease: "linear" }}
               />
-              <span className="relative z-10 flex items-center justify-center gap-2 group-hover:text-white">
+              <span className="relative z-10 flex items-center justify-center gap-2 transition-colors duration-300 group-hover:text-white" style={{ color: 'var(--text)' }}>
                 Let's Talk
                 <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
               </span>

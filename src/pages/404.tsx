@@ -23,7 +23,7 @@ export default function NotFoundPage() {
                     x2={200} y2={75}
                     delay={0.2}
                     duration={0.6}
-                    color="#ffffff"
+                    color="var(--text-muted)"
                     isHighlighted={true}
                 />
                 <Edge
@@ -32,14 +32,14 @@ export default function NotFoundPage() {
                     x2={430} y2={75}
                     delay={0.6}
                     duration={0.8}
-                    color="#ff3366"
+                    color="var(--color-blogs)"
                     isHighlighted={true}
                     label="ERROR"
                 />
 
-                <Node x={50} y={75} type="start" delay={0} color="#ffffff" />
-                <Node x={200} y={75} type="commit" delay={0.6} color="#ffffff" />
-                <Node x={430} y={75} type="commit" delay={1.2} color="#ff3366" />
+                <Node x={50} y={75} type="start" delay={0} color="var(--text-muted)" />
+                <Node x={200} y={75} type="commit" delay={0.6} color="var(--text-muted)" />
+                <Node x={430} y={75} type="commit" delay={1.2} color="var(--color-blogs)" />
             </svg>
 
 
@@ -52,7 +52,7 @@ export default function NotFoundPage() {
                     className="text-xl sm:text-3xl md:text-6xl font-black mb-6 font-mono tracking-tighter break-words"
                     style={{ color: 'var(--text)' }}
                 >
-                    PAGE STATUS: <span className="text-[#ff3366] block sm:inline">
+                    PAGE STATUS: <span className="text-[var(--color-blogs)] block sm:inline">
                         <GlitchText text="404_NOT_FOUND" delay={2.3} />
                     </span>
                 </motion.h1>
@@ -63,7 +63,7 @@ export default function NotFoundPage() {
                     transition={{ delay: 2.5 }}
                     className="space-y-2 mb-8"
                 >
-                    <p className="text-[#ff3366]/80 font-mono text-xs sm:text-sm uppercase tracking-[0.2em] sm:tracking-[0.3em] break-words">
+                    <p className="text-[var(--color-blogs)]/80 font-mono text-xs sm:text-sm uppercase tracking-[0.2em] sm:tracking-[0.3em] break-words">
                         Branch: dead-end
                     </p>
                     <p className="font-mono text-xs max-w-md mx-auto leading-relaxed px-4" style={{ color: 'var(--muted)' }}>
@@ -81,9 +81,9 @@ export default function NotFoundPage() {
                 onClick={() => navigate('/')}
                 className="mt-8 group relative z-10"
             >
-                <div className="absolute -inset-1 bg-gradient-to-r from-[#ff3366] to-[#ff6b6b] rounded blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
+                <div className="absolute -inset-1 bg-[var(--primary)] rounded blur opacity-25 group-hover:opacity-60 transition duration-1000 group-hover:duration-200" />
                 <div className="relative px-6 sm:px-8 py-3 border border-white/10 rounded-sm leading-none flex items-center" style={{ backgroundColor: 'var(--bg)' }}>
-                    <span className="text-[10px] sm:text-xs font-mono text-[#ff3366] group-hover:text-white transition duration-200 uppercase tracking-[0.15em] sm:tracking-[0.2em] whitespace-nowrap">
+                    <span className="text-[10px] sm:text-xs font-mono text-[var(--primary)] group-hover:text-white transition duration-200 uppercase tracking-[0.15em] sm:tracking-[0.2em] whitespace-nowrap">
                         Return to Source (Main)
                     </span>
                 </div>

@@ -69,7 +69,7 @@ export const Edge = ({ id, x1, y1, x2, y2, delay, duration, color = '#334155', i
                     initial={{ opacity: 0 }}
                     animate={{
                         opacity: 1,
-                        fill: isMobile ? '#ffffff' : color
+                        fill: isMobile ? 'var(--text)' : color
                     }}
                     transition={{
                         delay: delay + 0.5,

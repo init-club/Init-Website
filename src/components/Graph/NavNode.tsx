@@ -17,7 +17,7 @@ interface NavNodeProps {
     onMouseLeave?: () => void;
 }
 
-export const NavNode = ({ x, y, label, path, delay, description, color = '#ffffff', align = 'right', isMobile = false, onMouseEnter, onMouseLeave }: NavNodeProps) => {
+export const NavNode = ({ x, y, label, path, delay, description, color = 'var(--text)', align = 'right', isMobile = false, onMouseEnter, onMouseLeave }: NavNodeProps) => {
     const navigate = useNavigate();
     const [isHovered, setIsHovered] = useState(false);
 

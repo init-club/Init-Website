@@ -57,16 +57,16 @@ const ImageLightbox = ({
           exit={{ scale: 0.8, opacity: 0 }}
           transition={{ type: 'spring', damping: 25, stiffness: 300 }}
           onClick={(e) => e.stopPropagation()}
-          className="relative max-w-sm w-full bg-[#0a0a0a] border border-[var(--glass-border)] rounded-xl overflow-hidden"
+          className="relative max-w-sm w-full bg-[var(--bg-secondary)] border border-[var(--glass-border)] rounded-xl overflow-hidden"
           style={{
-            boxShadow: `0 0 60px ${config.glowColor}`,
+            boxShadow: `0 0 40px ${config.glowColor}`,
           }}
         >
           {/* Header */}
           <div
             className="flex items-center justify-between px-4 py-2 border-b border-[var(--glass-border)]"
             style={{
-              background: `linear-gradient(90deg, ${config.badgeColor}1A 0%, #0f0f0f 100%)`,
+              backgroundColor: `${config.badgeColor}1A`,
             }}
           >
             <div className="flex items-center gap-2">
@@ -80,7 +80,7 @@ const ImageLightbox = ({
             </div>
             <button
               onClick={onClose}
-              className="text-[var(--muted)] hover:text-white transition-colors"
+              className="text-[var(--muted)] hover:text-[var(--text)] transition-colors"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -128,7 +128,7 @@ const ImageLightbox = ({
                     href={member.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2.5 rounded-md bg-[#0f0f0f] border border-[var(--glass-border)] text-[var(--muted)] hover:text-white hover:border-[#333] transition-all duration-200"
+                    className="p-2.5 rounded-md bg-[var(--text)]/5 border border-[var(--glass-border)] text-[var(--muted)] hover:text-[var(--text)] hover:border-[var(--text)]/20 transition-all duration-200"
                   >
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                       <path
@@ -144,7 +144,7 @@ const ImageLightbox = ({
                     href={member.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2.5 rounded-md bg-[#0f0f0f] border border-[var(--glass-border)] text-[var(--muted)] hover:text-[#0a66c2] hover:border-[#0a66c2]/50 transition-all duration-200"
+                    className="p-2.5 rounded-md bg-[var(--text)]/5 border border-[var(--glass-border)] text-[var(--muted)] hover:text-[#0a66c2] hover:border-[#0a66c2]/50 transition-all duration-200"
                   >
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
@@ -156,7 +156,7 @@ const ImageLightbox = ({
                     href={member.instagram}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2.5 rounded-md bg-[#0f0f0f] border border-[var(--glass-border)] text-[var(--muted)] hover:text-[#e4405f] hover:border-[#e4405f]/50 transition-all duration-200"
+                    className="p-2.5 rounded-md bg-[var(--text)]/5 border border-[var(--glass-border)] text-[var(--muted)] hover:text-[#e4405f] hover:border-[#e4405f]/50 transition-all duration-200"
                   >
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
@@ -176,23 +176,23 @@ const tierConfigs: Record<TierType, TierConfig> = {
   sudo: {
     label: 'Executive Board',
     title: 'SUDO USER',
-    glowColor: 'rgba(168, 85, 247, 0.3)',
-    borderColor: '#a855f7',
-    badgeColor: '#a855f7',
+    glowColor: 'rgba(139, 92, 246, 0.2)',
+    borderColor: '#8b5cf6',
+    badgeColor: '#8b5cf6',
   },
   maintainer: {
     label: 'Technical & Creative Leads',
     title: 'MAINTAINER',
-    glowColor: 'rgba(0, 255, 213, 0.2)',
-    borderColor: '#00ffd5',
-    badgeColor: '#00ffd5',
+    glowColor: 'rgba(99, 102, 241, 0.2)',
+    borderColor: '#6366f1',
+    badgeColor: '#6366f1',
   },
   orchestrator: {
     label: 'Operations & Outreach Leads',
     title: 'ORCHESTRATOR',
-    glowColor: 'rgba(250, 204, 21, 0.2)',
-    borderColor: '#facc15',
-    badgeColor: '#facc15',
+    glowColor: 'rgba(16, 185, 129, 0.2)',
+    borderColor: '#10b981',
+    badgeColor: '#10b981',
   },
 };
 
@@ -347,19 +347,17 @@ const ProfileCard = ({
       {/* Main Card */}
       <div
         onClick={() => onImageClick(member)}
-        className="relative bg-[#0a0a0a] border rounded-lg overflow-hidden transition-all duration-300 cursor-pointer"
+        className="relative bg-[var(--bg-secondary)] border rounded-lg overflow-hidden transition-all duration-300 cursor-pointer"
         style={{
           borderColor: isHovered ? config.borderColor : 'var(--glass-border)',
-          boxShadow: isHovered ? `0 0 40px ${config.glowColor}` : 'none',
+          boxShadow: isHovered ? `0 0 25px ${config.glowColor}` : 'none',
         }}
       >
         {/* Header Bar */}
         <div
           className="flex items-center justify-between px-3 py-1.5 border-b border-[var(--glass-border)]"
           style={{
-            background: isLarge
-              ? `linear-gradient(90deg, rgba(168, 85, 247, 0.1) 0%, #0f0f0f 100%)`
-              : 'linear-gradient(90deg, #0f0f0f 0%, #141414 100%)',
+            backgroundColor: isHovered ? `${config.badgeColor}1A` : 'transparent',
           }}
         >
           <div className="flex items-center gap-2">
@@ -439,7 +437,7 @@ const ProfileCard = ({
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="p-2 rounded-md bg-[#0f0f0f] border border-[var(--glass-border)] text-[var(--muted)] hover:text-white hover:border-[#333] transition-all duration-200"
+                    className="p-2 rounded-md bg-[var(--text)]/5 border border-[var(--glass-border)] text-[var(--muted)] hover:text-[var(--text)] hover:border-[var(--text)]/20 transition-all duration-200"
                   >
                     <GitHubIcon />
                   </a>
@@ -450,7 +448,7 @@ const ProfileCard = ({
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="p-2 rounded-md bg-[#0f0f0f] border border-[var(--glass-border)] text-[var(--muted)] hover:text-[#0a66c2] hover:border-[#0a66c2]/50 transition-all duration-200"
+                    className="p-2 rounded-md bg-[var(--text)]/5 border border-[var(--glass-border)] text-[var(--muted)] hover:text-[#0a66c2] hover:border-[#0a66c2]/50 transition-all duration-200"
                   >
                     <LinkedInIcon />
                   </a>
@@ -461,7 +459,7 @@ const ProfileCard = ({
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="p-2 rounded-md bg-[#0f0f0f] border border-[var(--glass-border)] text-[var(--muted)] hover:text-[#e4405f] hover:border-[#e4405f]/50 transition-all duration-200"
+                    className="p-2 rounded-md bg-[var(--text)]/5 border border-[var(--glass-border)] text-[var(--muted)] hover:text-[#e4405f] hover:border-[#e4405f]/50 transition-all duration-200"
                   >
                     <InstagramIcon />
                   </a>
@@ -516,7 +514,8 @@ const TierSection = ({
         <div
           className="h-px flex-1 max-w-[60px]"
           style={{
-            background: `linear-gradient(90deg, transparent, ${config.badgeColor})`,
+            backgroundColor: config.badgeColor,
+            opacity: 0.3
           }}
         />
         <div className="flex items-center gap-3">
@@ -541,7 +540,8 @@ const TierSection = ({
         <div
           className="h-px flex-1"
           style={{
-            background: `linear-gradient(90deg, ${config.badgeColor}, transparent)`,
+            backgroundColor: config.badgeColor,
+            opacity: 0.3
           }}
         />
       </motion.div>
@@ -583,15 +583,15 @@ export const TeamSection = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-14"
         >
-          <div className="inline-flex items-center gap-2 mb-4 px-3 py-1 bg-[#0f0f0f] border border-[var(--glass-border)] rounded-full">
-            <span className="w-2 h-2 rounded-full bg-[#00ffd5] animate-pulse" />
+          <div className="inline-flex items-center gap-2 mb-4 px-3 py-1 bg-[var(--bg-secondary)] border border-[var(--glass-border)] rounded-full">
+            <span className="w-2 h-2 rounded-full bg-[var(--primary)] animate-pulse" />
             <span className="text-xs font-[var(--font-mono)] text-[var(--muted)] uppercase tracking-wider">
               Core Contributors
             </span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-bold font-[var(--font-heading)] text-[var(--text)] mb-4">
             Meet the{' '}
-            <span className="bg-gradient-to-r from-[#00ffd5] to-[#a855f7] bg-clip-text text-transparent">
+            <span className="text-[var(--primary)]">
               Team
             </span>
           </h2>

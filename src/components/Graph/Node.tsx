@@ -33,7 +33,7 @@ export const Node = ({ x, y, type, delay, color = '#94a3b8' }: NodeProps) => {
                 cx={x}
                 cy={y}
                 r={radius}
-                fill={isStart ? '#ffffff' : color}
+                fill={color}
                 stroke="none"
                 whileHover={{ scale: 1.5 }}
                 transition={{ duration: 0.2 }}
