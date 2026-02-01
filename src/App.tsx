@@ -14,12 +14,14 @@ import MembersPage from './pages/Members';
 import NotFoundPage from './pages/404';
 import ProfileSetup from './pages/ProfileSetup'; 
 import ScrollToTop from './components/ScrollToTop';
+import AccessDeniedModal from './components/AccessDeniedModal'; 
 
 function App() {
   const [session, setSession] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [showAccessDenied, setShowAccessDenied] = useState(false); 
 
-
+ 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
@@ -42,6 +44,7 @@ function App() {
     return () => subscription.unsubscribe();
   }, []);
 
+
   useEffect(() => {
     console.log("Current Session:", session);
   }, [session]);
@@ -56,10 +59,9 @@ function App() {
         return;
       }
 
+  
       if (!data || data.length === 0) {
-        alert("ACCESS DENIED: You are not a registered member of The Init Club.");
-        await supabase.auth.signOut();
-        window.location.href = "/";
+        setShowAccessDenied(true); 
       } else {
         const userStatus = data[0];
         console.log(" Verified Member:", userStatus);
@@ -78,6 +80,14 @@ function App() {
     }
   };
 
+ 
+  const handleAccessDeniedClose = () => {
+    setShowAccessDenied(false);
+
+    window.location.href = "/"; 
+  };
+
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
@@ -91,6 +101,13 @@ function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
+      
+      {/* RENDER THE ACCESS DENIED MODAL */}
+      <AccessDeniedModal 
+        isOpen={showAccessDenied} 
+        onClose={handleAccessDeniedClose} 
+      />
+
       <Routes>
         <Route index element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
