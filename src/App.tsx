@@ -15,6 +15,7 @@ import NotFoundPage from './pages/404';
 import ProfileSetup from './pages/ProfileSetup'; 
 import ScrollToTop from './components/ScrollToTop';
 import AccessDeniedModal from './components/AccessDeniedModal'; 
+import Profile from './pages/Profile';
 
 function App() {
   const [session, setSession] = useState<any>(null);
@@ -120,6 +121,8 @@ function App() {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/profile-setup" element={<ProfileSetup />} />
         <Route path="*" element={<NotFoundPage />} />
+        <Route path="/profile/:username" element={<Profile />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
   );
