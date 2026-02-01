@@ -15,7 +15,6 @@ const navItems = [
 export function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
-  
 
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -56,6 +55,15 @@ export function Navbar() {
     navigate('/');
   };
 
+  
+  const handleLogin = async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: 'github',
+      options: {
+        redirectTo: `${window.location.origin}/`,
+      },
+    });
+  };
 
   const getNavLinkClass = (isActive: boolean) => [
     'relative px-4 py-2 text-sm font-medium rounded-full transition-colors duration-300 overflow-hidden',
@@ -67,7 +75,7 @@ export function Navbar() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-background ${scrolled ? 'py-2' : 'py-3 sm:py-4'}`}
     >
-      <div className="mx-auto max-w-7xl px-2 sm:px-4"> {/* Increased max-width for extra items */}
+      <div className="mx-auto max-w-7xl px-2 sm:px-4"> 
         <div
           className={`glass rounded-xl sm:rounded-2xl px-3 sm:px-4 py-2 sm:py-3 transition-all duration-500 ${scrolled ? 'shadow-lg' : ''}`}
         >
@@ -169,8 +177,9 @@ export function Navbar() {
                   </AnimatePresence>
                 </div>
               ) : (
+                
                 <button
-                  onClick={() => alert("Please click 'Login with GitHub' on the Home Page")}
+                  onClick={handleLogin}
                   className="px-5 py-2 rounded-xl bg-white text-black text-sm font-bold hover:bg-gray-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.3)]"
                 >
                   Login
@@ -259,8 +268,9 @@ export function Navbar() {
                   </button>
                 </>
               ) : (
+                /* --- MOBILE LOGIN BUTTON (FIXED) --- */
                 <button 
-                    onClick={() => alert("Use the Login button on the Home Page")}
+                    onClick={handleLogin}
                     className="w-full py-3 rounded-xl bg-white text-black font-bold text-center"
                 >
                     Login
