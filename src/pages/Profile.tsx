@@ -14,25 +14,22 @@ const Profile = () => {
     fetchProfile();
   }, [username]);
 
-  const fetchProfile = async () => {
+const fetchProfile = async () => {
     try {
-   
-      let targetUser = username;
-      if (!targetUser) {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (user) {
-            const { data } = await supabase.from('users').select('username').eq('auth_user_id', user.id).single();
-            if (data) targetUser = data.username;
-        }
-      }
 
-      if (!targetUser) return; 
+      const targetUser = username || null;
 
-      
-      const { data, error } = await supabase.rpc('get_full_profile', { target_username: targetUser });
+      const { data, error } = await supabase.rpc('get_full_profile', { 
+        target_username: targetUser 
+      });
 
       if (error) throw error;
-      if (data && data.length > 0) setProfile(data[0]);
+      
+      if (data && data.length > 0) {
+        setProfile(data[0]);
+      } else {
+        setProfile(null);
+      }
       
     } catch (error) {
       console.error('Error fetching profile:', error);
