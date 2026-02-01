@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+
 import { Github, Linkedin, Instagram, Edit2, GitCommit, GitPullRequest, Code } from 'lucide-react';
 import { supabase } from '../supabaseClient';
 
@@ -16,7 +16,7 @@ const Profile = () => {
 
   const fetchProfile = async () => {
     try {
- 
+   
       let targetUser = username;
       if (!targetUser) {
         const { data: { user } } = await supabase.auth.getUser();
@@ -28,6 +28,7 @@ const Profile = () => {
 
       if (!targetUser) return; 
 
+      
       const { data, error } = await supabase.rpc('get_full_profile', { target_username: targetUser });
 
       if (error) throw error;
