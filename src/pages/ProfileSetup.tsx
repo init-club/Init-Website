@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { User, FileText, Linkedin, Instagram, Github, Save, AlertCircle } from 'lucide-react';
+import { User, FileText, Linkedin, Instagram, Github, Save, AlertCircle, X } from 'lucide-react'; // Added 'X' icon
 import { supabase } from '../supabaseClient';
 
 const ProfileSetup = () => {
@@ -20,10 +20,8 @@ const ProfileSetup = () => {
     github: ''
   });
 
-  
   useEffect(() => {
     const fetchExistingData = async () => {
-    
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
@@ -58,7 +56,6 @@ const ProfileSetup = () => {
     setIsLoading(true);
 
     try {
-
       const { error } = await supabase.rpc('update_profile_general', {
         target_user_id: targetUserId,
         new_name: formData.displayName,
@@ -69,8 +66,6 @@ const ProfileSetup = () => {
       });
 
       if (error) throw error;
-
-      alert('Profile Updated!');
 
       navigate(editModeUsername ? `/profile/${editModeUsername}` : '/members');
     } catch (error: any) {
@@ -85,8 +80,17 @@ const ProfileSetup = () => {
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-2xl bg-gray-900/50 border border-cyan-500/30 rounded-2xl p-8 backdrop-blur-sm"
+        className="w-full max-w-2xl bg-gray-900/50 border border-cyan-500/30 rounded-2xl p-8 backdrop-blur-sm relative" 
       >
+        {/* --- CLOSE BUTTON (New) --- */}
+        <button
+            onClick={() => navigate('/profile')}
+            className="absolute top-4 right-4 p-2 bg-gray-800/50 hover:bg-red-500/20 rounded-full text-gray-400 hover:text-red-400 transition-all border border-transparent hover:border-red-500/30"
+            title="Cancel & Go Back"
+        >
+            <X size={20} />
+        </button>
+
         <div className="mb-6 text-center">
           <h1 className="text-3xl font-bold mb-2">
             <span className="text-white">{editModeUsername ? 'Edit' : 'Complete'} Your </span>
