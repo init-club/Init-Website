@@ -19,17 +19,13 @@ import Profile from './pages/Profile';
 
 function App() {
   const [session, setSession] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(true);
   const [showAccessDenied, setShowAccessDenied] = useState(false); 
 
- 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       if (session) {
         checkMembershipStatus();
-      } else {
-        setIsLoading(false);
       }
     });
 
@@ -45,11 +41,9 @@ function App() {
     return () => subscription.unsubscribe();
   }, []);
 
-
   useEffect(() => {
     console.log("Current Session:", session);
   }, [session]);
-
 
   const checkMembershipStatus = async () => {
     try {
@@ -60,7 +54,6 @@ function App() {
         return;
       }
 
-  
       if (!data || data.length === 0) {
         setShowAccessDenied(true); 
       } else {
@@ -76,28 +69,13 @@ function App() {
       }
     } catch (err) {
       console.error("Auth check failed:", err);
-    } finally {
-      setIsLoading(false);
     }
   };
 
- 
   const handleAccessDeniedClose = () => {
     setShowAccessDenied(false);
-
     window.location.href = "/"; 
   };
-
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="text-cyan-400 text-xl font-mono animate-pulse">
-          Initializing Club Protocol...
-        </div>
-      </div>
-    );
-  }
 
   return (
     <BrowserRouter>
@@ -120,9 +98,9 @@ function App() {
         <Route path="/blogs" element={<BlogsPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/profile-setup" element={<ProfileSetup />} />
-        <Route path="*" element={<NotFoundPage />} />
         <Route path="/profile/:username" element={<Profile />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );
