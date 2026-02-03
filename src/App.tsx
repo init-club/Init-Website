@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import type { Session, AuthChangeEvent } from '@supabase/supabase-js'; 
 import { supabase } from './supabaseClient';
 
 import AboutPage from './pages/About';
@@ -18,8 +19,13 @@ import AccessDeniedModal from './components/AccessDeniedModal';
 import Profile from './pages/Profile';
 
 function App() {
-  const [session, setSession] = useState<any>(null);
+  const [session, setSession] = useState<Session | null>(null);
   const [showAccessDenied, setShowAccessDenied] = useState(false); 
+
+
+  useEffect(() => {
+    console.log("Auth Session Updated:", session); 
+  }, [session]);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -31,7 +37,7 @@ function App() {
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+    } = supabase.auth.onAuthStateChange((_event: AuthChangeEvent, session: Session | null) => {
       setSession(session);
       if (session) {
         checkMembershipStatus();
@@ -40,10 +46,6 @@ function App() {
 
     return () => subscription.unsubscribe();
   }, []);
-
-  useEffect(() => {
-    console.log("Current Session:", session);
-  }, [session]);
 
   const checkMembershipStatus = async () => {
     try {
@@ -58,10 +60,7 @@ function App() {
         setShowAccessDenied(true); 
       } else {
         const userStatus = data[0];
-        console.log(" Verified Member:", userStatus);
-
         if (!userStatus.profile_completed) {
-           console.log("Profile incomplete, redirecting...");
            if (window.location.pathname !== '/profile-setup') {
                window.location.href = "/profile-setup";
            }
@@ -80,13 +79,7 @@ function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      
-      {/* RENDER THE ACCESS DENIED MODAL */}
-      <AccessDeniedModal 
-        isOpen={showAccessDenied} 
-        onClose={handleAccessDeniedClose} 
-      />
-
+      <AccessDeniedModal isOpen={showAccessDenied} onClose={handleAccessDeniedClose} />
       <Routes>
         <Route index element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
