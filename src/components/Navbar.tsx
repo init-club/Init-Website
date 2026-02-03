@@ -3,6 +3,7 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Instagram, Linkedin, User, LogOut, ChevronDown } from 'lucide-react';
 import { supabase } from '../supabaseClient';
+import type { Session, AuthChangeEvent } from '@supabase/supabase-js';
 
 const navItems = [
   { label: 'Home', path: '/' },
@@ -29,7 +30,7 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  
+ 
   useEffect(() => {
     setOpen(false);
   }, [location.pathname]);
@@ -41,7 +42,8 @@ export function Navbar() {
     };
     checkUser();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event: AuthChangeEvent, session: Session | null) => {
       setUser(session?.user || null);
     });
 
@@ -55,7 +57,6 @@ export function Navbar() {
     navigate('/');
   };
 
-  
   const handleLogin = async () => {
     await supabase.auth.signInWithOAuth({
       provider: 'github',
@@ -177,7 +178,6 @@ export function Navbar() {
                   </AnimatePresence>
                 </div>
               ) : (
-                
                 <button
                   onClick={handleLogin}
                   className="px-5 py-2 rounded-xl bg-white text-black text-sm font-bold hover:bg-gray-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.3)]"
