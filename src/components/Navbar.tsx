@@ -1,14 +1,42 @@
 import { useEffect, useState } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Instagram, Linkedin, User, LogOut, ChevronDown } from 'lucide-react';
+import {
+  Instagram, Linkedin, User, LogOut, ChevronDown, ChevronRight,
+  Info, Users, Lightbulb, Skull, Zap, Calendar
+} from 'lucide-react';
 import { supabase } from '../supabaseClient';
 import type { Session, AuthChangeEvent } from '@supabase/supabase-js';
 
-const navItems = [
-  { label: 'Home', path: '/' },
-  { label: 'About', path: '/about' },
-  { label: 'Events', path: '/events' },
+// --- Navigation Config ---
+interface NavItem {
+  label: string;
+  path?: string;
+  children?: { label: string; path: string; icon: any }[];
+}
+
+const NAV_ITEMS: NavItem[] = [
+  {
+    label: 'Members',
+    children: [
+      { label: 'About', path: '/about', icon: Info },
+      { label: 'Members', path: '/members', icon: Users },
+    ]
+  },
+  {
+    label: 'Projects',
+    children: [
+      { label: 'Idea Wall', path: '/idea-wall', icon: Lightbulb },
+      { label: 'Graveyard', path: '/graveyard', icon: Skull },
+    ]
+  },
+  {
+    label: 'Events',
+    children: [
+      { label: 'Activity', path: '/activity', icon: Zap },
+      { label: 'Events', path: '/events', icon: Calendar },
+    ]
+  },
   { label: 'Blogs', path: '/blogs' },
   { label: 'Join Us', path: '/contact' },
 ];
@@ -21,8 +49,10 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
   const [user, setUser] = useState<any>(null);
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
 
+  // Desktop Hover State
+  const [hoveredNav, setHoveredNav] = useState<string | null>(null);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -30,11 +60,11 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-
   useEffect(() => {
     setOpen(false);
+    setShowProfileDropdown(false);
+    setHoveredNav(null);
   }, [location.pathname]);
-
 
   useEffect(() => {
     const checkUser = async () => {
@@ -52,8 +82,7 @@ export function Navbar() {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    setShowDropdown(false);
-    setOpen(false); 
+    setShowProfileDropdown(false);
     navigate('/');
   };
 
@@ -66,23 +95,19 @@ export function Navbar() {
     });
   };
 
-  const getNavLinkClass = (isActive: boolean) => [
-    'relative px-4 py-2 text-sm font-medium rounded-full transition-colors duration-300 overflow-hidden',
-    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/50',
-    isActive ? 'text-white' : 'text-[var(--text)] hover:bg-[var(--glass-bg)]', 
-  ].join(' ');
+
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-background ${scrolled ? 'py-2' : 'py-3 sm:py-4'}`}
+      onMouseLeave={() => setHoveredNav(null)} // Close dropdowns when leaving header area
     >
-      <div className="mx-auto max-w-7xl px-2 sm:px-4"> 
+      <div className="mx-auto max-w-7xl px-2 sm:px-4">
         <div
           className={`glass rounded-xl sm:rounded-2xl px-3 sm:px-4 py-2 sm:py-3 transition-all duration-500 ${scrolled ? 'shadow-lg' : ''}`}
         >
-          {/* LAYOUT CONTAINER: Relative allows us to absolute center the nav */}
           <div className="relative flex items-center justify-between">
-            
+
             {/* --- LEFT: LOGO --- */}
             <NavLink to="/" className="group flex items-center gap-2 z-20">
               <div className="rounded-lg sm:rounded-xl p-1.5 sm:p-2 transition-transform duration-300 group-hover:scale-105 bg-gradient-brand">
@@ -91,54 +116,117 @@ export function Navbar() {
             </NavLink>
 
             {/* --- CENTER: DESKTOP NAV --- */}
-            {/* Absolute positioning keeps this exactly in the middle regardless of left/right content width */}
             <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
-              <nav className="flex items-center gap-1 rounded-full glass px-2 py-1">
-                {navItems.map((item) => (
-                  <NavLink key={item.path} to={item.path} className={({ isActive }) => getNavLinkClass(isActive)}>
-                    {({ isActive }) => (
-                      <>
-                        {isActive && (
-                          <>
-                            <motion.div
-                              className="absolute inset-0 z-0 origin-left bg-gradient-brand-horizontal"
-                              initial={{ scaleX: 0 }}
-                              animate={{ scaleX: 1 }}
-                              transition={{ duration: 0.3, ease: "linear" }}
-                            />
-                          </>
-                        )}
-                        <span className="relative z-20">{item.label}</span>
-                      </>
-                    )}
-                  </NavLink>
-                ))}
+              <nav className="flex items-center gap-2 rounded-full glass px-2 py-1">
+                {NAV_ITEMS.map((item) => {
+                  const isActive = item.path ? location.pathname === item.path : item.children?.some(c => location.pathname === c.path);
+                  const isHovered = hoveredNav === item.label;
 
-                {/* 'Members' Link - Only visible if logged in */}
-                {user && (
-                  <NavLink to="/members" className={({ isActive }) => getNavLinkClass(isActive)}>
-                    {({ isActive }) => (
-                      <>
-                        {isActive && (
-                          <motion.div className="absolute inset-0 z-0 bg-cyan-500/20" layoutId="activeNav" />
+                  return (
+                    <div
+                      key={item.label}
+                      className="relative"
+                      onMouseEnter={() => setHoveredNav(item.label)}
+                      onMouseLeave={() => setHoveredNav(null)}
+                    >
+                      {item.children ? (
+                        // Dropdown Trigger
+                        <button
+                          className={`relative px-4 py-2 text-sm font-medium rounded-full transition-all duration-300 flex items-center gap-1 outline-none ${isActive ? 'text-white' : 'text-gray-300 hover:text-white'
+                            }`}
+                        >
+                          {/* Active/Hover Background Pill */}
+                          {(isActive || isHovered) && (
+                            <motion.div
+                              layoutId="navPill"
+                              className={`absolute inset-0 rounded-full ${isActive ? 'bg-gradient-brand-horizontal' : 'bg-white/10'}`}
+                              initial={false}
+                              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                            />
+                          )}
+
+                          <span className="relative z-10 flex items-center gap-1">
+                            {item.label}
+                            <ChevronDown size={14} className={`transition-transform duration-300 ${isHovered ? 'rotate-180' : ''}`} />
+                          </span>
+                        </button>
+                      ) : (
+                        // Direct Link
+                        <NavLink
+                          to={item.path!}
+                          className={({ isActive: linkActive }) =>
+                            `relative px-4 py-2 text-sm font-medium rounded-full transition-all duration-300 block outline-none ${linkActive ? 'text-white' : 'text-gray-300 hover:text-white'}`
+                          }
+                        >
+                          {({ isActive: linkActive }) => (
+                            <>
+                              {(linkActive || isHovered) && (
+                                <motion.div
+                                  layoutId={`navPill-${item.label}`}
+                                  className={`absolute inset-0 rounded-full ${linkActive ? 'bg-gradient-brand-horizontal' : 'bg-white/10'}`}
+                                  initial={{ opacity: 0 }}
+                                  animate={{ opacity: 1 }}
+                                  exit={{ opacity: 0 }}
+                                  transition={{ duration: 0.2 }}
+                                />
+                              )}
+                              <span className="relative z-10">{item.label}</span>
+                            </>
+                          )}
+                        </NavLink>
+                      )}
+
+                      {/* Desktop Dropdown Menu */}
+                      <AnimatePresence>
+                        {item.children && isHovered && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: 8, scale: 0.98 }}
+                            transition={{ duration: 0.2, ease: "easeOut" }}
+                            className="absolute top-full left-0 mt-2 w-56 p-2 bg-[#050505]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_20px_40px_-10px_rgba(0,0,0,0.6)] overflow-hidden z-50 origin-top-left ring-1 ring-white/5"
+                          >
+                            <div className="flex flex-col gap-1">
+                              {item.children.map((child) => (
+                                <NavLink
+                                  key={child.path}
+                                  to={child.path}
+                                  className={({ isActive }) =>
+                                    `group flex items-center gap-3 px-3 py-2.5 text-sm rounded-xl transition-all duration-300 ${isActive
+                                      ? 'bg-white/10 text-white font-medium shadow-[0_0_10px_rgba(255,255,255,0.2)]'
+                                      : 'text-gray-400 hover:bg-white/5 hover:text-white hover:pl-4 hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]'
+                                    }`
+                                  }
+                                >
+                                  {/* Icon */}
+                                  <child.icon
+                                    size={18}
+                                    className={`transition-all duration-300 ${isActive ? 'text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.8)]' : 'text-gray-500 group-hover:text-white group-hover:drop-shadow-[0_0_5px_rgba(255,255,255,0.8)]'}`}
+                                  />
+                                  <span className={`relative z-10 transition-all duration-300 ${isActive ? 'drop-shadow-[0_0_5px_rgba(255,255,255,0.8)]' : 'group-hover:drop-shadow-[0_0_5px_rgba(255,255,255,0.8)]'}`}>
+                                    {child.label}
+                                  </span>
+                                </NavLink>
+                              ))}
+                            </div>
+                          </motion.div>
                         )}
-                        <span className="relative z-20 text-cyan-400">Members</span>
-                      </>
-                    )}
-                  </NavLink>
-                )}
+                      </AnimatePresence>
+                    </div>
+                  );
+                })}
               </nav>
             </div>
 
             {/* --- RIGHT: AUTH & MOBILE TOGGLE --- */}
             <div className="flex items-center gap-3 z-20">
-              
+
               {/* DESKTOP AUTH */}
               <div className="hidden md:block">
                 {user ? (
                   <div className="relative">
                     <button
-                      onClick={() => setShowDropdown(!showDropdown)}
+                      onClick={() => setShowProfileDropdown(!showProfileDropdown)}
                       className="flex items-center gap-2 pl-1 pr-3 py-1 rounded-full glass hover:bg-white/5 transition-all border border-white/10"
                     >
                       <img
@@ -146,11 +234,11 @@ export function Navbar() {
                         alt="Profile"
                         className="w-8 h-8 rounded-full border border-cyan-500/50"
                       />
-                      <ChevronDown size={14} className={`text-gray-400 transition-transform ${showDropdown ? 'rotate-180' : ''}`} />
+                      <ChevronDown size={14} className={`text-gray-400 transition-transform ${showProfileDropdown ? 'rotate-180' : ''}`} />
                     </button>
 
                     <AnimatePresence>
-                      {showDropdown && (
+                      {showProfileDropdown && (
                         <motion.div
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
@@ -163,7 +251,7 @@ export function Navbar() {
                           </div>
                           <NavLink
                             to="/profile"
-                            onClick={() => setShowDropdown(false)}
+                            onClick={() => setShowProfileDropdown(false)}
                             className="flex items-center gap-2 px-4 py-3 text-sm text-gray-300 hover:bg-white/10 hover:text-cyan-400 transition-colors"
                           >
                             <User size={16} /> My Profile
@@ -188,14 +276,13 @@ export function Navbar() {
                 )}
               </div>
 
-              {/* MOBILE TOGGLE & AVATAR */}
+              {/* MOBILE TOGGLE */}
               <div className="md:hidden flex items-center gap-3">
-                 {/* Show tiny avatar on mobile bar if logged in */}
-                 {user && (
-                    <NavLink to="/profile" className="block md:hidden">
-                      <img src={user.user_metadata.avatar_url} className="w-8 h-8 rounded-full border border-cyan-500/30" alt="Me" />
-                    </NavLink>
-                 )}
+                {user && (
+                  <NavLink to="/profile" className="block md:hidden">
+                    <img src={user.user_metadata.avatar_url} className="w-8 h-8 rounded-full border border-cyan-500/30" alt="Me" />
+                  </NavLink>
+                )}
                 <button
                   type="button"
                   className="flex h-10 w-10 items-center justify-center rounded-xl glass hover:bg-white/5 transition-all duration-300"
@@ -218,64 +305,37 @@ export function Navbar() {
 
         {/* --- MOBILE MENU --- */}
         <div
-          className={`md:hidden mt-2 overflow-hidden transition-all duration-500 ${open ? 'max-h-[32rem] opacity-100' : 'max-h-0 opacity-0'}`}
+          className={`md:hidden mt-2 overflow-hidden transition-all duration-500 ${open ? 'max-h-[40rem] opacity-100' : 'max-h-0 opacity-0'}`}
         >
-          <nav className="glass rounded-2xl p-4 flex flex-col gap-1">
-            {navItems.map((item, index) => (
-              <NavLink
-                key={item.path}
-                to={item.path}
-                className={({ isActive }) =>
-                  [
-                    'rounded-xl px-4 py-3 text-sm font-medium transition-all duration-300',
-                    isActive ? 'text-white shadow-md bg-gradient-brand-horizontal' : 'text-gray-300 hover:bg-white/5',
-                  ].join(' ')
-                }
-                style={{ animationDelay: `${index * 50}ms` }}
-              >
-                {item.label}
-              </NavLink>
+          <nav className="glass rounded-2xl p-4 flex flex-col gap-2">
+            {NAV_ITEMS.map((item) => (
+              <MobileNavItem key={item.label} item={item} />
             ))}
 
-            {/* Mobile: Members Link */}
-            {user && (
-              <NavLink
-                to="/members"
-                className={({ isActive }) =>
-                  [
-                    'rounded-xl px-4 py-3 text-sm font-medium transition-all duration-300',
-                    isActive ? 'text-white shadow-md bg-cyan-600' : 'text-cyan-400 hover:bg-cyan-900/20',
-                  ].join(' ')
-                }
-              >
-                Members Zone
-              </NavLink>
-            )}
-
-            {/* Mobile: Auth Section */}
+            {/* Mobile Auth */}
             <div className="mt-4 pt-4 border-t border-white/10 flex flex-col gap-2">
               {user ? (
                 <>
                   <div className="flex items-center gap-3 px-2 mb-2">
-                      <img src={user.user_metadata.avatar_url} className="w-10 h-10 rounded-full" />
-                      <div>
-                          <p className="text-white font-bold text-sm">{user.user_metadata.full_name}</p>
-                          <p className="text-gray-400 text-xs">Logged In</p>
-                      </div>
+                    <img src={user.user_metadata.avatar_url} className="w-10 h-10 rounded-full" />
+                    <div>
+                      <p className="text-white font-bold text-sm">{user.user_metadata.full_name}</p>
+                      <p className="text-gray-400 text-xs">Logged In</p>
+                    </div>
                   </div>
                   <NavLink to="/profile" className="rounded-xl px-4 py-3 text-sm font-medium text-gray-300 hover:bg-white/5 flex items-center gap-2">
-                     <User size={16} /> My Profile
+                    <User size={16} /> My Profile
                   </NavLink>
                   <button onClick={handleLogout} className="rounded-xl px-4 py-3 text-sm font-medium text-red-400 hover:bg-red-900/20 flex items-center gap-2 text-left w-full">
-                     <LogOut size={16} /> Sign Out
+                    <LogOut size={16} /> Sign Out
                   </button>
                 </>
               ) : (
-                <button 
-                    onClick={handleLogin}
-                    className="w-full py-3 rounded-xl bg-white text-black font-bold text-center"
+                <button
+                  onClick={handleLogin}
+                  className="w-full py-3 rounded-xl bg-white text-black font-bold text-center"
                 >
-                    Login
+                  Login
                 </button>
               )}
             </div>
@@ -301,4 +361,62 @@ export function Navbar() {
   );
 }
 
-export default Navbar;
+// --- Mobile Nav Item Component (Accordion) ---
+function MobileNavItem({ item }: { item: NavItem }) {
+  const [expanded, setExpanded] = useState(false);
+  const location = useLocation();
+  const isActive = item.path ? location.pathname === item.path : item.children?.some(c => location.pathname === c.path);
+
+  if (item.children) {
+    return (
+      <div className="flex flex-col">
+        <button
+          onClick={() => setExpanded(!expanded)}
+          className={`w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-300 ${isActive || expanded ? 'bg-white/5 text-white' : 'text-gray-300 hover:bg-white/5'
+            }`}
+        >
+          <span className="text-sm font-medium">{item.label}</span>
+          <ChevronRight size={16} className={`transition-transform duration-300 ${expanded ? 'rotate-90' : ''}`} />
+        </button>
+
+        <AnimatePresence>
+          {expanded && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              className="overflow-hidden"
+            >
+              <div className="flex flex-col gap-1 pl-4 border-l border-white/10 ml-4 mt-1">
+                {item.children.map((child) => (
+                  <NavLink
+                    key={child.path}
+                    to={child.path}
+                    className={({ isActive }) =>
+                      `block px-4 py-2.5 text-sm rounded-lg transition-colors ${isActive ? 'text-cyan-400 bg-white/5' : 'text-gray-400 hover:text-white'
+                      }`
+                    }
+                  >
+                    {child.label}
+                  </NavLink>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    );
+  }
+
+  return (
+    <NavLink
+      to={item.path!}
+      className={({ isActive }) =>
+        `block px-4 py-3 rounded-xl text-sm font-medium transition-all ${isActive ? 'text-white bg-gradient-brand-horizontal shadow-md' : 'text-gray-300 hover:bg-white/5'
+        }`
+      }
+    >
+      {item.label}
+    </NavLink>
+  );
+}
