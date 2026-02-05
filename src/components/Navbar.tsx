@@ -3,7 +3,7 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Instagram, Linkedin, User, LogOut, ChevronDown, ChevronRight,
-  Info, Users, Lightbulb, Skull, Zap, Calendar
+  Info, Users, Lightbulb, Skull, Zap, Calendar, Sparkles
 } from 'lucide-react';
 import { supabase } from '../supabaseClient';
 import type { Session, AuthChangeEvent } from '@supabase/supabase-js';
@@ -54,6 +54,9 @@ export function Navbar() {
   // Desktop Hover State
   const [hoveredNav, setHoveredNav] = useState<string | null>(null);
 
+  // Dynamic Island State
+  const [statusMessage, setStatusMessage] = useState<string | null>(null);
+
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
@@ -73,8 +76,18 @@ export function Navbar() {
     };
     checkUser();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event: AuthChangeEvent, session: Session | null) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event: AuthChangeEvent, session: Session | null) => {
       setUser(session?.user || null);
+
+      if (event === 'SIGNED_IN' && session?.user) {
+        const name = session.user.user_metadata.full_name?.split(' ')[0] || 'Member';
+        setStatusMessage(`Welcome back, ${name}!`);
+        setTimeout(() => setStatusMessage(null), 3500);
+      }
+      if (event === 'SIGNED_OUT') {
+        setStatusMessage("See you soon!");
+        setTimeout(() => setStatusMessage(null), 3000);
+      }
     });
 
     return () => subscription.unsubscribe();
@@ -115,107 +128,132 @@ export function Navbar() {
               </div>
             </NavLink>
 
-            {/* --- CENTER: DESKTOP NAV --- */}
-            <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
-              <nav className="flex items-center gap-2 rounded-full glass px-2 py-1">
-                {NAV_ITEMS.map((item) => {
-                  const isActive = item.path ? location.pathname === item.path : item.children?.some(c => location.pathname === c.path);
-                  const isHovered = hoveredNav === item.label;
+            {/* --- CENTER: DESKTOP NAV (DYNAMIC ISLAND) --- */}
+            <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 h-10 items-center justify-center">
+              <AnimatePresence mode="wait">
+                {statusMessage ? (
+                  <motion.div
+                    key="status"
+                    layout
+                    initial={{ opacity: 0, scale: 0.9, y: 10 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.9, y: -10 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                    className="flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-zinc-800 to-zinc-900 rounded-full border border-white/20 shadow-xl"
+                  >
+                    <Sparkles className="text-yellow-400 w-4 h-4 animate-pulse" />
+                    <span className="text-sm font-bold text-white whitespace-nowrap">{statusMessage}</span>
+                  </motion.div>
+                ) : (
+                  <motion.nav
+                    key="nav"
+                    layout
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex items-center gap-2 rounded-full glass px-2 py-1"
+                  >
+                    {NAV_ITEMS.map((item) => {
+                      const isActive = item.path ? location.pathname === item.path : item.children?.some(c => location.pathname === c.path);
+                      const isHovered = hoveredNav === item.label;
 
-                  return (
-                    <div
-                      key={item.label}
-                      className="relative"
-                      onMouseEnter={() => setHoveredNav(item.label)}
-                      onMouseLeave={() => setHoveredNav(null)}
-                    >
-                      {item.children ? (
-                        // Dropdown Trigger
-                        <button
-                          className={`relative px-4 py-2 text-sm font-medium rounded-full transition-all duration-300 flex items-center gap-1 outline-none ${isActive ? 'text-white' : 'text-gray-300 hover:text-white'
-                            }`}
+                      return (
+                        <div
+                          key={item.label}
+                          className="relative"
+                          onMouseEnter={() => setHoveredNav(item.label)}
+                          onMouseLeave={() => setHoveredNav(null)}
                         >
-                          {/* Active/Hover Background Pill */}
-                          {(isActive || isHovered) && (
-                            <motion.div
-                              layoutId="navPill"
-                              className={`absolute inset-0 rounded-full ${isActive ? 'bg-gradient-brand-horizontal' : 'bg-white/10'}`}
-                              initial={false}
-                              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                            />
-                          )}
-
-                          <span className="relative z-10 flex items-center gap-1">
-                            {item.label}
-                            <ChevronDown size={14} className={`transition-transform duration-300 ${isHovered ? 'rotate-180' : ''}`} />
-                          </span>
-                        </button>
-                      ) : (
-                        // Direct Link
-                        <NavLink
-                          to={item.path!}
-                          className={({ isActive: linkActive }) =>
-                            `relative px-4 py-2 text-sm font-medium rounded-full transition-all duration-300 block outline-none ${linkActive ? 'text-white' : 'text-gray-300 hover:text-white'}`
-                          }
-                        >
-                          {({ isActive: linkActive }) => (
-                            <>
-                              {(linkActive || isHovered) && (
+                          {item.children ? (
+                            // Dropdown Trigger
+                            <button
+                              className={`relative px-4 py-2 text-sm font-medium rounded-full transition-all duration-300 flex items-center gap-1 outline-none ${isActive ? 'text-white' : 'text-gray-300 hover:text-white'
+                                }`}
+                            >
+                              {/* Active/Hover Background Pill */}
+                              {(isActive || isHovered) && (
                                 <motion.div
-                                  layoutId={`navPill-${item.label}`}
-                                  className={`absolute inset-0 rounded-full ${linkActive ? 'bg-gradient-brand-horizontal' : 'bg-white/10'}`}
-                                  initial={{ opacity: 0 }}
-                                  animate={{ opacity: 1 }}
-                                  exit={{ opacity: 0 }}
-                                  transition={{ duration: 0.2 }}
+                                  layoutId="navPill"
+                                  className={`absolute inset-0 rounded-full ${isActive ? 'bg-gradient-brand-horizontal' : 'bg-white/10'}`}
+                                  initial={false}
+                                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
                                 />
                               )}
-                              <span className="relative z-10">{item.label}</span>
-                            </>
-                          )}
-                        </NavLink>
-                      )}
 
-                      {/* Desktop Dropdown Menu */}
-                      <AnimatePresence>
-                        {item.children && isHovered && (
-                          <motion.div
-                            initial={{ opacity: 0, y: 8, scale: 0.98 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, y: 8, scale: 0.98 }}
-                            transition={{ duration: 0.2, ease: "easeOut" }}
-                            className="absolute top-full left-0 mt-2 w-56 p-2 bg-[#050505]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_20px_40px_-10px_rgba(0,0,0,0.6)] overflow-hidden z-50 origin-top-left ring-1 ring-white/5"
-                          >
-                            <div className="flex flex-col gap-1">
-                              {item.children.map((child) => (
-                                <NavLink
-                                  key={child.path}
-                                  to={child.path}
-                                  className={({ isActive }) =>
-                                    `group flex items-center gap-3 px-3 py-2.5 text-sm rounded-xl transition-all duration-300 ${isActive
-                                      ? 'bg-white/10 text-white font-medium shadow-[0_0_10px_rgba(255,255,255,0.2)]'
-                                      : 'text-gray-400 hover:bg-white/5 hover:text-white hover:pl-4 hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]'
-                                    }`
-                                  }
-                                >
-                                  {/* Icon */}
-                                  <child.icon
-                                    size={18}
-                                    className={`transition-all duration-300 ${isActive ? 'text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.8)]' : 'text-gray-500 group-hover:text-white group-hover:drop-shadow-[0_0_5px_rgba(255,255,255,0.8)]'}`}
-                                  />
-                                  <span className={`relative z-10 transition-all duration-300 ${isActive ? 'drop-shadow-[0_0_5px_rgba(255,255,255,0.8)]' : 'group-hover:drop-shadow-[0_0_5px_rgba(255,255,255,0.8)]'}`}>
-                                    {child.label}
-                                  </span>
-                                </NavLink>
-                              ))}
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-                  );
-                })}
-              </nav>
+                              <span className="relative z-10 flex items-center gap-1">
+                                {item.label}
+                                <ChevronDown size={14} className={`transition-transform duration-300 ${isHovered ? 'rotate-180' : ''}`} />
+                              </span>
+                            </button>
+                          ) : (
+                            // Direct Link
+                            <NavLink
+                              to={item.path!}
+                              className={({ isActive: linkActive }) =>
+                                `relative px-4 py-2 text-sm font-medium rounded-full transition-all duration-300 block outline-none ${linkActive ? 'text-white' : 'text-gray-300 hover:text-white'}`
+                              }
+                            >
+                              {({ isActive: linkActive }) => (
+                                <>
+                                  {(linkActive || isHovered) && (
+                                    <motion.div
+                                      layoutId={`navPill-${item.label}`}
+                                      className={`absolute inset-0 rounded-full ${linkActive ? 'bg-gradient-brand-horizontal' : 'bg-white/10'}`}
+                                      initial={{ opacity: 0 }}
+                                      animate={{ opacity: 1 }}
+                                      exit={{ opacity: 0 }}
+                                      transition={{ duration: 0.2 }}
+                                    />
+                                  )}
+                                  <span className="relative z-10">{item.label}</span>
+                                </>
+                              )}
+                            </NavLink>
+                          )}
+
+                          {/* Desktop Dropdown Menu */}
+                          <AnimatePresence>
+                            {item.children && isHovered && (
+                              <motion.div
+                                initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                exit={{ opacity: 0, y: 8, scale: 0.98 }}
+                                transition={{ duration: 0.2, ease: "easeOut" }}
+                                className="absolute top-full left-0 mt-2 w-56 p-2 bg-[#050505]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_20px_40px_-10px_rgba(0,0,0,0.6)] overflow-hidden z-50 origin-top-left ring-1 ring-white/5"
+                              >
+                                <div className="flex flex-col gap-1">
+                                  {item.children.map((child) => (
+                                    <NavLink
+                                      key={child.path}
+                                      to={child.path}
+                                      className={({ isActive }) =>
+                                        `group flex items-center gap-3 px-3 py-2.5 text-sm rounded-xl transition-all duration-300 ${isActive
+                                          ? 'bg-white/10 text-white font-medium shadow-[0_0_10px_rgba(255,255,255,0.2)]'
+                                          : 'text-gray-400 hover:bg-white/5 hover:text-white hover:pl-4 hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]'
+                                        }`
+                                      }
+                                    >
+                                      {/* Icon */}
+                                      <child.icon
+                                        size={18}
+                                        className={`transition-all duration-300 ${isActive ? 'text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.8)]' : 'text-gray-500 group-hover:text-white group-hover:drop-shadow-[0_0_5px_rgba(255,255,255,0.8)]'}`}
+                                      />
+                                      <span className={`relative z-10 transition-all duration-300 ${isActive ? 'drop-shadow-[0_0_5px_rgba(255,255,255,0.8)]' : 'group-hover:drop-shadow-[0_0_5px_rgba(255,255,255,0.8)]'}`}>
+                                        {child.label}
+                                      </span>
+                                    </NavLink>
+                                  ))}
+                                </div>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
+                      );
+                    })}
+                  </motion.nav>
+                )}
+              </AnimatePresence>
             </div>
 
             {/* --- RIGHT: AUTH & MOBILE TOGGLE --- */}
