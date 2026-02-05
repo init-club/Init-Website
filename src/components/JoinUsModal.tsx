@@ -83,7 +83,9 @@ const JoinUsModal = ({ isOpen, onClose }: JoinUsModalProps) => {
                                         <div>
                                             <h1 className="text-2xl sm:text-4xl md:text-5xl font-black whitespace-nowrap font-heading">
                                                 <span className="text-white">The &lt; </span>
-                                                <span className="bg-gradient-brand-horizontal bg-clip-text text-transparent">
+                                                <span
+                                                    className="bg-gradient-brand-horizontal bg-clip-text text-transparent"
+                                                >
                                                     INIT
                                                 </span>
                                                 <span className="text-white"> Club /&gt;</span>

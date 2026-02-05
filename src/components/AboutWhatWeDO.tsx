@@ -58,7 +58,7 @@ const AboutWhatWeDo: React.FC = () => {
     <section
       ref={ref}
       onMouseMove={handleMouseMove}
-      className="relative py-20 lg:py-32 px-6 sm:px-8 lg:px-12 bg-transparent overflow-hidden"
+      className="relative py-20 lg:py-32 px-4 lg:px-6 bg-transparent overflow-hidden"
     >
       {/* Background Decor */}
       <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
@@ -140,7 +140,7 @@ const AboutWhatWeDo: React.FC = () => {
               whileInView="visible"
               viewport={{ once: true }}
               transition={{ duration: 0.7, ease: [0.42, 0, 0.58, 1] }}
-              className="text-3xl md:text-5xl font-black text-white font-heading leading-tight"
+              className="text-4xl md:text-5xl font-black text-white font-heading leading-tight whitespace-nowrap"
             >
               <span className="text-white">
                 <TypewriterText text="About < " delay={0.5} />
@@ -184,7 +184,7 @@ const AboutWhatWeDo: React.FC = () => {
               </div>
 
               {/* MOBILE CONTENT (Reduced & Justified) */}
-              <div className="block lg:hidden space-y-4 text-justify hyphens-auto text-sm tracking-normal max-w-prose mx-auto">
+              <div className="block lg:hidden space-y-4 text-justify hyphens-auto tracking-tight">
                 <ScrollRevealBlock>
                   <p>
                     <span className="text-white font-bold">Init Club</span> is a student-led open-source community built to turn ideas into working systems. We are a launchpad for students to learn, experiment, and build projects from the ground up.

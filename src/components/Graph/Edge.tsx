@@ -62,7 +62,7 @@ export const Edge = ({ id, x1, y1, x2, y2, delay, duration, color = '#334155', i
                 id={id}
                 d={d}
                 fill="none"
-                strokeWidth={isMobile ? 8 : 6}
+                strokeWidth={isMobile ? 3 : 6}
                 strokeLinecap="round"
                 style={{ filter: glowIntensity }}
                 initial={{ pathLength: 0, opacity: 0, stroke: color }}

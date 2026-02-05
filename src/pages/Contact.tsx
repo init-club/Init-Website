@@ -5,6 +5,76 @@ import JoinUsModal from '../components/JoinUsModal.tsx';
 import { motion } from 'framer-motion';
 import { Zap, Github, Brain, Users, Flame, Code2, Target, Lightbulb } from 'lucide-react';
 
+// --- Local Component: SpiritCard (Static version of ParallaxCard) ---
+const SpiritCard = ({ title, description, icon: Icon, delay = 0 }: { title: string, description: string, icon: any, delay?: number }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.6, delay: delay, ease: "easeOut" }}
+      className="relative w-full h-full group"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* ================= VOLUMETRIC BACKLIGHT ================= */}
+      <div
+        className="absolute inset-4 rounded-xl bg-gradient-to-br from-white/20 via-cyan-500/20 to-purple-500/20 blur-[40px] transition-all duration-300 opacity-30 group-hover:opacity-100"
+      />
+
+      {/* ================= GLASS CARD SURFACE ================= */}
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_-5px_25px_rgba(255,255,255,0.05)] overflow-hidden group-hover:border-cyan-500/30 transition-colors duration-300">
+        {/* Surface Glare Gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+      </div>
+
+      {/* ================= FLOATING CONTENT LAYER ================= */}
+      <div className="relative p-8 h-full flex flex-col transition-all duration-200 ease-out">
+        {/* Glow Effects - Stronger resting glow */}
+        <div
+          className="absolute -inset-px opacity-40 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"
+          style={{
+            background: `radial-gradient(600px circle at 50% 50%, rgba(0, 255, 213, 0.1), transparent 40%)`
+          }}
+        />
+
+        {/* Top Gradient accent */}
+        <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-400/60 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
+
+        {/* Icon Box */}
+        <div className="relative mb-4 group-hover:scale-110 transition-transform duration-300">
+          <Icon
+            className={`w-10 h-10 text-cyan-400 group-hover:text-cyan-300 transition-colors duration-300 ${isHovered ? 'drop-shadow-[0_0_8px_rgba(0,255,213,0.8)]' : ''}`}
+          />
+        </div>
+
+        <h3 className="text-xl font-bold mb-3 text-white group-hover:text-cyan-300 transition-colors duration-300 tracking-wide">
+          {title}
+        </h3>
+
+        <p className="text-muted text-sm leading-relaxed group-hover:text-white/80 transition-colors duration-300">
+          {description}
+        </p>
+
+        {/* Bottom Active Indicator */}
+        <div className="mt-auto pt-6 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0">
+          <div className="h-[2px] w-8 bg-cyan-400 rounded-full" />
+          <span className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest">Active</span>
+        </div>
+
+        {/* Bottom Corner decoration */}
+        <div className="absolute bottom-4 right-4 opacity-80 group-hover:opacity-100 transition-opacity duration-300 scale-90 group-hover:scale-100">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M19 19L14 19M19 19L19 14" stroke="currentColor" className="text-cyan-400/50 group-hover:text-[#00ffd5]" strokeWidth="2" strokeLinecap="round" />
+          </svg>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
 export default function ContactPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -169,24 +239,13 @@ export default function ContactPage() {
 
             <div className="grid md:grid-cols-2 gap-6">
               {spiritItems.map((item, idx) => (
-                <motion.div
+                <SpiritCard
                   key={idx}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: idx * 0.1 }}
-                  className="group relative p-6 rounded-xl border border-cyan-500/30 hover:border-cyan-400 transition-all"
-                  style={{
-                    background: 'linear-gradient(135deg, rgba(0,255,213,0.05) 0%, rgba(168,85,247,0.05) 100%)'
-                  }}
-                >
-                  <item.icon size={32} className="text-cyan-400 mb-4 group-hover:text-yellow-300 transition-colors" />
-                  <h3 className="text-lg font-bold text-cyan-300 mb-2 group-hover:text-yellow-300 transition-colors">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm text-gray-400">
-                    {item.description}
-                  </p>
-                </motion.div>
+                  title={item.title}
+                  description={item.description}
+                  icon={item.icon}
+                  delay={idx * 0.1}
+                />
               ))}
             </div>
           </motion.div>
