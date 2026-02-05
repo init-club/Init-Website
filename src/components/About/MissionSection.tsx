@@ -370,6 +370,8 @@ export const MissionSection = () => {
                   src={section.image}
                   alt={section.title}
                   className="mission-card-bg"
+                  loading={index === 0 ? "eager" : "lazy"}
+                  decoding="async"
                 />
 
                 <div className="mission-card-content">
@@ -389,6 +391,8 @@ export const MissionSection = () => {
                     src={section.image}
                     alt={section.title}
                     className="mission-card-thumb"
+                    loading={index === 0 ? "eager" : "lazy"}
+                    decoding="async"
                   />
                 </div>
               </article>
