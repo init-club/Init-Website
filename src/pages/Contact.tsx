@@ -36,17 +36,18 @@ const SpiritCard = ({ title, description, icon: Icon, delay = 0 }: { title: stri
         <div
           className="absolute -inset-px opacity-40 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"
           style={{
-            background: `radial-gradient(600px circle at 50% 50%, rgba(0, 255, 213, 0.1), transparent 40%)`
+            background: `radial-gradient(600px circle at 50% 50%, rgba(0, 255, 213, 0.2), transparent 40%)`
           }}
         />
 
-        {/* Top Gradient accent */}
+        {/* Top Gradient accent - Clearer by default */}
         <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-400/60 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
 
-        {/* Icon Box */}
+        {/* Icon Box - Plain floating icon */}
         <div className="relative mb-4 group-hover:scale-110 transition-transform duration-300">
           <Icon
             className={`w-10 h-10 text-cyan-400 group-hover:text-cyan-300 transition-colors duration-300 ${isHovered ? 'drop-shadow-[0_0_8px_rgba(0,255,213,0.8)]' : ''}`}
+            strokeWidth={1.5}
           />
         </div>
 
@@ -64,7 +65,7 @@ const SpiritCard = ({ title, description, icon: Icon, delay = 0 }: { title: stri
           <span className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest">Active</span>
         </div>
 
-        {/* Bottom Corner decoration */}
+        {/* Bottom Corner decoration - Highly visible */}
         <div className="absolute bottom-4 right-4 opacity-80 group-hover:opacity-100 transition-opacity duration-300 scale-90 group-hover:scale-100">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
             <path d="M19 19L14 19M19 19L19 14" stroke="currentColor" className="text-cyan-400/50 group-hover:text-[#00ffd5]" strokeWidth="2" strokeLinecap="round" />
