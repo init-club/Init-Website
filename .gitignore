@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Planning and Task Documentation
+*.md
+!README.md
+sql/

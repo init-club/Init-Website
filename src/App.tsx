@@ -12,14 +12,16 @@ import GraveyardPage from './pages/Graveyard';
 import ActivityPage from './pages/Activity';
 import MembersPage from './pages/Members';
 import NotFoundPage from './pages/404';
-import ProfileSetup from './pages/ProfileSetup'; 
+import ProfileSetup from './pages/ProfileSetup';
 import ScrollToTop from './components/ScrollToTop';
-import AccessDeniedModal from './components/AccessDeniedModal'; 
+import AccessDeniedModal from './components/AccessDeniedModal';
 import Profile from './pages/Profile';
+import BlogsAdminPage from './pages/admin/BlogsAdmin';
+
 
 function App() {
   const [session, setSession] = useState<any>(null);
-  const [showAccessDenied, setShowAccessDenied] = useState(false); 
+  const [showAccessDenied, setShowAccessDenied] = useState(false);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -55,16 +57,16 @@ function App() {
       }
 
       if (!data || data.length === 0) {
-        setShowAccessDenied(true); 
+        setShowAccessDenied(true);
       } else {
         const userStatus = data[0];
         console.log(" Verified Member:", userStatus);
 
         if (!userStatus.profile_completed) {
-           console.log("Profile incomplete, redirecting...");
-           if (window.location.pathname !== '/profile-setup') {
-               window.location.href = "/profile-setup";
-           }
+          console.log("Profile incomplete, redirecting...");
+          if (window.location.pathname !== '/profile-setup') {
+            window.location.href = "/profile-setup";
+          }
         }
       }
     } catch (err) {
@@ -74,17 +76,17 @@ function App() {
 
   const handleAccessDeniedClose = () => {
     setShowAccessDenied(false);
-    window.location.href = "/"; 
+    window.location.href = "/";
   };
 
   return (
     <BrowserRouter>
       <ScrollToTop />
-      
+
       {/* RENDER THE ACCESS DENIED MODAL */}
-      <AccessDeniedModal 
-        isOpen={showAccessDenied} 
-        onClose={handleAccessDeniedClose} 
+      <AccessDeniedModal
+        isOpen={showAccessDenied}
+        onClose={handleAccessDeniedClose}
       />
 
       <Routes>
@@ -96,6 +98,7 @@ function App() {
         <Route path="/activity" element={<ActivityPage />} />
         <Route path="/events" element={<EventsPage />} />
         <Route path="/blogs" element={<BlogsPage />} />
+        <Route path="/admin/blogs" element={<BlogsAdminPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/profile-setup" element={<ProfileSetup />} />
         <Route path="/profile/:username" element={<Profile />} />
