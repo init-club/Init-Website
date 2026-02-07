@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { supabase } from '../supabaseClient';
 import type { Session, AuthChangeEvent } from '@supabase/supabase-js';
+import AuthButtons from './AuthButtons'; 
 
 // --- Navigation Config ---
 interface NavItem {
@@ -47,7 +48,6 @@ export function Navbar() {
 
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-
   const [user, setUser] = useState<any>(null);
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
 
@@ -92,6 +92,7 @@ export function Navbar() {
 
     return () => subscription.unsubscribe();
   }, []);
+
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
