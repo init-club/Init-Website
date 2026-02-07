@@ -17,6 +17,7 @@ import ScrollToTop from './components/ScrollToTop';
 import AccessDeniedModal from './components/AccessDeniedModal';
 import Profile from './pages/Profile';
 import BlogsAdminPage from './pages/admin/BlogsAdmin';
+import AdminDashboard from './pages/admin/AdminDashboard';
 
 
 function App() {
@@ -98,6 +99,7 @@ function App() {
         <Route path="/activity" element={<ActivityPage />} />
         <Route path="/events" element={<EventsPage />} />
         <Route path="/blogs" element={<BlogsPage />} />
+        <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/blogs" element={<BlogsAdminPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/profile-setup" element={<ProfileSetup />} />
