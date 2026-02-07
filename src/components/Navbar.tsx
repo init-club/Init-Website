@@ -20,6 +20,7 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
   const [user, setUser] = useState<any>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
 
 
@@ -29,7 +30,7 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  
+
   useEffect(() => {
     setOpen(false);
   }, [location.pathname]);
@@ -38,11 +39,32 @@ export function Navbar() {
     const checkUser = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       setUser(session?.user || null);
+
+      if (session?.user) {
+        const { data, error } = await supabase.rpc('get_my_status');
+        if (!error && data && data.length > 0) {
+          const role = data[0].role;
+          setIsAdmin(role === 'admin' || role === 'semi_admin');
+        }
+      } else {
+        setIsAdmin(false);
+      }
     };
     checkUser();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       setUser(session?.user || null);
+      if (session?.user) {
+        const { data, error } = await supabase.rpc('get_my_status');
+        if (!error && data && data.length > 0) {
+          const role = data[0].role;
+          setIsAdmin(role === 'admin' || role === 'semi_admin');
+        } else {
+          setIsAdmin(false);
+        }
+      } else {
+        setIsAdmin(false);
+      }
     });
 
     return () => subscription.unsubscribe();
@@ -51,11 +73,11 @@ export function Navbar() {
   const handleLogout = async () => {
     await supabase.auth.signOut();
     setShowDropdown(false);
-    setOpen(false); 
+    setOpen(false);
     navigate('/');
   };
 
-  
+
   const handleLogin = async () => {
     await supabase.auth.signInWithOAuth({
       provider: 'github',
@@ -68,19 +90,19 @@ export function Navbar() {
   const getNavLinkClass = (isActive: boolean) => [
     'relative px-4 py-2 text-sm font-medium rounded-full transition-colors duration-300 overflow-hidden',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/50',
-    isActive ? 'text-white' : 'text-[var(--text)] hover:bg-[var(--glass-bg)]', 
+    isActive ? 'text-white' : 'text-[var(--text)] hover:bg-[var(--glass-bg)]',
   ].join(' ');
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-background ${scrolled ? 'py-2' : 'py-3 sm:py-4'}`}
     >
-      <div className="mx-auto max-w-7xl px-2 sm:px-4"> 
+      <div className="mx-auto max-w-7xl px-2 sm:px-4">
         <div
           className={`glass rounded-xl sm:rounded-2xl px-3 sm:px-4 py-2 sm:py-3 transition-all duration-500 ${scrolled ? 'shadow-lg' : ''}`}
         >
           <div className="flex items-center justify-between">
-            
+
             {/* --- LOGO --- */}
             <NavLink to="/" className="group flex items-center gap-2">
               <div className="rounded-lg sm:rounded-xl p-1.5 sm:p-2 transition-transform duration-300 group-hover:scale-105 bg-gradient-brand">
@@ -159,6 +181,18 @@ export function Navbar() {
                           <p className="text-xs text-gray-400">Signed in as</p>
                           <p className="text-sm font-bold text-white truncate">{user.user_metadata.full_name}</p>
                         </div>
+
+                        {/* Admin Link - Only visible to admins */}
+                        {isAdmin && (
+                          <NavLink
+                            to="/admin"
+                            onClick={() => setShowDropdown(false)}
+                            className="flex items-center gap-2 px-4 py-3 text-sm text-cyan-400 hover:bg-white/10 hover:text-cyan-300 transition-colors border-b border-white/5"
+                          >
+                            <User size={16} /> Admin Panel
+                          </NavLink>
+                        )}
+
                         <NavLink
                           to="/profile"
                           onClick={() => setShowDropdown(false)}
@@ -177,7 +211,7 @@ export function Navbar() {
                   </AnimatePresence>
                 </div>
               ) : (
-                
+
                 <button
                   onClick={handleLogin}
                   className="px-5 py-2 rounded-xl bg-white text-black text-sm font-bold hover:bg-gray-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.3)]"
@@ -189,12 +223,12 @@ export function Navbar() {
 
             {/* --- MOBILE TOGGLE --- */}
             <div className="md:hidden flex items-center gap-3">
-               {/* Show tiny avatar on mobile bar if logged in */}
-               {user && (
-                  <NavLink to="/profile" className="block md:hidden">
-                    <img src={user.user_metadata.avatar_url} className="w-8 h-8 rounded-full border border-cyan-500/30" alt="Me" />
-                  </NavLink>
-               )}
+              {/* Show tiny avatar on mobile bar if logged in */}
+              {user && (
+                <NavLink to="/profile" className="block md:hidden">
+                  <img src={user.user_metadata.avatar_url} className="w-8 h-8 rounded-full border border-cyan-500/30" alt="Me" />
+                </NavLink>
+              )}
               <button
                 type="button"
                 className="flex h-10 w-10 items-center justify-center rounded-xl glass hover:bg-white/5 transition-all duration-300"
@@ -254,26 +288,31 @@ export function Navbar() {
               {user ? (
                 <>
                   <div className="flex items-center gap-3 px-2 mb-2">
-                      <img src={user.user_metadata.avatar_url} className="w-10 h-10 rounded-full" />
-                      <div>
-                          <p className="text-white font-bold text-sm">{user.user_metadata.full_name}</p>
-                          <p className="text-gray-400 text-xs">Logged In</p>
-                      </div>
+                    <img src={user.user_metadata.avatar_url} className="w-10 h-10 rounded-full" />
+                    <div>
+                      <p className="text-white font-bold text-sm">{user.user_metadata.full_name}</p>
+                      <p className="text-gray-400 text-xs">Logged In</p>
+                    </div>
                   </div>
+                  {isAdmin && (
+                    <NavLink to="/admin" className="rounded-xl px-4 py-3 text-sm font-medium text-cyan-400 hover:bg-white/5 flex items-center gap-2 border border-cyan-500/20 bg-cyan-500/5">
+                      <User size={16} /> Admin Panel
+                    </NavLink>
+                  )}
                   <NavLink to="/profile" className="rounded-xl px-4 py-3 text-sm font-medium text-gray-300 hover:bg-white/5 flex items-center gap-2">
-                     <User size={16} /> My Profile
+                    <User size={16} /> My Profile
                   </NavLink>
                   <button onClick={handleLogout} className="rounded-xl px-4 py-3 text-sm font-medium text-red-400 hover:bg-red-900/20 flex items-center gap-2 text-left w-full">
-                     <LogOut size={16} /> Sign Out
+                    <LogOut size={16} /> Sign Out
                   </button>
                 </>
               ) : (
                 /* --- MOBILE LOGIN BUTTON (FIXED) --- */
-                <button 
-                    onClick={handleLogin}
-                    className="w-full py-3 rounded-xl bg-white text-black font-bold text-center"
+                <button
+                  onClick={handleLogin}
+                  className="w-full py-3 rounded-xl bg-white text-black font-bold text-center"
                 >
-                    Login
+                  Login
                 </button>
               )}
             </div>
