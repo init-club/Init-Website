@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import type { Session, AuthChangeEvent } from '@supabase/supabase-js'; 
 import { supabase } from './supabaseClient';
 
 import AboutPage from './pages/About';
@@ -13,19 +12,16 @@ import GraveyardPage from './pages/Graveyard';
 import ActivityPage from './pages/Activity';
 import MembersPage from './pages/Members';
 import NotFoundPage from './pages/404';
-import ProfileSetup from './pages/ProfileSetup'; 
+import ProfileSetup from './pages/ProfileSetup';
 import ScrollToTop from './components/ScrollToTop';
-import AccessDeniedModal from './components/AccessDeniedModal'; 
+import AccessDeniedModal from './components/AccessDeniedModal';
 import Profile from './pages/Profile';
+import BlogsAdminPage from './pages/admin/BlogsAdmin';
+
 
 function App() {
-  const [session, setSession] = useState<Session | null>(null);
-  const [showAccessDenied, setShowAccessDenied] = useState(false); 
-
-
-  useEffect(() => {
-    console.log("Auth Session Updated:", session); 
-  }, [session]);
+  const [session, setSession] = useState<any>(null);
+  const [showAccessDenied, setShowAccessDenied] = useState(false);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -37,7 +33,7 @@ function App() {
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event: AuthChangeEvent, session: Session | null) => {
+    } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
       if (session) {
         checkMembershipStatus();
@@ -46,6 +42,10 @@ function App() {
 
     return () => subscription.unsubscribe();
   }, []);
+
+  useEffect(() => {
+    console.log("Current Session:", session);
+  }, [session]);
 
   const checkMembershipStatus = async () => {
     try {
@@ -57,13 +57,16 @@ function App() {
       }
 
       if (!data || data.length === 0) {
-        setShowAccessDenied(true); 
+        setShowAccessDenied(true);
       } else {
         const userStatus = data[0];
+        console.log(" Verified Member:", userStatus);
+
         if (!userStatus.profile_completed) {
-           if (window.location.pathname !== '/profile-setup') {
-               window.location.href = "/profile-setup";
-           }
+          console.log("Profile incomplete, redirecting...");
+          if (window.location.pathname !== '/profile-setup') {
+            window.location.href = "/profile-setup";
+          }
         }
       }
     } catch (err) {
@@ -73,13 +76,19 @@ function App() {
 
   const handleAccessDeniedClose = () => {
     setShowAccessDenied(false);
-    window.location.href = "/"; 
+    window.location.href = "/";
   };
 
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <AccessDeniedModal isOpen={showAccessDenied} onClose={handleAccessDeniedClose} />
+
+      {/* RENDER THE ACCESS DENIED MODAL */}
+      <AccessDeniedModal
+        isOpen={showAccessDenied}
+        onClose={handleAccessDeniedClose}
+      />
+
       <Routes>
         <Route index element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
@@ -89,6 +98,7 @@ function App() {
         <Route path="/activity" element={<ActivityPage />} />
         <Route path="/events" element={<EventsPage />} />
         <Route path="/blogs" element={<BlogsPage />} />
+        <Route path="/admin/blogs" element={<BlogsAdminPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/profile-setup" element={<ProfileSetup />} />
         <Route path="/profile/:username" element={<Profile />} />

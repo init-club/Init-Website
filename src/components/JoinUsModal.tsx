@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Users, Code, Terminal, MessageSquare, Github, ArrowRight } from 'lucide-react';
-import { supabase } from '../supabaseClient'; 
+import { supabase } from '../supabaseClient'; // Ensure this file exists in src/
 
 interface JoinUsModalProps {
     isOpen: boolean;
@@ -83,9 +83,7 @@ const JoinUsModal = ({ isOpen, onClose }: JoinUsModalProps) => {
                                         <div>
                                             <h1 className="text-2xl sm:text-4xl md:text-5xl font-black whitespace-nowrap font-heading">
                                                 <span className="text-white">The &lt; </span>
-                                                <span
-                                                    className="bg-gradient-brand-horizontal bg-clip-text text-transparent"
-                                                >
+                                                <span className="bg-gradient-brand-horizontal bg-clip-text text-transparent">
                                                     INIT
                                                 </span>
                                                 <span className="text-white"> Club /&gt;</span>

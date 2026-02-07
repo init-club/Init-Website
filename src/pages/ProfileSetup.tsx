@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { User, FileText, Linkedin, Instagram, Github, Save, AlertCircle, X } from 'lucide-react'; 
+import { User, FileText, Linkedin, Instagram, Github, Save, AlertCircle, X } from 'lucide-react'; // Added 'X' icon
 import { supabase } from '../supabaseClient';
 
 const ProfileSetup = () => {
