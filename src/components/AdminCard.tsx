@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { LucideIcon, ArrowRight } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 interface AdminCardProps {
   title: string;
