@@ -18,6 +18,7 @@ import AccessDeniedModal from './components/AccessDeniedModal';
 import Profile from './pages/Profile';
 import BlogsAdminPage from './pages/admin/BlogsAdmin';
 import AdminDashboard from './pages/admin/AdminDashboard';
+import ProjectAdmin from './pages/admin/ProjectAdmin';
 
 
 function App() {
@@ -118,6 +119,7 @@ function App() {
         <Route path="/blogs" element={<BlogsPage />} />
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/blogs" element={<BlogsAdminPage />} />
+        <Route path="/admin/projects" element={<ProjectAdmin />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/profile-setup" element={<ProfileSetup />} />
         <Route path="/profile/:username" element={<Profile />} />

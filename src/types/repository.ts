@@ -1,3 +1,6 @@
+export type Difficulty = 'beginner' | 'intermediate' | 'advanced';
+export type ProjectStatus = 'idea' | 'in_progress' | 'completed' | 'maintenance';
+
 export interface Repository {
   id: number;
   name: string;
@@ -16,4 +19,8 @@ export interface Repository {
   // Graveyard-specific fields
   archival_reason: string | null;
   is_revivable: boolean;
+  // Idea Wall fields
+  difficulty: Difficulty;
+  project_status: ProjectStatus;
+  video_url: string | null;
 }

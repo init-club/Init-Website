@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FileText, Users, Calendar, BarChart3, Settings, Shield, Loader2 } from 'lucide-react';
+import { FileText, Users, Calendar, BarChart3, Settings, Shield, Loader2, FolderGit2 } from 'lucide-react';
 import { Navbar } from '../../components/Navbar';
 import { Footer } from '../../components/Footer';
 import AdminCard from '../../components/AdminCard';
@@ -77,6 +77,14 @@ export default function AdminDashboard() {
       to: '/admin/blogs',
       color: 'purple',
       badge: pendingBlogsCount > 0 ? pendingBlogsCount : undefined,
+      available: true
+    },
+    {
+      title: 'Project Management',
+      description: 'Manage active projects: set difficulty, status, and demo videos.',
+      icon: FolderGit2,
+      to: '/admin/projects',
+      color: 'orange',
       available: true
     },
     {
