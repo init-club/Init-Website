@@ -8,17 +8,39 @@ import type { Session, AuthChangeEvent } from '@supabase/supabase-js';
 export default function AuthButtons() {
   const navigate = useNavigate();
   const [user, setUser] = useState<any>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
     const checkUser = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       setUser(session?.user || null);
+
+      if (session?.user) {
+        const { data, error } = await supabase.rpc('get_my_status');
+        if (!error && data && data.length > 0) {
+          const role = data[0].role;
+          setIsAdmin(role === 'admin' || role === 'semi_admin');
+        }
+      } else {
+        setIsAdmin(false);
+      }
     };
     checkUser();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event: AuthChangeEvent, session: Session | null) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event: AuthChangeEvent, session: Session | null) => {
       setUser(session?.user || null);
+      if (session?.user) {
+        const { data, error } = await supabase.rpc('get_my_status');
+        if (!error && data && data.length > 0) {
+          const role = data[0].role;
+          setIsAdmin(role === 'admin' || role === 'semi_admin');
+        } else {
+          setIsAdmin(false);
+        }
+      } else {
+        setIsAdmin(false);
+      }
     });
 
     return () => subscription.unsubscribe();
@@ -61,12 +83,23 @@ export default function AuthButtons() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
-              className="absolute right-0 mt-2 w-48 glass rounded-xl overflow-hidden border border-white/10 shadow-xl z-50"
+              className="absolute right-0 mt-2 w-48 glass rounded-xl overflow-hidden border border-white/10 shadow-xl z-50 text-left"
             >
               <div className="px-4 py-3 border-b border-white/10">
                 <p className="text-xs text-gray-400">Signed in as</p>
                 <p className="text-sm font-bold text-white truncate">{user.user_metadata.full_name}</p>
               </div>
+
+              {isAdmin && (
+                <NavLink
+                  to="/admin"
+                  onClick={() => setShowDropdown(false)}
+                  className="flex items-center gap-2 px-4 py-3 text-sm text-white hover:bg-white/10 transition-colors"
+                >
+                  <User size={16} /> Admin Panel
+                </NavLink>
+              )}
+
               <NavLink
                 to="/profile"
                 onClick={() => setShowDropdown(false)}
