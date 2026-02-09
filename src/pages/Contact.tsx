@@ -3,7 +3,8 @@ import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 import JoinUsModal from '../components/JoinUsModal.tsx';
 import { motion } from 'framer-motion';
-import { Zap, Github, Brain, Users, Flame, Code2, Target, Lightbulb } from 'lucide-react';
+import { Zap, Github, Brain, Users, Flame, Code2, Target, Lightbulb, Terminal, GitBranch, CheckCircle, Download, BookOpen, Eye } from 'lucide-react';
+import PdfModal from '../components/PdfModal';
 
 // --- Local Component: SpiritCard (Static version of ParallaxCard) ---
 const SpiritCard = ({ title, description, icon: Icon, delay = 0 }: { title: string, description: string, icon: any, delay?: number }) => {
@@ -78,6 +79,7 @@ const SpiritCard = ({ title, description, icon: Icon, delay = 0 }: { title: stri
 
 export default function ContactPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isPdfOpen, setIsPdfOpen] = useState(false);
 
   const spiritItems = [
     {
@@ -223,6 +225,194 @@ export default function ContactPage() {
           <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-500/5 blur-3xl rounded-full" />
         </section>
 
+        {/* ================= INDUCTION PROGRAM SECTION ================= */}
+        <section className="max-w-7xl mx-auto px-4 mb-24">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-black mb-4" style={{ fontFamily: 'var(--font-heading)' }}>
+                The Induction Program
+              </h2>
+              <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+                Real-world engineering challenges designed to build your skills. No busy work, just practical implementation.
+              </p>
+            </div>
+
+            {/* 1. Overview Cards (Skills, Workflow, Blogs) */}
+            <div className="grid md:grid-cols-3 gap-6 mb-16">
+              {/* Technical Skills */}
+              <div className="glass p-6 rounded-2xl border border-white/10 relative overflow-hidden group">
+                <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                  <Terminal size={100} />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                  <Terminal className="text-cyan-400" /> Technical Skills
+                </h3>
+                <ul className="space-y-3 text-sm text-gray-300">
+                  <li className="flex gap-2">
+                    <span className="text-cyan-400 font-bold">01.</span>
+                    <span><strong className="text-white">Linux:</strong> Environment setup & CLI mastery.</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-cyan-400 font-bold">02.</span>
+                    <span><strong className="text-white">Docker:</strong> Containerization & DevOps basics.</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-cyan-400 font-bold">03.</span>
+                    <span><strong className="text-white">Debugging:</strong> Full-stack troubleshooting.</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Open Source Workflow */}
+              <div className="glass p-6 rounded-2xl border border-white/10 relative overflow-hidden group">
+                <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                  <Github size={100} />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                  <Github className="text-purple-400" /> Open Source
+                </h3>
+                <ul className="space-y-3 text-sm text-gray-300">
+                  <li className="flex gap-2">
+                    <span className="text-purple-400 font-bold">01.</span>
+                    <span><strong className="text-white">Git Flow:</strong> Fork, Branch, Commit, PR.</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-purple-400 font-bold">02.</span>
+                    <span><strong className="text-white">Review:</strong> Constructive code feedback.</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-purple-400 font-bold">03.</span>
+                    <span><strong className="text-white">Docs:</strong> Clear READMEs & issues.</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Written Blogs */}
+              <div className="glass p-6 rounded-2xl border border-white/10 relative overflow-hidden group">
+                <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                  <BookOpen size={100} />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                  <BookOpen className="text-yellow-400" /> Written Blogs
+                </h3>
+                <p className="text-xs text-gray-400 mb-3">Reflect on your journey via storytelling.</p>
+                <ul className="space-y-3 text-sm text-gray-300 mb-4">
+                  <li className="flex gap-2">
+                    <span className="text-yellow-400 font-bold">01.</span>
+                    <span><strong className="text-white">Experience:</strong> Challenges & solutions.</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-yellow-400 font-bold">02.</span>
+                    <span><strong className="text-white">Tech:</strong> Tools & moves used.</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-yellow-400 font-bold">03.</span>
+                    <span><strong className="text-white">Reflection:</strong> Personal growth.</span>
+                  </li>
+                </ul>
+                <a href="/blogs" className="text-xs font-bold text-yellow-400 hover:text-yellow-300 flex items-center gap-1 transition-colors">
+                  Read Community Blogs <span className="text-lg leading-none">&rarr;</span>
+                </a>
+              </div>
+            </div>
+
+            {/* 2. Process & Evaluation */}
+            <div className="grid lg:grid-cols-3 gap-8 mb-16">
+              {/* Contribution Flow */}
+              <div className="lg:col-span-2 glass p-8 rounded-2xl border border-white/10">
+                <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                  <GitBranch className="text-cyan-400" /> Contribution Workflow
+                </h3>
+                <div className="flex flex-col md:flex-row gap-4 justify-between relative">
+                  {/* Connecting Line (Desktop) */}
+                  <div className="hidden md:block absolute top-1/2 left-0 right-0 h-0.5 bg-white/10 -z-10 -translate-y-1/2"></div>
+
+                  {[
+                    { step: '1', title: 'Fork', desc: 'Fork repository' },
+                    { step: '2', title: 'Branch', desc: 'Create feature branch' },
+                    { step: '3', title: 'Code', desc: 'Implement & Test' },
+                    { step: '4', title: 'Push', desc: 'Commit & Push' },
+                    { step: '5', title: 'PR', desc: 'Submit Pull Request' },
+                  ].map((item) => (
+                    <div key={item.step} className="bg-[#09090b] p-4 rounded-xl border border-white/10 flex flex-col items-center text-center z-10 w-full">
+                      <div className="w-8 h-8 rounded-full bg-cyan-500/10 text-cyan-400 flex items-center justify-center font-bold text-sm mb-2 border border-cyan-500/20">
+                        {item.step}
+                      </div>
+                      <div className="font-bold text-white text-sm">{item.title}</div>
+                      <div className="text-xs text-gray-500">{item.desc}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Evaluation */}
+              <div className="glass p-8 rounded-2xl border border-white/10">
+                <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                  <CheckCircle className="text-green-400" /> Evaluation
+                </h3>
+                <ul className="space-y-4">
+                  <li className="flex gap-3 items-start">
+                    <div className="mt-1 w-1.5 h-1.5 rounded-full bg-green-400 shadow-[0_0_10px_rgba(74,222,128,0.5)]"></div>
+                    <p className="text-sm text-gray-300"><strong className="text-white block">Functionality</strong> Does it work as expected?</p>
+                  </li>
+                  <li className="flex gap-3 items-start">
+                    <div className="mt-1 w-1.5 h-1.5 rounded-full bg-green-400 shadow-[0_0_10px_rgba(74,222,128,0.5)]"></div>
+                    <p className="text-sm text-gray-300"><strong className="text-white block">Best Practices</strong> Clean code & Git usage.</p>
+                  </li>
+                  <li className="flex gap-3 items-start">
+                    <div className="mt-1 w-1.5 h-1.5 rounded-full bg-green-400 shadow-[0_0_10px_rgba(74,222,128,0.5)]"></div>
+                    <p className="text-sm text-gray-300"><strong className="text-white block">Documentation</strong> Clear README & screenshots.</p>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* 3. Task Download Action */}
+            <div className="text-center p-10 rounded-3xl border border-cyan-500/30 bg-gradient-to-b from-cyan-500/5 to-purple-500/5 relative overflow-hidden">
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-500 to-transparent"></div>
+
+              <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">Ready to start?</h3>
+              <p className="text-gray-400 mb-8 max-w-xl mx-auto">
+                View the detailed induction task sheet. Choose your track, complete the challenges, and submit your PRs.
+              </p>
+
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <button
+                  onClick={() => setIsPdfOpen(true)}
+                  className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-white text-black font-bold text-lg hover:bg-gray-200 transition-all shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.5)] hover:scale-105"
+                >
+                  <Eye size={20} />
+                  View Task Sheet
+                </button>
+
+                <a
+                  href="/tasks.pdf"
+                  download="Init_Club_Induction_Tasks.pdf"
+                  className="inline-flex items-center gap-2 px-6 py-4 rounded-xl border border-white/10 hover:bg-white/5 text-gray-300 hover:text-white font-semibold transition-all"
+                >
+                  <Download size={20} />
+                  Download PDF
+                </a>
+              </div>
+
+              <p className="mt-6 text-sm text-gray-500">
+                *Please fork the repository and submit a PR for review.
+              </p>
+            </div>
+
+          </motion.div>
+        </section>
+
+        <PdfModal
+          isOpen={isPdfOpen}
+          onClose={() => setIsPdfOpen(false)}
+          pdfUrl="/tasks.pdf"
+        />
+
         {/* The Spirit Section */}
         <section className="max-w-6xl mx-auto px-4 mb-24">
           <motion.div
@@ -340,6 +530,8 @@ export default function ContactPage() {
             </div>
           </motion.div>
         </section>
+
+
 
         {/* What You'll Gain */}
         <section className="max-w-6xl mx-auto px-4 mb-24">
