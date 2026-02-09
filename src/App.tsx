@@ -23,8 +23,17 @@ import AdminDashboard from './pages/admin/AdminDashboard';
 function App() {
   const [session, setSession] = useState<any>(null);
   const [showAccessDenied, setShowAccessDenied] = useState(false);
+  const [showSyncMessage, setShowSyncMessage] = useState(false);
 
   useEffect(() => {
+    // Check for JIT Sync Error in URL
+    const hash = window.location.hash;
+    if (hash && hash.includes('JIT_SYNC_PENDING')) {
+      setShowSyncMessage(true);
+      // Clear the ugly hash but keep the user on the page
+      window.history.replaceState(null, '', window.location.pathname);
+    }
+
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       if (session) {
@@ -83,6 +92,14 @@ function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
+
+      {/* JIT SYNC BANNER */}
+      {showSyncMessage && (
+        <div className="fixed top-0 left-0 w-full bg-blue-600 text-white text-center py-4 z-50 font-bold shadow-lg animate-pulse">
+          Checking your GitHub Membership... Please wait 5 seconds and Login again! 🚀
+          <button onClick={() => setShowSyncMessage(false)} className="ml-4 text-sm underline opacity-80 hover:opacity-100">Dismiss</button>
+        </div>
+      )}
 
       {/* RENDER THE ACCESS DENIED MODAL */}
       <AccessDeniedModal
