@@ -192,16 +192,6 @@ export function Navbar() {
             })}
 
 
-            {user && (
-              <NavLink
-                to="/members"
-                className={({ isActive }) =>
-                  `${linkBaseClass} ${isActive ? "text-cyan-400 font-bold bg-white/5" : "text-cyan-400/80 hover:text-cyan-400 hover:bg-white/5"}`
-                }
-              >
-                Members
-              </NavLink>
-            )}
           </nav>
 
           <div className="flex items-center gap-3 z-20">
