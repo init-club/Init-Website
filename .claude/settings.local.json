@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(npx tsc --noEmit)",
-      "Bash(npx vite build --mode development)"
+      "Bash(npx vite build --mode development)",
+      "Bash(npm run build)"
     ]
   }
 }
