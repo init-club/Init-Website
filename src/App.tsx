@@ -20,7 +20,6 @@ import BlogsAdminPage from './pages/admin/BlogsAdmin';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import ProjectAdmin from './pages/admin/ProjectAdmin';
 
-
 function App() {
   const [session, setSession] = useState<any>(null);
   const [showAccessDenied, setShowAccessDenied] = useState(false);
