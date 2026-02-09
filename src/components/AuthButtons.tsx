@@ -80,12 +80,13 @@ export default function AuthButtons() {
         <AnimatePresence>
           {showDropdown && (
             <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 10 }}
-              className="absolute right-0 mt-2 w-48 glass rounded-xl overflow-hidden border border-white/10 shadow-xl z-50 text-left"
+              initial={{ opacity: 0, y: 5, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 5, scale: 0.95 }}
+              transition={{ duration: 0.1 }}
+              className="absolute right-0 mt-2 w-56 bg-[#09090b] rounded-xl overflow-hidden border border-white/10 shadow-2xl p-1 z-50 flex flex-col gap-1 text-left"
             >
-              <div className="px-4 py-3 border-b border-white/10">
+              <div className="px-4 py-2 mb-1 border-b border-white/10">
                 <p className="text-xs text-gray-400">Signed in as</p>
                 <p className="text-sm font-bold text-white truncate">{user.user_metadata.full_name}</p>
               </div>
@@ -94,7 +95,12 @@ export default function AuthButtons() {
                 <NavLink
                   to="/admin"
                   onClick={() => setShowDropdown(false)}
-                  className="flex items-center gap-2 px-4 py-3 text-sm text-white hover:bg-white/10 transition-colors"
+                  className={({ isActive }) =>
+                    `flex items-center gap-2 px-4 py-2 text-sm rounded-lg transition-all duration-200 ${isActive
+                      ? 'bg-white/10 text-white font-bold'
+                      : 'text-gray-300 hover:bg-white/5 hover:text-white'
+                    }`
+                  }
                 >
                   <User size={16} /> Admin Panel
                 </NavLink>
@@ -103,13 +109,18 @@ export default function AuthButtons() {
               <NavLink
                 to="/profile"
                 onClick={() => setShowDropdown(false)}
-                className="flex items-center gap-2 px-4 py-3 text-sm text-gray-300 hover:bg-white/10 hover:text-cyan-400 transition-colors"
+                className={({ isActive }) =>
+                  `flex items-center gap-2 px-4 py-2 text-sm rounded-lg transition-all duration-200 ${isActive
+                    ? 'bg-white/10 text-white font-bold'
+                    : 'text-gray-300 hover:bg-white/5 hover:text-white'
+                  }`
+                }
               >
                 <User size={16} /> My Profile
               </NavLink>
               <button
                 onClick={handleLogout}
-                className="w-full flex items-center gap-2 px-4 py-3 text-sm text-red-400 hover:bg-red-500/10 transition-colors text-left"
+                className="w-full flex items-center gap-2 px-4 py-2 text-sm rounded-lg text-red-400 hover:bg-red-500/10 transition-colors text-left"
               >
                 <LogOut size={16} /> Sign Out
               </button>
