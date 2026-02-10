@@ -11,15 +11,15 @@ interface JoinUsModalProps {
 const JoinUsModal = ({ isOpen, onClose }: JoinUsModalProps) => {
     const [isLoading, setIsLoading] = useState(false);
 
-    
+
     const handleGithubLogin = async () => {
         try {
             setIsLoading(true);
             const { error } = await supabase.auth.signInWithOAuth({
                 provider: 'github',
                 options: {
-                    
-                    redirectTo: window.location.origin, 
+
+                    redirectTo: window.location.origin,
                 },
             });
 
@@ -100,7 +100,7 @@ const JoinUsModal = ({ isOpen, onClose }: JoinUsModalProps) => {
                                             Already a Member?
                                         </p>
                                         <p className="text-gray-400 text-xs leading-relaxed max-w-md mx-auto">
-                                            Login with your GitHub account to access the Idea Wall, Leaderboard, and manage your profile.
+                                            Login is only for Init Club members. Complete the onboarding tasks to become a member
                                         </p>
                                     </div>
 
@@ -123,7 +123,7 @@ const JoinUsModal = ({ isOpen, onClose }: JoinUsModalProps) => {
                                                 }}
                                                 transition={{ duration: 0.3, ease: "linear" }}
                                             />
-                                            
+
                                             {/* Button Content */}
                                             <div className="relative z-10 flex items-center justify-center gap-3 text-white">
                                                 {isLoading ? (
@@ -148,7 +148,7 @@ const JoinUsModal = ({ isOpen, onClose }: JoinUsModalProps) => {
                                         </div>
 
                                         {/* Secondary Action: Discord Join */}
-                                        <a 
+                                        <a
                                             href="https://discord.com/invite/Gx8sdGJkU"
                                             target="_blank"
                                             rel="noopener noreferrer"
