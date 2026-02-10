@@ -170,7 +170,7 @@ export default function ContactPage() {
             transition={{ duration: 0.6 }}
             className="max-w-6xl mx-auto text-center"
           >
-            <h1 className="text-4xl md:text-6xl font-black mb-6 whitespace-nowrap" style={{ fontFamily: 'var(--font-heading)' }}>
+            <h1 className="text-3xl sm:text-4xl md:text-6xl font-black mb-6" style={{ fontFamily: 'var(--font-heading)' }}>
               <span style={{ color: 'var(--text)' }}>The &lt; </span>
               <span
                 style={{

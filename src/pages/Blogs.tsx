@@ -159,25 +159,26 @@ export default function BlogsPage() {
               className="bg-gray-900/50 border border-gray-800 rounded-2xl p-4 md:p-6"
             >
               {/* Search Bar */}
-              <div className="flex flex-col md:flex-row gap-4 mb-4">
-                <div className="flex-1 relative">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
-                  <input
-                    type="text"
-                    placeholder="Search blogs..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-12 pr-4 py-3 bg-black/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:border-purple-500 focus:outline-none transition-colors"
-                  />
-                </div>
+              <div className="relative mb-4">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
+                <input
+                  type="text"
+                  placeholder="Search blogs..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-12 pr-4 py-3 bg-black/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:border-purple-500 focus:outline-none transition-colors"
+                />
+              </div>
 
+              {/* Filter Row */}
+              <div className="grid grid-cols-2 md:flex md:flex-row gap-3 mb-4">
                 {/* Search Type Selector */}
                 <div className="flex items-center gap-2">
-                  <Filter size={16} className="text-gray-500" />
+                  <Filter size={16} className="text-gray-500 flex-shrink-0" />
                   <select
                     value={searchType}
                     onChange={(e) => setSearchType(e.target.value as SearchType)}
-                    className="bg-black/50 border border-gray-700 rounded-lg px-3 py-3 text-sm text-white focus:border-purple-500 focus:outline-none"
+                    className="w-full bg-black/50 border border-gray-700 rounded-lg px-3 py-3 text-sm text-white focus:border-purple-500 focus:outline-none"
                   >
                     <option value="all">All Fields</option>
                     <option value="roll_no">Roll Number</option>
@@ -187,11 +188,11 @@ export default function BlogsPage() {
 
                 {/* Sort Selector */}
                 <div className="flex items-center gap-2">
-                  <SortDesc size={16} className="text-gray-500" />
+                  <SortDesc size={16} className="text-gray-500 flex-shrink-0" />
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value as SortOption)}
-                    className="bg-black/50 border border-gray-700 rounded-lg px-3 py-3 text-sm text-white focus:border-purple-500 focus:outline-none"
+                    className="w-full bg-black/50 border border-gray-700 rounded-lg px-3 py-3 text-sm text-white focus:border-purple-500 focus:outline-none"
                   >
                     <option value="newest">Newest First</option>
                     <option value="oldest">Oldest First</option>
@@ -209,8 +210,8 @@ export default function BlogsPage() {
                       key={tag}
                       onClick={() => setSelectedTag(selectedTag === tag ? null : tag)}
                       className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${selectedTag === tag
-                          ? 'bg-purple-500 text-white'
-                          : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
+                        ? 'bg-purple-500 text-white'
+                        : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
                         }`}
                     >
                       {tag}

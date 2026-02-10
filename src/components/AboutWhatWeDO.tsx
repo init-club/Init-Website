@@ -140,7 +140,7 @@ const AboutWhatWeDo: React.FC = () => {
               whileInView="visible"
               viewport={{ once: true }}
               transition={{ duration: 0.7, ease: [0.42, 0, 0.58, 1] }}
-              className="text-4xl md:text-5xl font-black text-white font-heading leading-tight whitespace-nowrap"
+              className="text-3xl sm:text-4xl md:text-5xl font-black text-white font-heading leading-tight"
             >
               <span className="text-white">
                 <TypewriterText text="About < " delay={0.5} />
@@ -184,7 +184,7 @@ const AboutWhatWeDo: React.FC = () => {
               </div>
 
               {/* MOBILE CONTENT (Reduced & Justified) */}
-              <div className="block lg:hidden space-y-4 text-justify hyphens-auto tracking-tight">
+              <div className="block lg:hidden space-y-4 hyphens-auto">
                 <ScrollRevealBlock>
                   <p>
                     <span className="text-white font-bold">Init Club</span> is a student-led open-source community built to turn ideas into working systems. We are a launchpad for students to learn, experiment, and build projects from the ground up.

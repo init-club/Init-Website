@@ -552,7 +552,7 @@ const TierSection = ({
         whileInView="animate"
         viewport={{ once: true, margin: '-50px' }}
         variants={staggerContainer}
-        className={`grid ${gridCols} gap-5 justify-items-center`}
+        className={`grid ${gridCols} gap-5 justify-items-center [&>*:last-child:nth-child(odd)]:col-span-full [&>*:last-child:nth-child(odd)]:max-w-[260px]`}
       >
         {members.map((member) => (
           <ProfileCard key={member.username} member={member} isLarge={isLarge} onImageClick={onImageClick} />

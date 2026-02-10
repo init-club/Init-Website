@@ -138,26 +138,26 @@ export default function GraveyardPage() {
               className="bg-gray-900/50 border border-gray-800 rounded-2xl p-4 md:p-6"
             >
               {/* Search Bar */}
-              <div className="flex flex-col md:flex-row gap-4 mb-4">
-                <div className="flex-1 relative">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
-                  <input
-                    type="text"
-                    placeholder="Search archived projects..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-12 pr-4 py-3 bg-black/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:border-purple-500 focus:outline-none transition-colors"
-                  />
-                </div>
+              <div className="relative mb-4">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
+                <input
+                  type="text"
+                  placeholder="Search archived projects..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-12 pr-4 py-3 bg-black/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:border-purple-500 focus:outline-none transition-colors"
+                />
+              </div>
 
+              {/* Filter Row */}
+              <div className="grid grid-cols-2 md:flex md:flex-row gap-3 mb-4">
                 {/* Revivable Filter */}
                 <button
                   onClick={() => setShowRevivableOnly(!showRevivableOnly)}
-                  className={`inline-flex items-center gap-2 px-4 py-3 rounded-xl border transition-all ${
-                    showRevivableOnly
+                  className={`inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl border transition-all text-sm ${showRevivableOnly
                       ? 'bg-cyan-500/20 border-cyan-500/50 text-cyan-300'
                       : 'bg-black/50 border-gray-700 text-gray-400 hover:border-gray-600'
-                  }`}
+                    }`}
                 >
                   <RefreshCw size={16} />
                   Revivable Only
@@ -165,11 +165,11 @@ export default function GraveyardPage() {
 
                 {/* Sort Selector */}
                 <div className="flex items-center gap-2">
-                  <SortDesc size={16} className="text-gray-500" />
+                  <SortDesc size={16} className="text-gray-500 flex-shrink-0" />
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value as SortOption)}
-                    className="bg-black/50 border border-gray-700 rounded-lg px-3 py-3 text-sm text-white focus:border-purple-500 focus:outline-none"
+                    className="w-full bg-black/50 border border-gray-700 rounded-lg px-3 py-3 text-sm text-white focus:border-purple-500 focus:outline-none"
                   >
                     <option value="recent">Most Recent</option>
                     <option value="stars">Most Stars</option>

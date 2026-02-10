@@ -159,7 +159,7 @@ export default function IdeaWallPage() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as SortOption)}
-              className="bg-black/50 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:border-cyan-500 focus:outline-none"
+              className="w-full sm:w-auto bg-black/50 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:border-cyan-500 focus:outline-none"
             >
               <option value="recent">Most Recent</option>
               <option value="stars">Most Stars</option>

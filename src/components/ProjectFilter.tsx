@@ -41,25 +41,27 @@ const ProjectFilter = ({
   return (
     <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-4 md:p-6 space-y-4">
       {/* Search Bar */}
-      <div className="flex flex-col md:flex-row gap-4">
-        <div className="flex-1 relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
-          <input
-            type="text"
-            placeholder="Search projects..."
-            value={searchQuery}
-            onChange={(e) => onSearchChange(e.target.value)}
-            className="w-full pl-12 pr-4 py-3 bg-black/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:border-cyan-500 focus:outline-none transition-colors"
-          />
-        </div>
+      {/* Search Bar */}
+      <div className="relative">
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
+        <input
+          type="text"
+          placeholder="Search projects..."
+          value={searchQuery}
+          onChange={(e) => onSearchChange(e.target.value)}
+          className="w-full pl-12 pr-4 py-3 bg-black/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:border-cyan-500 focus:outline-none transition-colors"
+        />
+      </div>
 
+      {/* Filters Row */}
+      <div className="grid grid-cols-2 md:flex md:flex-row gap-3">
         {/* Difficulty Filter */}
         <div className="flex items-center gap-2">
-          <Filter size={16} className="text-gray-500" />
+          <Filter size={16} className="text-gray-500 flex-shrink-0" />
           <select
             value={difficulty}
             onChange={(e) => onDifficultyChange(e.target.value as Difficulty | 'all')}
-            className="bg-black/50 border border-gray-700 rounded-lg px-3 py-3 text-sm text-white focus:border-cyan-500 focus:outline-none"
+            className="w-full bg-black/50 border border-gray-700 rounded-lg px-3 py-3 text-sm text-white focus:border-cyan-500 focus:outline-none"
           >
             <option value="all">All Levels</option>
             <option value="beginner">Beginner</option>
@@ -73,7 +75,7 @@ const ProjectFilter = ({
           <select
             value={status}
             onChange={(e) => onStatusChange(e.target.value as ProjectStatus | 'all')}
-            className="bg-black/50 border border-gray-700 rounded-lg px-3 py-3 text-sm text-white focus:border-cyan-500 focus:outline-none"
+            className="w-full bg-black/50 border border-gray-700 rounded-lg px-3 py-3 text-sm text-white focus:border-cyan-500 focus:outline-none"
           >
             <option value="all">All Status</option>
             <option value="idea">Idea</option>
@@ -93,11 +95,10 @@ const ProjectFilter = ({
               <button
                 key={topic}
                 onClick={() => toggleTopic(topic)}
-                className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
-                  selectedTopics.includes(topic)
+                className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${selectedTopics.includes(topic)
                     ? 'bg-cyan-500 text-white'
                     : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
-                }`}
+                  }`}
               >
                 {topic}
               </button>

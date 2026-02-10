@@ -10,11 +10,11 @@ export const HeroSection = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-heading text-text mb-6 [text-shadow:_0_0_20px_rgba(0,255,213,0.5),_0_0_40px_rgba(168,85,247,0.3)]"
         >
-          <span>
+          <span className="block sm:inline">
             Initializing
           </span>
 
-          <span className="pl-3 bg-gradient-to-r from-[#00ffd5] to-[#a855f7] bg-clip-text text-transparent">
+          <span className="block sm:inline sm:pl-3 bg-gradient-to-r from-[#00ffd5] to-[#a855f7] bg-clip-text text-transparent">
             Innovation
           </span>
         </motion.h1>
