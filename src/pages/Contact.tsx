@@ -236,9 +236,19 @@ export default function ContactPage() {
               <h2 className="text-3xl md:text-4xl font-black mb-4" style={{ fontFamily: 'var(--font-heading)' }}>
                 The Induction Program
               </h2>
-              <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+              <p className="text-gray-400 text-lg max-w-2xl mx-auto mb-6">
                 Real-world engineering challenges designed to build your skills. No busy work, just practical implementation.
               </p>
+              <a
+                href="https://github.com/init-club/onboarding-2026"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm text-white border border-cyan-500/50 bg-cyan-500/10 hover:bg-cyan-500/20 transition-all duration-300 group"
+              >
+                <Github size={18} />
+                View Onboarding Tasks
+                <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+              </a>
             </div>
 
             {/* 1. Overview Cards (Skills, Workflow, Blogs) */}
@@ -399,8 +409,8 @@ export default function ContactPage() {
                 </a>
               </div>
 
-              <p className="mt-6 text-sm text-gray-500">
-                *Please fork the repository and submit a PR for review.
+              <p className="mt-6 text-sm text-gray-400">
+                *Along with the PDF instructions, please visit the <a href="https://github.com/init-club/onboarding-2026" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:text-cyan-300 font-medium transition-colors">Onboarding Repository</a> to submit your tasks.
               </p>
             </div>
 
