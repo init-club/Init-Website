@@ -30,6 +30,19 @@
   --color-contact: #2979ff;
 }
 
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
 html,
 body {
   font-family: var(--font-ui);

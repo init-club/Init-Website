@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight, Download, ZoomIn, ZoomOut, Loader2 } from 'lucide-react';
 import { Document, Page, pdfjs } from 'react-pdf';
+import { useLenis } from './SmoothScroll';
 
 // Configure PDF.js worker
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
@@ -16,6 +17,7 @@ interface PdfModalProps {
 }
 
 export default function PdfModal({ isOpen, onClose, pdfUrl }: PdfModalProps) {
+    const lenis = useLenis();
     const [numPages, setNumPages] = useState<number | null>(null);
     const [pageNumber, setPageNumber] = useState(1);
     const [scale, setScale] = useState(1.0);
@@ -30,17 +32,20 @@ export default function PdfModal({ isOpen, onClose, pdfUrl }: PdfModalProps) {
         }
     }, [isOpen]);
 
-    // Lock body scroll when modal is open
+    // Lock scroll when modal is open — use Lenis stop/start, fallback to body overflow
     useEffect(() => {
         if (isOpen) {
+            lenis?.stop();
             document.body.style.overflow = 'hidden';
         } else {
+            lenis?.start();
             document.body.style.overflow = 'unset';
         }
         return () => {
+            lenis?.start();
             document.body.style.overflow = 'unset';
         };
-    }, [isOpen]);
+    }, [isOpen, lenis]);
 
     function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
         setNumPages(numPages);

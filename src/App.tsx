@@ -14,6 +14,7 @@ import MembersPage from './pages/Members';
 import NotFoundPage from './pages/404';
 import ProfileSetup from './pages/ProfileSetup';
 import ScrollToTop from './components/ScrollToTop';
+import SmoothScroll from './components/SmoothScroll';
 import AccessDeniedModal from './components/AccessDeniedModal';
 import Profile from './pages/Profile';
 import BlogsAdminPage from './pages/admin/BlogsAdmin';
@@ -91,40 +92,42 @@ function App() {
 
   return (
     <BrowserRouter>
-      <ScrollToTop />
+      <SmoothScroll>
+        <ScrollToTop />
 
-      {/* JIT SYNC BANNER */}
-      {showSyncMessage && (
-        <div className="fixed top-0 left-0 w-full bg-blue-600 text-white text-center py-4 z-50 font-bold shadow-lg animate-pulse">
-          Checking your GitHub Membership... Please wait 5 seconds and Login again! 🚀
-          <button onClick={() => setShowSyncMessage(false)} className="ml-4 text-sm underline opacity-80 hover:opacity-100">Dismiss</button>
-        </div>
-      )}
+        {/* JIT SYNC BANNER */}
+        {showSyncMessage && (
+          <div className="fixed top-0 left-0 w-full bg-blue-600 text-white text-center py-4 z-50 font-bold shadow-lg animate-pulse">
+            Checking your GitHub Membership... Please wait 5 seconds and Login again! 🚀
+            <button onClick={() => setShowSyncMessage(false)} className="ml-4 text-sm underline opacity-80 hover:opacity-100">Dismiss</button>
+          </div>
+        )}
 
-      {/* RENDER THE ACCESS DENIED MODAL */}
-      <AccessDeniedModal
-        isOpen={showAccessDenied}
-        onClose={handleAccessDeniedClose}
-      />
+        {/* RENDER THE ACCESS DENIED MODAL */}
+        <AccessDeniedModal
+          isOpen={showAccessDenied}
+          onClose={handleAccessDeniedClose}
+        />
 
-      <Routes>
-        <Route index element={<HomePage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/members" element={<MembersPage />} />
-        <Route path="/idea-wall" element={<IdeaWallPage />} />
-        <Route path="/graveyard" element={<GraveyardPage />} />
-        <Route path="/activity" element={<ActivityPage />} />
-        <Route path="/events" element={<EventsPage />} />
-        <Route path="/blogs" element={<BlogsPage />} />
-        <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/admin/blogs" element={<BlogsAdminPage />} />
-        <Route path="/admin/projects" element={<ProjectAdmin />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="/profile-setup" element={<ProfileSetup />} />
-        <Route path="/profile/:username" element={<Profile />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
+        <Routes>
+          <Route index element={<HomePage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/members" element={<MembersPage />} />
+          <Route path="/idea-wall" element={<IdeaWallPage />} />
+          <Route path="/graveyard" element={<GraveyardPage />} />
+          <Route path="/activity" element={<ActivityPage />} />
+          <Route path="/events" element={<EventsPage />} />
+          <Route path="/blogs" element={<BlogsPage />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/blogs" element={<BlogsAdminPage />} />
+          <Route path="/admin/projects" element={<ProjectAdmin />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/profile-setup" element={<ProfileSetup />} />
+          <Route path="/profile/:username" element={<Profile />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </SmoothScroll>
     </BrowserRouter>
   );
 }

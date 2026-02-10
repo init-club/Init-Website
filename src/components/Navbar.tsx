@@ -3,6 +3,7 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Instagram, Linkedin, User, LogOut, ChevronDown, ChevronRight } from 'lucide-react';
 import { supabase } from '../supabaseClient';
+import { useLenis } from './SmoothScroll';
 
 const navGraph = [
   { label: 'Home', path: '/' },
@@ -37,6 +38,7 @@ const navGraph = [
 export function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
+  const lenis = useLenis();
 
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -49,11 +51,18 @@ export function Navbar() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [mobileExpanded, setMobileExpanded] = useState<number | null>(null);
 
+  // Use Lenis scroll event for navbar background transition
   useEffect(() => {
+    if (lenis) {
+      const handler = ({ scroll }: { scroll: number }) => setScrolled(scroll > 20);
+      lenis.on('scroll', handler);
+      return () => lenis.off('scroll', handler);
+    }
+    // Fallback to native scroll if Lenis not ready
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [lenis]);
 
   useEffect(() => {
     setOpen(false);
