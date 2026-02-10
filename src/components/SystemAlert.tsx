@@ -9,6 +9,17 @@ const SystemAlert = () => {
 
     if (!isVisible) return null;
 
+    // Reusable block of marquee text
+    const MarqueeContent = () => (
+        <div className="flex items-center shrink-0">
+            {[...Array(8)].map((_, i) => (
+                <span key={i} className="flex items-center px-8 text-red-500 font-mono text-sm font-bold tracking-widest whitespace-nowrap">
+                    INDUCTION PHASE 1: CLICK TO KNOW MORE
+                </span>
+            ))}
+        </div>
+    );
+
     return (
         <motion.div
             initial={{ height: 0, opacity: 0 }}
@@ -17,22 +28,19 @@ const SystemAlert = () => {
             onClick={() => navigate('/contact')}
         >
             <div className="relative flex items-center h-10 overflow-hidden">
-                {/* Marquee Container */}
-                <div className="flex-1 overflow-hidden relative flex items-center">
+                {/* Marquee Wrapper */}
+                <div className="flex-1 overflow-hidden relative flex items-center select-none">
                     <motion.div
-                        className="whitespace-nowrap flex items-center"
-                        animate={{ x: ["0%", "-50%"] }}
+                        className="flex"
+                        animate={{ x: "-50%" }}
                         transition={{
                             repeat: Infinity,
                             ease: "linear",
-                            duration: 40
+                            duration: 60
                         }}
                     >
-                        {[...Array(20)].map((_, i) => (
-                            <span key={i} className="flex items-center pr-12 text-red-500 font-mono text-xs font-bold tracking-widest">
-                                <span>INDUCTION PHASE 1: CLICK TO KNOW MORE</span>
-                            </span>
-                        ))}
+                        <MarqueeContent />
+                        <MarqueeContent />
                     </motion.div>
                 </div>
 
@@ -42,7 +50,7 @@ const SystemAlert = () => {
                         e.stopPropagation();
                         setIsVisible(false);
                     }}
-                    className="flex-shrink-0 px-4 h-full flex items-center hover:bg-white/5 transition-colors z-10"
+                    className="flex-shrink-0 px-4 h-full flex items-center hover:bg-white/5 transition-colors z-10 bg-black border-l border-red-900/30"
                 >
                     <X className="text-red-500/50 hover:text-red-500" size={14} />
                 </button>

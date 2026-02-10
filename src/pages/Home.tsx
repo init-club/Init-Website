@@ -9,7 +9,7 @@ export function HomePage() {
   return (
     <>
       <SystemAlert />
-      <div className="fixed top-6 right-6 z-50 hidden md:block">
+      <div className="fixed top-16 right-6 z-50 hidden md:block">
         <AuthButtons />
       </div>
 
