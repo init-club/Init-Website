@@ -14,7 +14,7 @@ const SystemAlert = () => {
         <div className="flex items-center shrink-0">
             {[...Array(8)].map((_, i) => (
                 <span key={i} className="flex items-center px-8 text-red-500 font-mono text-sm font-bold tracking-widest whitespace-nowrap">
-                    INDUCTION PHASE 1: CLICK TO KNOW MORE
+                    INDUCTION PHASE: CLICK TO KNOW MORE
                 </span>
             ))}
         </div>
