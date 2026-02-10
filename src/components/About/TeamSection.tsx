@@ -10,6 +10,7 @@ import Bhargav from '../../assets/profile/Bhargav.png'
 import Ganesh from '../../assets/profile/Ganesh.png'
 import Meghana from '../../assets/profile/Meghana.png'
 import Harini from '../../assets/profile/harini.png'
+import Mrudula from '../../assets/profile/mrudula.jpeg'
 
 type TierType = 'sudo' | 'maintainer' | 'orchestrator';
 
@@ -202,7 +203,7 @@ const executiveBoard: TeamMember[] = [
     role: 'President',
     avatar: President,
     github: 'https://github.com/ksupriya',
-    linkedin: 'https://linkedin.com',
+    linkedin: 'https://www.linkedin.com/in/supriya-kondakindi-b75610320?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app',
     instagram: 'https://instagram.com/s.p.i.a.22',
     tier: 'sudo',
   },
@@ -218,7 +219,7 @@ const executiveBoard: TeamMember[] = [
   {
     username: 'P Sai Mrudula',
     role: 'Vice President - Non Tech',
-    avatar: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=vpnontech&backgroundColor=0a0a0a',
+    avatar: Mrudula,
     github: 'https://github.com/Mrudula-itsjuzme',
     linkedin: 'https://www.linkedin.com/in/sai-mrudula-pedamallu-1b44a3345?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app',
     instagram: 'https://www.instagram.com/simply_mrudula.06/',
@@ -262,6 +263,7 @@ const operationsLeads: TeamMember[] = [
     username: 'Tanush Gurrapu',
     role: 'Multimedia Lead',
     avatar: Tanush,
+    instagram: 'https://www.instagram.com/tanushh06/',
     linkedin: 'https://www.linkedin.com/in/tanush-gurrapu-944126303?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app',
     tier: 'orchestrator',
   },
