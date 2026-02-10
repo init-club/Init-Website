@@ -20,7 +20,7 @@ const SystemAlert = () => {
                 {/* Marquee Container */}
                 <div className="flex-1 overflow-hidden relative flex items-center">
                     <motion.div
-                        className="whitespace-nowrap flex items-center gap-12 text-red-500 font-mono text-xs font-bold tracking-widest"
+                        className="whitespace-nowrap flex items-center"
                         animate={{ x: ["0%", "-50%"] }}
                         transition={{
                             repeat: Infinity,
@@ -28,8 +28,8 @@ const SystemAlert = () => {
                             duration: 40
                         }}
                     >
-                        {[1, 2, 3, 4, 5, 6].map((i) => (
-                            <span key={i} className="flex items-center gap-12">
+                        {[...Array(20)].map((_, i) => (
+                            <span key={i} className="flex items-center pr-12 text-red-500 font-mono text-xs font-bold tracking-widest">
                                 <span>INDUCTION PHASE 1: CLICK TO KNOW MORE</span>
                             </span>
                         ))}
