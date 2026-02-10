@@ -1,12 +1,27 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Filter, SortDesc, Plus, X, Calendar, Tag, Hash, Loader2 } from 'lucide-react';
+import { Search, Filter, SortDesc, Plus, X, Calendar, Tag, Hash, Loader2, BookOpen } from 'lucide-react';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 import BlogCard from '../components/BlogCard';
 import WriteBlogModal from '../components/WriteBlogModal';
+import { useLenis } from '../components/SmoothScroll';
 import { supabase } from '../supabaseClient';
 import type { Blog } from '../types/blog';
+import { BLOG_GUIDELINES } from '../data/blogGuidelines';
+
+const GUIDELINES_BLOG: Blog = {
+  id: 'guidelines',
+  title: 'Blog Writing Guidelines',
+  content: BLOG_GUIDELINES,
+  author_name: 'Init Club',
+  roll_no: 'ADMIN',
+  tags: ['Help', 'Markdown', 'Guide'],
+  status: 'published',
+  created_at: new Date().toISOString(),
+  published_at: new Date().toISOString(),
+  cover_image_url: 'https://images.unsplash.com/photo-1542435503-956c469947f6?q=80&w=1974&auto=format&fit=crop'
+};
 
 type SortOption = 'newest' | 'oldest';
 type SearchType = 'all' | 'roll_no' | 'tags';
@@ -98,6 +113,22 @@ export default function BlogsPage() {
     return () => clearTimeout(timer);
   }, [searchQuery, searchType, selectedTag]);
 
+  // Lock scroll when modal is open
+  const lenis = useLenis();
+  useEffect(() => {
+    if (selectedBlog) {
+      lenis?.stop();
+      document.body.style.overflow = 'hidden';
+    } else {
+      lenis?.start();
+      document.body.style.overflow = '';
+    }
+    return () => {
+      lenis?.start();
+      document.body.style.overflow = '';
+    };
+  }, [selectedBlog, lenis]);
+
   const clearFilters = () => {
     setSearchQuery('');
     setSearchType('all');
@@ -136,16 +167,27 @@ export default function BlogsPage() {
                 Share your knowledge and experiences with fellow developers.
               </p>
 
-              {/* Write Blog CTA */}
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setShowWriteModal(true)}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-cyan-500 text-white font-bold rounded-xl hover:opacity-90 transition-opacity"
-              >
-                <Plus size={20} />
-                Write a Blog
-              </motion.button>
+              <div className="flex flex-wrap justify-center gap-4">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setShowWriteModal(true)}
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-cyan-500 text-white font-bold rounded-xl hover:opacity-90 transition-opacity"
+                >
+                  <Plus size={20} />
+                  Write a Blog
+                </motion.button>
+
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setSelectedBlog(GUIDELINES_BLOG)}
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 text-white font-bold rounded-xl hover:bg-white/20 transition-colors border border-white/10"
+                >
+                  <BookOpen size={20} />
+                  Read Guidelines
+                </motion.button>
+              </div>
             </motion.div>
           </div>
         </section>
@@ -320,6 +362,7 @@ export default function BlogsPage() {
               exit={{ scale: 0.9, opacity: 0 }}
               className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-gray-900 border border-gray-800 rounded-2xl"
               onClick={(e) => e.stopPropagation()}
+              data-lenis-prevent
             >
               {/* Close button */}
               <button
@@ -391,7 +434,7 @@ export default function BlogsPage() {
 
                 {/* Blog Content */}
                 <article className="prose prose-invert prose-purple max-w-none">
-                  <div className="whitespace-pre-wrap text-gray-300 leading-relaxed">
+                  <div className="whitespace-pre-wrap font-mono text-sm text-gray-300">
                     {selectedBlog.content}
                   </div>
                 </article>
