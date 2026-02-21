@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 import { motion } from 'framer-motion';
@@ -78,7 +77,6 @@ const SpiritCard = ({ title, description, icon: Icon, delay = 0 }: { title: stri
 };
 
 export default function ContactPage() {
-  const navigate = useNavigate();
   const [isPdfOpen, setIsPdfOpen] = useState(false);
 
   const spiritItems = [
@@ -192,9 +190,11 @@ export default function ContactPage() {
             </p>
 
             {/* CTA Button with Laser Animation */}
-            <motion.button
-              onClick={() => navigate('/login')}
-              className="group relative px-8 py-3 rounded-xl font-semibold text-white mb-20 border border-cyan-500/50 overflow-hidden"
+            <motion.a
+              href="https://github.com/init-club/onboarding-2026/tree/main/task"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative px-8 py-3 rounded-xl font-semibold text-white mb-20 border border-cyan-500/50 overflow-hidden inline-block"
               whileHover="hover"
               initial="initial"
             >
@@ -219,7 +219,7 @@ export default function ContactPage() {
                 Join Our Community
                 <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
               </span>
-            </motion.button>
+            </motion.a>
           </motion.div>
 
           <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-500/5 blur-3xl rounded-full" />
@@ -591,9 +591,11 @@ export default function ContactPage() {
               If this resonates with you-if you're curious and want to grow alongside amazing people-we'd love to have you join us.
             </p>
 
-            <motion.button
-              onClick={() => navigate('/login')}
-              className="group relative px-10 py-4 rounded-xl font-bold text-white text-lg border border-cyan-500/50 overflow-hidden"
+            <motion.a
+              href="https://github.com/init-club/onboarding-2026/tree/main/task"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative px-10 py-4 rounded-xl font-bold text-white text-lg border border-cyan-500/50 overflow-hidden inline-block"
               whileHover="hover"
               initial="initial"
             >
@@ -618,7 +620,7 @@ export default function ContactPage() {
                 Let's Talk
                 <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
               </span>
-            </motion.button>
+            </motion.a>
           </motion.div>
         </section>
 
