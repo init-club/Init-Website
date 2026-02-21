@@ -1,7 +1,7 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
-import JoinUsModal from '../components/JoinUsModal.tsx';
 import { motion } from 'framer-motion';
 import { Zap, Github, Brain, Users, Flame, Code2, Target, Lightbulb, Terminal, GitBranch, CheckCircle, Download, BookOpen, Eye } from 'lucide-react';
 import PdfModal from '../components/PdfModal';
@@ -78,7 +78,7 @@ const SpiritCard = ({ title, description, icon: Icon, delay = 0 }: { title: stri
 };
 
 export default function ContactPage() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
   const [isPdfOpen, setIsPdfOpen] = useState(false);
 
   const spiritItems = [
@@ -193,7 +193,7 @@ export default function ContactPage() {
 
             {/* CTA Button with Laser Animation */}
             <motion.button
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => navigate('/login')}
               className="group relative px-8 py-3 rounded-xl font-semibold text-white mb-20 border border-cyan-500/50 overflow-hidden"
               whileHover="hover"
               initial="initial"
@@ -592,7 +592,7 @@ export default function ContactPage() {
             </p>
 
             <motion.button
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => navigate('/login')}
               className="group relative px-10 py-4 rounded-xl font-bold text-white text-lg border border-cyan-500/50 overflow-hidden"
               whileHover="hover"
               initial="initial"
@@ -624,7 +624,7 @@ export default function ContactPage() {
 
       </main>
 
-      <JoinUsModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+
       <Footer />
     </>
   );
