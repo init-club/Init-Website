@@ -112,15 +112,6 @@ export function Navbar() {
     navigate('/');
   };
 
-  const handleLogin = async () => {
-    await supabase.auth.signInWithOAuth({
-      provider: 'github',
-      options: {
-        redirectTo: `${window.location.origin}/`,
-      },
-    });
-  };
-
   const isParentActive = (children?: { path: string }[]) => {
     if (!children) return false;
     return children.some(child => location.pathname === child.path);
@@ -261,7 +252,7 @@ export function Navbar() {
                 </div>
               ) : (
                 <button
-                  onClick={handleLogin}
+                  onClick={() => navigate('/login')}
                   className="px-5 py-2 rounded-xl bg-white text-black text-sm font-bold hover:bg-gray-200 transition-colors shadow-lg"
                 >
                   Login
@@ -369,7 +360,7 @@ export function Navbar() {
                 </>
               ) : (
                 <button
-                  onClick={handleLogin}
+                  onClick={() => navigate('/login')}
                   className="w-full py-3 rounded-xl bg-white text-black font-bold text-center shadow-lg hover:bg-gray-200 transition-colors"
                 >
                   Login
