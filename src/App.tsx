@@ -11,6 +11,7 @@ import IdeaWallPage from './pages/IdeaWall';
 import GraveyardPage from './pages/Graveyard';
 import ActivityPage from './pages/Activity';
 import MembersPage from './pages/Members';
+import LoginPage from './pages/LoginPage';
 import NotFoundPage from './pages/404';
 import ProfileSetup from './pages/ProfileSetup';
 import ScrollToTop from './components/ScrollToTop';
@@ -111,6 +112,7 @@ function App() {
 
         <Routes>
           <Route index element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/members" element={<MembersPage />} />
           <Route path="/idea-wall" element={<IdeaWallPage />} />
