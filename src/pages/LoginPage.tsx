@@ -40,10 +40,7 @@ const LoginPage = () => {
           className="w-full max-w-2xl"
         >
           {/* Card Container */}
-          <div className="relative bg-black/90 rounded-2xl shadow-2xl overflow-hidden border-2 border-cyan-500/50">
-            {/* Top accent line */}
-            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-500 via-cyan-500 to-purple-500" />
-
+          <div className="relative bg-black/90 rounded-2xl shadow-2xl overflow-hidden">
             {/* Subtle glow background */}
             <div className="absolute inset-0 opacity-30 pointer-events-none">
               <div className="absolute top-20 right-0 w-96 h-96 bg-cyan-500/10 blur-3xl" />
@@ -53,7 +50,7 @@ const LoginPage = () => {
             {/* Content */}
             <div className="relative z-10 p-6 sm:p-8 space-y-5 sm:space-y-6">
               {/* Header Section */}
-              <div className="text-center pb-4 sm:pb-6 border-b border-cyan-500/30 space-y-2 sm:space-y-3">
+              <div className="text-center pb-4 sm:pb-6 space-y-2 sm:space-y-3">
                 <div>
                   <h1 className="text-2xl sm:text-4xl md:text-5xl font-black whitespace-nowrap font-heading">
                     <span className="text-white">The &lt; </span>
@@ -69,12 +66,12 @@ const LoginPage = () => {
               </div>
 
               {/* Intro Message */}
-              <div className="text-center space-y-3 py-2">
-                <p className="text-cyan-300 font-semibold text-xs sm:text-sm">
+              <div className="text-center space-y-3 py-4 px-4 bg-red-900/20 border border-red-500/50 rounded-lg">
+                <p className="text-red-400 font-semibold text-xs sm:text-sm">
                   Already a Member?
                 </p>
-                <p className="text-gray-400 text-xs leading-relaxed max-w-md mx-auto">
-                  Login is only for Init Club members. Complete the onboarding tasks to become a member
+                <p className="text-red-300 text-xs leading-relaxed max-w-md mx-auto">
+                  Login is only for Init Club members. Complete the <a href="https://github.com/init-club/onboarding-2026" target="_blank" rel="noopener noreferrer" className="text-red-400 hover:text-red-300 font-medium transition-colors">Onboarding Repository</a> to become a member
                 </p>
               </div>
 
@@ -83,7 +80,7 @@ const LoginPage = () => {
                 <motion.button
                   onClick={handleGithubLogin}
                   disabled={isLoading}
-                  className="group relative block w-full overflow-hidden rounded-xl font-bold text-center py-4 border border-cyan-500/50 bg-black/50 hover:bg-cyan-950/30 transition-all"
+                  className="group relative block w-full overflow-hidden rounded-xl font-bold text-center py-4 border border-white/20 bg-black/50 hover:bg-white/5 transition-all"
                   whileHover="hover"
                   initial="initial"
                   whileTap={{ scale: 0.98 }}
@@ -117,7 +114,7 @@ const LoginPage = () => {
                 {/* Divider */}
                 <div className="flex items-center gap-4">
                   <div className="h-px flex-1 bg-gradient-to-r from-transparent to-gray-700" />
-                  <span className="text-xs text-gray-500 uppercase font-mono">Or</span>
+                  <span className="text-xs text-gray-500 uppercase font-mono">Also</span>
                   <div className="h-px flex-1 bg-gradient-to-l from-transparent to-gray-700" />
                 </div>
 
@@ -134,7 +131,7 @@ const LoginPage = () => {
               </div>
 
               {/* Community Values Grid */}
-              <div className="pt-4 border-t border-cyan-500/30">
+              <div className="pt-4">
                 <p className="text-cyan-400 text-[10px] font-semibold uppercase tracking-wider mb-3 text-center">
                   Community Values
                 </p>
