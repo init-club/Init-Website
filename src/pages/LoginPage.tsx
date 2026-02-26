@@ -66,12 +66,12 @@ const LoginPage = () => {
               </div>
 
               {/* Intro Message */}
-              <div className="text-center space-y-3 py-4 px-4 bg-red-900/20 border border-red-500/50 rounded-lg">
+              <div className="text-center space-y-3 py-4 px-4 bg-gradient-to-b from-red-500/10 to-red-600/10 border border-red-500/30 rounded-2xl">
                 <p className="text-red-400 font-semibold text-xs sm:text-sm">
-                  Already a Member?
+                  Login is only for Init Club members
                 </p>
-                <p className="text-red-300 text-xs leading-relaxed max-w-md mx-auto">
-                  Login is only for Init Club members. Complete the <a href="https://github.com/init-club/onboarding-2026" target="_blank" rel="noopener noreferrer" className="text-red-400 hover:text-red-300 font-medium transition-colors">Onboarding Repository</a> to become a member
+                <p className="mt-6 text-sm text-gray-400">
+                  Complete the <a href="https://github.com/init-club/onboarding-2026" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:text-cyan-300 font-medium transition-colors">Onboarding Repository</a> to become a member
                 </p>
               </div>
 
@@ -80,14 +80,14 @@ const LoginPage = () => {
                 <motion.button
                   onClick={handleGithubLogin}
                   disabled={isLoading}
-                  className="group relative block w-full overflow-hidden rounded-xl font-bold text-center py-4 border border-white/20 bg-black/50 hover:bg-white/5 transition-all"
+                  className="group relative block w-full overflow-hidden rounded-xl font-bold text-center py-4 border border-white/20 bg-gradient-to-r from-cyan-600/30 to-purple-600/30 hover:from-cyan-500/50 hover:to-purple-500/50 transition-all"
                   whileHover="hover"
                   initial="initial"
                   whileTap={{ scale: 0.98 }}
                 >
                   {/* Button Background Animation */}
                   <motion.div
-                    className="absolute inset-0 z-0 origin-left bg-gradient-brand-horizontal opacity-20"
+                    className="absolute inset-0 z-0 origin-left opacity-0"
                     variants={{
                       initial: { scaleX: 0 },
                       hover: { scaleX: 1 }
