@@ -52,16 +52,6 @@ export default function AuthButtons() {
     navigate('/');
   };
 
-  const handleLogin = async () => {
-    await supabase.auth.signInWithOAuth({
-      provider: 'github',
-      options: {
-        redirectTo: `${window.location.origin}/`,
-      },
-    });
-  };
-
-
   if (user) {
     return (
       <div className="relative font-sans">
@@ -134,7 +124,7 @@ export default function AuthButtons() {
 
   return (
     <button
-      onClick={handleLogin}
+      onClick={() => navigate('/login')}
       className="px-5 py-2 rounded-xl bg-white text-black text-sm font-bold hover:bg-gray-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.3)]"
     >
       Login
