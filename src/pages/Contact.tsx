@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 import { motion } from 'framer-motion';
@@ -78,6 +78,15 @@ const SpiritCard = ({ title, description, icon: Icon, delay = 0 }: { title: stri
 
 export default function ContactPage() {
   const [isPdfOpen, setIsPdfOpen] = useState(false);
+
+  useEffect(() => {
+    if (window.location.hash !== '#ready-to-start') return;
+
+    // Wait for initial paint before scrolling to the anchored section.
+    requestAnimationFrame(() => {
+      document.getElementById('ready-to-start')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }, []);
 
   const spiritItems = [
     {
@@ -382,7 +391,7 @@ export default function ContactPage() {
             </div>
 
             {/* 3. Task Download Action */}
-            <div className="text-center p-10 rounded-3xl border border-cyan-500/30 bg-gradient-to-b from-cyan-500/5 to-purple-500/5 relative overflow-hidden">
+            <div id="ready-to-start" className="text-center p-10 rounded-3xl border border-cyan-500/30 bg-gradient-to-b from-cyan-500/5 to-purple-500/5 relative overflow-hidden">
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-500 to-transparent"></div>
 
               <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">Ready to start?</h3>
@@ -573,54 +582,6 @@ export default function ContactPage() {
                 </motion.div>
               ))}
             </div>
-          </motion.div>
-        </section>
-
-        {/* Final CTA */}
-        <section className="max-w-4xl mx-auto px-4 mb-20">
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            className="text-center"
-          >
-            <h2 className="text-3xl md:text-4xl font-black mb-6" style={{ fontFamily: 'var(--font-heading)' }}>
-              Sound like you?
-            </h2>
-            <p className="text-gray-400 text-lg mb-10 max-w-2xl mx-auto">
-              If this resonates with you-if you're curious and want to grow alongside amazing people-we'd love to have you join us.
-            </p>
-
-            <motion.a
-              href="https://github.com/init-club/onboarding-2026/tree/main/task"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group relative px-10 py-4 rounded-xl font-bold text-white text-lg border border-cyan-500/50 overflow-hidden inline-block"
-              whileHover="hover"
-              initial="initial"
-            >
-              <motion.div
-                className="absolute inset-0 z-0 origin-left"
-                style={{ background: 'linear-gradient(90deg, #00ffd5, #a855f7)' }}
-                variants={{
-                  initial: { scaleX: 0 },
-                  hover: { scaleX: 1 }
-                }}
-                transition={{ duration: 0.3, ease: "linear" }}
-              />
-              <motion.div
-                className="absolute inset-y-0 z-10 w-0.5 bg-white shadow-[0_0_10px_rgba(255,255,255,0.8),0_0_20px_rgba(0,255,213,0.5)]"
-                variants={{
-                  initial: { left: '0%', opacity: 0 },
-                  hover: { left: '100%', opacity: 1 }
-                }}
-                transition={{ duration: 0.3, ease: "linear" }}
-              />
-              <span className="relative z-10 flex items-center justify-center gap-2 group-hover:text-white">
-                Let's Talk
-                <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-              </span>
-            </motion.a>
           </motion.div>
         </section>
 

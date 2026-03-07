@@ -40,10 +40,7 @@ const LoginPage = () => {
           className="w-full max-w-2xl"
         >
           {/* Card Container */}
-          <div className="relative bg-black/90 rounded-2xl shadow-2xl overflow-hidden border-2 border-cyan-500/50">
-            {/* Top accent line */}
-            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-500 via-cyan-500 to-purple-500" />
-
+          <div className="relative bg-black/90 rounded-2xl shadow-2xl overflow-hidden">
             {/* Subtle glow background */}
             <div className="absolute inset-0 opacity-30 pointer-events-none">
               <div className="absolute top-20 right-0 w-96 h-96 bg-cyan-500/10 blur-3xl" />
@@ -53,7 +50,7 @@ const LoginPage = () => {
             {/* Content */}
             <div className="relative z-10 p-6 sm:p-8 space-y-5 sm:space-y-6">
               {/* Header Section */}
-              <div className="text-center pb-4 sm:pb-6 border-b border-cyan-500/30 space-y-2 sm:space-y-3">
+              <div className="text-center pb-4 sm:pb-6 space-y-2 sm:space-y-3">
                 <div>
                   <h1 className="text-2xl sm:text-4xl md:text-5xl font-black whitespace-nowrap font-heading">
                     <span className="text-white">The &lt; </span>
@@ -68,37 +65,42 @@ const LoginPage = () => {
                 </p>
               </div>
 
-              {/* Intro Message */}
-              <div className="text-center space-y-3 py-2">
-                <p className="text-cyan-300 font-semibold text-xs sm:text-sm">
-                  Already a Member?
+              <div className="text-center space-y-3 py-4 px-4 bg-gradient-to-b from-red-500/10 to-red-600/10 border border-red-500/30 rounded-2xl">
+                <p className="text-red-400 font-semibold text-xs sm:text-sm">
+                  Login is only for Init Club members
                 </p>
-                <p className="text-gray-400 text-xs leading-relaxed max-w-md mx-auto">
-                  Login is only for Init Club members. Complete the onboarding tasks to become a member
+                <p className="mt-6 text-sm text-gray-400">
+                  Complete the <a href="/contact#ready-to-start" className="text-cyan-400 hover:text-cyan-300 font-medium transition-colors">Onboarding Tasks</a> to become a member
                 </p>
               </div>
 
-              {/* --- PRIMARY ACTION: GITHUB LOGIN --- */}
               <div className="space-y-4">
                 <motion.button
                   onClick={handleGithubLogin}
                   disabled={isLoading}
-                  className="group relative block w-full overflow-hidden rounded-xl font-bold text-center py-4 border border-cyan-500/50 bg-black/50 hover:bg-cyan-950/30 transition-all"
+                  className="group relative block w-full overflow-hidden rounded-xl font-bold text-center py-4 px-6 border border-cyan-500/50 text-white"
                   whileHover="hover"
                   initial="initial"
                   whileTap={{ scale: 0.98 }}
                 >
-                  {/* Button Background Animation */}
                   <motion.div
-                    className="absolute inset-0 z-0 origin-left bg-gradient-brand-horizontal opacity-20"
+                    className="absolute inset-0 z-0 origin-left"
+                    style={{ background: 'linear-gradient(90deg, #00ffd5, #a855f7)' }}
                     variants={{
                       initial: { scaleX: 0 },
                       hover: { scaleX: 1 }
                     }}
-                    transition={{ duration: 0.3, ease: "linear" }}
+                    transition={{ duration: 0.2, ease: "linear" }}
+                  />
+                  <motion.div
+                    className="absolute inset-y-0 z-10 w-0.5 bg-white shadow-[0_0_10px_rgba(255,255,255,0.8),0_0_20px_rgba(0,255,213,0.5)]"
+                    variants={{
+                      initial: { left: '0%', opacity: 0 },
+                      hover: { left: '100%', opacity: 1 }
+                    }}
+                    transition={{ duration: 0.2, ease: "linear" }}
                   />
 
-                  {/* Button Content */}
                   <div className="relative z-10 flex items-center justify-center gap-3 text-white">
                     {isLoading ? (
                       <span className="flex items-center gap-2">
@@ -114,27 +116,47 @@ const LoginPage = () => {
                   </div>
                 </motion.button>
 
-                {/* Divider */}
                 <div className="flex items-center gap-4">
                   <div className="h-px flex-1 bg-gradient-to-r from-transparent to-gray-700" />
-                  <span className="text-xs text-gray-500 uppercase font-mono">Or</span>
+                  <span className="text-xs text-gray-500 uppercase font-mono">Also</span>
                   <div className="h-px flex-1 bg-gradient-to-l from-transparent to-gray-700" />
                 </div>
 
-                {/* Secondary Action: Discord Join */}
                 <a
                   href="https://discord.com/invite/Gx8sdGJkU"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 w-full py-3 rounded-xl border border-gray-700 hover:border-purple-500/50 hover:bg-purple-900/20 text-gray-400 hover:text-white transition-all text-sm font-medium"
+                  className="group relative flex items-center justify-center gap-2 w-full py-3 rounded-xl border border-cyan-500/50 text-white font-semibold overflow-hidden inline-flex transition-all"
                 >
-                  <span>New here? Join our Discord</span>
-                  <ArrowRight size={14} />
+                  <motion.div
+                    className="absolute inset-0 z-0 origin-left"
+                    style={{ background: 'linear-gradient(90deg, #00ffd5, #a855f7)' }}
+                    variants={{
+                      initial: { scaleX: 0 },
+                      hover: { scaleX: 1 }
+                    }}
+                    initial="initial"
+                    whileHover="hover"
+                    transition={{ duration: 0.2, ease: "linear" }}
+                  />
+                  <motion.div
+                    className="absolute inset-y-0 z-10 w-0.5 bg-white shadow-[0_0_10px_rgba(255,255,255,0.8),0_0_20px_rgba(0,255,213,0.5)]"
+                    variants={{
+                      initial: { left: '0%', opacity: 0 },
+                      hover: { left: '100%', opacity: 1 }
+                    }}
+                    initial="initial"
+                    whileHover="hover"
+                    transition={{ duration: 0.2, ease: "linear" }}
+                  />
+                  <span className="relative z-10 flex items-center gap-2 transition-colors duration-300 group-hover:text-white">
+                    New here? Join our Discord
+                    <ArrowRight size={14} />
+                  </span>
                 </a>
               </div>
 
-              {/* Community Values Grid */}
-              <div className="pt-4 border-t border-cyan-500/30">
+              <div className="pt-4">
                 <p className="text-cyan-400 text-[10px] font-semibold uppercase tracking-wider mb-3 text-center">
                   Community Values
                 </p>
