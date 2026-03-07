@@ -65,37 +65,42 @@ const LoginPage = () => {
                 </p>
               </div>
 
-              {/* Intro Message */}
               <div className="text-center space-y-3 py-4 px-4 bg-gradient-to-b from-red-500/10 to-red-600/10 border border-red-500/30 rounded-2xl">
                 <p className="text-red-400 font-semibold text-xs sm:text-sm">
                   Login is only for Init Club members
                 </p>
                 <p className="mt-6 text-sm text-gray-400">
-                  Complete the <a href="https://github.com/init-club/onboarding-2026" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:text-cyan-300 font-medium transition-colors">Onboarding Repository</a> to become a member
+                  Complete the <a href="/contact#ready-to-start" className="text-cyan-400 hover:text-cyan-300 font-medium transition-colors">Onboarding Tasks</a> to become a member
                 </p>
               </div>
 
-              {/* --- PRIMARY ACTION: GITHUB LOGIN --- */}
               <div className="space-y-4">
                 <motion.button
                   onClick={handleGithubLogin}
                   disabled={isLoading}
-                  className="group relative block w-full overflow-hidden rounded-xl font-bold text-center py-4 border border-white/20 bg-gradient-to-r from-cyan-600/30 to-purple-600/30 hover:from-cyan-500/50 hover:to-purple-500/50 transition-all"
+                  className="group relative block w-full overflow-hidden rounded-xl font-bold text-center py-4 px-6 border border-cyan-500/50 text-white"
                   whileHover="hover"
                   initial="initial"
                   whileTap={{ scale: 0.98 }}
                 >
-                  {/* Button Background Animation */}
                   <motion.div
-                    className="absolute inset-0 z-0 origin-left opacity-0"
+                    className="absolute inset-0 z-0 origin-left"
+                    style={{ background: 'linear-gradient(90deg, #00ffd5, #a855f7)' }}
                     variants={{
                       initial: { scaleX: 0 },
                       hover: { scaleX: 1 }
                     }}
-                    transition={{ duration: 0.3, ease: "linear" }}
+                    transition={{ duration: 0.2, ease: "linear" }}
+                  />
+                  <motion.div
+                    className="absolute inset-y-0 z-10 w-0.5 bg-white shadow-[0_0_10px_rgba(255,255,255,0.8),0_0_20px_rgba(0,255,213,0.5)]"
+                    variants={{
+                      initial: { left: '0%', opacity: 0 },
+                      hover: { left: '100%', opacity: 1 }
+                    }}
+                    transition={{ duration: 0.2, ease: "linear" }}
                   />
 
-                  {/* Button Content */}
                   <div className="relative z-10 flex items-center justify-center gap-3 text-white">
                     {isLoading ? (
                       <span className="flex items-center gap-2">
@@ -111,26 +116,46 @@ const LoginPage = () => {
                   </div>
                 </motion.button>
 
-                {/* Divider */}
                 <div className="flex items-center gap-4">
                   <div className="h-px flex-1 bg-gradient-to-r from-transparent to-gray-700" />
                   <span className="text-xs text-gray-500 uppercase font-mono">Also</span>
                   <div className="h-px flex-1 bg-gradient-to-l from-transparent to-gray-700" />
                 </div>
 
-                {/* Secondary Action: Discord Join */}
                 <a
                   href="https://discord.com/invite/Gx8sdGJkU"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 w-full py-3 rounded-xl border border-gray-700 hover:border-purple-500/50 hover:bg-purple-900/20 text-gray-400 hover:text-white transition-all text-sm font-medium"
+                  className="group relative flex items-center justify-center gap-2 w-full py-3 rounded-xl border border-cyan-500/50 text-white font-semibold overflow-hidden inline-flex transition-all"
                 >
-                  <span>New here? Join our Discord</span>
-                  <ArrowRight size={14} />
+                  <motion.div
+                    className="absolute inset-0 z-0 origin-left"
+                    style={{ background: 'linear-gradient(90deg, #00ffd5, #a855f7)' }}
+                    variants={{
+                      initial: { scaleX: 0 },
+                      hover: { scaleX: 1 }
+                    }}
+                    initial="initial"
+                    whileHover="hover"
+                    transition={{ duration: 0.2, ease: "linear" }}
+                  />
+                  <motion.div
+                    className="absolute inset-y-0 z-10 w-0.5 bg-white shadow-[0_0_10px_rgba(255,255,255,0.8),0_0_20px_rgba(0,255,213,0.5)]"
+                    variants={{
+                      initial: { left: '0%', opacity: 0 },
+                      hover: { left: '100%', opacity: 1 }
+                    }}
+                    initial="initial"
+                    whileHover="hover"
+                    transition={{ duration: 0.2, ease: "linear" }}
+                  />
+                  <span className="relative z-10 flex items-center gap-2 transition-colors duration-300 group-hover:text-white">
+                    New here? Join our Discord
+                    <ArrowRight size={14} />
+                  </span>
                 </a>
               </div>
 
-              {/* Community Values Grid */}
               <div className="pt-4">
                 <p className="text-cyan-400 text-[10px] font-semibold uppercase tracking-wider mb-3 text-center">
                   Community Values
