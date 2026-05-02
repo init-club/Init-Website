@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { User, FileText, Linkedin, Instagram, Github, Save, AlertCircle, X } from 'lucide-react'; // Added 'X' icon
+import { User, FileText, Linkedin, Instagram, Github, Save, AlertCircle, X, Hash } from 'lucide-react'; // Added 'X' icon
 import { supabase } from '../supabaseClient';
 
 const ProfileSetup = () => {
@@ -14,6 +14,7 @@ const ProfileSetup = () => {
   
   const [formData, setFormData] = useState({
     displayName: '',
+    rollNo: '',
     bio: '',
     linkedin: '',
     instagram: '',
@@ -39,6 +40,7 @@ const ProfileSetup = () => {
         setTargetUserId(data.id);
         setFormData({
           displayName: data.name || '',
+          rollNo: data.roll_no || '',
           bio: data.bio || '',
           linkedin: data.linkedin_url || '',
           instagram: data.instagram_url || '',
@@ -59,6 +61,7 @@ const ProfileSetup = () => {
       const { error } = await supabase.rpc('update_profile_general', {
         target_user_id: targetUserId,
         new_name: formData.displayName,
+        new_roll_no: formData.rollNo,
         new_bio: formData.bio,
         new_li: formData.linkedin,
         new_ig: formData.instagram,
@@ -120,6 +123,21 @@ const ProfileSetup = () => {
               placeholder="e.g. Nitansh Shankar"
               value={formData.displayName}
               onChange={(e) => setFormData({...formData, displayName: e.target.value})}
+            />
+          </div>
+
+          {/* Roll Number - MANDATORY */}
+          <div className="space-y-2">
+            <label className="flex items-center gap-2 text-sm font-medium text-gray-300">
+              <Hash size={16} className="text-cyan-400" /> Roll Number <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              required
+              className="w-full bg-black/50 border border-gray-700 rounded-lg p-3 text-white focus:border-cyan-500 focus:outline-none transition-colors"
+              placeholder="e.g. CB.EN.U4CYS22000"
+              value={formData.rollNo}
+              onChange={(e) => setFormData({...formData, rollNo: e.target.value.toUpperCase()})}
             />
           </div>
 
