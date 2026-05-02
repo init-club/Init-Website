@@ -55,9 +55,7 @@ function App() {
     return () => subscription.unsubscribe();
   }, []);
 
-  useEffect(() => {
-    console.log("Current Session:", session);
-  }, [session]);
+
 
   const checkMembershipStatus = async () => {
     try {
