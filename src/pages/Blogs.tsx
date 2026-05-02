@@ -5,6 +5,7 @@ import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 import BlogCard from '../components/BlogCard';
 import WriteBlogModal from '../components/WriteBlogModal';
+import { CustomDropdown } from '../components/CustomDropdown';
 import { useLenis } from '../components/SmoothScroll';
 import { supabase } from '../supabaseClient';
 import type { Blog } from '../types/blog';
@@ -217,28 +218,30 @@ export default function BlogsPage() {
                 {/* Search Type Selector */}
                 <div className="flex items-center gap-2">
                   <Filter size={16} className="text-gray-500 flex-shrink-0" />
-                  <select
+                  <CustomDropdown
                     value={searchType}
-                    onChange={(e) => setSearchType(e.target.value as SearchType)}
-                    className="w-full bg-black/50 border border-gray-700 rounded-lg px-3 py-3 text-sm text-white focus:border-purple-500 focus:outline-none"
-                  >
-                    <option value="all">All Fields</option>
-                    <option value="roll_no">Roll Number</option>
-                    <option value="tags">Tags</option>
-                  </select>
+                    onChange={(val) => setSearchType(val as SearchType)}
+                    options={[
+                      { label: 'All Fields', value: 'all' },
+                      { label: 'Roll Number', value: 'roll_no' },
+                      { label: 'Tags', value: 'tags' },
+                    ]}
+                    className="w-[150px]"
+                  />
                 </div>
 
                 {/* Sort Selector */}
                 <div className="flex items-center gap-2">
                   <SortDesc size={16} className="text-gray-500 flex-shrink-0" />
-                  <select
+                  <CustomDropdown
                     value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value as SortOption)}
-                    className="w-full bg-black/50 border border-gray-700 rounded-lg px-3 py-3 text-sm text-white focus:border-purple-500 focus:outline-none"
-                  >
-                    <option value="newest">Newest First</option>
-                    <option value="oldest">Oldest First</option>
-                  </select>
+                    onChange={(val) => setSortBy(val as SortOption)}
+                    options={[
+                      { label: 'Newest First', value: 'newest' },
+                      { label: 'Oldest First', value: 'oldest' },
+                    ]}
+                    className="w-[150px]"
+                  />
                 </div>
               </div>
 
