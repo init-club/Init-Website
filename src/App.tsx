@@ -23,7 +23,7 @@ import AdminDashboard from './pages/admin/AdminDashboard';
 import ProjectAdmin from './pages/admin/ProjectAdmin';
 
 function App() {
-  const [session, setSession] = useState<any>(null);
+  const [, setSession] = useState<any>(null);
   const [showAccessDenied, setShowAccessDenied] = useState(false);
   const [showSyncMessage, setShowSyncMessage] = useState(false);
 
