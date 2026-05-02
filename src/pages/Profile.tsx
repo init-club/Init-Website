@@ -114,7 +114,7 @@ const Profile = () => {
                           )}
                       </div>
                       <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-gradient-to-r from-purple-600 to-cyan-600 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider z-20 border border-black whitespace-nowrap">
-                          {profile.role || "Member"}
+                          {profile.custom_title || profile.role || "Member"}
                       </div>
                   </div>
 

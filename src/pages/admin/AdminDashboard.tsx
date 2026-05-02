@@ -93,7 +93,7 @@ export default function AdminDashboard() {
       icon: Users,
       to: '/admin/members',
       color: 'cyan',
-      available: false
+      available: true
     },
     {
       title: 'Event Management',

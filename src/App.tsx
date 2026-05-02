@@ -21,6 +21,7 @@ import Profile from './pages/Profile';
 import BlogsAdminPage from './pages/admin/BlogsAdmin';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import ProjectAdmin from './pages/admin/ProjectAdmin';
+import MembersAdmin from './pages/admin/MembersAdmin';
 
 function App() {
   const [, setSession] = useState<any>(null);
@@ -121,6 +122,7 @@ function App() {
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/blogs" element={<BlogsAdminPage />} />
           <Route path="/admin/projects" element={<ProjectAdmin />} />
+          <Route path="/admin/members" element={<MembersAdmin />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/profile-setup" element={<ProfileSetup />} />
           <Route path="/profile/:username" element={<Profile />} />
