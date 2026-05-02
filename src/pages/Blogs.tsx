@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Filter, SortDesc, Plus, X, Calendar, Tag, Hash, Loader2, BookOpen } from 'lucide-react';
+import { Search, Filter, SortDesc, Plus, X, Calendar, Tag, Hash, Loader2, BookOpen, FileText } from 'lucide-react';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 import BlogCard from '../components/BlogCard';
@@ -309,7 +309,7 @@ export default function BlogsPage() {
                 animate={{ opacity: 1 }}
                 className="text-center py-20"
               >
-                <div className="text-6xl mb-4">📝</div>
+                <div className="flex justify-center mb-4"><FileText size={64} className="text-gray-600" /></div>
                 <h3 className="text-xl font-bold text-white mb-2">No blogs found</h3>
                 <p className="text-gray-400 mb-6">
                   {searchQuery || selectedTag

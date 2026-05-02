@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { supabase } from './supabaseClient';
 
 import AboutPage from './pages/About';
+import { Rocket } from 'lucide-react';
 import BlogsPage from './pages/Blogs';
 import ContactPage from './pages/Contact';
 import EventsPage from './pages/Events';
@@ -97,8 +98,8 @@ function App() {
 
         {/* JIT SYNC BANNER */}
         {showSyncMessage && (
-          <div className="fixed top-0 left-0 w-full bg-blue-600 text-white text-center py-4 z-50 font-bold shadow-lg animate-pulse">
-            Checking your GitHub Membership... Please wait 5 seconds and Login again! 🚀
+          <div className="fixed top-0 left-0 w-full bg-blue-600 text-white text-center py-4 z-50 font-bold shadow-lg animate-pulse flex items-center justify-center">
+            Checking your GitHub Membership... Please wait 5 seconds and Login again! <Rocket className="ml-2 inline" size={18} />
             <button onClick={() => setShowSyncMessage(false)} className="ml-4 text-sm underline opacity-80 hover:opacity-100">Dismiss</button>
           </div>
         )}

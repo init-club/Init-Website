@@ -155,7 +155,7 @@ export function Footer() {
           {/* <div className="mt-10 pt-6 border-t border-[var(--border)] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--muted)]">
             <p>© {new Date().getFullYear()} Init Club. All rights reserved.</p>
             <p className="flex items-center gap-2">
-              Made with <span className="text-red-400">♥</span> by Init Club
+              Made with <Heart size={14} className="text-red-400 fill-current" /> by Init Club
             </p>
           </div> */}
         </div>
