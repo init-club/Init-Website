@@ -6,7 +6,7 @@ import {
   MissionSection,
   CoreValuesSection,
   TeamSection,
-} from '../components/about';
+} from '../components/About';
 
 export default function AboutPage() {
   return (
@@ -27,4 +27,3 @@ export default function AboutPage() {
     </>
   );
 }
-
