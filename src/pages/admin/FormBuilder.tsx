@@ -222,12 +222,13 @@ export default function FormBuilderPage() {
 
         if (error) throw error;
 
-        await logAuditAction(
+        void logAuditAction(
           'UPDATE_FORM',
           'forms',
           formId || null,
           null,
-          { title: formPayload.title, status: formPayload.status }
+          { title: formPayload.title, status: formPayload.status },
+          userRowId
         );
 
         addToast('success', 'Form updated successfully!');
@@ -244,12 +245,13 @@ export default function FormBuilderPage() {
 
         if (error) throw error;
 
-        await logAuditAction(
+        void logAuditAction(
           'CREATE_FORM',
           'forms',
           newFormId,
           null,
-          { title: insertPayload.title, status: insertPayload.status }
+          { title: insertPayload.title, status: insertPayload.status },
+          userRowId
         );
 
         addToast('success', 'Form created successfully!');

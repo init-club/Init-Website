@@ -5,23 +5,30 @@ export async function logAuditAction(
   tableName: string,
   targetId: string | null,
   oldValue: any = null,
-  newValue: any = null
+  newValue: any = null,
+  performedById?: string | null
 ) {
   try {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) return;
+    let actorId = performedById ?? null;
 
-    // Get public.users user ID based on auth_user_id
-    const { data: user } = await supabase
-      .from('users')
-      .select('id')
-      .eq('auth_user_id', session.user.id)
-      .single();
+    if (!actorId) {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
 
-    if (!user) return;
+      // Fall back to resolving the profile row only when the caller doesn't already have it.
+      const { data: user } = await supabase
+        .from('users')
+        .select('id')
+        .eq('auth_user_id', session.user.id)
+        .single();
+
+      actorId = user?.id ?? null;
+    }
+
+    if (!actorId) return;
 
     await supabase.from('audit_logs').insert({
-      performed_by_id: user.id,
+      performed_by_id: actorId,
       action_type: actionType,
       table_name: tableName,
       target_id: targetId,
