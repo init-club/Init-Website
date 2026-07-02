@@ -1,4 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Orbitron:wght@400..900&family=Space+Grotesk:wght@300..700&display=swap');
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/geist";
 
 @tailwind base;
 @tailwind components;
@@ -10,16 +13,16 @@
   --font-ui: 'Space Grotesk', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  /* Dark Theme Only */
-  --bg: #000000;
+  /* Dark Theme Only - Obsidian Apple Design */
+  --bg: #09090b;                  /* Slate Obsidian Black */
   --text: #ffffff;
-  --accent: #00d4ff;
-  --glass-bg: rgba(255, 255, 255, 0.05);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --card-hover: rgba(255, 255, 255, 0.08);
-  --muted: #9ca3af;
+  --accent: #00ffd5;
+  --glass-bg: rgba(9, 9, 11, 0.5); /* Semi-transparent obsidian sheet */
+  --glass-border: #18181b;         /* Zinc-900 border */
+  --card-hover: rgba(255, 255, 255, 0.03);
+  --muted: #a1a1aa;                /* Zinc-400 */
   --grid-color: #ffffff;
-  --grid-opacity: 0.1;
+  --grid-opacity: 0.03;            /* Extremely subtle grid lines */
 
   /* Graph Colors */
   --color-neutral: #ffffff;
@@ -71,19 +74,21 @@ body {
 /* Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0f172a;
+  background: #09090b;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #334155;
-  border-radius: 4px;
+  background: #27272a;
+  border-radius: 9999px;
+  border: 2px solid #09090b;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+  background: #3f3f46;
 }
 
 /* Pulsing glow animation for motto */
@@ -240,4 +245,51 @@ body {
 
 .animate-scan {
   animation: scan 2s ease-in-out infinite;
+}
+
+@layer base {
+  /* Dark-only app: Shadcn tokens stored as raw oklch channels
+     so Tailwind can compose them: oklch(var(--border)) etc. */
+  :root {
+    --background: 0.098 0 0;          /* #09090b – obsidian black */
+    --foreground: 0.985 0 0;          /* #ffffff */
+
+    --card: 0.13 0 0;                 /* zinc-950/60 */
+    --card-foreground: 0.985 0 0;
+
+    --popover: 0.14 0 0;              /* zinc-900 */
+    --popover-foreground: 0.9 0 0;
+
+    /* Primary = cyan accent #00ffd5 */
+    --primary: 0.88 0.17 179;
+    --primary-foreground: 0.098 0 0;
+
+    --secondary: 0.2 0 0;             /* zinc-900 */
+    --secondary-foreground: 0.85 0 0;
+
+    --muted: 0.17 0 0;               /* zinc-900 */
+    --muted-foreground: 0.63 0 0;    /* zinc-400 */
+
+    --accent: 0.2 0 0;               /* zinc-900 hover */
+    --accent-foreground: 0.985 0 0;
+
+    --destructive: 0.577 0.245 27.325;
+    --destructive-foreground: 0.985 0 0;
+
+    /* Borders = zinc-800 equivalent */
+    --border: 0.27 0 0;
+    --input: 0.2 0 0;
+    --ring: 0.88 0.17 179;           /* cyan ring on focus */
+
+    --radius: 0.75rem;
+  }
+
+  * {
+    border-color: oklch(var(--border));
+    outline-color: oklch(var(--ring) / 0.5);
+  }
+  body {
+    background-color: oklch(var(--background));
+    color: oklch(var(--foreground));
+  }
 }

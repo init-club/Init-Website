@@ -8,6 +8,7 @@ export default {
   theme: {
     extend: {
       colors: {
+        /* ── Project brand tokens ── */
         background: 'var(--bg)',
         text: 'var(--text)',
         accent: 'var(--accent)',
@@ -22,6 +23,39 @@ export default {
         events: 'var(--color-events)',
         blogs: 'var(--color-blogs)',
         contact: 'var(--color-contact)',
+
+        /* ── Shadcn / Radix semantic tokens ── */
+        border: 'oklch(var(--border))',
+        input: 'oklch(var(--input))',
+        ring: 'oklch(var(--ring))',
+        foreground: 'oklch(var(--foreground))',
+        primary: {
+          DEFAULT: 'oklch(var(--primary))',
+          foreground: 'oklch(var(--primary-foreground))',
+        },
+        secondary: {
+          DEFAULT: 'oklch(var(--secondary))',
+          foreground: 'oklch(var(--secondary-foreground))',
+        },
+        destructive: {
+          DEFAULT: 'oklch(var(--destructive))',
+          foreground: 'oklch(var(--destructive-foreground))',
+        },
+        popover: {
+          DEFAULT: 'oklch(var(--popover))',
+          foreground: 'oklch(var(--popover-foreground))',
+        },
+        card: {
+          DEFAULT: 'oklch(var(--card))',
+          foreground: 'oklch(var(--card-foreground))',
+        },
+        'muted-foreground': 'oklch(var(--muted-foreground))',
+        'accent-foreground': 'oklch(var(--accent-foreground))',
+      },
+      borderRadius: {
+        lg: 'var(--radius)',
+        md: 'calc(var(--radius) - 2px)',
+        sm: 'calc(var(--radius) - 4px)',
       },
       fontFamily: {
         sans: ['var(--font-ui)', 'sans-serif'],
@@ -54,4 +88,5 @@ export default {
   },
   plugins: [],
 }
+
 
