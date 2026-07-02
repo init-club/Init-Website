@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Users, Code, Terminal, MessageSquare, Github, ArrowRight } from 'lucide-react';
+import { Github, ArrowRight, AlertCircle } from 'lucide-react';
 import { supabase } from '../supabaseClient';
-import { Navbar } from '../components/Navbar';
-import { Footer } from '../components/Footer';
+import { Navbar } from '../components/layout/Navbar';
+import { Footer } from '../components/layout/Footer';
 
 const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -122,59 +122,44 @@ const LoginPage = () => {
                   <div className="h-px flex-1 bg-gradient-to-l from-transparent to-gray-700" />
                 </div>
 
-                <a
+                <motion.a
                   href="https://discord.com/invite/Gx8sdGJkU"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group relative flex items-center justify-center gap-2 w-full py-3 rounded-xl border border-cyan-500/50 text-white font-semibold overflow-hidden inline-flex transition-all"
+                  className="group relative flex items-center justify-center gap-2 w-full py-3 rounded-xl border border-[#5865F2]/50 text-white font-semibold overflow-hidden inline-flex transition-all"
+                  whileHover="hover"
+                  initial="initial"
                 >
                   <motion.div
                     className="absolute inset-0 z-0 origin-left"
-                    style={{ background: 'linear-gradient(90deg, #00ffd5, #a855f7)' }}
+                    style={{ background: '#5865F2' }}
                     variants={{
                       initial: { scaleX: 0 },
                       hover: { scaleX: 1 }
                     }}
-                    initial="initial"
-                    whileHover="hover"
                     transition={{ duration: 0.2, ease: "linear" }}
                   />
                   <motion.div
-                    className="absolute inset-y-0 z-10 w-0.5 bg-white shadow-[0_0_10px_rgba(255,255,255,0.8),0_0_20px_rgba(0,255,213,0.5)]"
+                    className="absolute inset-y-0 z-10 w-0.5 bg-white shadow-[0_0_10px_rgba(255,255,255,0.8),0_0_20px_rgba(88,101,242,0.5)]"
                     variants={{
                       initial: { left: '0%', opacity: 0 },
                       hover: { left: '100%', opacity: 1 }
                     }}
-                    initial="initial"
-                    whileHover="hover"
                     transition={{ duration: 0.2, ease: "linear" }}
                   />
                   <span className="relative z-10 flex items-center gap-2 transition-colors duration-300 group-hover:text-white">
                     New here? Join our Discord
                     <ArrowRight size={14} />
                   </span>
-                </a>
+                </motion.a>
               </div>
 
-              <div className="pt-4">
-                <p className="text-cyan-400 text-[10px] font-semibold uppercase tracking-wider mb-3 text-center">
-                  Community Values
-                </p>
-                <div className="grid grid-cols-2 gap-2">
-                  {[
-                    { icon: Users, text: "Student First", color: "yellow" },
-                    { icon: Terminal, text: "Self-Reliant", color: "purple" },
-                    { icon: Code, text: "No Copy-Paste", color: "cyan" },
-                    { icon: MessageSquare, text: "Open Comms", color: "red" }
-                  ].map((item, idx) => (
-                    <div
-                      key={idx}
-                      className="flex items-center gap-2 bg-black/50 rounded-lg p-2 border border-gray-800 hover:border-gray-600 transition-all"
-                    >
-                      <item.icon size={12} className="text-gray-500 flex-shrink-0" />
-                      <span className="text-gray-400 text-[10px]">{item.text}</span>
-                    </div>
-                  ))}
+              <div className="pt-4 border-t border-zinc-900/60 mt-2 flex justify-center">
+                <div className="flex items-center gap-3 bg-gradient-to-r from-cyan-950/20 to-zinc-950/40 border border-cyan-500/20 rounded-2xl py-3 px-6 shadow-[0_0_25px_rgba(6,182,212,0.04)] transition-all hover:border-cyan-500/30">
+                  <AlertCircle size={18} className="text-cyan-400 flex-shrink-0" />
+                  <p className="text-sm text-zinc-200 font-semibold whitespace-nowrap">
+                    Make sure you are part of the GitHub Organisation and have set your member status to public.
+                  </p>
                 </div>
               </div>
             </div>

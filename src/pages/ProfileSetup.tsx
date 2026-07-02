@@ -70,6 +70,12 @@ const ProfileSetup = () => {
 
       if (error) throw error;
 
+      // Explicitly set profile_completed to true to clear onboarding redirect gate
+      await supabase
+        .from('users')
+        .update({ profile_completed: true })
+        .eq('id', targetUserId);
+
       navigate(editModeUsername ? `/profile/${editModeUsername}` : '/members');
     } catch (error: any) {
       alert('Error: ' + error.message);
@@ -87,7 +93,13 @@ const ProfileSetup = () => {
       >
         {/* --- CLOSE BUTTON (New) --- */}
         <button
-            onClick={() => navigate('/profile')}
+            onClick={() => {
+              if (editModeUsername) {
+                navigate(`/profile/${editModeUsername}`);
+              } else {
+                navigate('/');
+              }
+            }}
             className="absolute top-4 right-4 p-2 bg-gray-800/50 hover:bg-red-500/20 rounded-full text-gray-400 hover:text-red-400 transition-all border border-transparent hover:border-red-500/30"
             title="Cancel & Go Back"
         >
@@ -120,7 +132,6 @@ const ProfileSetup = () => {
               type="text"
               required
               className="w-full bg-black/50 border border-gray-700 rounded-lg p-3 text-white focus:border-cyan-500 focus:outline-none transition-colors"
-              placeholder="e.g. Nitansh Shankar"
               value={formData.displayName}
               onChange={(e) => setFormData({...formData, displayName: e.target.value})}
             />
@@ -135,7 +146,6 @@ const ProfileSetup = () => {
               type="text"
               required
               className="w-full bg-black/50 border border-gray-700 rounded-lg p-3 text-white focus:border-cyan-500 focus:outline-none transition-colors"
-              placeholder="e.g. CB.EN.U4CYS22000"
               value={formData.rollNo}
               onChange={(e) => setFormData({...formData, rollNo: e.target.value.toUpperCase()})}
             />
@@ -148,7 +158,6 @@ const ProfileSetup = () => {
             </label>
             <textarea
               className="w-full bg-black/50 border border-gray-700 rounded-lg p-3 text-white focus:border-cyan-500 focus:outline-none transition-colors h-24 resize-none"
-              placeholder="Full Stack Developer | AI Enthusiast..."
               value={formData.bio}
               onChange={(e) => setFormData({...formData, bio: e.target.value})}
             />

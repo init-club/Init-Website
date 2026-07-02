@@ -1,6 +1,6 @@
-import { Navbar } from '../components/Navbar';
-import { Footer } from '../components/Footer';
-import { ComingSoon } from '../components/ComingSoon';
+import { Navbar } from '../components/layout/Navbar';
+import { Footer } from '../components/layout/Footer';
+import { ComingSoon } from '../components/shared/ui/ComingSoon';
 
 export default function ActivityPage() {
     return (

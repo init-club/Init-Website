@@ -1,18 +1,13 @@
-import { GitGraph } from "../components/Graph/GitGraph";
-import SystemAlert from "../components/SystemAlert";
-import { Footer } from "../components/Footer";
-import AboutWhatWeDo from "../components/AboutWhatWeDO";
-import { FixedGrid } from "../components/FixedGrid";
-import AuthButtons from "../components/AuthButtons";
+import { GitGraph } from "../components/homepage/Graph/GitGraph";
+import SystemAlert from "../components/layout/SystemAlert";
+import { Footer } from "../components/layout/Footer";
+import AboutWhatWeDo from "../components/homepage/AboutWhatWeDO";
+import { FixedGrid } from "../components/layout/FixedGrid";
 
 export function HomePage() {
   return (
     <>
-      <SystemAlert />
-      <div className="fixed top-16 right-6 z-50 hidden md:block">
-        <AuthButtons />
-      </div>
-
+      {/* <SystemAlert /> */}
       <FixedGrid />
       <GitGraph />
       <AboutWhatWeDo />

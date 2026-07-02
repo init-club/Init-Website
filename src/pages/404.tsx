@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion';
-import { Edge } from '../components/Graph/Edge';
-import { Node } from '../components/Graph/Node';
+import { Edge } from '../components/homepage/Graph/Edge';
+import { Node } from '../components/homepage/Graph/Node';
 import { useNavigate } from 'react-router-dom';
-import { GraphBackground } from '../components/Graph/GraphBackground';
-import { GlitchText } from '../components/Graph/GlitchText';
+import { GraphBackground } from '../components/homepage/Graph/GraphBackground';
+import { GlitchText } from '../components/homepage/Graph/GlitchText';
 
 export default function NotFoundPage() {
     const navigate = useNavigate();

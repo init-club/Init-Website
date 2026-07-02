@@ -1,75 +1,140 @@
 import { useEffect, useState } from 'react';
-import { Navbar } from '../components/Navbar';
-import { Footer } from '../components/Footer';
+import { Navbar } from '../components/layout/Navbar';
+import { Footer } from '../components/layout/Footer';
 import { motion } from 'framer-motion';
 import { Zap, Github, Brain, Users, Flame, Code2, Target, Lightbulb, Terminal, GitBranch, CheckCircle, Download, BookOpen, Eye } from 'lucide-react';
-import PdfModal from '../components/PdfModal';
+import PdfModal from '../components/shared/modals/PdfModal';
+
+// --- Static Configuration Arrays (Moved outside render for performance optimization) ---
+const spiritItems = [
+  {
+    icon: Zap,
+    title: 'Curiosity Driven',
+    description: 'We believe in asking questions and learning together. Every curiosity leads us toward growth.'
+  },
+  {
+    icon: Github,
+    title: 'Open Source Philosophy',
+    description: 'We value sharing knowledge, collaborating freely, and building as a community.'
+  },
+  {
+    icon: Brain,
+    title: 'Growth Mindset',
+    description: 'We learn from challenges, support each other through problems, and grow together.'
+  },
+  {
+    icon: Users,
+    title: 'Collective Strength',
+    description: 'When one of us succeeds, we all benefit. We mentor and learn from each other.'
+  },
+];
+
+const journeySteps = [
+  {
+    phase: 'Entry',
+    title: 'Getting Started',
+    description: 'Join our community and explore what we\'re building. Work on fun challenges that help you discover your strengths.',
+    icon: Lightbulb
+  },
+  {
+    phase: 'Growth',
+    title: 'Learning Together',
+    description: 'Build real projects, learn new skills, and solve meaningful problems. Mentors are here to guide and support your journey.',
+    icon: Flame
+  },
+  {
+    phase: 'Leadership',
+    title: 'Lifting Others',
+    description: 'Share your knowledge and help newer members find their way. Mentoring deepens your own understanding.'
+  },
+  {
+    phase: 'Legacy',
+    title: 'Shaping the Future',
+    description: 'Help shape Init Club\'s direction. Your ideas and contributions make a real difference.'
+  },
+];
+
+const truthBombs = [
+  {
+    bold: 'You should be an Amrita CBE student',
+    normal: ' - This helps us build a tight-knit local community together.'
+  },
+  {
+    bold: 'Be ready to invest time',
+    normal: ' - We\'re more than a club. We\'re a supportive community where you can truly grow.'
+  },
+  {
+    bold: 'Take ownership of your learning',
+    normal: ' - We\'re here to guide and support you, but your growth comes from your efforts.'
+  },
+  {
+    bold: 'Let\'s build with integrity',
+    normal: ' - We value honest work and original thinking. That\'s how we all grow stronger together.'
+  },
+];
+
+const youWillGain = [
+  { icon: Code2, text: 'Build and ship that delivers value' },
+  { icon: Target, text: 'Build a portfolio that lands interviews' },
+  { icon: Brain, text: 'Master concepts that matter in practice' },
+  { icon: Users, text: 'Join a network of builders, not just students' },
+  { icon: Zap, text: 'Solve complex problems efficiently and correctly' },
+  { icon: Github, text: 'Contribute to real open-source projects' },
+];
 
 // --- Local Component: SpiritCard (Static version of ParallaxCard) ---
 const SpiritCard = ({ title, description, icon: Icon, delay = 0 }: { title: string, description: string, icon: any, delay?: number }) => {
-  const [isHovered, setIsHovered] = useState(false);
-
   return (
     <motion.div
-      initial={{ opacity: 0, y: 50 }}
+      initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.6, delay: delay, ease: "easeOut" }}
+      transition={{ duration: 0.5, delay: delay, ease: "easeOut" }}
       className="relative w-full h-full group"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
-      {/* ================= VOLUMETRIC BACKLIGHT ================= */}
+      {/* Subtle Backlight */}
       <div
-        className="absolute inset-4 rounded-xl bg-gradient-to-br from-white/20 via-cyan-500/20 to-purple-500/20 blur-[40px] transition-all duration-300 opacity-30 group-hover:opacity-100"
+        className="absolute inset-4 rounded-xl bg-zinc-850/5 blur-[25px] transition-all duration-300 opacity-20 group-hover:opacity-60"
       />
 
-      {/* ================= GLASS CARD SURFACE ================= */}
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_-5px_25px_rgba(255,255,255,0.05)] overflow-hidden group-hover:border-cyan-500/30 transition-colors duration-300">
-        {/* Surface Glare Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+      {/* Card Surface */}
+      <div className="absolute inset-0 bg-zinc-950/40 backdrop-blur-xl border border-glass-border rounded-2xl group-hover:border-zinc-800 transition-colors duration-300 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-white/2 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
       </div>
 
-      {/* ================= FLOATING CONTENT LAYER ================= */}
-      <div className="relative p-8 h-full flex flex-col transition-all duration-200 ease-out">
-        {/* Glow Effects - Stronger resting glow */}
+      {/* Content Layer */}
+      <div className="relative p-8 h-full flex flex-col transition-all duration-350 ease-out">
+        {/* Subtle Radial highlight */}
         <div
-          className="absolute -inset-px opacity-40 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"
+          className="absolute -inset-px opacity-20 group-hover:opacity-65 transition-opacity duration-500 rounded-2xl"
           style={{
-            background: `radial-gradient(600px circle at 50% 50%, rgba(0, 255, 213, 0.2), transparent 40%)`
+            background: `radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.05), transparent 40%)`
           }}
         />
 
-        {/* Top Gradient accent - Clearer by default */}
-        <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-400/60 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
+        {/* Top Divider edge */}
+        <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-zinc-800 to-transparent opacity-40 group-hover:opacity-80 transition-opacity duration-500" />
 
-        {/* Icon Box - Plain floating icon */}
-        <div className="relative mb-4 group-hover:scale-110 transition-transform duration-300">
+        {/* Icon Box */}
+        <div className="relative mb-4 text-zinc-400 group-hover:text-white transition-colors duration-300">
           <Icon
-            className={`w-10 h-10 text-cyan-400 group-hover:text-cyan-300 transition-colors duration-300 ${isHovered ? 'drop-shadow-[0_0_8px_rgba(0,255,213,0.8)]' : ''}`}
+            className="w-8 h-8 transition-transform duration-300 group-hover:scale-105"
             strokeWidth={1.5}
           />
         </div>
 
-        <h3 className="text-xl font-bold mb-3 text-white group-hover:text-cyan-300 transition-colors duration-300 tracking-wide">
+        <h3 className="text-sm font-bold mb-2 text-zinc-300 group-hover:text-white transition-colors duration-300 tracking-wide uppercase">
           {title}
         </h3>
 
-        <p className="text-muted text-sm leading-relaxed group-hover:text-white/80 transition-colors duration-300">
+        <p className="text-zinc-500 text-xs leading-relaxed group-hover:text-zinc-400 transition-colors duration-300">
           {description}
         </p>
 
-        {/* Bottom Active Indicator */}
-        <div className="mt-auto pt-6 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0">
-          <div className="h-[2px] w-8 bg-cyan-400 rounded-full" />
-          <span className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest">Active</span>
-        </div>
-
-        {/* Bottom Corner decoration - Highly visible */}
-        <div className="absolute bottom-4 right-4 opacity-80 group-hover:opacity-100 transition-opacity duration-300 scale-90 group-hover:scale-100">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M19 19L14 19M19 19L19 14" stroke="currentColor" className="text-cyan-400/50 group-hover:text-[#00ffd5]" strokeWidth="2" strokeLinecap="round" />
-          </svg>
+        {/* Action indicator */}
+        <div className="mt-auto pt-6 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+          <div className="h-[1.5px] w-6 bg-zinc-650 rounded-full" />
+          <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">Active</span>
         </div>
       </div>
     </motion.div>
@@ -88,96 +153,33 @@ export default function ContactPage() {
     });
   }, []);
 
-  const spiritItems = [
-    {
-      icon: Zap,
-      title: 'Curiosity Driven',
-      description: 'We believe in asking questions and learning together. Every curiosity leads us toward growth.'
-    },
-    {
-      icon: Github,
-      title: 'Open Source Philosophy',
-      description: 'We value sharing knowledge, collaborating freely, and building as a community.'
-    },
-    {
-      icon: Brain,
-      title: 'Growth Mindset',
-      description: 'We learn from challenges, support each other through problems, and grow together.'
-    },
-    {
-      icon: Users,
-      title: 'Collective Strength',
-      description: 'When one of us succeeds, we all benefit. We mentor and learn from each other.'
-    },
-  ];
-
-  const journeySteps = [
-    {
-      phase: 'Entry',
-      title: 'Getting Started',
-      description: 'Join our community and explore what we\'re building. Work on fun challenges that help you discover your strengths.',
-      icon: Lightbulb
-    },
-    {
-      phase: 'Growth',
-      title: 'Learning Together',
-      description: 'Build real projects, learn new skills, and solve meaningful problems. Mentors are here to guide and support your journey.',
-      icon: Flame
-    },
-    {
-      phase: 'Leadership',
-      title: 'Lifting Others',
-      description: 'Share your knowledge and help newer members find their way. Mentoring deepens your own understanding.'
-    },
-    {
-      phase: 'Legacy',
-      title: 'Shaping the Future',
-      description: 'Help shape Init Club\'s direction. Your ideas and contributions make a real difference.'
-    },
-  ];
-
-  const truthBombs = [
-    {
-      bold: 'You should be an Amrita CBE student',
-      normal: ' - This helps us build a tight-knit local community together.'
-    },
-    {
-      bold: 'Be ready to invest time',
-      normal: ' - We\'re more than a club. We\'re a supportive community where you can truly grow.'
-    },
-    {
-      bold: 'Take ownership of your learning',
-      normal: ' - We\'re here to guide and support you, but your growth comes from your efforts.'
-    },
-    {
-      bold: 'Let\'s build with integrity',
-      normal: ' - We value honest work and original thinking. That\'s how we all grow stronger together.'
-    },
-  ];
-
-  const youWillGain = [
-    { icon: Code2, text: 'Build and ship that delivers value' },
-    { icon: Target, text: 'Build a portfolio that lands interviews' },
-    { icon: Brain, text: 'Master concepts that matter in practice' },
-    { icon: Users, text: 'Join a network of builders, not just students' },
-    { icon: Zap, text: 'Solve complex problems efficiently and correctly' },
-    { icon: Github, text: 'Contribute to real open-source projects' },
-  ];
 
   return (
     <>
       <Navbar />
-      <main className="pt-20 pb-10" style={{ backgroundColor: 'var(--bg)', color: 'var(--text)' }}>
+      <main className="pt-20 pb-10 overflow-x-hidden" style={{ backgroundColor: 'var(--bg)', color: 'var(--text)' }}>
 
         {/* Hero Section - Radical Reframing */}
-        <section className="relative px-4 py-20 overflow-hidden">
+        <section className="relative px-4 py-20">
+          {/* Background effects */}
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-20 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl" />
+          </div>
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="max-w-6xl mx-auto text-center"
           >
-            <h1 className="text-3xl sm:text-4xl md:text-6xl font-black mb-6" style={{ fontFamily: 'var(--font-heading)' }}>
+            <h1 
+              className="text-3xl sm:text-4xl md:text-6xl font-black mb-6" 
+              style={{ 
+                fontFamily: 'var(--font-heading)',
+                textShadow: '0 0 20px rgba(0, 255, 213, 0.5), 0 0 40px rgba(168, 85, 247, 0.3)' 
+              }}
+            >
               <span style={{ color: 'var(--text)' }}>The &lt; </span>
               <span
                 style={{
@@ -230,8 +232,6 @@ export default function ContactPage() {
               </span>
             </motion.a>
           </motion.div>
-
-          <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-500/5 blur-3xl rounded-full" />
         </section>
 
         {/* ================= INDUCTION PROGRAM SECTION ================= */}
