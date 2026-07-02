@@ -11,6 +11,7 @@ import { Footer } from '../../components/layout/Footer';
 import { supabase } from '../../supabaseClient';
 import { useAuth } from '../../context/AuthContext';
 import { logAuditAction } from '../../utils/auditLogger';
+import { invalidateFormCaches } from '../../utils/cacheInvalidation';
 import type { FormField, FormSettings, FieldType } from '../../types/form';
 import { generateSlug, createDefaultFields } from '../../utils/formUtils';
 import { normalizeFormRecord, serializeFormFields } from '../../utils/formDefinition';
@@ -229,6 +230,11 @@ export default function FormBuilderPage() {
       const savedFormId = saveResult?.id;
       const nextRevision = typeof saveResult?.revision === 'number' ? saveResult.revision : revision;
       setRevision(nextRevision ?? null);
+
+      await invalidateFormCaches({
+        formId: savedFormId || formId || null,
+        slug: formPayload.p_slug,
+      });
 
       if (isEditMode) {
         void logAuditAction(

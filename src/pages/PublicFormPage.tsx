@@ -8,6 +8,7 @@ import { supabase } from '../supabaseClient';
 import type { Form } from '../types/form';
 import FormRenderer from '../components/forms/renderer/FormRenderer';
 import { fetchPublicFormBySlug } from '../utils/fetchers';
+import { invalidateFormCaches } from '../utils/cacheInvalidation';
 
 export default function PublicFormPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -97,6 +98,8 @@ export default function PublicFormPage() {
         });
 
       if (insertError) throw insertError;
+
+      await invalidateFormCaches({ formId: form.id });
 
       // Clean answers cache from local sessionStorage to prevent double submit refresh errors
       sessionStorage.setItem(`form_submitted_${form.id}`, 'true');
