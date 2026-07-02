@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight, Download, ZoomIn, ZoomOut, Loader2 } from 'lucide-react';
 import { Document, Page, pdfjs } from 'react-pdf';
-import { useLenis } from './SmoothScroll';
+import { useLenis } from '../../layout/SmoothScroll';
 
 // Configure PDF.js worker
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(

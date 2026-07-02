@@ -55,10 +55,10 @@
     fit the design (e.g., the "Projects" ID might now visually represent "Join Us").
     Always refer to the `label` and `path` properties for the actual content.
 
-    Signing off - Nitansh Shankar (I hope I don't have to add any pages or make marjor changes to this code in future)
+    Signing off - Nitansh Shankar (I hope I don't have to add any pages or make major changes to this code in future)
  */
 
-import type { NodeType, GraphNode, GraphEdge } from '../../types/graph';
+import type { NodeType, GraphNode, GraphEdge } from '../../../types/graph';
 
 export type { NodeType, GraphNode, GraphEdge };
 
@@ -107,7 +107,7 @@ export const DESKTOP_NODES: GraphNode[] = [
   // Updates/Events Hub (Bottom)
   { id: 'c_updates_hub', x: 700, y: 520, type: 'commit', delay: 1.0, color: '#2979ff', activePath: ['e_t1', 'e_t2', 'e_updates_hub'] },
   // Leaves
-  { id: 'nav_activity', x: 950, y: 480, type: 'nav', label: 'Activity', path: '/activity', delay: 1.5, description: 'Recent happenings', color: '#2979ff', activePath: ['e_t1', 'e_t2', 'e_updates_hub', 'e_activity'] },
+  { id: 'nav_activity', x: 950, y: 480, type: 'nav', label: 'Activity', path: '/activity', delay: 1.5, description: 'Leaderboard', color: '#2979ff', activePath: ['e_t1', 'e_t2', 'e_updates_hub', 'e_activity'] },
   { id: 'nav_contact', x: 950, y: 630, type: 'nav', label: 'Events', path: '/events', delay: 1.5, description: 'Workshops', color: '#2979ff', activePath: ['e_t1', 'e_t2', 'e_updates_hub', 'e_events_leaf'] },
 
 

@@ -1,5 +1,8 @@
-import { Search, Filter, X } from 'lucide-react';
-import type { Difficulty, ProjectStatus } from '../types/repository';
+import { Search, Filter, X, ArrowUpDown } from 'lucide-react';
+import type { Difficulty, ProjectStatus } from '../../types/repository';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+
+type SortOption = 'recent' | 'stars' | 'name';
 
 interface ProjectFilterProps {
   searchQuery: string;
@@ -14,6 +17,9 @@ interface ProjectFilterProps {
   onClearFilters: () => void;
   hasActiveFilters: boolean;
   resultCount: number;
+  /** Optional sort control rendered at the right end of the filters row */
+  sortBy?: SortOption;
+  onSortChange?: (sort: SortOption) => void;
 }
 
 const ProjectFilter = ({
@@ -29,6 +35,8 @@ const ProjectFilter = ({
   onClearFilters,
   hasActiveFilters,
   resultCount,
+  sortBy,
+  onSortChange,
 }: ProjectFilterProps) => {
   const toggleTopic = (topic: string) => {
     if (selectedTopics.includes(topic)) {
@@ -40,7 +48,6 @@ const ProjectFilter = ({
 
   return (
     <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-4 md:p-6 space-y-4">
-      {/* Search Bar */}
       {/* Search Bar */}
       <div className="relative">
         <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
@@ -54,36 +61,55 @@ const ProjectFilter = ({
       </div>
 
       {/* Filters Row */}
-      <div className="grid grid-cols-2 md:flex md:flex-row gap-3">
+      <div className="flex flex-wrap items-center gap-3">
         {/* Difficulty Filter */}
         <div className="flex items-center gap-2">
           <Filter size={16} className="text-gray-500 flex-shrink-0" />
-          <select
-            value={difficulty}
-            onChange={(e) => onDifficultyChange(e.target.value as Difficulty | 'all')}
-            className="w-full bg-black/50 border border-gray-700 rounded-lg px-3 py-3 text-sm text-white focus:border-cyan-500 focus:outline-none"
-          >
-            <option value="all">All Levels</option>
-            <option value="beginner">Beginner</option>
-            <option value="intermediate">Intermediate</option>
-            <option value="advanced">Advanced</option>
-          </select>
+          <Select value={difficulty} onValueChange={(v) => onDifficultyChange(v as Difficulty | 'all')}>
+            <SelectTrigger className="bg-black/50 border-gray-700 text-white text-sm h-10 rounded-lg">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Levels</SelectItem>
+              <SelectItem value="beginner">Beginner</SelectItem>
+              <SelectItem value="intermediate">Intermediate</SelectItem>
+              <SelectItem value="advanced">Advanced</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         {/* Status Filter */}
         <div className="flex items-center gap-2">
-          <select
-            value={status}
-            onChange={(e) => onStatusChange(e.target.value as ProjectStatus | 'all')}
-            className="w-full bg-black/50 border border-gray-700 rounded-lg px-3 py-3 text-sm text-white focus:border-cyan-500 focus:outline-none"
-          >
-            <option value="all">All Status</option>
-            <option value="idea">Idea</option>
-            <option value="in_progress">In Progress</option>
-            <option value="completed">Completed</option>
-            <option value="maintenance">Maintenance</option>
-          </select>
+          <Select value={status} onValueChange={(v) => onStatusChange(v as ProjectStatus | 'all')}>
+            <SelectTrigger className="bg-black/50 border-gray-700 text-white text-sm h-10 rounded-lg">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Status</SelectItem>
+              <SelectItem value="idea">Idea</SelectItem>
+              <SelectItem value="in_progress">In Progress</SelectItem>
+              <SelectItem value="completed">Completed</SelectItem>
+              <SelectItem value="maintenance">Maintenance</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
+
+        {/* Sort — pushed to the right end */}
+        {sortBy !== undefined && onSortChange && (
+          <div className="flex items-center gap-2 ml-auto">
+            <ArrowUpDown size={14} className="text-gray-500 flex-shrink-0" />
+            <Select value={sortBy} onValueChange={(v) => onSortChange(v as SortOption)}>
+              <SelectTrigger className="bg-black/50 border-gray-700 text-white text-sm h-10 rounded-lg">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="recent">Most Recent</SelectItem>
+                <SelectItem value="stars">Most Stars</SelectItem>
+                <SelectItem value="name">Name (A-Z)</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        )}
       </div>
 
       {/* Tech Stack Filter */}
@@ -146,3 +172,4 @@ const ProjectFilter = ({
 };
 
 export default ProjectFilter;
+

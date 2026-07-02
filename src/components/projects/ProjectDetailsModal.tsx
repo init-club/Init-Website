@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Github, ExternalLink, Star, GitFork, Tag, Calendar, Users } from 'lucide-react';
-import type { Repository, Difficulty } from '../types/repository';
+import type { Repository, Difficulty } from '../../types/repository';
 
 interface ProjectDetailsModalProps {
   project: Repository | null;

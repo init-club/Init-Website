@@ -1,7 +1,9 @@
 import { NavLink } from 'react-router-dom';
 import { Instagram, Linkedin } from 'lucide-react';
-import { Discord } from 'react-bootstrap-icons';
+import Discord from '../shared/icons/DiscordIcon';
 import { motion } from 'framer-motion';
+import useSWR from 'swr';
+import { fetchSiteSettings } from '../../utils/fetchers';
 
 const navItems = [
   { label: 'Home', path: '/' },
@@ -12,13 +14,15 @@ const navItems = [
   { label: 'Contact', path: '/contact' },
 ];
 
-const socials = [
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/company/the-init-club/', icon: Linkedin },
-  { label: 'Instagram', href: 'https://www.instagram.com/the.init.club?igsh=MTFlcWg1eWIyMTNyaA==', icon: Instagram },
-  { label: 'Discord', href: 'https://discord.gg/Gx8sdGJkU', icon: Discord },
-];
-
 export function Footer() {
+  const { data: settings } = useSWR('site_settings', fetchSiteSettings);
+
+  const socials = [
+    { label: 'LinkedIn', href: settings?.linkedin_link || 'https://www.linkedin.com/company/the-init-club/', icon: Linkedin },
+    { label: 'Instagram', href: settings?.instagram_link || 'https://www.instagram.com/the.init.club?igsh=MTFlcWg1eWIyMTNyaA==', icon: Instagram },
+    { label: 'Discord', href: settings?.discord_link || 'https://discord.gg/Gx8sdGJkU', icon: Discord },
+  ];
+
   return (
     <footer className="relative mt-0 hidden md:block">
 

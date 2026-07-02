@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion';
-import { Edge } from './Graph/Edge';
-import { Node } from './Graph/Node';
+import { Edge } from '../../homepage/Graph/Edge';
+import { Node } from '../../homepage/Graph/Node';
 import { useNavigate } from 'react-router-dom';
-import { GraphBackground } from './Graph/GraphBackground';
-import { GlitchText } from './Graph/GlitchText';
+import { GraphBackground } from '../../homepage/Graph/GraphBackground';
+import { GlitchText } from '../../homepage/Graph/GlitchText';
 
 interface ComingSoonProps {
     pageName: string;

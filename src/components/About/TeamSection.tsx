@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
-import { GlitchText } from '../Graph/GlitchText';
+import { GlitchText } from '../homepage/Graph/GlitchText';
 import President from '../../assets/profile/President.jpeg'
 import Nitansh from '../../assets/profile/Nitansh.jpg'
 import Tanush from '../../assets/profile/Tanush.jpg'

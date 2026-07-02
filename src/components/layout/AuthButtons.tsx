@@ -1,50 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { User, LogOut, ChevronDown } from 'lucide-react';
-import { supabase } from '../supabaseClient';
-import type { Session, AuthChangeEvent } from '@supabase/supabase-js';
+import { supabase } from '../../supabaseClient';
+
+import { useAuth } from '../../context/AuthContext';
 
 export default function AuthButtons() {
   const navigate = useNavigate();
-  const [user, setUser] = useState<any>(null);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const { session, isAdmin, isLoading } = useAuth();
   const [showDropdown, setShowDropdown] = useState(false);
-
-  useEffect(() => {
-    const checkUser = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      setUser(session?.user || null);
-
-      if (session?.user) {
-        const { data, error } = await supabase.rpc('get_my_status');
-        if (!error && data && data.length > 0) {
-          const role = data[0].role;
-          setIsAdmin(role === 'admin' || role === 'semi_admin');
-        }
-      } else {
-        setIsAdmin(false);
-      }
-    };
-    checkUser();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event: AuthChangeEvent, session: Session | null) => {
-      setUser(session?.user || null);
-      if (session?.user) {
-        const { data, error } = await supabase.rpc('get_my_status');
-        if (!error && data && data.length > 0) {
-          const role = data[0].role;
-          setIsAdmin(role === 'admin' || role === 'semi_admin');
-        } else {
-          setIsAdmin(false);
-        }
-      } else {
-        setIsAdmin(false);
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
+  
+  const user = session?.user || null;
 
   const handleLogout = async () => {
     await supabase.auth.signOut();

@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
-import ParallaxCard from "./ParallaxCard";
+import ParallaxCard from "../shared/effects/ParallaxCard";
 import { Code2, Calendar, Users, Github } from "lucide-react";
-import { TypewriterText } from "./TypewriterText";
+import { TypewriterText } from "../shared/ui/TypewriterText";
 
 // --- Internal Component for Scroll Reveal Text ---
 const ScrollRevealBlock = ({ children, className }: { children: React.ReactNode; className?: string }) => {
@@ -109,7 +109,7 @@ const AboutWhatWeDo: React.FC = () => {
               <div className="absolute inset-0 rounded-full blur-3xl opacity-30 bg-gradient-brand group-hover:opacity-50 transition-opacity duration-500" />
 
               {/* Logo Container */}
-              <div className="relative w-full h-full rounded-full overflow-hidden border border-white/10 bg-black/50 backdrop-blur-sm flex items-center justify-center shadow-2xl shadow-cyan-500/20 group-hover:shadow-cyan-500/40 transition-shadow duration-500">
+              <div className="relative w-full h-full rounded-full overflow-hidden border border-glass-border bg-black/50 backdrop-blur-sm flex items-center justify-center shadow-2xl shadow-cyan-500/20 group-hover:shadow-cyan-500/40 transition-shadow duration-500">
                 <div className="absolute inset-0 bg-gradient-brand opacity-10 group-hover:opacity-20 transition-opacity duration-500" />
                 <img
                   src="/InitClubLogo.png"
@@ -128,7 +128,7 @@ const AboutWhatWeDo: React.FC = () => {
               whileInView="visible"
               viewport={{ once: true }}
               transition={{ duration: 0.7, ease: [0.42, 0, 0.58, 1] }}
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-2 w-fit mx-auto lg:mx-0 group hover:bg-white/10 transition-colors duration-300"
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-glass-bg border border-glass-border mb-2 w-fit mx-auto lg:mx-0 group hover:bg-white/5 transition-colors duration-300"
             >
               <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
               <span className="text-xs font-mono text-cyan-400 tracking-widest uppercase">The Community</span>

@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AlertTriangle, Home } from 'lucide-react'; 
-import { supabase } from '../supabaseClient';
+import { supabase } from '../../../supabaseClient';
 
 interface AccessDeniedModalProps {
   isOpen: boolean;
@@ -9,26 +8,6 @@ interface AccessDeniedModalProps {
 }
 
 const AccessDeniedModal = ({ isOpen, onClose }: AccessDeniedModalProps) => {
-  const [countdown, setCountdown] = useState(10);
-
-  useEffect(() => {
-    if (!isOpen) return;
-
-  
-    const timer = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          handleRedirect();
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [isOpen]);
-
   const handleRedirect = async () => {
     await supabase.auth.signOut();
     onClose();
@@ -61,20 +40,13 @@ const AccessDeniedModal = ({ isOpen, onClose }: AccessDeniedModalProps) => {
                 </p>
               </div>
 
-              {/* Timer */}
-              <div className="bg-red-950/30 px-4 py-2 rounded-lg border border-red-500/20">
-                <p className="text-red-400 text-xs font-mono">
-                  REDIRECTING IN <span className="text-lg font-bold text-white mx-1">{countdown}</span> SECONDS
-                </p>
-              </div>
-
               {/* Actions */}
               <div className="flex gap-3 w-full mt-2">
                 <button
                   onClick={handleRedirect}
                   className="flex-1 bg-red-600 hover:bg-red-700 text-white py-3 rounded-xl font-bold text-sm transition-colors flex items-center justify-center gap-2"
                 >
-                  <Home size={16} /> Go Home Now
+                  <Home size={16} /> Sign Out & Go Home
                 </button>
               </div>
             </div>

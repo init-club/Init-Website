@@ -1,17 +1,20 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Instagram, Linkedin } from 'lucide-react';
-import { Discord } from 'react-bootstrap-icons';
+import Discord from '../../shared/icons/DiscordIcon';
 import { DESKTOP_NODES, DESKTOP_EDGES, MOBILE_NODES, MOBILE_EDGES } from './constants';
 import { Node } from './Node';
 import { Edge } from './Edge';
 import { NavNode } from './NavNode';
 import { GraphBackground } from './GraphBackground';
 import { GitCloneLoader } from './GitCloneLoader';
-import { TypewriterText } from '../TypewriterText';
+import { TypewriterText } from '../../shared/ui/TypewriterText';
 import type { GraphNode } from './constants';
+import AuthButtons from '../../layout/AuthButtons';
+import { useLenis } from '../../layout/SmoothScroll';
 
 export const GitGraph = () => {
+    const lenis = useLenis();
     const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' ? window.innerWidth < 768 : false);
     const [activeEdges, setActiveEdges] = useState<string[]>([]);
     const [highlightColor, setHighlightColor] = useState<string>('#fff');
@@ -21,6 +24,23 @@ export const GitGraph = () => {
     });
 
     const [isLoading, setIsLoading] = useState(shouldShowLoader);
+
+    useEffect(() => {
+        if (isLoading) {
+            lenis?.stop();
+            document.body.style.overflow = 'hidden';
+            document.body.style.height = '100vh';
+        } else {
+            lenis?.start();
+            document.body.style.overflow = 'unset';
+            document.body.style.height = 'unset';
+        }
+        return () => {
+            lenis?.start();
+            document.body.style.overflow = 'unset';
+            document.body.style.height = 'unset';
+        };
+    }, [isLoading, lenis]);
 
     // Only skip animations if loader is not shown
     const skipAnimation = !shouldShowLoader;
@@ -79,8 +99,16 @@ export const GitGraph = () => {
             {/* Only render content after loading */}
             {!isLoading && (
                 <>
-                    <GraphBackground isMobile={isMobile} />
+                    <motion.div
+                        className="absolute top-6 right-6 z-30"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: skipAnimation ? 0 : 0.5, delay: skipAnimation ? 0 : 0.2 }}
+                    >
+                        <AuthButtons />
+                    </motion.div>
 
+                    <GraphBackground isMobile={isMobile} />
                     {/* Hero Title */}
                     <motion.div
                         className="absolute top-[5%] sm:top-[4%] w-full left-0 md:left-[2%] md:w-auto md:text-left text-center z-10 pointer-events-none px-4"

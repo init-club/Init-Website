@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 
 export const HeroSection = () => {
   return (
-    <section className="relative pt-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <section className="relative pt-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto text-center">
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
@@ -28,8 +28,10 @@ export const HeroSection = () => {
         </motion.p>
       </div>
       {/* Decorative gradient orbs */}
-      <div className="absolute top-1/2 left-1/4 w-64 h-64 bg-[#00ffd5]/10 rounded-full blur-3xl -z-10" />
-      <div className="absolute top-1/3 right-1/4 w-72 h-72 bg-[#a855f7]/10 rounded-full blur-3xl -z-10" />
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-20 right-1/4 w-96 h-96 bg-[#a855f7]/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-[#00ffd5]/10 rounded-full blur-3xl" />
+      </div>
     </section>
   );
 };

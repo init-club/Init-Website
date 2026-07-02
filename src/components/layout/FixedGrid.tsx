@@ -3,39 +3,30 @@
 export const FixedGrid = () => {
     return (
         <div className="fixed inset-0 w-full h-full pointer-events-none z-0">
-            {/* ================= INFINITE GRID ================= */}
+            {/* ================= STATIC GRAPH/GRID ================= */}
             <svg
                 className="absolute inset-0 w-full h-full"
-                style={{ opacity: 'var(--grid-opacity)' }}
+                style={{ opacity: '0.05' }}
             >
                 <defs>
                     <pattern
                         id="global-grid"
-                        width="32"
-                        height="32"
+                        width="40"
+                        height="40"
                         patternUnits="userSpaceOnUse"
                     >
                         <path
-                            d="M 32 0 L 0 0 0 32"
+                            d="M 40 0 L 0 0 0 40"
                             fill="none"
                             stroke="var(--grid-color)"
                             strokeWidth="1"
-                        />
-                        {/* Pattern animation = infinite illusion */}
-                        <animateTransform
-                            attributeName="patternTransform"
-                            type="translate"
-                            from="0 0"
-                            to="-32 -32"
-                            dur="80s"
-                            repeatCount="indefinite"
                         />
                     </pattern>
                 </defs>
                 <rect width="100%" height="100%" fill="url(#global-grid)" />
             </svg>
 
-            {/* ================= SCANNER LINES (Optional - keeping them global makes sense too) ================= */}
+            {/* ================= SCANNER LINES ================= */}
             <div
                 className="absolute inset-0"
                 style={{
