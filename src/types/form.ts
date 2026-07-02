@@ -54,6 +54,7 @@ export interface Form {
   created_by: string | null;
   created_at: string;
   updated_at: string;
+  revision?: number;
 }
 
 export interface FormResponse {
@@ -70,4 +71,27 @@ export interface FormResponse {
     submitted_from?: string;
   };
   submitted_at: string;
+}
+
+export interface FormSummary {
+  id: string;
+  slug: string;
+  title: string;
+  description: string | null;
+  status: 'draft' | 'published' | 'closed';
+  updated_at: string;
+  response_count: number;
+  field_count: number;
+  revision: number;
+}
+
+export interface SerializedFormItemInput {
+  item_id: string;
+  kind: FieldType;
+  title: string;
+  description?: string | null;
+  required?: boolean;
+  position: number;
+  config?: Record<string, unknown>;
+  options?: string[];
 }

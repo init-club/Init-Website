@@ -1,4 +1,5 @@
 import { supabase } from '../supabaseClient';
+import { normalizeFormRecord } from './formDefinition';
 
 export const fetchSiteSettings = async () => {
   const { data, error } = await supabase
@@ -62,30 +63,23 @@ export const fetchAdminSessions = async () => {
 };
 
 export const fetchAllForms = async () => {
-  const { data, error } = await supabase
-    .from('forms')
-    .select('*, form_responses(count)')
-    .order('updated_at', { ascending: false });
+  const { data, error } = await supabase.rpc('list_forms_overview');
 
   if (error) throw error;
-  
-  // Format to append response_count directly
-  return (data || []).map((form: any) => ({
-    ...form,
-    response_count: form.form_responses?.[0]?.count || 0
-  }));
+
+  return data || [];
 };
 
 export const fetchFormById = async (formId: string) => {
   if (!formId) return null;
-  const { data, error } = await supabase
-    .from('forms')
-    .select('*')
-    .eq('id', formId)
-    .single();
+  const { data, error } = await supabase.rpc('get_form_definition', {
+    p_form_id: formId,
+  });
 
   if (error) throw error;
-  return data;
+  if (!data) return null;
+
+  return normalizeFormRecord(data);
 };
 
 export const fetchFormResponses = async (formId: string) => {
@@ -102,13 +96,12 @@ export const fetchFormResponses = async (formId: string) => {
 
 export const fetchPublicFormBySlug = async (slug: string) => {
   if (!slug) return null;
-  const { data, error } = await supabase
-    .from('forms')
-    .select('*')
-    .eq('slug', slug)
-    .eq('status', 'published')
-    .single();
+  const { data, error } = await supabase.rpc('get_public_form_definition', {
+    p_slug: slug,
+  });
 
   if (error) throw error;
-  return data;
+  if (!data) return null;
+
+  return normalizeFormRecord(data);
 };

@@ -147,9 +147,38 @@ export const forms = pgTable('forms', {
   createdBy: uuid('created_by').references(() => users.id, { onDelete: 'set null' }),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
+  revision: integer('revision').default(1).notNull(),
 });
 
-// 11. Form Responses table
+// 11. Normalized Form Items table
+export const formItems = pgTable('form_items', {
+  formId: uuid('form_id').references(() => forms.id, { onDelete: 'cascade' }).notNull(),
+  itemId: text('item_id').notNull(),
+  kind: text('kind').notNull(),
+  title: text('title').notNull(),
+  description: text('description'),
+  required: boolean('required').default(false).notNull(),
+  position: integer('position').notNull(),
+  config: jsonb('config').default('{}').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
+}, (t) => [
+  primaryKey({ columns: [t.formId, t.itemId] })
+]);
+
+// 12. Form Item Options table
+export const formItemOptions = pgTable('form_item_options', {
+  formId: uuid('form_id').notNull(),
+  itemId: text('item_id').notNull(),
+  optionId: text('option_id').notNull(),
+  label: text('label').notNull(),
+  position: integer('position').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+}, (t) => [
+  primaryKey({ columns: [t.formId, t.itemId, t.optionId] })
+]);
+
+// 13. Form Responses table
 export const formResponses = pgTable('form_responses', {
   id: uuid('id').defaultRandom().primaryKey(),
   formId: uuid('form_id').references(() => forms.id, { onDelete: 'cascade' }).notNull(),
@@ -158,4 +187,3 @@ export const formResponses = pgTable('form_responses', {
   metadata: jsonb('metadata').default('{}'),
   submittedAt: timestamp('submitted_at', { withTimezone: true }).defaultNow(),
 });
-

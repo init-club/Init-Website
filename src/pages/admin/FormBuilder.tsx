@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -11,8 +11,9 @@ import { Footer } from '../../components/layout/Footer';
 import { supabase } from '../../supabaseClient';
 import { useAuth } from '../../context/AuthContext';
 import { logAuditAction } from '../../utils/auditLogger';
-import type { Form, FormField, FormSettings, FieldType } from '../../types/form';
+import type { FormField, FormSettings, FieldType } from '../../types/form';
 import { generateSlug, createDefaultFields } from '../../utils/formUtils';
+import { normalizeFormRecord, serializeFormFields } from '../../utils/formDefinition';
 
 import FieldPalette from '../../components/forms/builder/FieldPalette';
 import BuilderCanvas from '../../components/forms/builder/BuilderCanvas';
@@ -54,6 +55,7 @@ export default function FormBuilderPage() {
   const [fields, setFields] = useState<FormField[]>([]);
   const [settings, setSettings] = useState<FormSettings>(defaultSettings);
   const [createdBy, setCreatedBy] = useState<string | null>(null);
+  const [revision, setRevision] = useState<number | null>(null);
 
   // UI States
   const [selectedFieldId, setSelectedFieldId] = useState<string | null>(null);
@@ -97,24 +99,26 @@ export default function FormBuilderPage() {
       setIsPageLoading(true);
       try {
         const { data, error } = await supabase
-          .from('forms')
-          .select('*')
-          .eq('id', formId)
-          .single();
+          .rpc('get_form_definition', {
+            p_form_id: formId,
+          });
 
         if (error) throw error;
 
         if (data) {
-          setTitle(data.title);
-          setDescription(data.description || '');
-          setSlug(data.slug);
-          setStatus(data.status);
-          setFields(data.fields || []);
+          const normalized = normalizeFormRecord(data);
+
+          setTitle(normalized.title);
+          setDescription(normalized.description || '');
+          setSlug(normalized.slug);
+          setStatus(normalized.status);
+          setFields(normalized.fields || []);
           setSettings({
             ...defaultSettings,
-            ...(data.settings || {})
+            ...(normalized.settings || {})
           });
-          setCreatedBy(data.created_by);
+          setCreatedBy(normalized.created_by);
+          setRevision(normalized.revision ?? null);
         }
       } catch (err: any) {
         console.error('Error loading form details:', err);
@@ -204,53 +208,46 @@ export default function FormBuilderPage() {
       const userRowId = createdBy || userProfile?.id || null;
 
       const formPayload = {
-        title: title.trim(),
-        description: description.trim() || null,
-        slug: slug.trim().toLowerCase(),
-        status,
-        fields,
-        settings,
-        created_by: userRowId,
-        updated_at: new Date().toISOString()
+        p_form_id: isEditMode ? formId ?? null : null,
+        p_title: title.trim(),
+        p_description: description.trim() || null,
+        p_slug: slug.trim().toLowerCase(),
+        p_status: status,
+        p_settings: settings,
+        p_created_by: userRowId,
+        p_items: serializeFormFields(fields),
+        p_expected_revision: isEditMode ? revision : null,
       };
 
+      const { data, error } = await supabase
+        .rpc('save_form_definition', formPayload)
+        .single();
+
+      if (error) throw error;
+
+      const saveResult = (data || null) as { id?: string; revision?: number } | null;
+      const savedFormId = saveResult?.id;
+      const nextRevision = typeof saveResult?.revision === 'number' ? saveResult.revision : revision;
+      setRevision(nextRevision ?? null);
+
       if (isEditMode) {
-        const { error } = await supabase
-          .from('forms')
-          .update(formPayload)
-          .eq('id', formId);
-
-        if (error) throw error;
-
         void logAuditAction(
           'UPDATE_FORM',
           'forms',
-          formId || null,
+          savedFormId || formId || null,
           null,
-          { title: formPayload.title, status: formPayload.status },
+          { title: formPayload.p_title, status: formPayload.p_status },
           userRowId
         );
 
         addToast('success', 'Form updated successfully!');
       } else {
-        const newFormId = crypto.randomUUID();
-        const insertPayload = {
-          id: newFormId,
-          ...formPayload
-        };
-
-        const { error } = await supabase
-          .from('forms')
-          .insert(insertPayload);
-
-        if (error) throw error;
-
         void logAuditAction(
           'CREATE_FORM',
           'forms',
-          newFormId,
+          savedFormId || null,
           null,
-          { title: insertPayload.title, status: insertPayload.status },
+          { title: formPayload.p_title, status: formPayload.p_status },
           userRowId
         );
 
@@ -258,11 +255,17 @@ export default function FormBuilderPage() {
         
         // Navigate to edit route of created form, skipping loadForm
         justCreatedRef.current = true;
-        navigate(`/admin/forms/${newFormId}/edit`, { replace: true });
+        if (savedFormId) {
+          navigate(`/admin/forms/${savedFormId}/edit`, { replace: true });
+        }
       }
     } catch (err: any) {
       console.error('Error saving form:', err);
-      addToast('error', err.message || 'Failed to save form config');
+      if (err?.code === '40001') {
+        addToast('error', 'This form changed elsewhere. Reload it and try again.');
+      } else {
+        addToast('error', err.message || 'Failed to save form config');
+      }
     } finally {
       setIsSaving(false);
     }

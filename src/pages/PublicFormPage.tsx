@@ -7,6 +7,7 @@ import { Footer } from '../components/layout/Footer';
 import { supabase } from '../supabaseClient';
 import type { Form } from '../types/form';
 import FormRenderer from '../components/forms/renderer/FormRenderer';
+import { fetchPublicFormBySlug } from '../utils/fetchers';
 
 export default function PublicFormPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -24,13 +25,9 @@ export default function PublicFormPage() {
       setIsLoading(true);
       setError(null);
       try {
-        const { data, error: fetchError } = await supabase
-          .from('forms')
-          .select('*')
-          .eq('slug', slug.toLowerCase())
-          .single();
+        const data = await fetchPublicFormBySlug(slug);
 
-        if (fetchError || !data) {
+        if (!data) {
           throw new Error('Form not found or unavailable');
         }
 
@@ -51,20 +48,7 @@ export default function PublicFormPage() {
           throw new Error('This form is now closed and no longer accepting responses');
         }
 
-        setForm({
-          ...data,
-          settings: {
-            allow_multiple_responses: true,
-            require_auth: false,
-            open_at: null,
-            close_at: null,
-            success_message: 'Thank you for your response!',
-            redirect_url: null,
-            max_responses: null,
-            show_progress_bar: true,
-            ...settings
-          }
-        });
+        setForm(data);
       } catch (err: any) {
         console.error('Error fetching public form:', err);
         setError(err.message || 'Form not found');

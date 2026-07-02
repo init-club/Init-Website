@@ -14,6 +14,7 @@ import { fetchAllForms } from '../../utils/fetchers';
 import { useAuth } from '../../context/AuthContext';
 import { logAuditAction } from '../../utils/auditLogger';
 import ConfirmModal from '../../components/shared/modals/ConfirmModal';
+import type { FormSummary } from '../../types/form';
 
 interface Toast {
   id: string;
@@ -193,7 +194,7 @@ export default function FormsAdminPage() {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {forms?.map((form: any) => (
+              {forms?.map((form: FormSummary) => (
                 <motion.div
                   key={form.id}
                   layoutId={form.id}
@@ -251,7 +252,7 @@ export default function FormsAdminPage() {
                       <div>
                         <div className="text-[10px] text-zinc-600 font-mono uppercase tracking-wider">Fields</div>
                         <div className="text-lg font-black font-heading text-zinc-300">
-                          {Array.isArray(form.fields) ? form.fields.length : 0}
+                          {form.field_count}
                         </div>
                       </div>
                     </div>
