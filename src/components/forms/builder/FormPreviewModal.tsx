@@ -21,11 +21,19 @@ export default function FormPreviewModal({
   fields
 }: FormPreviewModalProps) {
   const sortedFields = [...fields].sort((a, b) => a.order - b.order);
+  const dialogTitleId = 'form-preview-title';
+  const dialogDescriptionId = 'form-preview-description';
 
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md px-4 py-8">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md px-4 py-8"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby={dialogTitleId}
+          aria-describedby={dialogDescriptionId}
+        >
           <motion.div
             initial={{ scale: 0.98, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -51,9 +59,13 @@ export default function FormPreviewModal({
             {/* Scrollable Form Body */}
             <div className="flex-1 overflow-y-auto pr-2 space-y-6 custom-scrollbar">
               <div className="border-b border-zinc-900 pb-4">
-                <h1 className="text-2xl font-black font-heading text-white">{title || 'Untitled Form'}</h1>
+                <h1 id={dialogTitleId} className="text-2xl font-black font-heading text-white">
+                  {title || 'Untitled Form'}
+                </h1>
                 {description && (
-                  <p className="text-zinc-500 text-sm mt-1 leading-relaxed">{description}</p>
+                  <p id={dialogDescriptionId} className="text-zinc-500 text-sm mt-1 leading-relaxed">
+                    {description}
+                  </p>
                 )}
               </div>
 

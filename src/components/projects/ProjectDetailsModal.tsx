@@ -30,6 +30,8 @@ const getYouTubeVideoId = (url: string): string | null => {
 
 const ProjectDetailsModal = ({ project, isOpen, onClose }: ProjectDetailsModalProps) => {
   if (!project) return null;
+  const dialogTitleId = `project-details-title-${project.id}`;
+  const dialogDescriptionId = `project-details-description-${project.id}`;
 
   const difficulty = difficultyConfig[project.difficulty] || difficultyConfig.intermediate;
   const status = statusConfig[project.project_status] || statusConfig.in_progress;
@@ -52,6 +54,10 @@ const ProjectDetailsModal = ({ project, isOpen, onClose }: ProjectDetailsModalPr
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
           onClick={onClose}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby={dialogTitleId}
+          aria-describedby={dialogDescriptionId}
         >
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
@@ -98,12 +104,15 @@ const ProjectDetailsModal = ({ project, isOpen, onClose }: ProjectDetailsModalPr
               </div>
 
               {/* Title */}
-              <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              <h1 id={dialogTitleId} className="text-3xl md:text-4xl font-bold text-white mb-4">
                 {project.name}
               </h1>
 
               {/* Meta */}
-              <div className="flex flex-wrap items-center gap-4 text-sm text-gray-400 mb-6 pb-6 border-b border-gray-800">
+              <div
+                id={dialogDescriptionId}
+                className="flex flex-wrap items-center gap-4 text-sm text-gray-400 mb-6 pb-6 border-b border-gray-800"
+              >
                 <span className="flex items-center gap-2">
                   <Star size={16} className="text-yellow-500" />
                   {project.stars} stars

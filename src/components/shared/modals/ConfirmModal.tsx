@@ -45,11 +45,19 @@ export default function ConfirmModal({
   };
 
   const style = variantColors[variant] || variantColors.info;
+  const dialogTitleId = 'confirm-modal-title';
+  const dialogDescriptionId = 'confirm-modal-description';
 
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm px-4">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm px-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby={dialogTitleId}
+          aria-describedby={dialogDescriptionId}
+        >
           {/* Backdrop click close */}
           <div className="absolute inset-0" onClick={onClose} />
 
@@ -74,8 +82,12 @@ export default function ConfirmModal({
                 <AlertTriangle size={18} />
               </div>
               <div>
-                <h3 className="text-sm font-bold text-white mb-1.5">{title}</h3>
-                <p className="text-zinc-500 text-xs leading-relaxed">{message}</p>
+                <h3 id={dialogTitleId} className="text-sm font-bold text-white mb-1.5">
+                  {title}
+                </h3>
+                <p id={dialogDescriptionId} className="text-zinc-500 text-xs leading-relaxed">
+                  {message}
+                </p>
               </div>
             </div>
 

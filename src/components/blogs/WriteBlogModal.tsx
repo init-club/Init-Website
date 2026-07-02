@@ -55,6 +55,8 @@ const WriteBlogModal = ({ isOpen, onClose, onSuccess }: WriteBlogModalProps) => 
 
   const [allowPublicBlogs, setAllowPublicBlogs] = useState(true);
   const [isWhitelisted, setIsWhitelisted] = useState(false);
+  const dialogTitleId = 'write-blog-modal-title';
+  const dialogDescriptionId = 'write-blog-modal-description';
 
   useEffect(() => {
     if (!isOpen) return;
@@ -192,6 +194,10 @@ const WriteBlogModal = ({ isOpen, onClose, onSuccess }: WriteBlogModalProps) => 
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm px-4 py-6"
           onClick={onClose}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby={dialogTitleId}
+          aria-describedby={dialogDescriptionId}
         >
           <motion.div
             initial={{ scale: 0.9, opacity: 0, y: 20 }}
@@ -226,11 +232,13 @@ const WriteBlogModal = ({ isOpen, onClose, onSuccess }: WriteBlogModalProps) => 
                   {/* Header */}
                   <div className="sticky top-0 z-10 bg-black/95 border-b border-gray-800 p-6 flex items-center justify-between">
                     <div>
-                      <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+                      <h2 id={dialogTitleId} className="text-2xl font-bold text-white flex items-center gap-2">
                         <Edit3 className="text-purple-400" size={24} />
                         Write a Blog
                       </h2>
-                      <p className="text-gray-400 text-sm mt-1">Share your knowledge with the community</p>
+                      <p id={dialogDescriptionId} className="text-gray-400 text-sm mt-1">
+                        Share your knowledge with the community
+                      </p>
                     </div>
                     <div className="flex items-center gap-2">
                       <button

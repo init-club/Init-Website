@@ -61,11 +61,19 @@ export default function PdfModal({ isOpen, onClose, pdfUrl }: PdfModalProps) {
 
     const zoomIn = () => setScale(prev => Math.min(prev + 0.2, 2.0));
     const zoomOut = () => setScale(prev => Math.max(prev - 0.2, 0.6));
+    const dialogTitleId = 'pdf-modal-title';
+    const dialogDescriptionId = 'pdf-modal-description';
 
     return (
         <AnimatePresence>
             {isOpen && (
-                <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6">
+                <div
+                    className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby={dialogTitleId}
+                    aria-describedby={dialogDescriptionId}
+                >
                     {/* Backdrop */}
                     <motion.div
                         initial={{ opacity: 0 }}
@@ -85,7 +93,7 @@ export default function PdfModal({ isOpen, onClose, pdfUrl }: PdfModalProps) {
                     >
                         {/* Header */}
                         <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-[#09090b]">
-                            <h3 className="text-white font-bold flex items-center gap-2">
+                            <h3 id={dialogTitleId} className="text-white font-bold flex items-center gap-2">
                                 <span className="text-cyan-400">Task Details</span>
                                 <span className="text-gray-500 text-sm hidden sm:inline">
                                     {isLoading ? 'Loading...' : `Page ${pageNumber} of ${numPages}`}
@@ -122,7 +130,7 @@ export default function PdfModal({ isOpen, onClose, pdfUrl }: PdfModalProps) {
                         </div>
 
                         {/* Content Area */}
-                        <div className="flex-1 overflow-auto bg-[#1a1a1a] flex justify-center p-4 relative">
+                        <div id={dialogDescriptionId} className="flex-1 overflow-auto bg-[#1a1a1a] flex justify-center p-4 relative">
                             {isLoading && (
                                 <div className="absolute inset-0 flex items-center justify-center">
                                     <Loader2 className="animate-spin text-cyan-400 w-12 h-12" />

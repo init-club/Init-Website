@@ -24,6 +24,8 @@ export default function FormSettingsModal({
   const [redirectUrl, setRedirectUrl] = useState('');
   const [maxResponses, setMaxResponses] = useState('');
   const [showProgressBar, setShowProgressBar] = useState(true);
+  const dialogTitleId = 'form-settings-title';
+  const dialogDescriptionId = 'form-settings-description';
 
   useEffect(() => {
     if (settings) {
@@ -55,7 +57,13 @@ export default function FormSettingsModal({
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm px-4">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm px-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby={dialogTitleId}
+          aria-describedby={dialogDescriptionId}
+        >
           <motion.div
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -66,7 +74,7 @@ export default function FormSettingsModal({
             <div className="flex items-center justify-between pb-3 border-b border-zinc-900 mb-4">
               <div className="flex items-center gap-2">
                 <Settings size={18} className="text-zinc-400" />
-                <h3 className="text-sm font-bold text-white font-heading">Global Form Settings</h3>
+                <h3 id={dialogTitleId} className="text-sm font-bold text-white font-heading">Global Form Settings</h3>
               </div>
               <button
                 onClick={onClose}
@@ -77,7 +85,7 @@ export default function FormSettingsModal({
             </div>
 
             {/* Content */}
-            <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-1">
+            <div id={dialogDescriptionId} className="space-y-4 max-h-[60vh] overflow-y-auto pr-1">
               {/* Checkboxes */}
               <div className="grid grid-cols-2 gap-3">
                 <div className="flex items-center justify-between p-3 bg-zinc-900/30 border border-zinc-900 rounded-xl">

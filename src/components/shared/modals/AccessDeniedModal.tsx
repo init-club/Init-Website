@@ -12,11 +12,19 @@ const AccessDeniedModal = ({ isOpen, onClose }: AccessDeniedModalProps) => {
     await supabase.auth.signOut();
     onClose();
   };
+  const dialogTitleId = 'access-denied-title';
+  const dialogDescriptionId = 'access-denied-description';
 
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 backdrop-blur-md px-4">
+        <div
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 backdrop-blur-md px-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby={dialogTitleId}
+          aria-describedby={dialogDescriptionId}
+        >
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -34,8 +42,10 @@ const AccessDeniedModal = ({ isOpen, onClose }: AccessDeniedModalProps) => {
 
               {/* Text */}
               <div className="space-y-2">
-                <h2 className="text-2xl font-bold text-white tracking-wider">ACCESS DENIED</h2>
-                <p className="text-gray-400 text-sm">
+                <h2 id={dialogTitleId} className="text-2xl font-bold text-white tracking-wider">
+                  ACCESS DENIED
+                </h2>
+                <p id={dialogDescriptionId} className="text-gray-400 text-sm">
                   You are not a registered member of The Init Club GitHub Organization.
                 </p>
               </div>
