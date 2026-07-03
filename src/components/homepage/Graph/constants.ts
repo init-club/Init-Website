@@ -92,7 +92,9 @@ export const DESKTOP_NODES: GraphNode[] = [
   { id: 'nav_members', x: 450, y: 320, type: 'nav', label: 'Members', path: '/members', delay: 1.3, description: 'Meet the team', color: COLORS.about, activePath: ['e_t1', 'e_people_hub', 'e_members'] },
 
   // Blogs (Bottom)
-  { id: 'nav_events', x: 400, y: 550, type: 'nav', label: 'Blogs', path: '/blogs', delay: 1.0, description: 'Technical posts', color: COLORS.blogs, activePath: ['e_t1', 'e_blogs'] },
+  { id: 'c_forms_hub', x: 250, y: 500, type: 'commit', delay: 1.05, color: COLORS.blogs, activePath: ['e_t1', 'e_forms_hub'] },
+  { id: 'nav_events', x: 470, y: 470, type: 'nav', label: 'Blogs', path: '/blogs', delay: 1.35, description: 'Technical posts', color: COLORS.blogs, activePath: ['e_t1', 'e_forms_hub', 'e_blogs'] },
+  { id: 'nav_forms', x: 420, y: 600, type: 'nav', label: 'Forms', path: '/forms', delay: 1.35, description: 'Published forms', color: COLORS.blogs, activePath: ['e_t1', 'e_forms_hub', 'e_forms'] },
 
 
   // SPLIT 2: ACTION (x=550) - Projects & Events
@@ -130,7 +132,9 @@ export const DESKTOP_EDGES: GraphEdge[] = [
   { id: 'e_members', from: 'c_people_hub', to: 'nav_members', delay: 1.0, duration: 0.4, label: 'Members', color: '#facc15', labelDy: 20, labelOffset: '50%' },
 
   // Blogs (Bottom Direct)
-  { id: 'e_blogs', from: 'c_split_1', to: 'nav_events', delay: 0.6, duration: 0.5, label: 'WRITTEN BY US', color: '#ff3366', labelDy: 10, labelOffset: '40%', labelAnchor: 'start' },
+  { id: 'e_forms_hub', from: 'c_split_1', to: 'c_forms_hub', delay: 0.75, duration: 0.45, label: 'WRITTEN BY US', color: '#ff3366', labelDy: 22, labelOffset: '58%', labelAnchor: 'start' },
+  { id: 'e_blogs', from: 'c_forms_hub', to: 'nav_events', delay: 1.1, duration: 0.35, label: 'Blogs', color: '#ff3366', labelDy: -10, labelOffset: '52%', labelAnchor: 'middle' },
+  { id: 'e_forms', from: 'c_forms_hub', to: 'nav_forms', delay: 1.1, duration: 0.35 },
 
 
   // SPLIT 2: PROJECTS (Top) & EVENTS (Bottom)
@@ -178,8 +182,8 @@ export const MOBILE_NODES: GraphNode[] = [
   // Join Us is Cyan (COLORS.join)
   { id: 'nav_projects', x: 320, y: 850, type: 'nav', label: 'Join Us', path: '/contact', delay: 2.3, color: COLORS.join, activePath: ['e_m_1', 'e_m_link1', 'e_m_link2', 'e_m_link3', 'e_m_join'], align: 'right' },
 
-  // EXTENDED TRUNK
-  { id: 'c_m_end', x: 200, y: 950, type: 'commit', delay: 2.5, color: COLORS.neutral },
+  // END OF TRUNK: Public Forms
+  { id: 'nav_forms', x: 200, y: 900, type: 'nav', label: 'Forms', path: '/forms', delay: 2.5, color: COLORS.neutral, activePath: ['e_m_1', 'e_m_link1', 'e_m_link2', 'e_m_link3', 'e_m_forms'], align: 'bottom' },
 ];
 
 export const MOBILE_EDGES: GraphEdge[] = [
@@ -208,5 +212,5 @@ export const MOBILE_EDGES: GraphEdge[] = [
   { id: 'e_m_join', from: 'c_m_4', to: 'nav_projects', delay: 2.0, duration: 0.4 },
 
   // Extended Trunk Edge
-  { id: 'e_m_final', from: 'c_m_4', to: 'c_m_end', delay: 2.2, duration: 0.5 },
+  { id: 'e_m_final', from: 'c_m_4', to: 'nav_forms', delay: 2.2, duration: 0.5 },
 ];

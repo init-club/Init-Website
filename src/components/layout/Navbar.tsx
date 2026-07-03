@@ -36,6 +36,7 @@ const navGraph = [
   },
   { label: 'Join Us', path: '/contact' },
   { label: 'Blogs', path: '/blogs' },
+  { label: 'Forms', path: '/forms' },
 ];
 
 export function Navbar() {

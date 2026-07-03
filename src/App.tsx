@@ -36,6 +36,7 @@ import AccessDeniedModal from './components/shared/modals/AccessDeniedModal';
 // Lazy load all other pages to split the production bundle chunks
 const AboutPage = lazy(() => import('./pages/About'));
 const BlogsPage = lazy(() => import('./pages/Blogs'));
+const FormsPage = lazy(() => import('./pages/Forms'));
 const ContactPage = lazy(() => import('./pages/Contact'));
 const EventsPage = lazy(() => import('./pages/Events'));
 const IdeaWallPage = lazy(() => import('./pages/IdeaWall'));
@@ -169,6 +170,7 @@ function AppContent() {
           <Route path="/activity" element={<ActivityPage />} />
           <Route path="/events" element={<EventsPage />} />
           <Route path="/blogs" element={<BlogsPage />} />
+          <Route path="/forms" element={<FormsPage />} />
           <Route path="/admin" element={<AdminGuard><AdminDashboard /></AdminGuard>} />
           <Route path="/admin/blogs" element={<AdminGuard><BlogsAdminPage /></AdminGuard>} />
           <Route path="/admin/projects" element={<AdminGuard><ProjectAdmin /></AdminGuard>} />

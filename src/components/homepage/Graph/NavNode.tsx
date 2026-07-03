@@ -11,7 +11,7 @@ interface NavNodeProps {
     delay: number;
     description?: string;
     color?: string;
-    align?: 'left' | 'right' | 'top';
+    align?: 'left' | 'right' | 'top' | 'bottom';
     isMobile?: boolean; //  prop to disable hover on mobile
     onMouseEnter?: () => void;
     onMouseLeave?: () => void;
@@ -47,6 +47,10 @@ export const NavNode = ({ x, y, label, path, delay, description, color = '#fffff
     } else if (align === 'top') {
         textX = x - 100;
         textY = y - 80;
+        textAlignClass = 'items-center text-center';
+    } else if (align === 'bottom') {
+        textX = x - 100;
+        textY = y + 14;
         textAlignClass = 'items-center text-center';
     }
 

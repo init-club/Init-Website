@@ -70,6 +70,18 @@ export const fetchAllForms = async () => {
   return data || [];
 };
 
+export const fetchPublishedForms = async () => {
+  const { data, error } = await supabase
+    .from('forms')
+    .select('id, slug, title, description, status, updated_at, created_at, settings')
+    .eq('status', 'published')
+    .order('updated_at', { ascending: false });
+
+  if (error) throw error;
+
+  return data || [];
+};
+
 export const fetchFormById = async (formId: string) => {
   if (!formId) return null;
   const { data, error } = await supabase.rpc('get_form_definition', {
