@@ -6,7 +6,11 @@ import { supabase } from '../../supabaseClient';
 
 import { useAuth } from '../../context/AuthContext';
 
-export default function AuthButtons() {
+type AuthButtonsProps = {
+  variant?: 'default' | 'outline';
+};
+
+export default function AuthButtons({ variant = 'default' }: AuthButtonsProps) {
   const navigate = useNavigate();
   const { session, isAdmin, isLoading } = useAuth();
   const [showDropdown, setShowDropdown] = useState(false);
@@ -92,7 +96,10 @@ export default function AuthButtons() {
   return (
     <button
       onClick={() => navigate('/login')}
-      className="px-5 py-2 rounded-xl bg-white text-black text-sm font-bold hover:bg-gray-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+      className={variant === 'outline'
+        ? 'px-5 py-2 rounded-xl border-2 border-white bg-transparent text-[var(--text)] text-sm font-bold hover:bg-white hover:text-black transition-colors'
+        : 'px-5 py-2 rounded-xl bg-white text-black text-sm font-bold hover:bg-gray-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.3)]'
+      }
     >
       Login
     </button>
