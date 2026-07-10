@@ -41,7 +41,7 @@ export const GitGraph = () => {
         const loginBounds = login.getBoundingClientRect();
         const viewBox = svg.viewBox.baseVal;
         const padding = 3;
-        const maskShiftUp = 65 * (viewBox.height / svgBounds.height);
+        const maskShiftUp = 63 * (viewBox.height / svgBounds.height);
         const nextMask = {
             x: ((loginBounds.left - svgBounds.left) / svgBounds.width) * viewBox.width + viewBox.x - padding,
             y: ((loginBounds.top - svgBounds.top) / svgBounds.height) * viewBox.height + viewBox.y - padding - maskShiftUp,
@@ -230,7 +230,7 @@ export const GitGraph = () => {
                                     className="absolute inset-x-0 top-[65px] z-20 flex justify-center"
                                     initial={{ opacity: 0, y: -4 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: skipAnimation ? 0 : 2.4, duration: 0.4 }}
+                                    transition={{ delay: 0, duration: 0.4 }}
                                 >
                                     <AuthButtons variant="outline" />
                                 </motion.div>
