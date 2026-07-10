@@ -40,9 +40,42 @@ export function Footer() {
               transition={{ duration: 0.5 }}
             >
               <div className="flex items-center gap-2 sm:gap-3">
-                <div className="rounded-lg sm:rounded-xl p-1.5 sm:p-2 bg-gradient-brand">
-                  <span className="font-mono text-xs sm:text-sm font-bold whitespace-nowrap text-white">{'<Init Club/>'}</span>
-                </div>
+                <motion.div
+                  className="relative overflow-hidden rounded-xl p-[2px]"
+                  initial="initial"
+                  whileHover="hover"
+                  style={{ background: 'linear-gradient(135deg, #00ffd5, #a855f7)' }}
+                >
+                  <motion.div
+                    className="absolute inset-[2px] z-0 origin-left rounded-[10px]"
+                    variants={{
+                      initial: { scaleX: 0 },
+                      hover: { scaleX: 1 }
+                    }}
+                    transition={{ duration: 0.2, ease: 'linear' }}
+                    style={{ background: 'linear-gradient(90deg, #00ffd5, #a855f7)' }}
+                  />
+                  <motion.div
+                    className="absolute inset-y-[2px] z-10 w-0.5 bg-white shadow-[0_0_10px_rgba(255,255,255,0.8),0_0_20px_rgba(0,255,213,0.5)]"
+                    variants={{
+                      initial: { left: '2px', opacity: 0 },
+                      hover: { left: 'calc(100% - 2px)', opacity: 1 }
+                    }}
+                    transition={{ duration: 0.2, ease: 'linear' }}
+                  />
+                  <motion.div
+                    className="absolute inset-[2px] z-20 rounded-[10px] bg-background"
+                    style={{ transformOrigin: 'right center' }}
+                    variants={{
+                      initial: { scaleX: 1 },
+                      hover: { scaleX: 0 }
+                    }}
+                    transition={{ duration: 0.2, ease: 'linear' }}
+                  />
+                  <div className="relative z-30 px-1.5 py-1.5 sm:px-2 sm:py-2">
+                    <span className="font-mono text-xs sm:text-sm font-bold whitespace-nowrap text-white">{'<Init Club/>'}</span>
+                  </div>
+                </motion.div>
               </div>
               <p className="mt-3 sm:mt-4 text-xs sm:text-sm leading-relaxed max-w-xs">
                 <span className="text-text font-medium ">Where Curiosity Turns into Contribution</span>

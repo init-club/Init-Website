@@ -104,14 +104,44 @@ export function Navbar() {
           {/* Logo */}
           <div className="flex-shrink-0 z-20">
             <NavLink to="/" className="group flex items-center gap-2.5">
-              <div
-                className="rounded-lg px-3 py-1.5 transition-all duration-300 group-hover:scale-[1.02] group-hover:shadow-[0_0_16px_rgba(0,255,213,0.2)]"
+              <motion.div
+                className="relative overflow-hidden rounded-xl p-[2px] transition-all duration-300 group-hover:scale-[1.02] group-hover:shadow-[0_0_18px_rgba(0,255,213,0.22)]"
+                initial="initial"
+                whileHover="hover"
                 style={{ background: 'linear-gradient(135deg, #00ffd5, #a855f7)' }}
               >
-                <span className="font-mono text-[13px] font-bold whitespace-nowrap text-white tracking-tight">
-                  {'<Init Club/>'}
-                </span>
-              </div>
+                <motion.div
+                  className="absolute inset-[2px] z-0 rounded-[10px] origin-left"
+                  variants={{
+                    initial: { scaleX: 0 },
+                    hover: { scaleX: 1 }
+                  }}
+                  transition={{ duration: 0.2, ease: 'linear' }}
+                  style={{ background: 'linear-gradient(90deg, #00ffd5, #a855f7)' }}
+                />
+                <motion.div
+                  className="absolute inset-y-[2px] z-10 w-0.5 bg-white shadow-[0_0_10px_rgba(255,255,255,0.8),0_0_20px_rgba(0,255,213,0.5)]"
+                  variants={{
+                    initial: { left: '2px', opacity: 0 },
+                    hover: { left: 'calc(100% - 2px)', opacity: 1 }
+                  }}
+                  transition={{ duration: 0.2, ease: 'linear' }}
+                />
+                <motion.div
+                  className="absolute inset-[2px] z-20 rounded-[10px] bg-black"
+                  style={{ transformOrigin: 'right center' }}
+                  variants={{
+                    initial: { scaleX: 1 },
+                    hover: { scaleX: 0 }
+                  }}
+                  transition={{ duration: 0.2, ease: 'linear' }}
+                />
+                <div className="relative z-30 px-3 py-1.5">
+                  <span className="font-mono text-[13px] font-bold whitespace-nowrap text-white tracking-tight">
+                    {'<Init Club/>'}
+                  </span>
+                </div>
+              </motion.div>
             </NavLink>
           </div>
 
