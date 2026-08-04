@@ -69,6 +69,11 @@ export default function FormBuilderPage() {
 
   const autosaveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const skipNextAutosaveRef = useRef(true);
+  const saveInFlightRef = useRef(false);
+  const dirtyDuringSaveRef = useRef(false);
+  const abortControllerRef = useRef<AbortController | null>(null);
+
+  const SAVE_TIMEOUT_MS = 15000;
 
   const addToast = (type: 'success' | 'error', message: string) => {
     const id = crypto.randomUUID();
@@ -211,8 +216,22 @@ export default function FormBuilderPage() {
       return;
     }
 
+    // Large payloads (many fields/options) or a slow connection could previously
+    // hang forever with no timeout, leaving the UI stuck on "Saving...". A second
+    // autosave firing mid-request could also race the first and clobber its result.
+    if (saveInFlightRef.current) {
+      dirtyDuringSaveRef.current = true;
+      return;
+    }
+    saveInFlightRef.current = true;
+
     setIsSaving(true);
     if (silent) setAutosaveStatus('saving');
+
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+    const timeoutId = setTimeout(() => controller.abort(), SAVE_TIMEOUT_MS);
+
     try {
       // Find current user's profile ID from global context
       const userRowId = createdBy || userProfile?.id || null;
@@ -231,6 +250,7 @@ export default function FormBuilderPage() {
 
       const { data, error } = await supabase
         .rpc('save_form_definition', formPayload)
+        .abortSignal(controller.signal)
         .single();
 
       if (error) throw error;
@@ -284,19 +304,40 @@ export default function FormBuilderPage() {
         }
       }
     } catch (err: any) {
-      console.error('Error saving form:', err);
+      const isTimeout = err?.name === 'AbortError';
+      console.error('Error saving form:', isTimeout ? 'Save timed out' : err);
       if (silent) {
         setAutosaveStatus('error');
       }
-      if (err?.code === '40001') {
+      if (isTimeout) {
+        if (!silent) addToast('error', 'Save timed out. Check your connection and try again.');
+      } else if (err?.code === '40001') {
         if (!silent) addToast('error', 'This form changed elsewhere. Reload it and try again.');
       } else {
         if (!silent) addToast('error', err.message || 'Failed to save form config');
       }
     } finally {
+      clearTimeout(timeoutId);
+      abortControllerRef.current = null;
       setIsSaving(false);
+      saveInFlightRef.current = false;
+
+      // Edits landed while this save was in flight (blocked above) — re-run
+      // now instead of silently dropping them.
+      if (dirtyDuringSaveRef.current) {
+        dirtyDuringSaveRef.current = false;
+        void handleSaveForm({ silent: true });
+      }
     }
   };
+
+  // Abort any in-flight save on unmount so it can't resolve into a torn-down component
+  useEffect(() => {
+    return () => {
+      if (autosaveTimerRef.current) clearTimeout(autosaveTimerRef.current);
+      abortControllerRef.current?.abort();
+    };
+  }, []);
 
   // Autosave: debounce edits and silently persist without a manual Save click
   useEffect(() => {
