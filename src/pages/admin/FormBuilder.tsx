@@ -437,25 +437,36 @@ export default function FormBuilderPage() {
                 <Eye size={15} />
               </button>
 
-              {/* Autosave status */}
-              {isEditMode && (
-                <span className="text-[11px] font-mono text-zinc-500 min-w-[72px]">
-                  {autosaveStatus === 'pending' && 'Unsaved…'}
-                  {autosaveStatus === 'saving' && 'Saving…'}
-                  {autosaveStatus === 'saved' && 'Saved'}
-                  {autosaveStatus === 'error' && <span className="text-red-400">Save failed</span>}
-                </span>
-              )}
-
-              {/* Save Trigger */}
-              <button
-                onClick={() => handleSaveForm()}
-                disabled={isSaving}
-                className="inline-flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-zinc-200 text-black text-xs font-bold rounded-xl transition-all shadow-lg hover:shadow-white/5"
-              >
-                {isSaving ? <Loader2 size={13} className="animate-spin" /> : <Save size={13} />}
-                {isEditMode ? 'Save Now' : 'Create Form'}
-              </button>
+              {/* Autosave status — replaces manual save button entirely */}
+              <div className="inline-flex items-center gap-1.5 px-4 py-2 bg-zinc-900 border border-zinc-800 text-xs font-bold rounded-xl min-w-[110px] justify-center">
+                {(autosaveStatus === 'saving') && (
+                  <>
+                    <Loader2 size={13} className="animate-spin text-zinc-400" />
+                    <span className="text-zinc-400">Saving...</span>
+                  </>
+                )}
+                {autosaveStatus === 'pending' && (
+                  <>
+                    <Loader2 size={13} className="animate-spin text-zinc-500" />
+                    <span className="text-zinc-500">Saving...</span>
+                  </>
+                )}
+                {autosaveStatus === 'saved' && (
+                  <>
+                    <Save size={13} className="text-emerald-400" />
+                    <span className="text-emerald-400">Saved</span>
+                  </>
+                )}
+                {autosaveStatus === 'error' && (
+                  <>
+                    <AlertTriangle size={13} className="text-red-400" />
+                    <span className="text-red-400">Save failed</span>
+                  </>
+                )}
+                {autosaveStatus === 'idle' && (
+                  <span className="text-zinc-600">Not saved</span>
+                )}
+              </div>
             </div>
           </div>
 
