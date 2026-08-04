@@ -65,6 +65,10 @@ export default function FormBuilderPage() {
   const [toasts, setToasts] = useState<Toast[]>([]);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [autosaveStatus, setAutosaveStatus] = useState<'idle' | 'pending' | 'saving' | 'saved' | 'error'>('idle');
+
+  const autosaveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const skipNextAutosaveRef = useRef(true);
 
   const addToast = (type: 'success' | 'error', message: string) => {
     const id = crypto.randomUUID();
@@ -86,6 +90,7 @@ export default function FormBuilderPage() {
       if (!isEditMode) {
         // Initialize default fields for new form
         setFields(createDefaultFields());
+        skipNextAutosaveRef.current = true;
       }
       return;
     }
@@ -121,6 +126,7 @@ export default function FormBuilderPage() {
           setCreatedBy(normalized.created_by);
           setRevision(normalized.revision ?? null);
         }
+        skipNextAutosaveRef.current = true;
       } catch (err: any) {
         console.error('Error loading form details:', err);
         addToast('error', 'Failed to load form config');
@@ -193,17 +199,20 @@ export default function FormBuilderPage() {
     setSelectedFieldId(duplicated.id);
   };
 
-  const handleSaveForm = async () => {
+  const handleSaveForm = async (options?: { silent?: boolean }) => {
+    const silent = options?.silent ?? false;
+
     if (!title.trim()) {
-      addToast('error', 'Form Title is required');
+      if (!silent) addToast('error', 'Form Title is required');
       return;
     }
     if (!slug.trim()) {
-      addToast('error', 'Form Slug is required');
+      if (!silent) addToast('error', 'Form Slug is required');
       return;
     }
 
     setIsSaving(true);
+    if (silent) setAutosaveStatus('saving');
     try {
       // Find current user's profile ID from global context
       const userRowId = createdBy || userProfile?.id || null;
@@ -246,7 +255,11 @@ export default function FormBuilderPage() {
           userRowId
         );
 
-        addToast('success', 'Form updated successfully!');
+        if (silent) {
+          setAutosaveStatus('saved');
+        } else {
+          addToast('success', 'Form updated successfully!');
+        }
       } else {
         void logAuditAction(
           'CREATE_FORM',
@@ -257,25 +270,57 @@ export default function FormBuilderPage() {
           userRowId
         );
 
-        addToast('success', 'Form created successfully!');
-        
+        if (silent) {
+          setAutosaveStatus('saved');
+        } else {
+          addToast('success', 'Form created successfully!');
+        }
+
         // Navigate to edit route of created form, skipping loadForm
         justCreatedRef.current = true;
+        skipNextAutosaveRef.current = true;
         if (savedFormId) {
           navigate(`/admin/forms/${savedFormId}/edit`, { replace: true });
         }
       }
     } catch (err: any) {
       console.error('Error saving form:', err);
+      if (silent) {
+        setAutosaveStatus('error');
+      }
       if (err?.code === '40001') {
-        addToast('error', 'This form changed elsewhere. Reload it and try again.');
+        if (!silent) addToast('error', 'This form changed elsewhere. Reload it and try again.');
       } else {
-        addToast('error', err.message || 'Failed to save form config');
+        if (!silent) addToast('error', err.message || 'Failed to save form config');
       }
     } finally {
       setIsSaving(false);
     }
   };
+
+  // Autosave: debounce edits and silently persist without a manual Save click
+  useEffect(() => {
+    if (isPageLoading || isAuthLoading || !isAdmin) return;
+
+    if (skipNextAutosaveRef.current) {
+      skipNextAutosaveRef.current = false;
+      return;
+    }
+
+    if (!title.trim() || !slug.trim()) return;
+
+    setAutosaveStatus('pending');
+
+    if (autosaveTimerRef.current) clearTimeout(autosaveTimerRef.current);
+    autosaveTimerRef.current = setTimeout(() => {
+      void handleSaveForm({ silent: true });
+    }, 1200);
+
+    return () => {
+      if (autosaveTimerRef.current) clearTimeout(autosaveTimerRef.current);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [title, description, slug, status, fields, settings]);
 
   if (isPageLoading || isAuthLoading) {
     return (
@@ -392,14 +437,24 @@ export default function FormBuilderPage() {
                 <Eye size={15} />
               </button>
 
+              {/* Autosave status */}
+              {isEditMode && (
+                <span className="text-[11px] font-mono text-zinc-500 min-w-[72px]">
+                  {autosaveStatus === 'pending' && 'Unsaved…'}
+                  {autosaveStatus === 'saving' && 'Saving…'}
+                  {autosaveStatus === 'saved' && 'Saved'}
+                  {autosaveStatus === 'error' && <span className="text-red-400">Save failed</span>}
+                </span>
+              )}
+
               {/* Save Trigger */}
               <button
-                onClick={handleSaveForm}
+                onClick={() => handleSaveForm()}
                 disabled={isSaving}
                 className="inline-flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-zinc-200 text-black text-xs font-bold rounded-xl transition-all shadow-lg hover:shadow-white/5"
               >
                 {isSaving ? <Loader2 size={13} className="animate-spin" /> : <Save size={13} />}
-                {isEditMode ? 'Save Changes' : 'Create Form'}
+                {isEditMode ? 'Save Now' : 'Create Form'}
               </button>
             </div>
           </div>
