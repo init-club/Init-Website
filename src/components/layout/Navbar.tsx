@@ -28,7 +28,7 @@ const navGraph = [
   },
   {
     label: 'Updates',
-    path: '/updates',
+    path: '/activity',
     children: [
       { label: 'Activity', path: '/activity' },
       { label: 'Events', path: '/events' },

@@ -76,7 +76,7 @@ const ProfileSetup = () => {
         .update({ profile_completed: true })
         .eq('id', targetUserId);
 
-      navigate(editModeUsername ? `/profile/${editModeUsername}` : '/members');
+      navigate(editModeUsername ? `/profile/${editModeUsername}` : '/profile');
     } catch (error: any) {
       alert('Error: ' + error.message);
     } finally {

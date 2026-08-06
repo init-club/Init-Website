@@ -7,11 +7,15 @@ import { fetchSiteSettings } from '../../utils/fetchers';
 
 const navItems = [
   { label: 'Home', path: '/' },
-  { label: 'About', path: '/about' },
+  { label: 'About Us', path: '/about' },
+  { label: 'Members', path: '/members' },
+  { label: 'Idea Wall', path: '/idea-wall' },
+  { label: 'Graveyard', path: '/graveyard' },
+  { label: 'Activity', path: '/activity' },
   { label: 'Events', path: '/events' },
-  { label: 'Projects', path: '/projects' },
   { label: 'Blogs', path: '/blogs' },
-  { label: 'Contact', path: '/contact' },
+  { label: 'Forms', path: '/forms' },
+  { label: 'Join Us', path: '/contact' },
 ];
 
 export function Footer() {
@@ -25,8 +29,6 @@ export function Footer() {
 
   return (
     <footer className="relative mt-0 hidden md:block">
-
-
       {/* Footer Content - Solid background*/}
       <div className="relative z-20 pt-12 sm:pt-16 pb-8 bg-background">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -187,14 +189,6 @@ export function Footer() {
               </motion.a>
             </motion.div>
           </div>
-
-          {/* Bottom Bar */}
-          {/* <div className="mt-10 pt-6 border-t border-[var(--border)] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--muted)]">
-            <p>© {new Date().getFullYear()} Init Club. All rights reserved.</p>
-            <p className="flex items-center gap-2">
-              Made with <Heart size={14} className="text-red-400 fill-current" /> by Init Club
-            </p>
-          </div> */}
         </div>
       </div>
     </footer>
