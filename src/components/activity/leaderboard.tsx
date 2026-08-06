@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, type ReactElement } from 'react';
 import useSWR from 'swr';
 import { motion } from 'framer-motion';
 import { Trophy, Medal, Loader2, AlertCircle, Award, GitCommitHorizontal } from 'lucide-react';
@@ -31,7 +31,7 @@ interface RankedMember extends LeaderboardMember {
 const getTotalScore = (member: LeaderboardMember) =>
   member.contribution_stats?.reduce((acc, s) => acc + (s.score || 0), 0) || 0;
 
-const podiumStyles: Record<number, { ring: string; glow: string; badge: string; icon: JSX.Element }> = {
+const podiumStyles: Record<number, { ring: string; glow: string; badge: string; icon: ReactElement }> = {
   1: {
     ring: 'border-yellow-400/40',
     glow: 'shadow-[0_0_30px_rgba(250,204,21,0.15)]',
