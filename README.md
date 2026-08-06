@@ -19,12 +19,25 @@ The architecture combines a React 19 frontend with Vite, Tailwind CSS, and Frame
 
 ---
 
+## Documentation Index
+
+For exhaustive technical specifications and sub-system details, refer to the documents in the [`docs/`](docs/) directory:
+
+- [Database & Backend Schema Documentation](docs/DATABASE_AND_BACKEND.md): Complete Drizzle ORM schema, PostgreSQL entity definitions, migration history, RLS security policies, and SWR cache invalidation keys.
+- [Edge Functions & GitHub Sync Engine Documentation](docs/EDGE_FUNCTIONS_AND_GITHUB_SYNC.md): Deno runtime Edge Functions, GitHub REST API integration, membership lookup JIT setup, contributor commit/PR aggregation, and scoring formulas.
+- [Dynamic Form Engine Architecture Documentation](docs/FORM_ENGINE_ARCHITECTURE.md): Relational form normalization, optimistic concurrency control (`revision`), stored procedure RPCs, non-blocking autosave lock queue, and validation engine.
+- [Frontend Architecture & Admin Control Suite Documentation](docs/FRONTEND_AND_ADMIN_SUITE.md): React Router structure, `AuthContext` & onboarding gates, public views, and complete administrative dashboard control suite.
+- [Design System & UI Components Documentation](docs/DESIGN_SYSTEM_AND_COMPONENTS.md): Obsidian dark mode color tokens, typography scales, Framer Motion spring physics, Lenis smooth scrolling, and shared component primitives.
+
+---
+
 ## Technical Stack
 
 ### Frontend
 - **Framework**: React 19
 - **Build Tool**: Vite 7
 - **Language**: TypeScript 5.9
+- **Package Manager**: Bun 1.x
 - **Routing**: React Router DOM 7
 - **Styling**: Tailwind CSS 3.4
 - **Primitives**: Radix UI (Select, Checkbox, Radio Group, Dialog, Tooltip)
@@ -46,6 +59,12 @@ The architecture combines a React 19 frontend with Vite, Tailwind CSS, and Frame
 
 ```
 Init-Website/
+├── docs/                       In-depth architecture & sub-system documentation
+│   ├── DATABASE_AND_BACKEND.md
+│   ├── DESIGN_SYSTEM_AND_COMPONENTS.md
+│   ├── EDGE_FUNCTIONS_AND_GITHUB_SYNC.md
+│   ├── FORM_ENGINE_ARCHITECTURE.md
+│   └── FRONTEND_AND_ADMIN_SUITE.md
 ├── public/                     Static public assets and document files
 ├── src/
 │   ├── assets/                 Brand identity images and graphics
@@ -282,7 +301,7 @@ The user interface follows an **Obsidian Dark Mode** design system.
 
 ### Prerequisites
 - Node.js (v18 or higher)
-- npm (v9 or higher)
+- Bun (v1.0 or higher)
 - A Supabase project with PostgreSQL database enabled
 - A GitHub Personal Access Token with organization read permissions
 
@@ -311,22 +330,22 @@ github_pat=your-github-personal-access-token
 
 2. Install dependencies:
    ```bash
-   npm install
+   bun install
    ```
 
 3. Run the development server:
    ```bash
-   npm run dev
+   bun run dev
    ```
 
 4. Build for production:
    ```bash
-   npm run build
+   bun run build
    ```
 
 5. Preview the production build locally:
    ```bash
-   npm run preview
+   bun run preview
    ```
 
 ---
@@ -342,14 +361,14 @@ Database migrations are managed via SQL files in `supabase/migrations/`.
 To apply migrations using the Supabase CLI:
 
 ```bash
-supabase db push
+bunx supabase db push
 ```
 
 To deploy Edge Functions:
 
 ```bash
-supabase functions deploy github-lookup-user
-supabase functions deploy github-sync
+bunx supabase functions deploy github-lookup-user
+bunx supabase functions deploy github-sync
 ```
 
 ---
