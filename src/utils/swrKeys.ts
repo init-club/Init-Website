@@ -4,6 +4,7 @@ export const SWR_KEYS = {
   ADMIN_PROJECTS: 'admin_projects',
   ADMIN_MEMBERS: 'admin_members',
   ADMIN_SESSIONS: 'admin_sessions',
+  LEADERBOARD: 'leaderboard',
   FORMS_LIST: 'forms_list',
   form: (id: string) => `form:${id}`,
   formResponses: (id: string) => `form_responses:${id}`,
