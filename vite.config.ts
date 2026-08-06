@@ -15,9 +15,6 @@ export default defineConfig({
       output: {
         manualChunks(id) {
           if (id.includes('node_modules')) {
-            if (id.includes('pdfjs-dist') || id.includes('react-pdf')) {
-              return 'vendor-pdf';
-            }
             if (id.includes('recharts')) {
               return 'vendor-charts';
             }
