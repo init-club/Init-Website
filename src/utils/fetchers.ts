@@ -52,6 +52,25 @@ export const fetchAdminMembers = async () => {
   return data || [];
 };
 
+export const fetchLeaderboard = async () => {
+  const { data, error } = await supabase
+    .from('users')
+    .select(`
+      id, username, name, avatar_url, custom_title,
+      contribution_stats (
+        month,
+        year,
+        score,
+        score_adjustment
+      )
+    `)
+    .eq('is_active', true)
+    .order('name', { ascending: true });
+
+  if (error) throw error;
+  return data || [];
+};
+
 export const fetchAdminSessions = async () => {
   const { data, error } = await supabase
     .from('attendance_sessions')
