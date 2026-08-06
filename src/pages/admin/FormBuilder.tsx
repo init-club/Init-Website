@@ -73,7 +73,7 @@ export default function FormBuilderPage() {
   const dirtyDuringSaveRef = useRef(false);
   const abortControllerRef = useRef<AbortController | null>(null);
 
-  const SAVE_TIMEOUT_MS = 15000;
+  const SAVE_TIMEOUT_MS = 25000;
 
   const addToast = (type: 'success' | 'error', message: string) => {
     const id = crypto.randomUUID();
@@ -277,6 +277,7 @@ export default function FormBuilderPage() {
 
         if (silent) {
           setAutosaveStatus('saved');
+          setTimeout(() => setAutosaveStatus('idle'), 3000);
         } else {
           addToast('success', 'Form updated successfully!');
         }
@@ -292,6 +293,7 @@ export default function FormBuilderPage() {
 
         if (silent) {
           setAutosaveStatus('saved');
+          setTimeout(() => setAutosaveStatus('idle'), 3000);
         } else {
           addToast('success', 'Form created successfully!');
         }
@@ -499,10 +501,14 @@ export default function FormBuilderPage() {
                   </>
                 )}
                 {autosaveStatus === 'error' && (
-                  <>
-                    <AlertTriangle size={13} className="text-red-400" />
-                    <span className="text-red-400">Save failed</span>
-                  </>
+                  <button
+                    onClick={() => void handleSaveForm({ silent: true })}
+                    className="inline-flex items-center gap-1.5 text-red-400 hover:text-red-300 transition-colors"
+                    title="Click to retry"
+                  >
+                    <AlertTriangle size={13} />
+                    <span>Save failed — Retry</span>
+                  </button>
                 )}
                 {autosaveStatus === 'idle' && (
                   <span className="text-zinc-600">Not saved</span>
