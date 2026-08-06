@@ -366,6 +366,9 @@ export const GitGraph = () => {
 
 
                     {/* Mobile socials now rendered within hero block above */}
+
+                    {/* Bottom gradient overlay for seamless transition into the next section */}
+                    <div className="absolute bottom-0 inset-x-0 h-36 bg-gradient-to-b from-transparent via-[#09090b]/60 to-[#09090b] pointer-events-none z-20" />
                 </>
             )}
         </div>
