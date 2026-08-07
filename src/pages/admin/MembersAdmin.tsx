@@ -21,7 +21,7 @@
     fails, an error toast is shown but the local state is NOT rolled back — a page refresh will correct it.
  */
 import { useState, useEffect, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowLeft, Loader2, Search, Save, User, Shield,
@@ -488,27 +488,59 @@ export default function MembersAdmin() {
                         {/* User Header */}
                         <div className="flex items-start justify-between gap-3 mb-4">
                           <div className="flex items-center gap-3 min-w-0">
-                            {member.avatar_url ? (
-                              <img
-                                src={member.avatar_url}
-                                alt={member.name || member.username}
-                                className="w-10 h-10 rounded-full object-cover border border-zinc-850 shrink-0"
-                              />
+                            {member.username ? (
+                              <Link
+                                to={`/profile/${member.username}`}
+                                className="flex items-center gap-3 min-w-0 group"
+                                title="View public profile"
+                              >
+                                {member.avatar_url ? (
+                                  <img
+                                    src={member.avatar_url}
+                                    alt={member.name || member.username}
+                                    className="w-10 h-10 rounded-full object-cover border border-zinc-850 shrink-0 group-hover:border-purple-500 transition-colors"
+                                  />
+                                ) : (
+                                  <div className="w-10 h-10 rounded-full bg-zinc-900 border border-zinc-850 flex items-center justify-center shrink-0 group-hover:border-purple-500 transition-colors">
+                                    <span className="text-[10px] text-zinc-500 font-bold uppercase">
+                                      {member.name?.charAt(0) || member.username?.charAt(0) || 'U'}
+                                    </span>
+                                  </div>
+                                )}
+                                <div className="min-w-0">
+                                  <p className="text-white font-semibold text-sm truncate group-hover:underline group-hover:text-purple-300 transition-colors">
+                                    {member.name || 'Unnamed'}
+                                  </p>
+                                  <p className="text-zinc-500 text-xs truncate">
+                                    @{member.username || '—'}
+                                  </p>
+                                </div>
+                              </Link>
                             ) : (
-                              <div className="w-10 h-10 rounded-full bg-zinc-900 border border-zinc-850 flex items-center justify-center shrink-0">
-                                <span className="text-[10px] text-zinc-500 font-bold uppercase">
-                                  {member.name?.charAt(0) || member.username?.charAt(0) || 'U'}
-                                </span>
+                              <div className="flex items-center gap-3 min-w-0">
+                                {member.avatar_url ? (
+                                  <img
+                                    src={member.avatar_url}
+                                    alt={member.name || member.username}
+                                    className="w-10 h-10 rounded-full object-cover border border-zinc-850 shrink-0"
+                                  />
+                                ) : (
+                                  <div className="w-10 h-10 rounded-full bg-zinc-900 border border-zinc-850 flex items-center justify-center shrink-0">
+                                    <span className="text-[10px] text-zinc-500 font-bold uppercase">
+                                      {member.name?.charAt(0) || member.username?.charAt(0) || 'U'}
+                                    </span>
+                                  </div>
+                                )}
+                                <div className="min-w-0">
+                                  <p className="text-white font-semibold text-sm truncate">
+                                    {member.name || 'Unnamed'}
+                                  </p>
+                                  <p className="text-zinc-500 text-xs truncate">
+                                    @{member.username || '—'}
+                                  </p>
+                                </div>
                               </div>
                             )}
-                            <div className="min-w-0">
-                              <p className="text-white font-semibold text-sm truncate">
-                                {member.name || 'Unnamed'}
-                              </p>
-                              <p className="text-zinc-500 text-xs truncate">
-                                @{member.username || '—'}
-                              </p>
-                            </div>
                           </div>
 
                           {/* Role selection dropdown */}

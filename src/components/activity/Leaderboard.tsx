@@ -1,4 +1,5 @@
 import { useMemo, type ReactElement } from 'react';
+import { Link } from 'react-router-dom';
 import useSWR from 'swr';
 import { motion } from 'framer-motion';
 import { Trophy, Medal, Loader2, AlertCircle, Award, GitCommitHorizontal } from 'lucide-react';
@@ -38,20 +39,20 @@ const EXCLUDED_USERNAMES = ['TheInitClub'];
 
 const podiumStyles: Record<number, { ring: string; glow: string; badge: string; icon: ReactElement }> = {
   1: {
-    ring: 'border-yellow-400/40',
-    glow: 'shadow-[0_0_30px_rgba(250,204,21,0.15)]',
+    ring: 'border-yellow-400/40 hover:border-yellow-400/70',
+    glow: 'shadow-[0_0_30px_rgba(250,204,21,0.15)] hover:shadow-[0_0_40px_rgba(250,204,21,0.25)]',
     badge: 'bg-yellow-400/10 text-yellow-300 border-yellow-400/30',
     icon: <Trophy size={16} className="text-yellow-300" />,
   },
   2: {
-    ring: 'border-zinc-300/30',
-    glow: 'shadow-[0_0_24px_rgba(212,212,216,0.1)]',
+    ring: 'border-zinc-300/30 hover:border-zinc-300/60',
+    glow: 'shadow-[0_0_24px_rgba(212,212,216,0.1)] hover:shadow-[0_0_35px_rgba(212,212,216,0.2)]',
     badge: 'bg-zinc-300/10 text-zinc-200 border-zinc-300/25',
     icon: <Medal size={16} className="text-zinc-300" />,
   },
   3: {
-    ring: 'border-amber-600/40',
-    glow: 'shadow-[0_0_24px_rgba(217,119,6,0.12)]',
+    ring: 'border-amber-600/40 hover:border-amber-600/70',
+    glow: 'shadow-[0_0_24px_rgba(217,119,6,0.12)] hover:shadow-[0_0_35px_rgba(217,119,6,0.22)]',
     badge: 'bg-amber-600/10 text-amber-400 border-amber-600/30',
     icon: <Medal size={16} className="text-amber-500" />,
   },
@@ -149,31 +150,33 @@ export default function Leaderboard() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.08 }}
-                className={`relative flex flex-col items-center justify-center text-center rounded-2xl border bg-zinc-950/60 backdrop-blur-sm px-5 ${style.ring} ${style.glow} ${
+                className={`relative flex flex-col items-center justify-center text-center rounded-2xl border bg-zinc-950/60 backdrop-blur-sm px-5 transition-all cursor-pointer ${style.ring} ${style.glow} ${
                   isFirst
                     ? 'min-h-[272px] py-8 sm:-translate-y-3'
                     : 'min-h-[228px] py-6'
                 }`}
               >
-                <span className={`absolute -top-3 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold border ${style.badge}`}>
-                  {style.icon}
-                  #{member.rank}
-                </span>
-                <Avatar member={member} size={isFirst ? 68 : 56} />
-                <p className="mt-3 font-bold text-white text-sm truncate max-w-full">
-                  {member.name || member.username}
-                </p>
-                <p className="text-zinc-500 text-xs">@{member.username}</p>
-                {member.custom_title && (
-                  <div className="flex items-center gap-1 mt-2 bg-purple-500/5 border border-purple-500/10 px-2 py-0.5 rounded-full">
-                    <Award size={10} className="text-purple-400 shrink-0" />
-                    <span className="text-[10px] text-purple-300 font-medium truncate">{member.custom_title}</span>
-                  </div>
-                )}
-                <p className={`mt-3 font-black text-white ${isFirst ? 'text-3xl' : 'text-2xl'}`} style={{ fontFamily: 'var(--font-heading)' }}>
-                  {member.totalScore}
-                </p>
-                <p className="text-[10px] uppercase tracking-wider text-zinc-600">points</p>
+                <Link to={`/profile/${member.username}`} className="w-full flex flex-col items-center">
+                  <span className={`absolute -top-3 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold border ${style.badge}`}>
+                    {style.icon}
+                    #{member.rank}
+                  </span>
+                  <Avatar member={member} size={isFirst ? 68 : 56} />
+                  <p className="mt-3 font-bold text-white text-sm truncate max-w-full hover:underline">
+                    {member.name || member.username}
+                  </p>
+                  <p className="text-zinc-500 text-xs">@{member.username}</p>
+                  {member.custom_title && (
+                    <div className="flex items-center gap-1 mt-2 bg-purple-500/5 border border-purple-500/10 px-2 py-0.5 rounded-full">
+                      <Award size={10} className="text-purple-400 shrink-0" />
+                      <span className="text-[10px] text-purple-300 font-medium truncate">{member.custom_title}</span>
+                    </div>
+                  )}
+                  <p className={`mt-3 font-black text-white ${isFirst ? 'text-3xl' : 'text-2xl'}`} style={{ fontFamily: 'var(--font-heading)' }}>
+                    {member.totalScore}
+                  </p>
+                  <p className="text-[10px] uppercase tracking-wider text-zinc-600">points</p>
+                </Link>
               </motion.div>
             );
           })}
@@ -189,27 +192,29 @@ export default function Leaderboard() {
               initial={{ opacity: 0, x: -8 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: idx * 0.03 }}
-              className={`flex items-center gap-4 px-4 py-3 ${idx !== rest.length - 1 ? 'border-b border-zinc-900' : ''}`}
+              className={`px-4 py-3 hover:bg-zinc-900/50 transition-colors ${idx !== rest.length - 1 ? 'border-b border-zinc-900' : ''}`}
             >
-              <span className="w-7 shrink-0 text-center text-sm font-bold text-zinc-500">
-                {member.rank}
-              </span>
-              <Avatar member={member} size={36} />
-              <div className="min-w-0 flex-1">
-                <p className="font-semibold text-white text-sm truncate">{member.name || member.username}</p>
-                <p className="text-zinc-600 text-xs truncate">@{member.username}</p>
-              </div>
-              {member.custom_title && (
-                <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 bg-purple-500/5 border border-purple-500/10 rounded-full text-[10px] text-purple-300 font-medium shrink-0">
-                  <Award size={10} />
-                  {member.custom_title}
+              <Link to={`/profile/${member.username}`} className="flex items-center gap-4 w-full">
+                <span className="w-7 shrink-0 text-center text-sm font-bold text-zinc-500">
+                  {member.rank}
                 </span>
-              )}
-              <div className="flex items-center gap-1.5 shrink-0">
-                <GitCommitHorizontal size={12} className="text-zinc-600" />
-                <span className="font-bold text-white text-sm">{member.totalScore}</span>
-                <span className="text-zinc-600 text-xs">pts</span>
-              </div>
+                <Avatar member={member} size={36} />
+                <div className="min-w-0 flex-1">
+                  <p className="font-semibold text-white text-sm truncate hover:underline">{member.name || member.username}</p>
+                  <p className="text-zinc-600 text-xs truncate">@{member.username}</p>
+                </div>
+                {member.custom_title && (
+                  <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 bg-purple-500/5 border border-purple-500/10 rounded-full text-[10px] text-purple-300 font-medium shrink-0">
+                    <Award size={10} />
+                    {member.custom_title}
+                  </span>
+                )}
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <GitCommitHorizontal size={12} className="text-zinc-600" />
+                  <span className="font-bold text-white text-sm">{member.totalScore}</span>
+                  <span className="text-zinc-600 text-xs">pts</span>
+                </div>
+              </Link>
             </motion.div>
           ))}
         </div>
