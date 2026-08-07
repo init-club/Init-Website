@@ -30,18 +30,32 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (!error && data && data.length > 0) {
         const profile = data[0];
         setUserProfile(profile);
-        setIsAdmin(profile.role === 'admin');
+        setIsAdmin(String(profile.role).toLowerCase() === 'admin');
       } else {
-        // Fallback check in case RPC fails
-        const { data: userRow } = await supabase
+        // Fallback check: Query by auth_user_id
+        let { data: userRow } = await supabase
           .from('users')
           .select('id, role, name, username, avatar_url, custom_title')
           .eq('auth_user_id', userId)
-          .single();
+          .maybeSingle();
+
+        // If auth_user_id is not yet linked in users table, fallback to GitHub username matching
+        if (!userRow) {
+          const { data: { session: activeSession } } = await supabase.auth.getSession();
+          const ghUsername = activeSession?.user?.user_metadata?.preferred_username || activeSession?.user?.user_metadata?.user_name;
+          if (ghUsername) {
+            const { data: matchedRow } = await supabase
+              .from('users')
+              .select('id, role, name, username, avatar_url, custom_title')
+              .ilike('username', ghUsername)
+              .maybeSingle();
+            userRow = matchedRow;
+          }
+        }
         
         if (userRow) {
           setUserProfile(userRow);
-          setIsAdmin(userRow.role === 'admin');
+          setIsAdmin(String(userRow.role).toLowerCase() === 'admin');
         } else {
           setUserProfile(null);
           setIsAdmin(false);
@@ -49,6 +63,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
     } catch (err) {
       console.error('Error fetching profile context:', err);
+      setIsAdmin(false);
     }
   }, []);
 
