@@ -97,6 +97,7 @@ Deno.serve(async (req) => {
         // Key format: "${dbUserId}_${year}_${month}"
         const userCommitsMap = new Map<string, number>()
         const userPRsMap = new Map<string, number>()
+        const userPRScoresMap = new Map<string, number[]>() // Key format: "${dbUserId}_${year}_${month}" -> array of individual PR impact scores
         const activePeriods = new Set<string>() // Format: "year_month"
 
         // 4. Fetch all repositories of 'init-club' from GitHub
@@ -147,14 +148,35 @@ Deno.serve(async (req) => {
                         })
                         if (prErr) console.error(`Error saving PR #${pr.number} for ${repo.name}:`, prErr)
 
-                        // Only count merged PRs towards contribution stats, assigned to the merge month/year
+                        // Anti-Abuse Checks (#1, #2, #3):
+                        // Only count merged PRs
                         if (pr.merged_at) {
+                            // Check #1: Non-self merge check (if merged_by is available and equals author, ignore unless reviewed)
+                            const isSelfMerged = pr.merged_by && pr.merged_by.id && (Number(pr.merged_by.id) === prAuthorGithubId);
+                            if (isSelfMerged) {
+                                console.log(`Skipping self-merged PR #${pr.number} by ${pr.user.login}`);
+                                continue;
+                            }
+
+                            // Fetch individual PR details to get line additions (#3)
+                            const singlePrData = await ghFetch(`repos/${orgName}/${repo.name}/pulls/${pr.number}`);
+                            const additions = singlePrData?.additions || 0;
+
+                            // Formula #3: PR Impact Score = min(25, 5 + floor(additions / 20))
+                            const prImpactScore = Math.min(25, 5 + Math.floor(additions / 20));
+
                             const mergeDate = new Date(pr.merged_at)
                             const prYear = mergeDate.getFullYear()
                             const prMonth = mergeDate.getMonth() + 1
 
                             const key = `${prAuthorId}_${prYear}_${prMonth}`
                             userPRsMap.set(key, (userPRsMap.get(key) || 0) + 1)
+                            
+                            // Accumulate weighted PR score for user period
+                            const existingScores = userPRScoresMap.get(key) || []
+                            existingScores.push(prImpactScore)
+                            userPRScoresMap.set(key, existingScores)
+
                             activePeriods.add(`${prYear}_${prMonth}`)
                         }
                     }
@@ -221,8 +243,16 @@ Deno.serve(async (req) => {
 
                 // Only write row if there is active data OR if it's the current month (to initialize leaderboard)
                 if (totalCommits > 0 || totalPRs > 0 || (year === currentYear && month === currentMonth)) {
-                    // Formula: 1 point per commit + 10 points per PR
-                    const calculatedScore = (totalCommits * 1) + (totalPRs * 10)
+                    // Anti-Abuse Rule #2 & #3:
+                    // Take top 5 PR impact scores for the month (hard cap of 5 scored PRs per month)
+                    const prScores = userPRScoresMap.get(key) || []
+                    prScores.sort((a, b) => b - a) // Highest impact PRs first
+                    const top5PrScores = prScores.slice(0, 5) // Cap at 5 PRs per month
+                    const totalPRScore = top5PrScores.reduce((sum, val) => sum + val, 0)
+
+                    // Final anti-abuse score formula:
+                    // 1 point per commit + weighted capped PR scores (rounded to integer)
+                    const calculatedScore = Math.round((totalCommits * 1) + totalPRScore)
 
                     const { error: statsErr } = await supabase.from('contribution_stats').upsert({
                         user_id: dbUserId,
