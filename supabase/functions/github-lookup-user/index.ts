@@ -59,12 +59,20 @@ Deno.serve(async (req) => {
 
         const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
 
+        // Check if user already exists to preserve custom roles (e.g. 'admin')
+        const { data: existingUser } = await supabase
+            .from('users')
+            .select('role, auth_user_id')
+            .eq('github_id', userDetails.id)
+            .maybeSingle()
+
         const { error: upsertError } = await supabase.from('users').upsert({
             github_id: userDetails.id,
             username: userDetails.login,
             name: userDetails.name || userDetails.login, // Fallback to handle if name is null
             avatar_url: userDetails.avatar_url,
-            role: 'member',     // Default role
+            role: existingUser?.role || 'member',     // Preserve existing role (e.g., 'admin')
+            auth_user_id: existingUser?.auth_user_id || null,
             is_active: true,
             last_seen_at: new Date().toISOString()
         }, {
