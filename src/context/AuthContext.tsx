@@ -84,12 +84,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setIsLoading(false);
     });
 
-    // 2. Listen to Auth State changes
+    // 2. Listen to Auth State changes (skip redundant INITIAL_SESSION fetch)
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, activeSession) => {
       setSession(activeSession);
-      if (activeSession?.user) {
-        await fetchProfile(activeSession.user.id);
-      } else {
+      if (event === 'SIGNED_IN' || event === 'USER_UPDATED' || event === 'TOKEN_REFRESHED') {
+        if (activeSession?.user) {
+          await fetchProfile(activeSession.user.id);
+        }
+      } else if (event === 'SIGNED_OUT') {
         setUserProfile(null);
         setIsAdmin(false);
       }
