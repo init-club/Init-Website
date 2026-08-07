@@ -317,7 +317,6 @@ The application implements a multi-tier Role-Based Access Control (RBAC) archite
 
 ### Member Roster & Leaderboards (`/admin/members`)
 - **File**: [`src/pages/admin/MembersAdmin.tsx`](file:///C:/My-Files/Github/Init-Website/src/pages/admin/MembersAdmin.tsx)
-- **Features & Implementation Decisions**:
   - Member management table showing roll numbers, GitHub handles, assigned roles, and custom achievement titles.
   - **All-Time Score Calculation**: Computes total member points on the client by reducing all monthly entries inside `contribution_stats`:
     ```ts

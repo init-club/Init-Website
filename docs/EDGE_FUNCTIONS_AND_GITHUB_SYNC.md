@@ -170,25 +170,38 @@ GitHub returns an array of contributor objects containing:
      - Aggregates commits into the in-memory map `userCommitsMap` under key `${dbUserId}_${weekYear}_${weekMonth}`.
      - Adds `${weekYear}_${weekMonth}` to `activePeriods`.
 
-### Leaderboard Scoring Formula
+### Anti-Abuse Leaderboard Scoring Formula
 
-Contribution statistics are consolidated per user per month into the `contribution_stats` database table.
+Contribution statistics are consolidated per user per month into the `contribution_stats` database table with multi-layer anti-gaming rules.
+
+#### Anti-Abuse Protection Rules
+
+1. **Non-Self Merge Verification**: PRs where `pr.merged_by.id === pr.user.id` (self-merged PRs without review) are excluded to prevent self-approving spam PRs.
+2. **Monthly PR Score Capping**: A hard cap of **top 5 PRs per month** is enforced per user. Additional PRs beyond 5 are uncounted in score calculation to prevent micro-PR spamming.
+3. **PR Impact Complexity Weighting**: Each merged PR's base score is dynamically calculated based on code additions:
+   $$\text{PR Impact Score} = \min\left(25, 5 + \left\lfloor \frac{\text{Additions}}{20} \right\rfloor\right)$$
+   *(Single-line PRs receive 5 points, medium PRs ~15 points, and large feature PRs up to 25 points).*
 
 #### Formula Definition
 
-$$\text{Calculated Base Score} = (\text{Commits} \times 1) + (\text{Merged PRs} \times 10)$$
+$$\text{Monthly PR Score} = \sum_{k=1}^{\min(5, \text{PRs})} \text{PR Impact Score}_k$$
 
-$$\text{Total Monthly Score} = \text{Calculated Base Score} + \text{Adjustment}$$
+$$\text{Total Monthly Score} = \text{Math.round}\left((\text{Commits} \times 1) + \text{Monthly PR Score} + \text{Adjustment}\right)$$
 
 Where:
-- **Commits**: Total commit count (`commit_count`) aggregated from weekly commit buckets for that month.
-- **Merged PRs**: Total merged pull request count (`pr_count`) for that month.
+- **Commits**: Total commit count (`commit_count`) aggregated from weekly commit buckets for that month (1 point per commit).
+- **Monthly PR Score**: Sum of top 5 PR impact scores for that month.
 - **Adjustment**: Manual point override (`score_adjustment`) assigned by administrative staff (e.g., bonus points for event participation or penalties).
+- **Rounding**: Final monthly score is rounded off to a whole integer.
 
 #### Database Persistence & Upsert Workflow
 For every combination of active period (`year_month`) and registered user, the function executes an upsert to `contribution_stats`:
 
 ```typescript
+const top5PrScores = prScores.slice(0, 5) // Cap at 5 PRs per month
+const totalPRScore = top5PrScores.reduce((sum, val) => sum + val, 0)
+const calculatedScore = Math.round((totalCommits * 1) + totalPRScore)
+
 supabase.from('contribution_stats').upsert({
     user_id: dbUserId,
     month: month,
