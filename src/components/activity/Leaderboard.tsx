@@ -31,6 +31,11 @@ interface RankedMember extends LeaderboardMember {
 const getTotalScore = (member: LeaderboardMember) =>
   member.contribution_stats?.reduce((acc, s) => acc + (s.score || 0), 0) || 0;
 
+// Cap how many members render — change to 20 if you'd rather show more.
+const MAX_DISPLAYED = 15;
+
+const EXCLUDED_USERNAMES = ['TheInitClub'];
+
 const podiumStyles: Record<number, { ring: string; glow: string; badge: string; icon: ReactElement }> = {
   1: {
     ring: 'border-yellow-400/40',
@@ -85,7 +90,11 @@ export default function Leaderboard() {
     if (!data) return [];
     return [...data]
       .map((m: LeaderboardMember) => ({ ...m, totalScore: getTotalScore(m) }))
+      .filter((m) => m.totalScore > 0 && !EXCLUDED_USERNAMES.some(
+        (u) => u.toLowerCase() === m.username?.toLowerCase()
+      ))
       .sort((a, b) => b.totalScore - a.totalScore)
+      .slice(0, MAX_DISPLAYED)
       .map((m, i) => ({ ...m, rank: i + 1 }));
   }, [data]);
 
@@ -140,7 +149,11 @@ export default function Leaderboard() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.08 }}
-                className={`relative flex flex-col items-center text-center rounded-2xl border bg-zinc-950/60 backdrop-blur-sm px-5 pt-6 pb-5 ${style.ring} ${style.glow} ${isFirst ? 'sm:-translate-y-3' : ''}`}
+                className={`relative flex flex-col items-center justify-center text-center rounded-2xl border bg-zinc-950/60 backdrop-blur-sm px-5 ${style.ring} ${style.glow} ${
+                  isFirst
+                    ? 'min-h-[272px] py-8 sm:-translate-y-3'
+                    : 'min-h-[228px] py-6'
+                }`}
               >
                 <span className={`absolute -top-3 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold border ${style.badge}`}>
                   {style.icon}
@@ -157,7 +170,7 @@ export default function Leaderboard() {
                     <span className="text-[10px] text-purple-300 font-medium truncate">{member.custom_title}</span>
                   </div>
                 )}
-                <p className="mt-3 text-2xl font-black text-white" style={{ fontFamily: 'var(--font-heading)' }}>
+                <p className={`mt-3 font-black text-white ${isFirst ? 'text-3xl' : 'text-2xl'}`} style={{ fontFamily: 'var(--font-heading)' }}>
                   {member.totalScore}
                 </p>
                 <p className="text-[10px] uppercase tracking-wider text-zinc-600">points</p>
