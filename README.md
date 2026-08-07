@@ -30,6 +30,7 @@ For exhaustive technical specifications and sub-system details, refer to the doc
 - [Dynamic Form Engine Architecture Documentation](docs/FORM_ENGINE_ARCHITECTURE.md): Relational form normalization, optimistic concurrency control (`revision`), stored procedure RPCs, non-blocking autosave lock queue, and validation engine.
 - [Frontend Architecture & Admin Control Suite Documentation](docs/FRONTEND_AND_ADMIN_SUITE.md): React Router structure, `AuthContext` & onboarding gates, public views, and complete administrative dashboard control suite.
 - [Design System & UI Components Documentation](docs/DESIGN_SYSTEM_AND_COMPONENTS.md): Obsidian dark mode color tokens, typography scales, Framer Motion spring physics, Lenis smooth scrolling, and shared component primitives.
+- [Supabase Direct API Access & Client Guide](docs/SUPABASE_DIRECT_API_ACCESS.md): Guide on PostgREST API access, `@supabase/supabase-js` client usage, Service Role Key permissions, and CLI-less database administration.
 
 ---
 
