@@ -24,7 +24,7 @@ export function Footer() {
   const socials = [
     { label: 'LinkedIn', href: settings?.linkedin_link || 'https://www.linkedin.com/company/the-init-club/', icon: Linkedin },
     { label: 'Instagram', href: settings?.instagram_link || 'https://www.instagram.com/the.init.club?igsh=MTFlcWg1eWIyMTNyaA==', icon: Instagram },
-    { label: 'Discord', href: settings?.discord_link || 'https://discord.gg/Gx8sdGJkU', icon: Discord },
+    { label: 'Discord', href: settings?.discord_link || 'https://discord.gg/Crsv7CdXD', icon: Discord },
   ];
 
   return (
@@ -148,7 +148,7 @@ export function Footer() {
                 Stay updated with events, workshops, and showcases.
               </p>
               <motion.a
-                href="https://discord.gg/Gx8sdGJkU"
+                href="https://discord.gg/Crsv7CdXD"
                 target="_blank"
                 rel="noreferrer"
                 className="group relative mt-3 sm:mt-4 inline-flex items-center gap-1.5 sm:gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl glass overflow-hidden font-medium text-xs sm:text-sm whitespace-nowrap text-text"

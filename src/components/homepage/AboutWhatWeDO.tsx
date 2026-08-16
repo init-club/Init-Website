@@ -231,7 +231,7 @@ const AboutWhatWeDo: React.FC = () => {
               </a>
 
               <a
-                href="https://discord.gg/Gx8sdGJkU"
+                href="https://discord.gg/Crsv7CdXD"
                 target="_blank"
                 rel="noreferrer"
                 className="group relative px-8 py-3.5 rounded-xl bg-[#5865F2]/10 border border-[#5865F2]/20 text-[#5865F2] font-bold text-sm hover:bg-[#5865F2] hover:text-white transition-all duration-300"

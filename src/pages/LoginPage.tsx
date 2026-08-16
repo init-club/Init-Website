@@ -124,7 +124,7 @@ const LoginPage = () => {
                 </div>
 
                 <motion.a
-                  href="https://discord.com/invite/Gx8sdGJkU"
+                  href="https://discord.gg/Crsv7CdXD"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group relative flex items-center justify-center gap-2 w-full py-3 rounded-xl border border-[#5865F2]/50 text-white font-semibold overflow-hidden inline-flex transition-all"
