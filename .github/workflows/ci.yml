@@ -43,6 +43,9 @@ jobs:
       - name: Type-check
         run: npm run typecheck
 
+      - name: Test
+        run: npm test
+
       # No secrets needed: the Supabase URL and publishable key are read at
       # runtime in the browser, not baked in at build time, and the build
       # completes without them. Verified against a clean checkout.
