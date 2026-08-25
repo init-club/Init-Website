@@ -283,4 +283,22 @@ body {
     background-color: oklch(var(--background));
     color: oklch(var(--foreground));
   }
+
+  /* Keyboard focus.
+
+     The default UA outline is a thin dark ring, which is close to invisible on
+     this theme's near-black surfaces. This uses the existing cyan --accent so
+     focus reads clearly without introducing a new colour, and :focus-visible
+     rather than :focus so it appears for keyboard and assistive-tech users
+     without drawing a ring around every clicked button. */
+  :where(a, button, input, select, textarea, summary, [tabindex]:not([tabindex="-1"])):focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: inherit;
+  }
+
+  /* Never remove the indicator without replacing it. */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
 }

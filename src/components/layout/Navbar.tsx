@@ -371,7 +371,8 @@ export function Navbar() {
               ) : user ? (
                 <>
                   <div className="flex items-center gap-3 px-3 py-2 mb-1">
-                    <img src={user.user_metadata.avatar_url} className="w-8 h-8 rounded-full border border-zinc-800" />
+                    {/* Decorative: the name is announced by the text beside it. */}
+                    <img src={user.user_metadata.avatar_url} alt="" className="w-8 h-8 rounded-full border border-zinc-800" />
                     <div>
                       <p className="text-white font-semibold text-sm">{user.user_metadata.full_name}</p>
                       <p className="text-zinc-500 text-xs font-mono">Logged In</p>

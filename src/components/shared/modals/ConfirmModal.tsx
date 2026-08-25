@@ -73,6 +73,7 @@ export default function ConfirmModal({
             {/* Close Cross */}
             <button
               onClick={onClose}
+              aria-label="Close dialog"
               className="absolute top-4 right-4 p-1 text-zinc-500 hover:text-white transition-colors"
             >
               <X size={15} />

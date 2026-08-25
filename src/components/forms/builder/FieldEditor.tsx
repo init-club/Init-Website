@@ -163,6 +163,7 @@ export default function FieldEditor({ field, onUpdateField }: FieldEditorProps) 
               />
               <button
                 onClick={handleAddOption}
+                aria-label="Add option"
                 className="p-1.5 bg-zinc-900 border border-zinc-800 rounded-xl hover:bg-zinc-800 text-zinc-300 transition-all flex items-center justify-center"
               >
                 <Plus size={14} />

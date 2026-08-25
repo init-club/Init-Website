@@ -196,6 +196,7 @@ const WriteBlogModal = ({ isOpen, onClose, onSuccess }: WriteBlogModalProps) => 
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm px-4 py-6"
           onClick={onClose}
+          aria-label="Close blog editor"
           role="dialog"
           aria-modal="true"
           aria-labelledby={dialogTitleId}

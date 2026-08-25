@@ -80,6 +80,7 @@ export default function FormSettingsModal({
               </div>
               <button
                 onClick={onClose}
+                aria-label="Close form settings"
                 className="p-1 text-zinc-500 hover:text-white transition-colors"
               >
                 <X size={16} />

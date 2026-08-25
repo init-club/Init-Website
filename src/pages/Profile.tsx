@@ -399,12 +399,14 @@ const Profile = () => {
                   <div className="flex gap-1.5">
                     <button
                       onClick={handlePrevCarousel}
+                      aria-label="Previous showcase projects"
                       className="p-1.5 bg-zinc-900 border border-zinc-800 hover:border-zinc-700 rounded-lg text-zinc-400 hover:text-white transition-colors"
                     >
                       <ChevronLeft size={16} />
                     </button>
                     <button
                       onClick={handleNextCarousel}
+                      aria-label="Next showcase projects"
                       className="p-1.5 bg-zinc-900 border border-zinc-800 hover:border-zinc-700 rounded-lg text-zinc-400 hover:text-white transition-colors"
                     >
                       <ChevronRight size={16} />

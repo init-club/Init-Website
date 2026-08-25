@@ -364,7 +364,7 @@ export default function EventsAdmin() {
                           e.stopPropagation();
                           handleDeleteSession(s.id);
                         }}
-                        className="opacity-0 group-hover:opacity-100 hover:text-red-400 p-1 rounded transition-opacity"
+                        className="opacity-0 group-hover:opacity-100 focus-visible:opacity-100 hover:text-red-400 p-1 rounded transition-opacity"
                         aria-label="Delete Session"
                       >
                         <Trash2 size={13} />

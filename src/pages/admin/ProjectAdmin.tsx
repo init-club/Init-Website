@@ -93,6 +93,7 @@ const EditModal = ({ project, isOpen, onClose, onSave }: EditModalProps) => {
             {/* Close */}
             <button
               onClick={onClose}
+              aria-label="Close dialog"
               className="absolute top-4 right-4 p-1 text-zinc-500 hover:text-white transition-colors"
             >
               <X size={16} />

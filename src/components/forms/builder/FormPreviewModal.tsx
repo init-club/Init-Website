@@ -52,6 +52,7 @@ export default function FormPreviewModal({
               </div>
               <button
                 onClick={onClose}
+                aria-label="Close preview"
                 className="p-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-500 hover:text-white transition-colors"
               >
                 <X size={16} />

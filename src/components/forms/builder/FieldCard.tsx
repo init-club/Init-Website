@@ -102,9 +102,10 @@ export default function FieldCard({
       </div>
 
       {/* Quick Actions overlay */}
-      <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 self-center bg-zinc-950/80 px-2 py-1 rounded-xl border border-zinc-900">
+      <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity duration-200 self-center bg-zinc-950/80 px-2 py-1 rounded-xl border border-zinc-900">
         <button
           onClick={onSelect}
+          aria-label="Edit field"
           className="p-1.5 text-zinc-400 hover:text-white transition-colors"
           title="Edit"
         >
@@ -112,6 +113,7 @@ export default function FieldCard({
         </button>
         <button
           onClick={onDuplicate}
+          aria-label="Duplicate field"
           className="p-1.5 text-zinc-400 hover:text-white transition-colors"
           title="Duplicate"
         >
@@ -119,6 +121,7 @@ export default function FieldCard({
         </button>
         <button
           onClick={onDelete}
+          aria-label="Delete field"
           className="p-1.5 text-zinc-400 hover:text-red-400 transition-colors"
           title="Delete"
         >
