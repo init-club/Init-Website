@@ -23,7 +23,7 @@
     component itself redirects non-admins away.
 
  */
-import { useEffect, useState, lazy, Suspense } from 'react';
+import { useEffect, useRef, useState, lazy, Suspense } from 'react';
 import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
 import { supabase } from './supabaseClient';
 
@@ -70,6 +70,10 @@ function AppContent() {
   const [showAccessDenied, setShowAccessDenied] = useState(false);
   const [showSyncMessage, setShowSyncMessage] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
+  // Auth user id we have already attempted a JIT sync for. Without this the
+  // effect below can fire the edge function more than once for the same user
+  // (re-renders, StrictMode double-invocation, token refresh).
+  const jitAttemptedFor = useRef<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -109,9 +113,18 @@ function AppContent() {
       }
     };
 
-    if (!isLoading && session) {
+    if (!session) {
+      // Allow a fresh attempt if a different account signs in later.
+      jitAttemptedFor.current = null;
+      return;
+    }
+
+    if (!isLoading) {
       if (!userProfile) {
-        tryJitSync();
+        if (jitAttemptedFor.current !== session.user.id) {
+          jitAttemptedFor.current = session.user.id;
+          tryJitSync();
+        }
       } else if (!userProfile.profile_completed) {
         console.log("Profile incomplete, redirecting...");
         if (window.location.pathname !== '/profile-setup') {

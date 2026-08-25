@@ -75,30 +75,47 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, [fetchProfile]);
 
   useEffect(() => {
-    // 1. Initial Session check
-    supabase.auth.getSession().then(async ({ data: { session: initialSession } }) => {
-      setSession(initialSession);
-      if (initialSession?.user) {
-        await fetchProfile(initialSession.user.id);
-      }
-      setIsLoading(false);
-    });
+    let cancelled = false;
 
-    // 2. Listen to Auth State changes (skip redundant INITIAL_SESSION fetch)
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, activeSession) => {
+    // isLoading must stay true until the profile fetch has actually settled.
+    // Anything that flips it early lets consumers observe the transient
+    // "signed in, but no profile yet" state and act on it (see App.tsx).
+    const syncProfile = async (activeSession: Session | null) => {
+      if (cancelled) return;
       setSession(activeSession);
-      if (event === 'SIGNED_IN' || event === 'USER_UPDATED' || event === 'TOKEN_REFRESHED') {
-        if (activeSession?.user) {
-          await fetchProfile(activeSession.user.id);
-        }
-      } else if (event === 'SIGNED_OUT') {
+
+      if (activeSession?.user) {
+        await fetchProfile(activeSession.user.id);
+      } else {
         setUserProfile(null);
         setIsAdmin(false);
       }
-      setIsLoading(false);
+
+      if (!cancelled) setIsLoading(false);
+    };
+
+    // onAuthStateChange always emits INITIAL_SESSION on subscribe, so it is the
+    // single entry point for the first load. A separate getSession() call would
+    // only race against this one.
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, activeSession) => {
+      if (event === 'INITIAL_SESSION' || event === 'SIGNED_IN' || event === 'USER_UPDATED') {
+        void syncProfile(activeSession);
+      } else if (event === 'SIGNED_OUT') {
+        setSession(null);
+        setUserProfile(null);
+        setIsAdmin(false);
+        setIsLoading(false);
+      } else {
+        // TOKEN_REFRESHED and friends: keep the session current, but the
+        // profile did not change, so do not re-fetch it.
+        setSession(activeSession);
+      }
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      cancelled = true;
+      subscription.unsubscribe();
+    };
   }, [fetchProfile]);
 
   const value = useMemo(() => ({
