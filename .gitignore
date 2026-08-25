@@ -25,32 +25,20 @@ dist-ssr
 *.sw?
 .claude
 
-
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-.claude
-
-
 .env.local
 .env.*.local
 .env
 .env.production
 !.env.example
 
-
 # Planning and Task Documentation
 *.md
 !README.md
 !FUTURE_UPDATES.md
 !docs/*.md
+!docs/**/*.md
 sql/
 info-docs/
+
+# Local scratch notes
+rough.txt
