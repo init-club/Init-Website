@@ -12,3 +12,4 @@ done.
 | 04 | Scroll behaviour (partial — GitHub issue pending) | Short-Term C |
 | 05 | CI checks + lint baseline cleanup | Long-Term B |
 | 06 | Unit tests for the form engine (partial) | Long-Term A |
+| 07 | Supabase security audit (report only) | Short-Term B |
