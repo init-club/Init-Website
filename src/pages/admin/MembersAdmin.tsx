@@ -22,10 +22,10 @@
  */
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
-  ArrowLeft, Loader2, Search, Save, User, Shield,
-  CheckCircle, AlertCircle, X, Award, CheckCircle2, ChevronRight, ToggleLeft
+  ArrowLeft, Loader2, Search, User,
+  Award, CheckCircle2,
 } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Navbar } from '../../components/layout/Navbar';

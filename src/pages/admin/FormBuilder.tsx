@@ -1,9 +1,9 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
-  ArrowLeft, Loader2, Save, Eye, Settings, HelpCircle,
-  AlertTriangle, CheckCircle2, ChevronRight
+  ArrowLeft, Loader2, Save, Eye, Settings,
+  AlertTriangle, CheckCircle2,
 } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Navbar } from '../../components/layout/Navbar';

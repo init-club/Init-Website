@@ -1,9 +1,8 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import {
-  ArrowLeft, Loader2, Download, Table, BarChart3, Search, Calendar,
-  MessageSquare, Star, ArrowUpDown, ChevronLeft, ChevronRight, AlertTriangle
+  ArrowLeft, Loader2, Download, Table, BarChart3, Search,
+  ChevronLeft, ChevronRight,
 } from 'lucide-react';
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
@@ -11,7 +10,6 @@ import {
 } from 'recharts';
 import { Navbar } from '../../components/layout/Navbar';
 import { Footer } from '../../components/layout/Footer';
-import { supabase } from '../../supabaseClient';
 import useSWR from 'swr';
 import { fetchFormById, fetchFormResponses } from '../../utils/fetchers';
 import { useAuth } from '../../context/AuthContext';

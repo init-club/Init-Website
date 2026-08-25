@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useScrollLock } from '../../../hooks/useScrollLock';
-import { X, Settings, AlertCircle } from 'lucide-react';
+import { X, Settings } from 'lucide-react';
 import type { FormSettings } from '../../../types/form';
 
 interface FormSettingsModalProps {

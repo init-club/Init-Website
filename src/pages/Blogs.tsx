@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Filter, SortDesc, Plus, X, Calendar, Tag, Hash, Loader2, BookOpen, FileText } from 'lucide-react';
+import { Search, Filter, SortDesc, Plus, X, Calendar, Tag, Loader2, BookOpen, FileText } from 'lucide-react';
 import { Navbar } from '../components/layout/Navbar';
 import { Footer } from '../components/layout/Footer';
 import BlogCard from '../components/blogs/BlogCard';

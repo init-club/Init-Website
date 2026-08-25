@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Loader2, Plus, Calendar, Trash2, CheckCircle2, AlertTriangle, Clock, X, Search, Check, Save } from 'lucide-react';
+import { ArrowLeft, Loader2, Plus, Calendar, Trash2, CheckCircle2, X, Search } from 'lucide-react';
 import { Navbar } from '../../components/layout/Navbar';
 import { Footer } from '../../components/layout/Footer';
 import { supabase } from '../../supabaseClient';

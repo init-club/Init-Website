@@ -25,7 +25,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useScrollLock } from '../../hooks/useScrollLock';
-import { X, User, Phone, Hash, FileText, Image, Tag, Send, Eye, Edit3 } from 'lucide-react';
+import { X, User, Phone, FileText, Image, Tag, Send, Eye, Edit3 } from 'lucide-react';
 import { supabase } from '../../supabaseClient';
 import type { BlogFormData } from '../../types/blog';
 

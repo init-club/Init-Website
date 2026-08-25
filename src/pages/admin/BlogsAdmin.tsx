@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  ArrowLeft, Loader2, Search, Edit2, Trash2, X, Plus,
-  FileText, Check, AlertCircle, CheckCircle2, Eye, Calendar, User, Tag, Send
+  ArrowLeft, Loader2, Search, Edit2, Trash2, X,
+  FileText, Check, CheckCircle2, Eye, Calendar, User, Send
 } from 'lucide-react';
 import { Navbar } from '../../components/layout/Navbar';
 import { Footer } from '../../components/layout/Footer';

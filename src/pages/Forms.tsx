@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowRight, Calendar, ClipboardList, FileText, Filter, Loader2, Search, SortDesc, X } from 'lucide-react';
+import { ArrowRight, Calendar, FileText, Filter, Loader2, Search, SortDesc, X } from 'lucide-react';
 import { Navbar } from '../components/layout/Navbar';
 import { Footer } from '../components/layout/Footer';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';

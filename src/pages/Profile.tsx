@@ -35,14 +35,12 @@ import {
   GitPullRequest,
   Code,
   User as UserIcon,
-  Calendar,
   Award,
   Star,
   BookOpen,
   ChevronLeft,
   ChevronRight,
   TrendingUp,
-  MapPin
 } from 'lucide-react';
 import { supabase } from '../supabaseClient';
 import { Navbar } from '../components/layout/Navbar';

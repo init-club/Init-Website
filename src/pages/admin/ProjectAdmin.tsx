@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  ArrowLeft, Loader2, Search, Edit2, X, Save,
+  ArrowLeft, Loader2, Search, Edit2, X,
   ExternalLink, Video, AlertCircle, Plus, Trash2, CheckCircle2, Star, Archive
 } from 'lucide-react';
 import { Navbar } from '../../components/layout/Navbar';
