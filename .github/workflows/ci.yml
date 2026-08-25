@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# A new push to a PR makes the in-flight run obsolete, so cancel it. Runs on
+# main are never cancelled.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Lint, type-check and build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # `ci` rather than `install`: installs exactly what package-lock.json
+      # pins, and fails if the lockfile has drifted from package.json.
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      # `npm run build` already runs tsc first, so a type error would fail the
+      # build step too. Running it separately means a type error is reported as
+      # a type error instead of as a build failure.
+      - name: Type-check
+        run: npm run typecheck
+
+      # No secrets needed: the Supabase URL and publishable key are read at
+      # runtime in the browser, not baked in at build time, and the build
+      # completes without them. Verified against a clean checkout.
+      - name: Build
+        run: npm run build
