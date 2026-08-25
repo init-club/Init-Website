@@ -344,7 +344,7 @@ export const MissionSection = () => {
       <div className="max-w-7xl mx-auto overflow-hidden">
         <div
           ref={wrapRef}
-          className="overflow-x-auto md:overflow-x-hidden overflow-y-hidden md:overflow-y-auto scrollbar-hide"
+          className="overflow-x-auto md:overflow-x-hidden overflow-y-hidden md:overflow-y-auto scrollbar-hide" data-lenis-prevent
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           <div

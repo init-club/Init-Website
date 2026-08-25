@@ -10,7 +10,9 @@ const ScrollToTop: React.FC = () => {
     if (lenis) {
       lenis.scrollTo(0, { immediate: true });
     } else {
-      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+      // Instant, not smooth: a route change should land at the top of the
+      // new page immediately, not animate through it.
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     }
   }, [location.pathname, lenis]);
 

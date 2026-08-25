@@ -115,7 +115,7 @@ const EditModal = ({ project, isOpen, onClose, onSave }: EditModalProps) => {
             )}
 
             {/* Form */}
-            <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-1">
+            <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-1" data-lenis-prevent>
               {project.id < 0 && (
                 <>
                   <div>
@@ -523,7 +523,7 @@ export default function ProjectAdmin() {
                 <p className="text-zinc-500 text-xs">No projects found matching the criteria.</p>
               </div>
             ) : (
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto" data-lenis-prevent>
                 <table className="w-full text-left border-collapse">
                   <thead>
                     <tr className="border-b border-zinc-900 text-zinc-500 text-[10px] uppercase font-bold tracking-widest">

@@ -11,10 +11,9 @@ import { GitCloneLoader } from './GitCloneLoader';
 import { TypewriterText } from '../../shared/ui/TypewriterText';
 import type { GraphNode } from './constants';
 import AuthButtons from '../../layout/AuthButtons';
-import { useLenis } from '../../layout/SmoothScroll';
+import { useScrollLock } from '../../../hooks/useScrollLock';
 
 export const GitGraph = () => {
-    const lenis = useLenis();
     const graphRef = useRef<SVGSVGElement>(null);
     const mobileLoginRef = useRef<HTMLDivElement>(null);
     const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' ? window.innerWidth < 768 : false);
@@ -57,22 +56,16 @@ export const GitGraph = () => {
         });
     };
 
+    useScrollLock(isLoading);
+
+    // The intro loader is full-bleed, so the body is also pinned to the
+    // viewport height for its duration.
     useEffect(() => {
-        if (isLoading) {
-            lenis?.stop();
-            document.body.style.overflow = 'hidden';
-            document.body.style.height = '100vh';
-        } else {
-            lenis?.start();
-            document.body.style.overflow = 'unset';
-            document.body.style.height = 'unset';
-        }
-        return () => {
-            lenis?.start();
-            document.body.style.overflow = 'unset';
-            document.body.style.height = 'unset';
-        };
-    }, [isLoading, lenis]);
+        if (!isLoading) return;
+        const previousHeight = document.body.style.height;
+        document.body.style.height = '100vh';
+        return () => { document.body.style.height = previousHeight; };
+    }, [isLoading]);
 
     // Only skip animations if loader is not shown
     const skipAnimation = !shouldShowLoader;

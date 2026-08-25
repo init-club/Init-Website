@@ -324,7 +324,7 @@ export default function AnalyticsAdmin() {
                     Recent Pull Request Activity
                   </h3>
                   
-                  <div className="overflow-x-auto">
+                  <div className="overflow-x-auto" data-lenis-prevent>
                     <table className="w-full text-left border-collapse text-xs">
                       <thead>
                         <tr className="border-b border-zinc-900 text-zinc-500 text-[9px] uppercase font-bold tracking-widest">
@@ -517,7 +517,7 @@ export default function AnalyticsAdmin() {
                     Syncing Session Participation Logs
                   </h3>
                   
-                  <div className="overflow-x-auto">
+                  <div className="overflow-x-auto" data-lenis-prevent>
                     <table className="w-full text-left border-collapse text-xs">
                       <thead>
                         <tr className="border-b border-zinc-900 text-zinc-500 text-[9px] uppercase font-bold tracking-widest">

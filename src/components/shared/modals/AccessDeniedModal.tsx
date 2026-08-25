@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
+import { useScrollLock } from '../../../hooks/useScrollLock';
 import { AlertTriangle, Home } from 'lucide-react'; 
 import { supabase } from '../../../supabaseClient';
 
@@ -8,6 +9,7 @@ interface AccessDeniedModalProps {
 }
 
 const AccessDeniedModal = ({ isOpen, onClose }: AccessDeniedModalProps) => {
+  useScrollLock(isOpen);
   const handleRedirect = async () => {
     await supabase.auth.signOut();
     onClose();

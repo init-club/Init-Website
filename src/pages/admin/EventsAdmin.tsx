@@ -448,7 +448,7 @@ export default function EventsAdmin() {
                   </div>
 
                   {/* Roll Call Table */}
-                  <div className="overflow-x-auto">
+                  <div className="overflow-x-auto" data-lenis-prevent>
                     <table className="w-full text-left border-collapse">
                       <thead>
                         <tr className="border-b border-zinc-900 text-zinc-500 text-[10px] uppercase font-bold tracking-widest">

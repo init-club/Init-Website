@@ -50,7 +50,7 @@ function CustomFormSelect({
       </button>
 
       {isOpen && (
-        <div className="absolute z-50 w-full mt-1.5 bg-zinc-950 border border-zinc-900 rounded-xl shadow-xl max-h-60 overflow-y-auto scrollbar-thin py-1 animate-in fade-in slide-in-from-top-1 duration-150">
+        <div className="absolute z-50 w-full mt-1.5 bg-zinc-950 border border-zinc-900 rounded-xl shadow-xl max-h-60 overflow-y-auto scrollbar-thin py-1 animate-in fade-in slide-in-from-top-1 duration-150" data-lenis-prevent>
           <button
             type="button"
             onClick={() => {

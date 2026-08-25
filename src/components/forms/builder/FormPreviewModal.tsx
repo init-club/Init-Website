@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
+import { useScrollLock } from '../../../hooks/useScrollLock';
 import { X, Eye } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -20,6 +21,7 @@ export default function FormPreviewModal({
   description,
   fields
 }: FormPreviewModalProps) {
+  useScrollLock(isOpen);
   const sortedFields = [...fields].sort((a, b) => a.order - b.order);
   const dialogTitleId = 'form-preview-title';
   const dialogDescriptionId = 'form-preview-description';
@@ -57,7 +59,7 @@ export default function FormPreviewModal({
             </div>
 
             {/* Scrollable Form Body */}
-            <div className="flex-1 overflow-y-auto pr-2 space-y-6 custom-scrollbar">
+            <div className="flex-1 overflow-y-auto pr-2 space-y-6 custom-scrollbar" data-lenis-prevent>
               <div className="border-b border-zinc-900 pb-4">
                 <h1 id={dialogTitleId} className="text-2xl font-black font-heading text-white">
                   {title || 'Untitled Form'}

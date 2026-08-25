@@ -55,7 +55,7 @@ export default function FieldEditor({ field, onUpdateField }: FieldEditorProps) 
   const hasValidation = ['text', 'textarea', 'number', 'email'].includes(field.type);
 
   return (
-    <div className="bg-zinc-950/60 border border-zinc-900 rounded-2xl p-5 h-full flex flex-col gap-4 overflow-y-auto max-h-[80vh] custom-scrollbar">
+    <div className="bg-zinc-950/60 border border-zinc-900 rounded-2xl p-5 h-full flex flex-col gap-4 overflow-y-auto max-h-[80vh] custom-scrollbar" data-lenis-prevent>
       <div>
         <h3 className="text-[10px] text-zinc-500 font-mono uppercase tracking-wider mb-2">Field Settings</h3>
         <p className="text-[11px] font-mono text-cyan-400 capitalize bg-cyan-400/5 px-2 py-0.5 rounded border border-cyan-500/10 inline-block">
@@ -169,7 +169,7 @@ export default function FieldEditor({ field, onUpdateField }: FieldEditorProps) 
               </button>
             </div>
 
-            <div className="flex flex-col gap-1 max-h-40 overflow-y-auto pr-1">
+            <div className="flex flex-col gap-1 max-h-40 overflow-y-auto pr-1" data-lenis-prevent>
               {(field.options || []).map(opt => (
                 <div key={opt} className="flex items-center justify-between bg-zinc-900/40 border border-zinc-900 px-3 py-1.5 rounded-xl text-xs">
                   <span className="text-zinc-300 truncate mr-2">{opt}</span>

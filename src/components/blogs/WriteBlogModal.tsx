@@ -24,6 +24,7 @@
  */
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useScrollLock } from '../../hooks/useScrollLock';
 import { X, User, Phone, Hash, FileText, Image, Tag, Send, Eye, Edit3 } from 'lucide-react';
 import { supabase } from '../../supabaseClient';
 import type { BlogFormData } from '../../types/blog';
@@ -37,6 +38,7 @@ interface WriteBlogModalProps {
 const SUGGESTED_TAGS = ['AI', 'Web Dev', 'IoT', 'Mobile', 'Cloud', 'Security', 'DevOps', 'ML', 'Blockchain', 'Open Source'];
 
 const WriteBlogModal = ({ isOpen, onClose, onSuccess }: WriteBlogModalProps) => {
+  useScrollLock(isOpen);
   const [isLoading, setIsLoading] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState<{ id: string; name: string; roll_no: string } | null>(null);
@@ -204,7 +206,7 @@ const WriteBlogModal = ({ isOpen, onClose, onSuccess }: WriteBlogModalProps) => 
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.9, opacity: 0, y: 20 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto"
+            className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto" data-lenis-prevent
             onClick={(e) => e.stopPropagation()}
           >
             <div className="relative bg-black/95 rounded-2xl shadow-2xl border border-purple-500/40">

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Download } from 'lucide-react';
-import { useLenis } from '../../layout/SmoothScroll';
+import { useScrollLock } from '../../../hooks/useScrollLock';
 
 interface PdfModalProps {
     isOpen: boolean;
@@ -10,22 +10,7 @@ interface PdfModalProps {
 }
 
 export default function PdfModal({ isOpen, onClose, pdfUrl }: PdfModalProps) {
-    const lenis = useLenis();
-
-    // Lock scroll when modal is open
-    useEffect(() => {
-        if (isOpen) {
-            lenis?.stop();
-            document.body.style.overflow = 'hidden';
-        } else {
-            lenis?.start();
-            document.body.style.overflow = 'unset';
-        }
-        return () => {
-            lenis?.start();
-            document.body.style.overflow = 'unset';
-        };
-    }, [isOpen, lenis]);
+    useScrollLock(isOpen);
 
     // Close on Escape key
     useEffect(() => {

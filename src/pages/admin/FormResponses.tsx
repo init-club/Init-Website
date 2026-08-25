@@ -476,7 +476,7 @@ export default function FormResponsesPage() {
 
                             {/* TEXT / TEXTAREA / EMAIL sample answers list */}
                             {['text', 'textarea', 'email', 'date', 'number'].includes(field.type) && Array.isArray(data) && (
-                              <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
+                              <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1" data-lenis-prevent>
                                 {data.map((ans, idx) => (
                                   <div
                                     key={idx}
@@ -526,7 +526,7 @@ export default function FormResponsesPage() {
                   </div>
                 ) : (
                   <div className="space-y-4">
-                    <div className="overflow-x-auto border border-zinc-900 rounded-2xl">
+                    <div className="overflow-x-auto border border-zinc-900 rounded-2xl" data-lenis-prevent>
                       <table className="w-full text-left border-collapse text-xs">
                         <thead>
                           <tr className="bg-zinc-900/40 text-zinc-500 border-b border-zinc-900 font-mono uppercase tracking-widest text-[9px]">

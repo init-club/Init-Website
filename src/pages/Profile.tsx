@@ -496,7 +496,7 @@ const Profile = () => {
               </h3>
 
               {blogs.length > 0 ? (
-                <div className="space-y-3 max-h-[360px] overflow-y-auto pr-1">
+                <div className="space-y-3 max-h-[360px] overflow-y-auto pr-1" data-lenis-prevent>
                   {blogs.map((blog) => (
                     <a
                       key={blog.id}

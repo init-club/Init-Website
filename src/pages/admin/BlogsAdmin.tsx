@@ -566,7 +566,7 @@ export default function BlogsAdminPage() {
                 initial={{ scale: 0.95, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.95, opacity: 0 }}
-                className="w-full max-w-2xl bg-zinc-950 border border-zinc-900 rounded-2xl p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto"
+                className="w-full max-w-2xl bg-zinc-950 border border-zinc-900 rounded-2xl p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto" data-lenis-prevent
               >
                 <button
                   onClick={() => setPreviewBlog(null)}

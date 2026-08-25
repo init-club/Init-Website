@@ -9,3 +9,4 @@ done.
 | 01 | Profile dropdown alignment | Short-Term F |
 | 02 | Leaderboard on phones | Short-Term D |
 | 03 | Spurious GitHub sync on first load | Short-Term E |
+| 04 | Scroll behaviour (partial — GitHub issue pending) | Short-Term C |

@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
+import { useScrollLock } from '../../hooks/useScrollLock';
 import { X, Github, ExternalLink, Star, GitFork, Tag, Calendar, Users } from 'lucide-react';
 import type { Repository, Difficulty } from '../../types/repository';
 
@@ -29,6 +30,9 @@ const getYouTubeVideoId = (url: string): string | null => {
 };
 
 const ProjectDetailsModal = ({ project, isOpen, onClose }: ProjectDetailsModalProps) => {
+  // Before the early return below, so the hook order stays stable.
+  useScrollLock(isOpen && Boolean(project));
+
   if (!project) return null;
   const dialogTitleId = `project-details-title-${project.id}`;
   const dialogDescriptionId = `project-details-description-${project.id}`;
@@ -63,7 +67,7 @@ const ProjectDetailsModal = ({ project, isOpen, onClose }: ProjectDetailsModalPr
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-gray-900 border border-gray-800 rounded-2xl"
+            className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-gray-900 border border-gray-800 rounded-2xl" data-lenis-prevent
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close button */}

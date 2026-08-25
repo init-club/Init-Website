@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useScrollLock } from '../../../hooks/useScrollLock';
 import { X, Settings, AlertCircle } from 'lucide-react';
 import type { FormSettings } from '../../../types/form';
 
@@ -16,6 +17,7 @@ export default function FormSettingsModal({
   settings,
   onSaveSettings
 }: FormSettingsModalProps) {
+  useScrollLock(isOpen);
   const [allowMultiple, setAllowMultiple] = useState(true);
   const [requireAuth, setRequireAuth] = useState(false);
   const [openAt, setOpenAt] = useState('');
@@ -85,7 +87,7 @@ export default function FormSettingsModal({
             </div>
 
             {/* Content */}
-            <div id={dialogDescriptionId} className="space-y-4 max-h-[60vh] overflow-y-auto pr-1">
+            <div id={dialogDescriptionId} className="space-y-4 max-h-[60vh] overflow-y-auto pr-1" data-lenis-prevent>
               {/* Checkboxes */}
               <div className="grid grid-cols-2 gap-3">
                 <div className="flex items-center justify-between p-3 bg-zinc-900/30 border border-zinc-900 rounded-xl">

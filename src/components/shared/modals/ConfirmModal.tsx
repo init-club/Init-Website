@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
+import { useScrollLock } from '../../../hooks/useScrollLock';
 import { Loader2, AlertTriangle, X } from 'lucide-react';
 
 interface ConfirmModalProps {
@@ -24,6 +25,7 @@ export default function ConfirmModal({
   variant = 'info',
   isLoading = false
 }: ConfirmModalProps) {
+  useScrollLock(isOpen);
   const handleConfirm = async () => {
     await onConfirm();
     onClose();

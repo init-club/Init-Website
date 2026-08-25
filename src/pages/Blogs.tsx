@@ -6,7 +6,7 @@ import { Footer } from '../components/layout/Footer';
 import BlogCard from '../components/blogs/BlogCard';
 import WriteBlogModal from '../components/blogs/WriteBlogModal';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useLenis } from '../components/layout/SmoothScroll';
+import { useScrollLock } from '../hooks/useScrollLock';
 import { supabase } from '../supabaseClient';
 import type { Blog } from '../types/blog';
 import { BLOG_GUIDELINES } from '../data/blogGuidelines';
@@ -107,21 +107,7 @@ export default function BlogsPage() {
   // Initial load
   useEffect(() => { loadBlogs(); }, []);
 
-  // Lock scroll when modal is open
-  const lenis = useLenis();
-  useEffect(() => {
-    if (selectedBlog) {
-      lenis?.stop();
-      document.body.style.overflow = 'hidden';
-    } else {
-      lenis?.start();
-      document.body.style.overflow = '';
-    }
-    return () => {
-      lenis?.start();
-      document.body.style.overflow = '';
-    };
-  }, [selectedBlog, lenis]);
+  useScrollLock(Boolean(selectedBlog));
 
   const clearFilters = () => {
     setSearchQuery('');

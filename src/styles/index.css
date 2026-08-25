@@ -1,6 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Orbitron:wght@400..900&family=Space+Grotesk:wght@300..700&display=swap');
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+/* Lenis's own stylesheet, imported from the package so it can never drift out
+   of sync with the installed version. It provides the [data-lenis-prevent]
+   escape hatch that nested scroll containers rely on. */
+@import "lenis/dist/lenis.css";
 @import "@fontsource-variable/geist";
 
 @tailwind base;
@@ -31,19 +35,6 @@
   --color-events: #ff3366;
   --color-blogs: #a855f7;
   --color-contact: #2979ff;
-}
-
-html.lenis,
-html.lenis body {
-  height: auto;
-}
-
-.lenis.lenis-stopped {
-  overflow: hidden;
-}
-
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
 }
 
 html,
