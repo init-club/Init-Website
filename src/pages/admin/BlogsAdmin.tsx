@@ -21,7 +21,7 @@ interface Toast {
 }
 
 export default function BlogsAdminPage() {
-  const { session, isAdmin, userProfile, isLoading: isAuthLoading } = useAuth();
+  const { isAdmin, userProfile, isLoading: isAuthLoading } = useAuth();
   const navigate = useNavigate();
 
   // Fetch blogs via SWR cache

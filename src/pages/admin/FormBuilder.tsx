@@ -40,7 +40,7 @@ const defaultSettings: FormSettings = {
 };
 
 export default function FormBuilderPage() {
-  const { session, isAdmin, userProfile, isLoading: isAuthLoading } = useAuth();
+  const { isAdmin, userProfile, isLoading: isAuthLoading } = useAuth();
   const { formId } = useParams<{ formId?: string }>();
   const navigate = useNavigate();
   
@@ -61,7 +61,6 @@ export default function FormBuilderPage() {
   // UI States
   const [selectedFieldId, setSelectedFieldId] = useState<string | null>(null);
   const [isPageLoading, setIsPageLoading] = useState(isEditMode);
-  const [isSaving, setIsSaving] = useState(false);
   const [toasts, setToasts] = useState<Toast[]>([]);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
@@ -225,7 +224,6 @@ export default function FormBuilderPage() {
     }
     saveInFlightRef.current = true;
 
-    setIsSaving(true);
     if (silent) setAutosaveStatus('saving');
 
     const controller = new AbortController();
@@ -321,7 +319,6 @@ export default function FormBuilderPage() {
     } finally {
       clearTimeout(timeoutId);
       abortControllerRef.current = null;
-      setIsSaving(false);
       saveInFlightRef.current = false;
 
       // Edits landed while this save was in flight (blocked above) — re-run

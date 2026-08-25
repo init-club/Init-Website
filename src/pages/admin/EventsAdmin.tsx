@@ -25,11 +25,6 @@ interface Member {
   avatar_url: string | null;
 }
 
-interface AttendanceRecord {
-  user_id: string;
-  status: 'present' | 'late' | 'absent';
-}
-
 interface Toast {
   id: string;
   type: 'success' | 'error';
@@ -37,7 +32,7 @@ interface Toast {
 }
 
 export default function EventsAdmin() {
-  const { session: authSession, isAdmin, isLoading: isAuthLoading } = useAuth();
+  const { isAdmin, isLoading: isAuthLoading } = useAuth();
   const navigate = useNavigate();
 
   // Fetch data using SWR caches

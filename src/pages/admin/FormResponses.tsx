@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import {
   ArrowLeft, Loader2, Download, Table, BarChart3, Search,
-  ChevronLeft, ChevronRight,
+  ChevronLeft, ChevronRight, AlertTriangle,
 } from 'lucide-react';
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
@@ -26,7 +26,7 @@ export default function FormResponsesPage() {
     () => fetchFormById(formId!)
   );
 
-  const { data: responses, error: responsesError, mutate } = useSWR(
+  const { data: responses, error: responsesError } = useSWR(
     isAdmin && formId ? `form_responses:${formId}` : null,
     () => fetchFormResponses(formId!)
   );
@@ -222,12 +222,34 @@ export default function FormResponsesPage() {
     exportResponsesAsCsv(form, responses);
   };
 
-  const isLoading = isAuthLoading || !form || !responses;
+  const loadError = formError || responsesError;
+  const isLoading = !loadError && (isAuthLoading || !form || !responses);
 
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background text-white flex items-center justify-center">
         <Loader2 className="w-8 h-8 text-cyan-400 animate-spin" />
+      </div>
+    );
+  }
+
+  // Without this branch a failed fetch left `form`/`responses` undefined and the
+  // spinner above ran forever — SWR is configured with shouldRetryOnError:false,
+  // so a single failure is terminal.
+  if (loadError || !form || !responses) {
+    return (
+      <div className="min-h-screen bg-background text-white flex flex-col items-center justify-center gap-3 px-4 text-center">
+        <AlertTriangle className="w-10 h-10 text-red-400" />
+        <h1 className="text-lg font-bold">Couldn't load this form</h1>
+        <p className="text-zinc-500 text-sm max-w-md">
+          The form or its responses failed to load. Check your connection and try again.
+        </p>
+        <button
+          onClick={() => window.location.reload()}
+          className="mt-2 px-4 py-2 rounded-xl bg-white text-black text-sm font-bold hover:bg-gray-200 transition-colors"
+        >
+          Retry
+        </button>
       </div>
     );
   }

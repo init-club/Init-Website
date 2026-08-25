@@ -106,7 +106,7 @@ export function validateAnswers(
               errors[field.id] = 'Format is invalid';
               return;
             }
-          } catch (e) {
+          } catch {
             console.error('Invalid regular expression pattern:', field.validation.pattern);
           }
         }

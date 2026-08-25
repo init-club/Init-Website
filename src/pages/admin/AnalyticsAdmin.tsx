@@ -458,7 +458,7 @@ export default function AnalyticsAdmin() {
                       Top Starred Showcases
                     </h3>
                     <div className="divide-y divide-zinc-900/50 text-xs">
-                      {topProjects.map((p, idx) => (
+                      {topProjects.map((p) => (
                         <div key={p.id} className="py-2.5 flex items-center justify-between">
                           <div className="min-w-0">
                             <p className="font-semibold text-white truncate">{p.name}</p>
