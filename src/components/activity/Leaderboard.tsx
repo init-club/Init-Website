@@ -37,6 +37,14 @@ const MAX_DISPLAYED = 15;
 
 const EXCLUDED_USERNAMES = ['TheInitClub'];
 
+// Podium columns on sm+: #2 left, #1 centre, #3 right. On mobile the grid is a
+// single column and the natural rank order (#1 first) is used instead.
+const podiumOrder: Record<number, string> = {
+  1: 'sm:order-2',
+  2: 'sm:order-1',
+  3: 'sm:order-3',
+};
+
 const podiumStyles: Record<number, { ring: string; glow: string; badge: string; icon: ReactElement }> = {
   1: {
     ring: 'border-yellow-400/40 hover:border-yellow-400/70',
@@ -138,10 +146,10 @@ export default function Leaderboard() {
     <div className="max-w-4xl mx-auto">
       {/* Podium for the top 3 */}
       {topThree.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8 items-end">
-          {/* Reorder visually so #1 sits tallest in the middle on larger screens */}
-          {[topThree[1], topThree[0], topThree[2]].map((member, idx) => {
-            if (!member) return <div key={`empty-${idx}`} className="hidden sm:block" />;
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-4 mb-8 items-stretch sm:items-end">
+          {/* Rendered in rank order so phones read #1 -> #3 top to bottom.
+              On sm+ the CSS `order` below moves #1 into the middle column. */}
+          {topThree.map((member, idx) => {
             const style = podiumStyles[member.rank];
             const isFirst = member.rank === 1;
             return (
@@ -150,10 +158,10 @@ export default function Leaderboard() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.08 }}
-                className={`relative flex flex-col items-center justify-center text-center rounded-2xl border bg-zinc-950/60 backdrop-blur-sm px-5 transition-all cursor-pointer ${style.ring} ${style.glow} ${
+                className={`relative flex flex-col items-center justify-center text-center rounded-2xl border bg-zinc-950/60 backdrop-blur-sm px-5 transition-all cursor-pointer ${style.ring} ${style.glow} ${podiumOrder[member.rank]} ${
                   isFirst
-                    ? 'min-h-[272px] py-8 sm:-translate-y-3'
-                    : 'min-h-[228px] py-6'
+                    ? 'min-h-[196px] py-6 sm:min-h-[272px] sm:py-8 sm:-translate-y-3'
+                    : 'min-h-[176px] py-5 sm:min-h-[228px] sm:py-6'
                 }`}
               >
                 <Link to={`/profile/${member.username}`} className="w-full flex flex-col items-center">
@@ -192,16 +200,24 @@ export default function Leaderboard() {
               initial={{ opacity: 0, x: -8 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: idx * 0.03 }}
-              className={`px-4 py-3 hover:bg-zinc-900/50 transition-colors ${idx !== rest.length - 1 ? 'border-b border-zinc-900' : ''}`}
+              className={`px-3 sm:px-4 py-3 hover:bg-zinc-900/50 transition-colors ${idx !== rest.length - 1 ? 'border-b border-zinc-900' : ''}`}
             >
-              <Link to={`/profile/${member.username}`} className="flex items-center gap-4 w-full">
-                <span className="w-7 shrink-0 text-center text-sm font-bold text-zinc-500">
+              <Link to={`/profile/${member.username}`} className="flex items-center gap-3 sm:gap-4 w-full">
+                <span className="w-6 sm:w-7 shrink-0 text-center text-sm font-bold text-zinc-500">
                   {member.rank}
                 </span>
                 <Avatar member={member} size={36} />
                 <div className="min-w-0 flex-1">
                   <p className="font-semibold text-white text-sm truncate hover:underline">{member.name || member.username}</p>
                   <p className="text-zinc-600 text-xs truncate">@{member.username}</p>
+                  {/* On phones there is no room for the pill to the right, so the
+                      title moves under the handle instead of disappearing. */}
+                  {member.custom_title && (
+                    <p className="sm:hidden flex items-center gap-1 mt-0.5 text-[10px] text-purple-300 font-medium truncate">
+                      <Award size={10} className="shrink-0" />
+                      <span className="truncate">{member.custom_title}</span>
+                    </p>
+                  )}
                 </div>
                 {member.custom_title && (
                   <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 bg-purple-500/5 border border-purple-500/10 rounded-full text-[10px] text-purple-300 font-medium shrink-0">
@@ -210,8 +226,8 @@ export default function Leaderboard() {
                   </span>
                 )}
                 <div className="flex items-center gap-1.5 shrink-0">
-                  <GitCommitHorizontal size={12} className="text-zinc-600" />
-                  <span className="font-bold text-white text-sm">{member.totalScore}</span>
+                  <GitCommitHorizontal size={12} className="text-zinc-600 hidden sm:block" />
+                  <span className="font-bold text-white text-sm tabular-nums">{member.totalScore}</span>
                   <span className="text-zinc-600 text-xs">pts</span>
                 </div>
               </Link>

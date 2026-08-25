@@ -7,3 +7,4 @@ done.
 | # | Task | Source item |
 |---|------|-------------|
 | 01 | Profile dropdown alignment | Short-Term F |
+| 02 | Leaderboard on phones | Short-Term D |
