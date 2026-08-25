@@ -1,4 +1,5 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+import { createRunLogger, describeError } from '../_shared/logger.ts'
 
 const corsHeaders = {
     'Access-Control-Allow-Origin': '*',
@@ -6,6 +7,8 @@ const corsHeaders = {
 }
 
 Deno.serve(async (req) => {
+    const run = createRunLogger('github-lookup-user');
+
     // Handle CORS preflight requests
     if (req.method === 'OPTIONS') {
         return new Response('ok', { headers: corsHeaders })
@@ -17,6 +20,8 @@ Deno.serve(async (req) => {
         if (!github_username) {
             throw new Error("Missing github_username in request body")
         }
+
+        run.info('lookup.start', { github_username })
 
         // 1. Verify GitHub Membership
         // Using the GitHub API to check membership in 'init-club'
@@ -31,8 +36,14 @@ Deno.serve(async (req) => {
         })
 
         if (!ghRes.ok) {
-            console.log(`User ${github_username} not found in org or error: ${ghRes.status}`)
-            return new Response(JSON.stringify({ error: "User not in organization" }), {
+            run.count('membership_rejected')
+            run.warn('membership.not_found', {
+                github_username,
+                status: ghRes.status,
+                rate_limit_remaining: ghRes.headers.get('x-ratelimit-remaining'),
+            })
+            const summary = run.finish('ok', { result: 'not_in_org' })
+            return new Response(JSON.stringify({ error: "User not in organization", ...summary }), {
                 headers: { ...corsHeaders, 'Content-Type': 'application/json' },
                 status: 403,
             })
@@ -41,9 +52,10 @@ Deno.serve(async (req) => {
         const membershipData = await ghRes.json()
         // Check if state is active (not pending) - though usually strictly being in the list is enough
         if (membershipData.state !== 'active') {
-            console.log(`User ${github_username} is pending or inactive.`)
-            // Optional: Decide if pending members are allowed. For now, strict check? 
-            // Let's allow them but log it. Or maybe not.
+            // Pending members are currently allowed through. Logged so the
+            // decision is at least visible in the data if it needs revisiting.
+            run.count('membership_pending')
+            run.warn('membership.not_active', { github_username, state: membershipData.state })
         }
 
         // 2. Fetch User Details to get ID/Avatar (The membership endpoint gives user object)
@@ -80,11 +92,18 @@ Deno.serve(async (req) => {
         })
 
         if (upsertError) {
+            run.count('upsert_errors')
             throw upsertError
         }
 
+        run.count(existingUser ? 'users_updated' : 'users_created')
+        const summary = run.finish('ok', {
+            github_username,
+            preserved_role: existingUser?.role ?? null,
+        })
+
         return new Response(
-            JSON.stringify({ message: `User ${github_username} successfully whitelisted.` }),
+            JSON.stringify({ message: `User ${github_username} successfully whitelisted.`, ...summary }),
             {
                 headers: { ...corsHeaders, 'Content-Type': 'application/json' },
                 status: 200
@@ -92,8 +111,14 @@ Deno.serve(async (req) => {
         )
 
     } catch (error) {
+        run.error('lookup.failed', describeError(error))
+        const summary = run.finish('error')
+
         return new Response(
-            JSON.stringify({ error: error.message }),
+            JSON.stringify({
+                error: error instanceof Error ? error.message : String(error),
+                ...summary,
+            }),
             {
                 headers: { ...corsHeaders, 'Content-Type': 'application/json' },
                 status: 500

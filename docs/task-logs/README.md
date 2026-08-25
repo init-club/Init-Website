@@ -13,3 +13,4 @@ done.
 | 05 | CI checks + lint baseline cleanup | Long-Term B |
 | 06 | Unit tests for the form engine (partial) | Long-Term A |
 | 07 | Supabase security audit (report only) | Short-Term B |
+| 08 | Structured sync logging + run IDs (partial) | Long-Term C |

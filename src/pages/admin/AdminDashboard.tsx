@@ -42,10 +42,19 @@ export default function AdminDashboard() {
   const handleManualSync = async () => {
     setIsSyncing(true);
     try {
-      const { error } = await supabase.functions.invoke('github-sync');
+      const { data, error } = await supabase.functions.invoke('github-sync');
       if (error) throw error;
-      addToast('success', 'GitHub stats and repositories synced successfully!');
-      
+
+      // The function returns its run id and per-record counters. A run can
+      // finish while individual repos or PRs failed, so report that rather than
+      // a flat success — and log the run id, which is what makes a failure
+      // traceable in the edge logs.
+      console.info('github-sync run', data);
+      addToast(
+        'success',
+        data?.message || 'GitHub stats and repositories synced successfully!'
+      );
+
       // Refresh statistics after sync
       await fetchCounts();
     } catch (err: any) {

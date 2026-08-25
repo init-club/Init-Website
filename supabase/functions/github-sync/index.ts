@@ -29,6 +29,7 @@
 
  */
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+import { createRunLogger, describeError } from '../_shared/logger.ts'
 
 const corsHeaders = {
     'Access-Control-Allow-Origin': '*',
@@ -36,6 +37,10 @@ const corsHeaders = {
 }
 
 Deno.serve(async (req) => {
+    // One id for the whole invocation, echoed on every line and returned to the
+    // caller so a failure can be traced from a bug report to the exact run.
+    const run = createRunLogger('github-sync');
+
     // Handle CORS preflight requests
     if (req.method === 'OPTIONS') {
         return new Response('ok', { headers: corsHeaders })
@@ -54,7 +59,7 @@ Deno.serve(async (req) => {
         const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
         const orgName = "init-club"
 
-        console.log(`Starting GitHub Sync for org: ${orgName}`);
+        run.info('sync.start', { org: orgName });
 
         // Helper to fetch from GitHub API with retry for 202 Accepted
         const ghFetch = async (endpoint: string, retries = 3): Promise<any> => {
@@ -65,13 +70,28 @@ Deno.serve(async (req) => {
                     'User-Agent': 'Supabase-Edge-Function'
                 }
             })
+            run.count('github_requests');
+
             if (res.status === 202 && retries > 0) {
-                console.log(`Received 202 for ${endpoint}. Retrying in 1.5s...`);
+                // GitHub computes contributor stats asynchronously and answers
+                // 202 while it works. Track these: a run with a high retry count
+                // is a slow run, not a broken one.
+                run.count('github_202_retries');
+                run.debug('github.retry', { endpoint, status: 202, retries_left: retries - 1 });
                 await new Promise(resolve => setTimeout(resolve, 1500));
                 return ghFetch(endpoint, retries - 1);
             }
             if (!res.ok) {
-                console.error(`GitHub API error for ${endpoint}: ${res.status} ${res.statusText}`)
+                run.count('github_errors');
+                run.error('github.request_failed', {
+                    endpoint,
+                    status: res.status,
+                    status_text: res.statusText,
+                    // Rate-limit headers are the first thing you want when a
+                    // sync starts failing in bulk.
+                    rate_limit_remaining: res.headers.get('x-ratelimit-remaining'),
+                    rate_limit_reset: res.headers.get('x-ratelimit-reset'),
+                });
                 return null;
             }
             const text = await res.text();
@@ -79,7 +99,8 @@ Deno.serve(async (req) => {
             try {
                 return JSON.parse(text);
             } catch (err) {
-                console.error(`JSON parse error for ${endpoint}:`, err);
+                run.count('github_errors');
+                run.error('github.parse_failed', { endpoint, ...describeError(err) });
                 return null;
             }
         }
@@ -104,7 +125,8 @@ Deno.serve(async (req) => {
         const reposData = await ghFetch(`orgs/${orgName}/repos?per_page=100`)
         if (!reposData) throw new Error("Failed to fetch repositories from GitHub")
 
-        console.log(`Found ${reposData.length} repositories in organization`);
+        run.count('repos_seen', reposData.length);
+        run.info('repos.fetched', { count: reposData.length });
 
         for (const repo of reposData) {
             // Upsert repository into DB
@@ -123,7 +145,12 @@ Deno.serve(async (req) => {
             }, {
                 onConflict: 'id'
             })
-            if (repoErr) console.error(`Error saving repo ${repo.name}:`, repoErr)
+            if (repoErr) {
+                run.count('repo_errors');
+                run.error('repo.upsert_failed', { repo: repo.name, db_error: repoErr.message });
+            } else {
+                run.count('repos_upserted');
+            }
 
             // 5. Fetch and Sync Pull Requests for this repository
             const prsData = await ghFetch(`repos/${orgName}/${repo.name}/pulls?state=all&per_page=100`)
@@ -146,7 +173,12 @@ Deno.serve(async (req) => {
                         }, {
                             onConflict: 'github_pr_id'
                         })
-                        if (prErr) console.error(`Error saving PR #${pr.number} for ${repo.name}:`, prErr)
+                        if (prErr) {
+                            run.count('pr_errors');
+                            run.error('pr.upsert_failed', { repo: repo.name, pr: pr.number, db_error: prErr.message });
+                        } else {
+                            run.count('prs_upserted');
+                        }
 
                         // Anti-Abuse Checks (#1, #2, #3):
                         // Only count merged PRs
@@ -154,7 +186,8 @@ Deno.serve(async (req) => {
                             // Check #1: Non-self merge check (if merged_by is available and equals author, ignore unless reviewed)
                             const isSelfMerged = pr.merged_by && pr.merged_by.id && (Number(pr.merged_by.id) === prAuthorGithubId);
                             if (isSelfMerged) {
-                                console.log(`Skipping self-merged PR #${pr.number} by ${pr.user.login}`);
+                                run.count('prs_skipped_self_merged');
+                                run.debug('pr.skipped_self_merged', { repo: repo.name, pr: pr.number, author: pr.user.login });
                                 continue;
                             }
 
@@ -203,7 +236,12 @@ Deno.serve(async (req) => {
                         }, {
                             onConflict: 'user_id,repository_id'
                         })
-                        if (juncErr) console.error(`Error saving user_repository mapping for ${contributor.author.login}:`, juncErr)
+                        if (juncErr) {
+                            run.count('contributor_link_errors');
+                            run.error('contributor.link_failed', { repo: repo.name, login: contributor.author.login, db_error: juncErr.message });
+                        } else {
+                            run.count('contributor_links_upserted');
+                        }
 
                         // Loop through weekly commit buckets to aggregate by month/year
                         if (contributor.weeks && Array.isArray(contributor.weeks)) {
@@ -265,13 +303,31 @@ Deno.serve(async (req) => {
                     }, {
                         onConflict: 'user_id,month,year'
                     })
-                    if (statsErr) console.error(`Error saving consolidated stats for user ${dbUserId} for ${month}/${year}:`, statsErr)
+                    if (statsErr) {
+                        run.count('stats_errors');
+                        run.error('stats.upsert_failed', { user_id: dbUserId, month, year, db_error: statsErr.message });
+                    } else {
+                        run.count('stats_upserted');
+                    }
                 }
             }
         }
 
+        // A run can complete while individual records failed. Report that
+        // rather than a flat "success", so a partial failure is visible without
+        // reading the logs.
+        const summary = run.finish('ok');
+        const failed = Object.entries(summary.counters)
+            .filter(([name]) => name.endsWith('_errors'))
+            .reduce((total, [, value]) => total + value, 0);
+
         return new Response(
-            JSON.stringify({ message: "GitHub synchronization completed successfully." }),
+            JSON.stringify({
+                message: failed === 0
+                    ? "GitHub synchronization completed successfully."
+                    : `GitHub synchronization completed with ${failed} record failure(s).`,
+                ...summary,
+            }),
             {
                 headers: { ...corsHeaders, 'Content-Type': 'application/json' },
                 status: 200
@@ -279,8 +335,14 @@ Deno.serve(async (req) => {
         )
 
     } catch (error) {
+        run.error('sync.failed', describeError(error));
+        const summary = run.finish('error');
+
         return new Response(
-            JSON.stringify({ error: error.message }),
+            JSON.stringify({
+                error: error instanceof Error ? error.message : String(error),
+                ...summary,
+            }),
             {
                 headers: { ...corsHeaders, 'Content-Type': 'application/json' },
                 status: 500
