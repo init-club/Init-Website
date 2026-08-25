@@ -68,7 +68,7 @@ export default function PublicFormPage() {
       // Collect optional respondent data if they are authenticated
       const { data: { session } } = await supabase.auth.getSession();
       
-      let respondent: any = {};
+      const respondent: Record<string, string | undefined> = {};
       if (session?.user) {
         respondent.auth_user_id = session.user.id;
         respondent.email = session.user.email;

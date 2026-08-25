@@ -236,7 +236,7 @@ Deno.serve(async (req) => {
             const year = Number(yearStr)
             const month = Number(monthStr)
 
-            for (const [_, dbUserId] of userMap.entries()) {
+            for (const dbUserId of userMap.values()) {
                 const key = `${dbUserId}_${year}_${month}`
                 const totalCommits = userCommitsMap.get(key) || 0
                 const totalPRs = userPRsMap.get(key) || 0

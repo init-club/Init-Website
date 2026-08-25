@@ -3,22 +3,24 @@ import { X } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+// Declared at module scope, not inside SystemAlert. A component defined during
+// render is a brand-new type on every render, so React tears down and rebuilds
+// the marquee — restarting its animation — each time the parent re-renders.
+const MarqueeContent = () => (
+    <div className="flex items-center shrink-0">
+        {[...Array(8)].map((_, i) => (
+            <span key={i} className="flex items-center px-8 text-red-500 font-mono text-sm font-bold tracking-widest whitespace-nowrap">
+                INDUCTION PHASE: CLICK TO KNOW MORE
+            </span>
+        ))}
+    </div>
+);
+
 const SystemAlert = () => {
     const [isVisible, setIsVisible] = useState(true);
     const navigate = useNavigate();
 
     if (!isVisible) return null;
-
-    // Reusable block of marquee text
-    const MarqueeContent = () => (
-        <div className="flex items-center shrink-0">
-            {[...Array(8)].map((_, i) => (
-                <span key={i} className="flex items-center px-8 text-red-500 font-mono text-sm font-bold tracking-widest whitespace-nowrap">
-                    INDUCTION PHASE: CLICK TO KNOW MORE
-                </span>
-            ))}
-        </div>
-    );
 
     return (
         <motion.div

@@ -57,35 +57,7 @@ export default function AnalyticsAdmin() {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const checkAdminAndInit = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-
-      if (!session) {
-        navigate('/');
-        return;
-      }
-
-      const { data: user, error: userErr } = await supabase
-        .from('users')
-        .select('role')
-        .eq('auth_user_id', session.user.id)
-        .single();
-
-      if (userErr || !user || user.role !== 'admin') {
-        navigate('/');
-        return;
-      }
-
-      setIsAdmin(true);
-      await loadAnalyticsData();
-      setIsLoading(false);
-    };
-
-    checkAdminAndInit();
-  }, [navigate]);
-
-  const loadAnalyticsData = async () => {
+  async function loadAnalyticsData() {
     try {
       // --- 1. GITHUB DATA ---
       // PR counts
@@ -206,7 +178,35 @@ export default function AnalyticsAdmin() {
     } catch (err) {
       console.error('Error loading analytics:', err);
     }
-  };
+  }
+
+  useEffect(() => {
+    const checkAdminAndInit = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+
+      if (!session) {
+        navigate('/');
+        return;
+      }
+
+      const { data: user, error: userErr } = await supabase
+        .from('users')
+        .select('role')
+        .eq('auth_user_id', session.user.id)
+        .single();
+
+      if (userErr || !user || user.role !== 'admin') {
+        navigate('/');
+        return;
+      }
+
+      setIsAdmin(true);
+      await loadAnalyticsData();
+      setIsLoading(false);
+    };
+
+    checkAdminAndInit();
+  }, [navigate]);
 
   if (!isAdmin || isLoading) {
     return (

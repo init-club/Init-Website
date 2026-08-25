@@ -39,7 +39,8 @@ const SmoothScroll: React.FC<SmoothScrollProps> = ({ children }) => {
         // Reduced motion: skip Lenis entirely and leave the browser's own
         // scrolling in place. Consumers already handle a null instance.
         if (prefersReducedMotion) {
-            setLenis(null);
+            // Nothing to create. The previous effect's cleanup already cleared
+            // any existing instance, so there is no state to reset here.
             return;
         }
 
