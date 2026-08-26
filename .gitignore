@@ -25,10 +25,9 @@ dist-ssr
 *.sw?
 .claude
 
-.env.local
-.env.*.local
-.env
-.env.production
+# Every .env variant, including ad-hoc backups (.env.bak, .env.original, ...).
+# Listing them individually meant a file like .env.backup was NOT ignored.
+.env*
 !.env.example
 
 # Planning and Task Documentation
