@@ -41,3 +41,8 @@ info-docs/
 
 # Local scratch notes
 rough.txt
+
+# Security review — findings on a live system, deliberately NOT published to
+# this public repo. Kept in the working copy only. Publish once the corrective
+# migrations have been applied.
+docs/task-logs/07-supabase-security-audit.md
