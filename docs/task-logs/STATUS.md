@@ -5,7 +5,7 @@ Every bullet from `next_steps.md`, with status and what remains.
 **Legend** — **Done**: finished and verified. **Partially done**: some of the
 bullet shipped, the rest is blocked or scoped out. **Pending**: not started.
 
-Last updated: 2026-08-26.
+Last updated: 2026-08-26 (revised after live database verification).
 
 ---
 
@@ -16,16 +16,16 @@ Last updated: 2026-08-26.
 | # | Task | Status | Notes |
 |---|------|--------|-------|
 | A1 | Limit how often someone can submit a form | **Pending** | Blocked on a decision: rate limit per what window, keyed on what (IP / session / member). Note that a Vercel WAF rule covers the browser route but **not** direct PostgREST calls. |
-| A2 | Limit the maximum size of a form submission | **Pending** | Blocked on a threshold. `answers` is unconstrained `jsonb`; fix is a `CHECK (pg_column_size(answers) < N)`. |
-| A3 | Validate all submitted values on the server side, not only in React | **Pending** | Designed but not applied — see the private security review findings 1, 2, 7. `open_at`, `close_at`, `require_auth`, `max_responses` and `allow_multiple_responses` are **all** client-only today. |
-| A4 | Test what user / member / admin are each allowed to do | **Pending** | Needs a throwaway Supabase project + service-role credentials. |
+| A2 | Limit the maximum size of a form submission | **Partially done** | Migration `0003` adds `CHECK (pg_column_size(answers) <= 65536)` — well above any real form. Adjust the number if that assumption is wrong. |
+| A3 | Validate all submitted values on the server side, not only in React | **Partially done** | Migration `0003` moves respondent identity out of the client and into a `BEFORE INSERT` trigger. Remaining settings still need a decision: `open_at`, `close_at`, `require_auth`, `max_responses`, `allow_multiple_responses`. |
+| A4 | Test what user / member / admin are each allowed to do | **Partially done** | The anonymous tier is now fully mapped (private security review). Member and admin tiers need a logged-in JWT, which means GitHub OAuth. |
 
 ### B. Check Supabase security rules
 
 | # | Task | Status | Notes |
 |---|------|--------|-------|
-| B1 | Review RLS policies for every important table | **Partially done** | Everything in the repo was reviewed (private security review). 8 of 12 tables have no RLS in any migration, so their live state is unverifiable from here. Needs the `pg_class` query output. |
-| B2 | Check admin-only RPC functions verify the correct role | **Partially done** | The four form RPCs are correct: `SECURITY DEFINER`, pinned `search_path`, `is_admin()` guard. But `is_admin()` itself is not in version control, and `get_my_status()` is `SECURITY DEFINER` with **no** pinned `search_path`. |
+| B1 | Review RLS policies for every important table | **Done** | Reviewed against the live API rather than inferred from the migrations. RLS is enabled on every table. Findings and the hardening plan are held in the private security review; the first corrective migration is `supabase/migrations/0003_restrict_public_user_columns.sql`. |
+| B2 | Check admin-only RPC functions verify the correct role | **Partially done** | The four form RPCs are correct: `SECURITY DEFINER`, pinned `search_path`, `is_admin()` guard. `is_admin()` itself is still unreadable — it lives in `pg_catalog`, which the REST API does not expose. **Needs `DATABASE_URL`.** |
 | B3 | Confirm service-role keys and GitHub tokens are server-side only | **Done** | Verified: `.env` never committed, no secrets in `src/`, client uses the publishable key only, edge functions read from the Deno env. |
 | B4 | Add repeatable security tests for public / member / admin | **Pending** | Same blocker as A4. |
 
@@ -99,7 +99,7 @@ Last updated: 2026-08-26.
 | # | Task | Status | Notes |
 |---|------|--------|-------|
 | E1 | Document what React, PostgreSQL functions and Edge Functions each own | **Pending** | Not started. `docs/DATABASE_AND_BACKEND.md` and `docs/EDGE_FUNCTIONS_AND_GITHUB_SYNC.md` partly cover it. |
-| E2 | Keep a single source of truth for schema and database logic | **Pending** | The gap is documented — `is_admin()`, `get_my_status()` and (probably) most RLS live only in the dashboard, and `get_my_status()` is defined in an ad-hoc script under `src/scripts/`. Fixing it starts with `supabase db dump`. |
+| E2 | Keep a single source of truth for schema and database logic | **Pending** | **Now confirmed, not suspected**: RLS is enabled live on every table but appears in no migration, so the repo actively misleads — it led me to the wrong conclusion in the first audit pass. `is_admin()` and `get_my_status()` are likewise dashboard/script-only. Fixing it starts with `supabase db dump`. |
 | E3 | Add indexes when real usage shows slow queries | **Pending** | Needs production query data. |
 | E4 | Document backup and restore procedures | **Pending** | Depends on the Supabase plan and your operational preferences. |
 
@@ -126,9 +126,9 @@ Last updated: 2026-08-26.
 
 | Status | Count |
 |---|---|
-| **Done** | 10 |
-| **Partially done** | 8 |
-| **Pending** | 22 |
+| **Done** | 11 |
+| **Partially done** | 10 |
+| **Pending** | 19 |
 | | **40 bullets** |
 
 Counted from the tables above, not by hand. "Partially done" is doing real work
@@ -141,8 +141,8 @@ which is which.
 | What is blocking | Affects |
 |---|---|
 | The GitHub issue number/link | C2 |
-| Live database state (`pg_class` query, `is_admin()` definition) | B1, B2, E2 |
+| `DATABASE_URL` (function definitions live in `pg_catalog`, which REST cannot reach) | B2, E2, and running B4 |
 | A decision from you (thresholds, policy changes, alert destination, contrast) | A1, A2, A3, C4 (long-term), G2 |
-| Supabase test credentials | A4, B4, Long-term A2, A3 |
+| A logged-in JWT / GitHub OAuth test account | A4 (member+admin tiers), B4, Long-term A2, A3 |
 | Repository settings | Long-term B2 |
 | Product input | F1, F2 |
