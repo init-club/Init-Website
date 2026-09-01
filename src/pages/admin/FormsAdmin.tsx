@@ -267,23 +267,14 @@ export default function FormsAdminPage() {
                       <Edit3 size={13} />
                       Edit Builder
                     </Link>
-                    
-                    {form.response_count > 0 ? (
-                      <Link
-                        to={`/admin/forms/${form.id}/responses`}
-                        className="inline-flex items-center justify-center p-2 rounded-xl border border-zinc-800 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white transition-all"
-                        title="Responses & Analytics"
-                      >
-                        <BarChart3 size={14} />
-                      </Link>
-                    ) : (
-                      <span
-                        className="inline-flex items-center justify-center p-2 rounded-xl border border-zinc-900 bg-zinc-950/20 text-zinc-650 cursor-not-allowed"
-                        title="Responses & Analytics (No responses)"
-                      >
-                        <BarChart3 size={14} />
-                      </span>
-                    )}
+
+                    <Link
+                      to={`/admin/forms/${form.id}/responses`}
+                      className="inline-flex items-center justify-center p-2 rounded-xl border border-zinc-800 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white transition-all"
+                      title="Responses & Analytics"
+                    >
+                      <BarChart3 size={14} />
+                    </Link>
 
                     <button
                       onClick={() => handleCopyLink(form.slug)}
