@@ -38,6 +38,7 @@ const FIELD_LABELS = {
     'phone',
     'mobile number',
     'mobile',
+    'enter your phone number',
   ],
 };
 
