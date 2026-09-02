@@ -125,6 +125,108 @@ export const fetchFormResponses = async (formId: string) => {
   return data || [];
 };
 
+export const fetchApprovedIdeaWallEntries = async () => {
+  const { data, error } = await supabase
+    .from('idea_wall_entries')
+    .select(`
+      id,
+      response_id,
+      full_name,
+      repository_name,
+      repository_link,
+      repository_description,
+      phone_number,
+      is_visible,
+      approved_at,
+      created_at,
+      updated_at
+    `)
+    .eq('is_visible', true)
+    .order('approved_at', {
+      ascending: false,
+    });
+
+  if (error) throw error;
+
+  return data || [];
+};
+
+export const fetchIdeaWallEntriesForResponses = async (
+  responseIds: string[]
+) => {
+  if (responseIds.length === 0) {
+    return [];
+  }
+
+  const { data, error } = await supabase
+    .from('idea_wall_entries')
+    .select(`
+      id,
+      response_id,
+      full_name,
+      repository_name,
+      repository_link,
+      repository_description,
+      phone_number,
+      is_visible,
+      approved_at,
+      created_at,
+      updated_at
+    `)
+    .in('response_id', responseIds);
+
+  if (error) throw error;
+
+  return data || [];
+};
+
+export const publishIdeaWallEntry = async (entry: {
+  response_id: string;
+  full_name: string;
+  repository_name: string;
+  repository_link: string;
+  repository_description: string | null;
+  phone_number: string | null;
+}) => {
+  const now = new Date().toISOString();
+
+  const { data, error } = await supabase
+    .from('idea_wall_entries')
+    .upsert(
+      {
+        ...entry,
+
+        is_visible: true,
+
+        approved_at: now,
+        updated_at: now,
+      },
+      {
+        onConflict: 'response_id',
+      }
+    )
+    .select('*')
+    .single();
+
+  if (error) throw error;
+
+  return data;
+};
+
+export const unpublishIdeaWallEntry = async (
+  responseId: string
+) => {
+  const { error } = await supabase
+    .from('idea_wall_entries')
+    .update({
+      is_visible: false,
+      updated_at: new Date().toISOString(),
+    })
+    .eq('response_id', responseId);
+
+  if (error) throw error;
+};
+
 export const fetchPublicFormBySlug = async (slug: string) => {
   if (!slug) return null;
   const { data, error } = await supabase.rpc('get_public_form_definition', {

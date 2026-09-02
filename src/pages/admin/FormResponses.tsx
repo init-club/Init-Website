@@ -1,8 +1,17 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import {
-  ArrowLeft, Loader2, Download, Table, BarChart3, Search,
-  ChevronLeft, ChevronRight, AlertTriangle,
+  ArrowLeft,
+Loader2,
+Download,
+Table,
+BarChart3,
+Search,
+ChevronLeft,
+ChevronRight,
+AlertTriangle,
+EyeOff,
+Send,
 } from 'lucide-react';
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
@@ -11,10 +20,21 @@ import {
 import { Navbar } from '../../components/layout/Navbar';
 import { Footer } from '../../components/layout/Footer';
 import useSWR from 'swr';
-import { fetchFormById, fetchFormResponses } from '../../utils/fetchers';
+import {
+  fetchFormById,
+  fetchFormResponses,
+  fetchIdeaWallEntriesForResponses,
+  publishIdeaWallEntry,
+  unpublishIdeaWallEntry,
+} from '../../utils/fetchers';
 import { useAuth } from '../../context/AuthContext';
 import { exportResponsesAsCsv } from '../../utils/formUtils';
+import type { FormResponse } from '../../types/form';
 
+import {
+  buildIdeaWallEntryDraft,
+  isProjectCreationForm,
+} from '../../utils/ideaWall';
 export default function FormResponsesPage() {
   const { formId } = useParams<{ formId: string }>();
   const { isAdmin, isLoading: isAuthLoading } = useAuth();
@@ -38,6 +58,126 @@ export default function FormResponsesPage() {
   // Table Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 15;
+  const projectCreationForm =
+  !!form && isProjectCreationForm(form);
+
+const responseIds =
+  responses?.map(
+    (response: FormResponse) => response.id
+  ) || [];
+
+const {
+  data: ideaWallEntries,
+  error: ideaWallEntriesError,
+  mutate: mutateIdeaWallEntries,
+} = useSWR(
+  isAdmin &&
+    projectCreationForm &&
+    responseIds.length > 0
+    ? `idea_wall_entries:${formId}:${responseIds.join(',')}`
+    : null,
+
+  () =>
+    fetchIdeaWallEntriesForResponses(
+      responseIds
+    )
+);
+
+const [
+  ideaWallActionId,
+  setIdeaWallActionId,
+] = useState<string | null>(null);
+
+const [
+  ideaWallActionError,
+  setIdeaWallActionError,
+] = useState<string | null>(null);
+
+const publishedEntryByResponseId =
+  useMemo(() => {
+    const map = new Map<string, any>();
+
+    (ideaWallEntries || []).forEach(
+      (entry: any) => {
+        if (entry.is_visible) {
+          map.set(
+            entry.response_id,
+            entry
+          );
+        }
+      }
+    );
+
+    return map;
+  }, [ideaWallEntries]);
+const handlePublishToIdeaWall = async (
+  response: FormResponse
+) => {
+  if (!form) return;
+
+  const result =
+    buildIdeaWallEntryDraft(
+      form,
+      response
+    );
+
+  if ('error' in result) {
+    setIdeaWallActionError(
+      result.error
+    );
+    return;
+  }
+
+  setIdeaWallActionId(response.id);
+  setIdeaWallActionError(null);
+
+  try {
+    await publishIdeaWallEntry(
+      result.data
+    );
+
+    await mutateIdeaWallEntries();
+  } catch (err: any) {
+    console.error(
+      'Error publishing Idea Wall entry:',
+      err
+    );
+
+    setIdeaWallActionError(
+      err.message ||
+        'Failed to publish this submission to the Idea Wall.'
+    );
+  } finally {
+    setIdeaWallActionId(null);
+  }
+};
+
+const handleUnpublishFromIdeaWall = async (
+  responseId: string
+) => {
+  setIdeaWallActionId(responseId);
+  setIdeaWallActionError(null);
+
+  try {
+    await unpublishIdeaWallEntry(
+      responseId
+    );
+
+    await mutateIdeaWallEntries();
+  } catch (err: any) {
+    console.error(
+      'Error unpublishing Idea Wall entry:',
+      err
+    );
+
+    setIdeaWallActionError(
+      err.message ||
+        'Failed to remove this submission from the Idea Wall.'
+    );
+  } finally {
+    setIdeaWallActionId(null);
+  }
+};
 
   useEffect(() => {
     if (!isAuthLoading && !isAdmin) {
@@ -222,7 +362,10 @@ export default function FormResponsesPage() {
     exportResponsesAsCsv(form, responses);
   };
 
-  const loadError = formError || responsesError;
+  const loadError =
+  formError ||
+  responsesError ||
+  ideaWallEntriesError;
   const isLoading = !loadError && (isAuthLoading || !form || !responses);
 
   if (isLoading) {
@@ -558,6 +701,11 @@ export default function FormResponsesPage() {
                               </th>
                             ))}
                             {inputFields.length > 3 && <th className="p-4 font-bold">+ More</th>}
+                            {projectCreationForm && (
+                              <th className="p-4 font-bold">
+                                Idea Wall
+                              </th>
+                            )}
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-zinc-900/40">
@@ -589,6 +737,104 @@ export default function FormResponsesPage() {
                                     {inputFields.length - 3} fields
                                   </td>
                                 )}
+                                {projectCreationForm &&
+                                  (() => {
+                                    const publishedEntry =
+                                      publishedEntryByResponseId.get(
+                                        r.id
+                                      );
+
+                                    const isActing =
+                                      ideaWallActionId === r.id;
+
+                                    return (
+                                      <td className="p-4 whitespace-nowrap">
+                                        {publishedEntry ? (
+                                          <button
+                                            type="button"
+                                            onClick={() =>
+                                              handleUnpublishFromIdeaWall(
+                                                r.id
+                                              )
+                                            }
+                                            disabled={isActing}
+                                            className="
+                                              inline-flex
+                                              items-center
+                                              gap-1.5
+                                              px-3
+                                              py-1.5
+                                              rounded-lg
+                                              border
+                                              border-emerald-500/20
+                                              bg-emerald-500/5
+                                              text-emerald-400
+                                              hover:bg-red-500/5
+                                              hover:border-red-500/20
+                                              hover:text-red-400
+                                              disabled:opacity-50
+                                              transition-all
+                                            "
+                                            title="
+                                              Remove this submission
+                                              from the Idea Wall
+                                            "
+                                          >
+                                            {isActing ? (
+                                              <Loader2
+                                                size={12}
+                                                className="animate-spin"
+                                              />
+                                            ) : (
+                                              <EyeOff size={12} />
+                                            )}
+
+                                            Published
+                                          </button>
+                                        ) : (
+                                          <button
+                                            type="button"
+                                            onClick={() =>
+                                              handlePublishToIdeaWall(
+                                                r as FormResponse
+                                              )
+                                            }
+                                            disabled={isActing}
+                                            className="
+                                              inline-flex
+                                              items-center
+                                              gap-1.5
+                                              px-3
+                                              py-1.5
+                                              rounded-lg
+                                              border
+                                              border-cyan-500/20
+                                              bg-cyan-500/5
+                                              text-cyan-300
+                                              hover:bg-cyan-500/10
+                                              disabled:opacity-50
+                                              transition-all
+                                            "
+                                            title="
+                                              Approve and publish
+                                              to the Idea Wall
+                                            "
+                                          >
+                                            {isActing ? (
+                                              <Loader2
+                                                size={12}
+                                                className="animate-spin"
+                                              />
+                                            ) : (
+                                              <Send size={12} />
+                                            )}
+
+                                            Publish
+                                          </button>
+                                        )}
+                                      </td>
+                                    );
+                                  })()}
                               </tr>
                             );
                           })}

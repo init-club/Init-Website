@@ -151,26 +151,30 @@ export const buildIdeaWallEntryDraft = (
   );
 
   const missingFields = [
-    !fullName ? 'Full Name' : null,
-    !repositoryName ? 'Repository Name' : null,
-    !repositoryLink ? 'Repository link' : null,
-  ].filter(Boolean) as string[];
+  !fullName ? 'Full Name' : null,
+  !repositoryName ? 'Repository Name' : null,
+  !repositoryLink ? 'Repository link' : null,
+].filter(Boolean) as string[];
 
-  if (missingFields.length > 0) {
-    return {
-      error:
-        `Missing required project fields: ` +
-        `${missingFields.join(', ')}.`,
-    };
-  }
+if (missingFields.length > 0) {
+  return {
+    error: `Missing required project fields: ${missingFields.join(', ')}.`,
+  };
+}
 
-  if (!isSafeRepositoryUrl(repositoryLink)) {
-    return {
-      error:
-        'The Repository link must be a valid ' +
-        'http:// or https:// URL.',
-    };
-  }
+// Explicitly narrow the required fields for TypeScript.
+if (!fullName || !repositoryName || !repositoryLink) {
+  return {
+    error: 'Required project fields are missing.',
+  };
+}
+
+if (!isSafeRepositoryUrl(repositoryLink)) {
+  return {
+    error:
+      'The Repository link must be a valid http:// or https:// URL.',
+  };
+}
 
   return {
     data: {
