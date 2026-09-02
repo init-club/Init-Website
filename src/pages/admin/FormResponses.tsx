@@ -408,6 +408,14 @@ const handleUnpublishFromIdeaWall = async (
         </div>
 
         <div className="max-w-6xl mx-auto relative z-10 space-y-6">
+
+  {ideaWallActionError && (
+    <div className="rounded-lg border border-red-500/20 bg-red-500/5 px-4 py-3 text-sm text-red-400">
+      {ideaWallActionError}
+    </div>
+  )}
+
+  {/* Header */}
           {/* Header */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-zinc-950/40 border border-zinc-900 rounded-2xl p-5">
             <div>
