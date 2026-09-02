@@ -6,13 +6,24 @@ import { Footer } from '../components/layout/Footer';
 import ProjectCard from '../components/projects/ProjectCard';
 import ProjectFilter from '../components/projects/ProjectFilter';
 import ProjectDetailsModal from '../components/projects/ProjectDetailsModal';
+import IdeaWallSubmissionCard
+  from '../components/projects/IdeaWallSubmissionCard';
 import { supabase } from '../supabaseClient';
 import type { Repository, Difficulty, ProjectStatus } from '../types/repository';
+import type {
+  IdeaWallEntry
+} from '../types/ideaWall';
+
+import {
+  fetchApprovedIdeaWallEntries
+} from '../utils/fetchers';
 
 type SortOption = 'recent' | 'stars' | 'name';
 
 export default function IdeaWallPage() {
   const [projects, setProjects] = useState<Repository[]>([]);
+  const [ideaWallEntries, setIdeaWallEntries] =
+  useState<IdeaWallEntry[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedProject, setSelectedProject] = useState<Repository | null>(null);
@@ -45,14 +56,30 @@ export default function IdeaWallPage() {
     setIsLoading(true);
     setError(null);
     try {
-      const { data, error: fetchError } = await supabase
+          const [
+      projectsResult,
+      ideaWallResult,
+    ] = await Promise.all([
+      supabase
         .from('repositories')
         .select('*')
         .eq('is_archived', false)
-        .eq('is_visible', true);
+        .eq('is_visible', true),
 
-      if (fetchError) throw fetchError;
-      setProjects(data || []);
+      fetchApprovedIdeaWallEntries(),
+    ]);
+
+    if (projectsResult.error) {
+      throw projectsResult.error;
+    }
+
+    setProjects(
+      projectsResult.data || []
+    );
+
+    setIdeaWallEntries(
+      ideaWallResult
+    );
     } catch (err) {
       console.error('Error fetching projects:', err);
       setError('Failed to load projects. Please try again later.');
@@ -65,7 +92,36 @@ export default function IdeaWallPage() {
   useEffect(() => {
     loadProjects();
   }, []);
+  const filteredIdeaWallEntries =
+  useMemo(() => {
+    if (!debouncedSearchQuery.trim()) {
+      return ideaWallEntries;
+    }
 
+    const q =
+      debouncedSearchQuery.toLowerCase();
+
+    return ideaWallEntries.filter(
+      entry =>
+        entry.full_name
+          .toLowerCase()
+          .includes(q) ||
+
+        entry.repository_name
+          .toLowerCase()
+          .includes(q) ||
+
+        (
+          entry.repository_description ||
+          ''
+        )
+          .toLowerCase()
+          .includes(q)
+    );
+  }, [
+    ideaWallEntries,
+    debouncedSearchQuery,
+  ]);
   // Filter + sort projects client-side — instant, no round-trips
   const filteredProjects = useMemo(() => {
     let filtered = [...projects];
@@ -180,7 +236,10 @@ export default function IdeaWallPage() {
                 availableTopics={availableTopics}
                 onClearFilters={clearFilters}
                 hasActiveFilters={hasActiveFilters}
-                resultCount={filteredProjects.length}
+                resultCount={
+                  filteredProjects.length +
+                  filteredIdeaWallEntries.length
+                }
                 sortBy={sortBy}
                 onSortChange={setSortBy}
               />
@@ -238,21 +297,200 @@ export default function IdeaWallPage() {
                 )}
               </motion.div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {filteredProjects.map((project, index) => (
-                  <motion.div
-                    key={project.id}
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.04 }}
-                  >
-                    <ProjectCard
-                      project={project}
-                      onViewDetails={() => setSelectedProject(project)}
-                    />
-                  </motion.div>
-                ))}
-              </div>
+              <div className="space-y-14">
+
+  {/* Community Submissions */}
+  {filteredIdeaWallEntries.length > 0 && (
+    <div>
+      <div className="flex items-end justify-between gap-4 mb-5">
+        <div>
+          <h2 className="
+            text-xl
+            font-black
+            font-heading
+            tracking-tight
+            text-zinc-200
+          ">
+            Community Submissions
+          </h2>
+
+          <p className="
+            text-xs
+            text-zinc-600
+            mt-1
+          ">
+            Projects approved by the INIT CLUB team.
+          </p>
+        </div>
+
+        <span className="
+          text-[10px]
+          font-mono
+          uppercase
+          tracking-wider
+          text-cyan-400
+        ">
+          {filteredIdeaWallEntries.length}{' '}
+          {filteredIdeaWallEntries.length === 1
+            ? 'submission'
+            : 'submissions'}
+        </span>
+      </div>
+
+      <div className="
+        grid
+        grid-cols-1
+        md:grid-cols-2
+        lg:grid-cols-3
+        gap-4
+      ">
+        {filteredIdeaWallEntries.map(
+          (entry, index) => (
+            <motion.div
+              key={entry.id}
+              initial={{
+                opacity: 0,
+                y: 16,
+              }}
+              animate={{
+                opacity: 1,
+                y: 0,
+              }}
+              transition={{
+                delay: index * 0.04,
+              }}
+            >
+              <IdeaWallSubmissionCard
+                entry={entry}
+              />
+            </motion.div>
+          )
+        )}
+      </div>
+    </div>
+  )}
+
+  {/* Existing GitHub Projects */}
+  {filteredProjects.length > 0 && (
+    <div>
+      <div className="
+        flex
+        items-end
+        justify-between
+        gap-4
+        mb-5
+      ">
+        <div>
+          <h2 className="
+            text-xl
+            font-black
+            font-heading
+            tracking-tight
+            text-zinc-200
+          ">
+            Active Projects
+          </h2>
+
+          <p className="
+            text-xs
+            text-zinc-600
+            mt-1
+          ">
+            GitHub repositories currently showcased by INIT CLUB.
+          </p>
+        </div>
+
+        <span className="
+          text-[10px]
+          font-mono
+          uppercase
+          tracking-wider
+          text-zinc-500
+        ">
+          {filteredProjects.length}{' '}
+          {filteredProjects.length === 1
+            ? 'project'
+            : 'projects'}
+        </span>
+      </div>
+
+      <div className="
+        grid
+        grid-cols-1
+        md:grid-cols-2
+        lg:grid-cols-3
+        gap-4
+      ">
+        {filteredProjects.map(
+          (project, index) => (
+            <motion.div
+              key={project.id}
+              initial={{
+                opacity: 0,
+                y: 16,
+              }}
+              animate={{
+                opacity: 1,
+                y: 0,
+              }}
+              transition={{
+                delay: index * 0.04,
+              }}
+            >
+              <ProjectCard
+                project={project}
+                onViewDetails={() =>
+                  setSelectedProject(
+                    project
+                  )
+                }
+              />
+            </motion.div>
+          )
+        )}
+      </div>
+    </div>
+  )}
+
+  {/* Empty State */}
+  {filteredIdeaWallEntries.length === 0 &&
+    filteredProjects.length === 0 && (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="text-center py-20"
+      >
+        <div className="mb-4">
+          <Lightbulb
+            className="
+              inline-block
+              text-zinc-700
+            "
+            size={48}
+          />
+        </div>
+
+        <h3 className="
+          text-lg
+          font-bold
+          text-zinc-300
+          mb-2
+        ">
+          No Projects Found
+        </h3>
+
+        <p className="
+          text-zinc-600
+          text-sm
+          mb-6
+        ">
+          No projects or community
+          submissions are available
+          at the moment.
+        </p>
+      </motion.div>
+    )}
+</div>
             )}
           </div>
         </section>
