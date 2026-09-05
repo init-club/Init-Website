@@ -43,11 +43,34 @@ export default function IdeaWallPage() {
     return () => clearTimeout(handler);
   }, [searchQuery]);
 
+  // Safe helper to extract searchable text from topics regardless of how DB returns it (array or string)
+  const getTopicStrings = (topics: any): string[] => {
+    if (!topics) return [];
+    if (Array.isArray(topics)) {
+      return topics.map(t => (typeof t === 'string' ? t : JSON.stringify(t)));
+    }
+    if (typeof topics === 'string') {
+      try {
+        const parsed = JSON.parse(topics);
+        if (Array.isArray(parsed)) return parsed.map(t => String(t));
+      } catch {
+        // Not JSON, return comma or space split
+        return topics.split(/[\s,]+/);
+      }
+    }
+    return [];
+  };
+
   // Extract unique topics from all projects
   const availableTopics = useMemo(() => {
     const topicsSet = new Set<string>();
     projects.forEach(project => {
-      project.topics?.forEach(topic => topicsSet.add(topic));
+      const topicList = getTopicStrings(project.topics);
+      topicList.forEach(topic => {
+        if (topic && topic.trim()) {
+          topicsSet.add(topic.trim().toLowerCase());
+        }
+      });
     });
     return Array.from(topicsSet).sort();
   }, [projects]);
@@ -92,47 +115,43 @@ export default function IdeaWallPage() {
   useEffect(() => {
     loadProjects();
   }, []);
-  const filteredIdeaWallEntries =
-  useMemo(() => {
+
+  const matchesSearch = (item: { name?: string; full_name?: string }, query: string) => {
+    const q = query.trim().toLowerCase();
+    if (!q) return true;
+
+    const name = (item.name || item.full_name || '').toLowerCase();
+    return name.startsWith(q);
+  };
+
+  const filteredIdeaWallEntries = useMemo(() => {
     if (!debouncedSearchQuery.trim()) {
       return ideaWallEntries;
     }
 
-    const q =
-      debouncedSearchQuery.toLowerCase();
-
-    return ideaWallEntries.filter(
-      entry =>
-        entry.full_name
-          .toLowerCase()
-          .includes(q) ||
-
-        entry.repository_name
-          .toLowerCase()
-          .includes(q) ||
-
-        (
-          entry.repository_description ||
-          ''
-        )
-          .toLowerCase()
-          .includes(q)
+    return ideaWallEntries.filter(entry =>
+      matchesSearch(
+        {
+          name: entry.repository_name,
+          full_name: entry.full_name,
+        },
+        debouncedSearchQuery
+      )
     );
-  }, [
-    ideaWallEntries,
-    debouncedSearchQuery,
-  ]);
+  }, [ideaWallEntries, debouncedSearchQuery]);
+
   // Filter + sort projects client-side — instant, no round-trips
   const filteredProjects = useMemo(() => {
     let filtered = [...projects];
 
     if (debouncedSearchQuery.trim()) {
-      const q = debouncedSearchQuery.toLowerCase();
       filtered = filtered.filter(project =>
-        project.name?.toLowerCase().includes(q) ||
-        project.description?.toLowerCase().includes(q) ||
-        project.language?.toLowerCase().includes(q) ||
-        project.topics?.some(topic => topic.toLowerCase().includes(q))
+        matchesSearch(
+          {
+            name: project.name,
+          },
+          debouncedSearchQuery
+        )
       );
     }
 
@@ -143,9 +162,10 @@ export default function IdeaWallPage() {
       filtered = filtered.filter(project => project.project_status === status);
     }
     if (selectedTopics.length > 0) {
-      filtered = filtered.filter(project =>
-        selectedTopics.every(topic => project.topics?.includes(topic))
-      );
+      filtered = filtered.filter(project => {
+        const projectTopicList = getTopicStrings(project.topics).map(t => t.toLowerCase());
+        return selectedTopics.every(topic => projectTopicList.includes(topic.toLowerCase()));
+      });
     }
 
     // Client-side sort
@@ -272,7 +292,7 @@ export default function IdeaWallPage() {
                   Try Again
                 </button>
               </motion.div>
-            ) : filteredProjects.length === 0 ? (
+            ) : (filteredProjects.length === 0 && filteredIdeaWallEntries.length === 0) ? (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}

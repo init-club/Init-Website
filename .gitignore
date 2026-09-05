@@ -46,3 +46,6 @@ rough.txt
 # this public repo. Kept in the working copy only. Publish once the corrective
 # migrations have been applied.
 docs/task-logs/07-supabase-security-audit.md
+
+# Local-only scripts
+src/scripts/sync_github.ts
