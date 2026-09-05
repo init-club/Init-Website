@@ -54,6 +54,7 @@ const WriteBlogModal = ({ isOpen, onClose, onSuccess }: WriteBlogModalProps) => 
   const [customTag, setCustomTag] = useState('');
   // Honeypot field for bot protection
   const [honeypot, setHoneypot] = useState('');
+  const [submitAction, setSubmitAction] = useState<'pending' | 'draft'>('pending');
 
   const [allowPublicBlogs, setAllowPublicBlogs] = useState(true);
   const [isWhitelisted, setIsWhitelisted] = useState(false);
@@ -162,12 +163,12 @@ const WriteBlogModal = ({ isOpen, onClose, onSuccess }: WriteBlogModalProps) => 
         content: formData.content,
         tags: formData.tags,
         cover_image_url: formData.cover_image_url || null,
-        status: 'pending'
+        status: submitAction
       });
 
       if (error) throw error;
 
-      alert('Blog submitted successfully! It will be published after admin approval.');
+      alert(submitAction === 'draft' ? 'Draft saved successfully!' : 'Blog submitted successfully! It will be published after admin approval.');
       setFormData({
         author_name: loggedInUser ? loggedInUser.name : '',
         roll_no: loggedInUser ? loggedInUser.roll_no : '',
@@ -446,27 +447,48 @@ const WriteBlogModal = ({ isOpen, onClose, onSuccess }: WriteBlogModalProps) => 
                       )}
                     </div>
 
-                    {/* Submit Button */}
-                    <div className="pt-4 border-t border-gray-800">
-                      <button
-                        type="submit"
-                        disabled={isLoading}
-                        className="w-full bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-3 hover:opacity-90 transition-opacity disabled:opacity-50"
-                      >
-                        {isLoading ? (
-                          <>
-                            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                            Submitting...
-                          </>
-                        ) : (
-                          <>
-                            <Send size={20} />
-                            Submit for Review
-                          </>
-                        )}
-                      </button>
+                    {/* Submit Buttons */}
+                    <div className="pt-4 border-t border-gray-800 space-y-3">
+                      <div className="flex gap-3">
+                        <button
+                          type="submit"
+                          onClick={() => setSubmitAction('draft')}
+                          disabled={isLoading}
+                          className="w-1/2 bg-gray-800 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-3 hover:bg-gray-700 transition-colors disabled:opacity-50 border border-gray-700"
+                        >
+                          {isLoading && submitAction === 'draft' ? (
+                            <>
+                              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                              Saving...
+                            </>
+                          ) : (
+                            <>
+                              <FileText size={20} />
+                              Save Draft
+                            </>
+                          )}
+                        </button>
+                        <button
+                          type="submit"
+                          onClick={() => setSubmitAction('pending')}
+                          disabled={isLoading}
+                          className="w-1/2 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-3 hover:opacity-90 transition-opacity disabled:opacity-50"
+                        >
+                          {isLoading && submitAction === 'pending' ? (
+                            <>
+                              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                              Submitting...
+                            </>
+                          ) : (
+                            <>
+                              <Send size={20} />
+                              Submit for Review
+                            </>
+                          )}
+                        </button>
+                      </div>
                       <p className="text-center text-gray-500 text-xs mt-3">
-                        Your blog will be reviewed by an admin before publishing
+                        Drafts are saved privately. Submitted blogs are reviewed by an admin.
                       </p>
                     </div>
                   </form>
