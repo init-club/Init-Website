@@ -67,12 +67,19 @@ const Profile = () => {
 
   const fetchBlogs = async () => {
     try {
-      const { data, error } = await supabase
+      let query = supabase
         .from('blogs')
         .select('*')
         .eq('author_id', profile.id)
-        .eq('status', 'published')
-        .order('published_at', { ascending: false });
+        .order('created_at', { ascending: false });
+
+      if (profile.is_own_profile) {
+        query = query.in('status', ['published', 'draft', 'pending']);
+      } else {
+        query = query.eq('status', 'published');
+      }
+
+      const { data, error } = await query;
       if (!error && data) {
         setBlogs(data);
       }
@@ -510,7 +517,16 @@ const Profile = () => {
                         </div>
                       )}
                       <div className="p-3 space-y-1">
-                        <h4 className="text-xs font-bold text-zinc-200 line-clamp-2 group-hover:text-[#a855f7] transition-colors">{blog.title}</h4>
+                        <div className="flex justify-between items-start gap-2">
+                          <h4 className="text-xs font-bold text-zinc-200 line-clamp-2 group-hover:text-[#a855f7] transition-colors">{blog.title}</h4>
+                          {blog.status !== 'published' && (
+                            <span className={`text-[8px] uppercase tracking-wider px-1.5 py-0.5 rounded font-bold ${
+                              blog.status === 'draft' ? 'bg-gray-800 text-gray-300' : 'bg-yellow-900/50 text-yellow-500'
+                            }`}>
+                              {blog.status}
+                            </span>
+                          )}
+                        </div>
                         <div className="flex justify-between items-center text-[9px] text-zinc-500 font-mono pt-1">
                           <span>{new Date(blog.published_at || blog.created_at).toLocaleDateString()}</span>
                           <span className="bg-zinc-800 px-1.5 py-0.5 rounded text-zinc-400">Read Article</span>

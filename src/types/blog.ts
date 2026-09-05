@@ -1,4 +1,4 @@
-export type BlogStatus = 'pending' | 'approved_admin' | 'published' | 'rejected';
+export type BlogStatus = 'draft' | 'pending' | 'approved_admin' | 'published' | 'rejected';
 
 export interface Blog {
   id: string;
