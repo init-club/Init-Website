@@ -3,6 +3,7 @@ import {
   ExternalLink,
   Phone,
   UserRound,
+  Users,
 } from 'lucide-react';
 
 import type {
@@ -83,6 +84,46 @@ export default function IdeaWallSubmissionCard({
           Community Submission
         </div>
 
+        {entry.open_for_team === true && (
+          <div
+            className="
+              absolute top-3.5 right-4
+              inline-flex items-center
+              px-2 py-0.5
+              rounded-full
+              text-[10px]
+              font-semibold
+              uppercase
+              tracking-wider
+              text-emerald-300
+              border border-emerald-500/20
+              bg-emerald-500/10
+            "
+          >
+            Looking for Team
+          </div>
+        )}
+
+        {entry.open_for_team === false && (
+          <div
+            className="
+              absolute top-3.5 right-4
+              inline-flex items-center
+              px-2 py-0.5
+              rounded-full
+              text-[10px]
+              font-semibold
+              uppercase
+              tracking-wider
+              text-rose-400
+              border border-rose-500/20
+              bg-rose-500/10
+            "
+          >
+            Team Full
+          </div>
+        )}
+
         <div
           className="
             absolute inset-0
@@ -157,12 +198,15 @@ export default function IdeaWallSubmissionCard({
             pt-2
             border-t
             border-zinc-900
+            flex justify-between items-start gap-4
           "
         >
+          {/* Phone */}
           <div
             className="
               flex items-start gap-2
               text-xs text-zinc-500
+              flex-1
             "
           >
             <Phone
@@ -198,6 +242,48 @@ export default function IdeaWallSubmissionCard({
               </div>
             </div>
           </div>
+
+          {/* Collaborator Count */}
+          {entry.collaborator_count !== undefined && entry.collaborator_count !== null && (
+            <div
+              className="
+                flex items-start justify-end gap-2
+                text-xs text-zinc-500
+                flex-1 text-right
+              "
+            >
+              <div>
+                <div
+                  className="
+                    text-[9px]
+                    uppercase
+                    tracking-wider
+                    text-zinc-600
+                    font-mono
+                  "
+                >
+                  Team Size
+                </div>
+
+                <div
+                  className="
+                    text-zinc-300
+                  "
+                >
+                  {entry.collaborator_count} {entry.collaborator_count === 1 ? 'Person' : 'People'}
+                </div>
+              </div>
+
+              <Users
+                size={13}
+                className="
+                  mt-0.5
+                  text-purple-400
+                  shrink-0
+                "
+              />
+            </div>
+          )}
         </div>
 
         {/* Repository Button */}

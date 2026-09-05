@@ -136,6 +136,8 @@ export const fetchApprovedIdeaWallEntries = async () => {
       repository_link,
       repository_description,
       phone_number,
+      collaborator_count,
+      open_for_team,
       is_visible,
       approved_at,
       created_at,
@@ -168,6 +170,8 @@ export const fetchIdeaWallEntriesForResponses = async (
       repository_link,
       repository_description,
       phone_number,
+      collaborator_count,
+      open_for_team,
       is_visible,
       approved_at,
       created_at,
@@ -187,6 +191,8 @@ export const publishIdeaWallEntry = async (entry: {
   repository_link: string;
   repository_description: string | null;
   phone_number: string | null;
+  collaborator_count?: number | null;
+  open_for_team?: boolean | null;
 }) => {
   const now = new Date().toISOString();
 
