@@ -6,6 +6,25 @@ const corsHeaders = {
     'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
+const GITHUB_USERNAME_REGEX =
+  /^(?!-)(?!.*-$)[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/;
+
+const isValidGitHubUsername = (
+  value: unknown
+): value is string => {
+  if (typeof value !== 'string') {
+    return false;
+  }
+
+  const username = value.trim();
+
+  return (
+    username.length >= 1 &&
+    username.length <= 39 &&
+    GITHUB_USERNAME_REGEX.test(username)
+  );
+};
+
 Deno.serve(async (req) => {
     const run = createRunLogger('github-lookup-user');
 
@@ -15,11 +34,26 @@ Deno.serve(async (req) => {
     }
 
     try {
-        const { github_username } = await req.json()
+        const { github_username: rawGithubUsername } =
+        await req.json();
 
-        if (!github_username) {
-            throw new Error("Missing github_username in request body")
+        if (!isValidGitHubUsername(rawGithubUsername)) {
+            return new Response(
+                JSON.stringify({
+                    error: 'Invalid GitHub username',
+                }),
+                {
+                    headers: {
+                        ...corsHeaders,
+                        'Content-Type': 'application/json',
+                    },
+                    status: 400,
+                }
+            );
         }
+
+        const github_username =
+            rawGithubUsername.trim();
 
         run.info('lookup.start', { github_username })
 
@@ -28,12 +62,15 @@ Deno.serve(async (req) => {
         const GH_PAT = Deno.env.get('github_pat')
         if (!GH_PAT) throw new Error("Missing 'github_pat' environment variable")
 
-        const ghRes = await fetch(`https://api.github.com/orgs/init-club/memberships/${github_username}`, {
-            headers: {
-                Authorization: `Bearer ${GH_PAT}`,
-                Accept: 'application/vnd.github+json'
-            }
-        })
+        const ghRes = await fetch(
+                `https://api.github.com/orgs/init-club/memberships/${encodeURIComponent(github_username)}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${GH_PAT}`,
+                        Accept: 'application/vnd.github+json'
+                    }
+                }
+            );
 
         if (!ghRes.ok) {
             run.count('membership_rejected')
@@ -51,11 +88,52 @@ Deno.serve(async (req) => {
 
         const membershipData = await ghRes.json()
         // Check if state is active (not pending) - though usually strictly being in the list is enough
+        const returnedLogin =
+                membershipData?.user?.login;
+
+            if (
+                typeof returnedLogin !== 'string' ||
+                returnedLogin.toLowerCase() !==
+                    github_username.toLowerCase()
+            ) {
+                run.warn('membership.identity_mismatch', {
+                    requested_username: github_username,
+                    returned_username: returnedLogin ?? null,
+                });
+
+                return new Response(
+                    JSON.stringify({
+                        error: 'GitHub identity verification failed',
+                    }),
+                    {
+                        headers: {
+                            ...corsHeaders,
+                            'Content-Type': 'application/json',
+                        },
+                        status: 403,
+                    }
+                );
+}
         if (membershipData.state !== 'active') {
-            // Pending members are currently allowed through. Logged so the
-            // decision is at least visible in the data if it needs revisiting.
-            run.count('membership_pending')
-            run.warn('membership.not_active', { github_username, state: membershipData.state })
+            run.count('membership_rejected');
+
+            run.warn('membership.not_active', {
+                github_username,
+                state: membershipData.state,
+            });
+
+            return new Response(
+                JSON.stringify({
+                    error: 'GitHub organization membership is not active',
+                }),
+                {
+                    headers: {
+                        ...corsHeaders,
+                        'Content-Type': 'application/json',
+                    },
+                    status: 403,
+                }
+            );
         }
 
         // 2. Fetch User Details to get ID/Avatar (The membership endpoint gives user object)
