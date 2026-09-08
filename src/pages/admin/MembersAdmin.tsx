@@ -151,33 +151,69 @@ export default function MembersAdmin() {
     }
   };
 
-  const handlePromoteMember = async (member: Member, newRole: string) => {
-    setSavingIds(prev => new Set(prev).add(member.id));
-    try {
-      const { error } = await supabase
-        .from('users')
-        .update({ role: newRole })
-        .eq('id', member.id);
+  const handlePromoteMember = async (
+  member: Member,
+  newRole: string
+) => {
+  setSavingIds(
+    prev => new Set(prev).add(member.id)
+  );
 
-      if (error) throw error;
-
-      setMembers(prev =>
-        prev.map(m =>
-          m.id === member.id ? { ...m, role: newRole } : m
-        )
+  try {
+    const { data, error } =
+      await supabase.rpc(
+        'admin_update_user_role',
+        {
+          target_user_id: member.id,
+          new_role: newRole,
+        }
       );
-      addToast('success', `Role updated to ${newRole} for ${member.name || member.username}`);
-    } catch (err: any) {
-      console.error('Error promoting member:', err);
-      addToast('error', err.message || 'Failed to update member role');
-    } finally {
-      setSavingIds(prev => {
-        const next = new Set(prev);
-        next.delete(member.id);
-        return next;
-      });
+
+    if (error) {
+      throw error;
     }
-  };
+
+    setMembers(prev =>
+      prev.map(m =>
+        m.id === member.id
+          ? {
+              ...m,
+              role:
+                data?.role ??
+                newRole,
+            }
+          : m
+      )
+    );
+
+    addToast(
+      'success',
+      `Role updated to ${
+        data?.role ?? newRole
+      } for ${
+        member.name ||
+        member.username
+      }`
+    );
+  } catch (err: any) {
+    console.error(
+      'Error updating member role:',
+      err
+    );
+
+    addToast(
+      'error',
+      err.message ||
+        'Failed to update member role'
+    );
+  } finally {
+    setSavingIds(prev => {
+      const next = new Set(prev);
+      next.delete(member.id);
+      return next;
+    });
+  }
+};
 
   const handleManualWhitelist = async (e: React.FormEvent) => {
     e.preventDefault();
