@@ -7,6 +7,8 @@ export interface IdeaWallEntry {
   repository_link: string;
   repository_description: string | null;
   phone_number: string | null;
+  collaborator_count?: number | null;
+  open_for_team?: boolean | null;
 
   is_visible: boolean;
 
@@ -23,4 +25,6 @@ export interface IdeaWallEntryDraft {
   repository_link: string;
   repository_description: string | null;
   phone_number: string | null;
+  collaborator_count?: number | null;
+  open_for_team?: boolean | null;
 }
